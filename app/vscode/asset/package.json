@@ -1,11 +1,12 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "Rubberduck",
   "description": "",
   "keywords": [],
   "categories": [],
+  "icon": "media/extension-icon.png",
   "galleryBanner": {
     "color": "#111827",
     "theme": "dark"
@@ -14,9 +15,9 @@
   "engines": {
     "vscode": "^1.74.0"
   },
-  "homepage": "",
-  "repository": "",
-  "bugs": "",
+  "homepage": "https://github.com/rubberduck-ai/rubberduck-vscode",
+  "repository": "https://github.com/rubberduck-ai/rubberduck-vscode",
+  "bugs": "https://github.com/rubberduck-ai/rubberduck-vscode/issues",
   "extensionKind": [
     "workspace"
   ],
@@ -48,7 +49,7 @@
         {
           "id": "rubberduck",
           "title": "Rubberduck",
-          "icon": "media/extension-icon.png"
+          "icon": "media/sidebar-icon.svg"
         }
       ]
     },
