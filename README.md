@@ -1,4 +1,5 @@
 # rubberduck-vscode
+
 OpenAI GPT Code Chat
 
 ## Development
@@ -9,3 +10,7 @@ OpenAI GPT Code Chat
 2. Run `pnpm install` to install dependencies
 3. Run `pnpm nx run vscode-extension:build` to build the extension
 4. Use "run - app/vscode" inside VSCode to run the extension
+
+### Package extension
+
+1. Run `pnpm nx run vscode:package`

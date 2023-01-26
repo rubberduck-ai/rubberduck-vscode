@@ -1,0 +1,13 @@
+{
+  "root": "app/vscode",
+  "targets": {
+    "package": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "app/vscode",
+        "command": "bin/package.sh"
+      }
+    }
+  }
+}

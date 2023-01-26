@@ -1,12 +1,11 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "displayName": "Rubberduck",
   "description": "",
   "keywords": [],
   "categories": [],
-  "icon": "media/extension-icon.png",
   "galleryBanner": {
     "color": "#111827",
     "theme": "dark"
