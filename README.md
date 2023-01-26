@@ -1,6 +1,12 @@
-# rubberduck-vscode
+# Rubberduck - GPT-3 powered chat inside Visual Studio Code
 
-OpenAI GPT Code Chat
+**I'm building this extension in public in the next few days!**
+
+Check out [this Twitter thread](https://twitter.com/lgrammel/status/1618546466678804481) or follow [@lgrammel](https://twitter.com/lgrammel) for updates.
+
+You can find the Visual Studio Code extension here:
+
+- https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode
 
 ## Development
 
