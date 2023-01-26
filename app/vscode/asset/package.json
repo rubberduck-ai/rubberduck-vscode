@@ -1,11 +1,27 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "0.0.4",
-  "displayName": "Rubberduck",
-  "description": "",
-  "keywords": [],
-  "categories": [],
+  "version": "0.0.5",
+  "displayName": "Rubberduck - GPT-3 powered code chat",
+  "description": "I'm building a chat assistant in public - follow along!",
+  "keywords": [
+    "ai",
+    "gpt",
+    "openai",
+    "chatgpt",
+    "codex",
+    "copilot",
+    "code explanation"
+  ],
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Formatters",
+    "Data Science",
+    "Machine Learning",
+    "Education",
+    "Testing"
+  ],
   "icon": "media/extension-icon.png",
   "galleryBanner": {
     "color": "#111827",
