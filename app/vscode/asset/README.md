@@ -10,3 +10,5 @@
 1. Select a piece of code in the editor
 2. Run the `Rubberduck: Explain code` command
 3. The explanations shows up in the Rubberduck sidebar panel
+
+![Explain code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-code-explanation.png)
