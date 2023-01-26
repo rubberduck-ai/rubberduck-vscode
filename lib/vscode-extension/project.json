@@ -1,0 +1,21 @@
+{
+  "root": "lib/vscode-extension",
+  "targets": {
+    "compile": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "lib/vscode-extension",
+        "command": "tsc"
+      }
+    },
+    "build": {
+      "dependsOn": ["compile"],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "lib/vscode-extension",
+        "command": "npx esbuild build/extension.js --bundle --platform=node --outfile=dist/extension.js"
+      }
+    }
+  }
+}
