@@ -61,6 +61,20 @@ export const activate = async (context: vscode.ExtensionContext) => {
         return;
       }
 
+      await vscode.commands.executeCommand("rubberduck.chat.focus");
+
+      const explanation = {
+        filename: document.fileName.split("/").pop()!,
+        content: undefined,
+        selectionStartLine: range.start.line,
+        selectionEndLine: range.end.line,
+      };
+
+      chatModel.explanations.push(explanation);
+      chatModel.selectedExplanationIndex = chatModel.explanations.length - 1;
+
+      await chatPanel.update(chatModel); // update with loading state
+
       const openAIApiKey = await apiKeyManager.getOpenAIApiKey();
 
       const response = await axios.post(
@@ -84,16 +98,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
       );
 
       const completion = response.data.choices[0].text;
-
-      await vscode.commands.executeCommand("rubberduck.chat.focus");
-
-      chatModel.explanations.push({
-        filename: document.fileName.split("/").pop()!,
-        content: completion,
-        selectionStartLine: range.start.line,
-        selectionEndLine: range.end.line,
-      });
-      chatModel.selectedExplanationIndex = chatModel.explanations.length - 1;
+      explanation.content = completion;
 
       await chatPanel.update(chatModel);
     })

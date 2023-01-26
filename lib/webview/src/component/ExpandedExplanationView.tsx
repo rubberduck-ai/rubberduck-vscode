@@ -7,6 +7,9 @@ export const ExpandedExplanationView: React.FC<{
 }> = ({ explanation }) => (
   <div className={`explanation expanded`}>
     <ExplanationHeader explanation={explanation} />
-    <div className="detail">{explanation.content}</div>
+
+    <div className="detail">
+      {explanation.content ?? <div className={"in-progress"} />}
+    </div>
   </div>
 );
