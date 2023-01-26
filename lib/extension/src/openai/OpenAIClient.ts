@@ -24,7 +24,7 @@ export class OpenAIClient {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${this.apiKeyManager.getOpenAIApiKey()}`,
+          Authorization: `Bearer ${await this.apiKeyManager.getOpenAIApiKey()}`,
         },
       }
     );
