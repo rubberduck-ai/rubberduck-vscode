@@ -1,12 +1,16 @@
-import axios from "axios";
 import * as vscode from "vscode";
-import { ApiKeyManager } from "./ApiKeyManager";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
+import { ApiKeyManager } from "./openai/ApiKeyManager";
+import { OpenAIClient } from "./openai/OpenAIClient";
 
 export const activate = async (context: vscode.ExtensionContext) => {
   const apiKeyManager = new ApiKeyManager({
     secretStorage: context.secrets,
+  });
+
+  const openAIClient = new OpenAIClient({
+    apiKeyManager,
   });
 
   const chatPanel = new ChatPanel({
@@ -75,30 +79,9 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
       await chatPanel.update(chatModel); // update with loading state
 
-      const openAIApiKey = await apiKeyManager.getOpenAIApiKey();
-
-      const response = await axios.post(
-        `https://api.openai.com/v1/completions`,
-        {
-          model: "text-davinci-003",
-          prompt: `Explain the code below:\n\n ${selectedText}`,
-          max_tokens: 1024,
-          temperature: 0,
-          // top_p is excluded because temperature is set
-          best_of: 1,
-          frequency_penalty: 0,
-          presence_penalty: 0,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${openAIApiKey}`,
-          },
-        }
-      );
-
-      const completion = response.data.choices[0].text;
-      explanation.content = completion;
+      explanation.content = await openAIClient.generateCompletion({
+        prompt: `Explain the code below:\n\n ${selectedText}`,
+      });
 
       await chatPanel.update(chatModel);
     })
