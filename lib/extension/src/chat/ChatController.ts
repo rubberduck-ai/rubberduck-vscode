@@ -30,6 +30,28 @@ export class ChatController {
     await this.chatPanel.update(this.chatModel);
   }
 
+  private async getActiveEditorSelectionInput() {
+    const activeEditor = vscode.window.activeTextEditor;
+    const document = activeEditor?.document;
+    const range = activeEditor?.selection;
+
+    if (range == null || document == null) {
+      return undefined;
+    }
+
+    const selectedText = document.getText(range);
+
+    if (selectedText.length === 0) {
+      return undefined;
+    }
+
+    return {
+      filename: document.fileName.split("/").pop()!,
+      range,
+      selectedText,
+    };
+  }
+
   async receivePanelMessage(message: any) {
     switch (message.type) {
       case "clickCollapsedExplanation":
@@ -40,27 +62,19 @@ export class ChatController {
   }
 
   async explainCode() {
-    const activeEditor = vscode.window.activeTextEditor;
-    const document = activeEditor?.document;
-    const range = activeEditor?.selection;
+    const input = await this.getActiveEditorSelectionInput();
 
-    if (range == null || document == null) {
-      return;
-    }
-
-    const selectedText = document.getText(range);
-
-    if (selectedText.length === 0) {
+    if (input == null) {
       return;
     }
 
     await vscode.commands.executeCommand("rubberduck.chat.focus");
 
     const explanation = {
-      filename: document.fileName.split("/").pop()!,
+      filename: input.filename,
       content: undefined,
-      selectionStartLine: range.start.line,
-      selectionEndLine: range.end.line,
+      selectionStartLine: input.range.start.line,
+      selectionEndLine: input.range.end.line,
     };
 
     this.chatModel.explanations.push(explanation);
@@ -79,7 +93,7 @@ export class ChatController {
             ],
           }),
           new CodeSection({
-            code: selectedText,
+            code: input.selectedText,
           }),
           new LinesSection({
             title: "Task",
