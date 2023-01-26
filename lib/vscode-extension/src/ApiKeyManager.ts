@@ -4,9 +4,9 @@
  * Proprietary and confidential.
  */
 
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
-const OPEN_AI_API_KEY_SECRET_KEY = 'rubberduck.openAI.apiKey';
+const OPEN_AI_API_KEY_SECRET_KEY = "rubberduck.openAI.apiKey";
 
 export class ApiKeyManager {
   private readonly secretStorage: vscode.SecretStorage;
@@ -16,7 +16,11 @@ export class ApiKeyManager {
   }
 
   async clearOpenAIApiKey(): Promise<void> {
-    await this.secretStorage.delete(OPEN_AI_API_KEY_SECRET_KEY);    
+    await this.secretStorage.delete(OPEN_AI_API_KEY_SECRET_KEY);
+  }
+
+  async getOpenAIApiKey(): Promise<string | undefined> {
+    return this.secretStorage.get(OPEN_AI_API_KEY_SECRET_KEY);
   }
 
   private async storeApiKey(apiKey: string): Promise<void> {
@@ -27,9 +31,9 @@ export class ApiKeyManager {
     await this.clearOpenAIApiKey();
 
     const apiKey = await vscode.window.showInputBox({
-      title: 'Enter your Open AI API key',
+      title: "Enter your Open AI API key",
       ignoreFocusOut: true,
-      placeHolder: 'Open AI API key',
+      placeHolder: "Open AI API key",
     });
 
     if (apiKey == null) {
@@ -38,6 +42,6 @@ export class ApiKeyManager {
 
     await this.storeApiKey(apiKey);
 
-    vscode.window.showInformationMessage('OpenAI API key stored.');
+    vscode.window.showInformationMessage("OpenAI API key stored.");
   }
 }

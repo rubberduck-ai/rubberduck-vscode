@@ -4,10 +4,8 @@
   "version": "0.0.0",
   "displayName": "Rubberduck",
   "description": "",
-  "keywords": [
-  ],
-  "categories": [
-  ],
+  "keywords": [],
+  "categories": [],
   "icon": "media/extension-icon.png",
   "galleryBanner": {
     "color": "#111827",
@@ -28,7 +26,7 @@
     "onStartupFinished"
   ],
   "contributes": {
-   "commands": [
+    "commands": [
       {
         "command": "rubberduck.enterOpenAIApiKey",
         "category": "Rubberduck",
@@ -38,6 +36,12 @@
         "command": "rubberduck.clearOpenAIApiKey",
         "category": "Rubberduck",
         "title": "Clear OpenAI API key"
+      },
+      {
+        "command": "rubberduck.chat.explainCode",
+        "title": "Explain code",
+        "category": "Rubberduck",
+        "icon": "$(comment-discussion)"
       }
     ]
   }
