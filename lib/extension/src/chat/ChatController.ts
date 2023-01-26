@@ -61,6 +61,49 @@ export class ChatController {
     }
   }
 
+  async writeTest() {
+    const input = await this.getActiveEditorSelectionInput();
+
+    if (input == null) {
+      return;
+    }
+
+    const test = (
+      await this.openAIClient.generateCompletion({
+        prompt: assemblePrompt({
+          sections: [
+            new LinesSection({
+              title: "Goal",
+              lines: ["Write a unit test for the code below."],
+            }),
+            new CodeSection({
+              code: input.selectedText,
+            }),
+            new LinesSection({
+              title: "Task",
+              lines: [
+                "Write a unit test that contains test cases for the happy path and for all edge cases.",
+              ],
+            }),
+            new LinesSection({
+              title: "Answer",
+              lines: ["```"],
+            }),
+          ],
+        }),
+        maxTokens: 2048,
+        stop: ["```"],
+      })
+    ).trim();
+
+    await vscode.window.showTextDocument(
+      await vscode.workspace.openTextDocument({
+        content: test,
+      }),
+      vscode.ViewColumn.Beside
+    );
+  }
+
   async explainCode() {
     const input = await this.getActiveEditorSelectionInput();
 

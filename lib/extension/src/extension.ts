@@ -51,8 +51,15 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "rubberduck.chat.explainCode",
+      "rubberduck.explainCode",
       chatController.explainCode.bind(chatController)
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "rubberduck.writeTest",
+      chatController.writeTest.bind(chatController)
     )
   );
 };
