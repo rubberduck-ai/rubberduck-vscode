@@ -43,6 +43,24 @@
         "category": "Rubberduck",
         "icon": "$(comment-discussion)"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "rubberduck",
+          "title": "Rubberduck",
+          "icon": "media/extension-icon.png"
+        }
+      ]
+    },
+    "views": {
+      "rubberduck": [
+        {
+          "id": "rubberduck.chat",
+          "name": "Chat",
+          "type": "webview"
+        }
+      ]
+    }
   }
 }

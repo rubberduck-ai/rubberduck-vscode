@@ -1,11 +1,25 @@
 import axios from "axios";
 import * as vscode from "vscode";
 import { ApiKeyManager } from "./ApiKeyManager";
+import { WebviewContainer } from "./webview/WebviewContainer";
 
 export const activate = async (context: vscode.ExtensionContext) => {
   const apiKeyManager = new ApiKeyManager({
     secretStorage: context.secrets,
   });
+
+  let webviewPanel: WebviewContainer | undefined;
+  const chatPanel: vscode.WebviewViewProvider = {
+    async resolveWebviewView(webviewView: vscode.WebviewView) {
+      webviewPanel = new WebviewContainer({
+        webview: webviewView.webview,
+      });
+    },
+  };
+
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider("rubberduck.chat", chatPanel)
+  );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
@@ -64,7 +78,8 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
       const completion = response.data.choices[0].text;
 
-      console.log(`Explanation: ${completion}`);
+      await vscode.commands.executeCommand("rubberduck.chat.focus");
+      await webviewPanel?.update(completion);
     })
   );
 };
