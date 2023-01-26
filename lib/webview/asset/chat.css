@@ -2,11 +2,23 @@ body {
   padding-top: 0;
 }
 
+.codicon.inline {
+  vertical-align: sub;
+}
+
 .explanation {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-right: var(--container-padding);
   padding-left: var(--container-padding);
+}
+
+.explanation > .header > i {
+  margin-right: 5px;
+}
+
+.explanation > .detail {
+  min-height: 25px;
 }
 
 .explanation.collapsed {
@@ -26,10 +38,6 @@ body {
 
 .explanation.expanded > .header {
   margin-bottom: 10px;
-}
-
-.explanation > .detail {
-  min-height: 25px;
 }
 
 .in-progress:after {
