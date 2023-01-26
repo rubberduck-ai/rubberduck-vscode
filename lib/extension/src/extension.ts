@@ -75,14 +75,12 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
       await vscode.commands.executeCommand("rubberduck.chat.focus");
 
-      const x = {
+      await chatPanel.update({
         filename: document.fileName.split("/").pop()!,
-        explanation: completion,
+        content: completion,
         selectionStartLine: range.start.line,
         selectionEndLine: range.end.line,
-      };
-
-      await chatPanel.update(completion);
+      });
     })
   );
 };

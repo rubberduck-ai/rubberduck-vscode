@@ -1,6 +1,6 @@
 export type Explanation = {
   filename: string;
-  explanation: string;
+  content: string;
   selectionStartLine: number;
   selectionEndLine: number;
 };

@@ -1,4 +1,16 @@
 body {
   padding-top: 0;
+}
+
+.explanation {
+  border-top: 1px solid var(--vscode-input-border);
+  border-bottom: 1px solid var(--vscode-input-border);
+
+  background-color: var(--vscode-editor-background);
+
   padding: var(--container-padding);
+}
+
+.explanation > .head {
+  margin-bottom: 10px;
 }
