@@ -3,14 +3,27 @@ body {
 }
 
 .explanation {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: var(--container-padding);
+  padding-left: var(--container-padding);
+}
+
+.explanation.collapsed {
+  cursor: pointer;
+}
+
+.explanation.collapsed:hover {
+  background-color: var(--vscode-editor-background);
+}
+
+.explanation.expanded {
   border-top: 1px solid var(--vscode-input-border);
   border-bottom: 1px solid var(--vscode-input-border);
 
   background-color: var(--vscode-editor-background);
-
-  padding: var(--container-padding);
 }
 
-.explanation > .head {
+.explanation.expanded > .header {
   margin-bottom: 10px;
 }

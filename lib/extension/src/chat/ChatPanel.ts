@@ -1,9 +1,3 @@
-/*
- * Copyright P42 Software UG (haftungsbeschränkt). All Rights Reserved.
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import { PanelState } from "@rubberduck/common";
 import * as vscode from "vscode";
 import { WebviewContainer } from "../webview/WebviewContainer";
@@ -41,6 +35,19 @@ export class ChatPanel implements vscode.WebviewViewProvider {
       webview: webviewView.webview,
       extensionUri: this.extensionUri,
     });
+
+    const receiveMessageDisposable = this.webviewPanel.onDidReceiveMessage(
+      (message: unknown) => {
+        this.messageEmitter.fire(message);
+      }
+    );
+
+    this.disposables.push(
+      webviewView.onDidDispose(() => {
+        receiveMessageDisposable.dispose();
+        this.webviewPanel = undefined;
+      })
+    );
 
     this.disposables.push(
       webviewView.onDidChangeVisibility(async () => {

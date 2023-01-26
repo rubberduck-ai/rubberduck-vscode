@@ -1,7 +1,9 @@
-import { Explanation, PanelState } from "@rubberduck/common";
+import { PanelState } from "@rubberduck/common";
 import * as React from "react";
 import { createRoot } from "react-dom/client";
-import { ExplanationView } from "./component/ExplanationView";
+import { CollapsedExplanationView } from "./component/CollapsedExplanationView";
+import { ExpandedExplanationView } from "./component/ExpandedExplanationView";
+import { sendMessage } from "./vscode/SendMessage";
 import * as StateManager from "./vscode/StateManager";
 
 const rootElement = document.getElementById("root");
@@ -15,9 +17,21 @@ if (rootElement != undefined) {
         <React.StrictMode>
           {panelState && (
             <div>
-              {panelState.explanations.map((explanation: Explanation) => (
-                <ExplanationView explanation={explanation} />
-              ))}
+              {panelState.explanations.map((explanation, i) =>
+                panelState.selectedExplanationIndex === i ? (
+                  <ExpandedExplanationView explanation={explanation} />
+                ) : (
+                  <CollapsedExplanationView
+                    explanation={explanation}
+                    onClick={() =>
+                      sendMessage({
+                        type: "clickCollapsedExplanation",
+                        data: { index: i },
+                      })
+                    }
+                  />
+                )
+              )}
             </div>
           )}
         </React.StrictMode>

@@ -1,7 +1,7 @@
-import { Explanation } from "@rubberduck/common";
 import axios from "axios";
 import * as vscode from "vscode";
 import { ApiKeyManager } from "./ApiKeyManager";
+import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
 
 export const activate = async (context: vscode.ExtensionContext) => {
@@ -13,7 +13,16 @@ export const activate = async (context: vscode.ExtensionContext) => {
     extensionUri: context.extensionUri,
   });
 
-  const explanations: Array<Explanation> = [];
+  const chatModel = new ChatModel();
+
+  chatPanel.onDidReceiveMessage(async (message: any) => {
+    switch (message.type) {
+      case "clickCollapsedExplanation":
+        chatModel.selectedExplanationIndex = message.data.index;
+        await chatPanel.update(chatModel);
+        break;
+    }
+  });
 
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider("rubberduck.chat", chatPanel)
@@ -78,16 +87,15 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
       await vscode.commands.executeCommand("rubberduck.chat.focus");
 
-      explanations.push({
+      chatModel.explanations.push({
         filename: document.fileName.split("/").pop()!,
         content: completion,
         selectionStartLine: range.start.line,
         selectionEndLine: range.end.line,
       });
+      chatModel.selectedExplanationIndex = chatModel.explanations.length - 1;
 
-      await chatPanel.update({
-        explanations,
-      });
+      await chatPanel.update(chatModel);
     })
   );
 };

@@ -7,6 +7,8 @@ export class WebviewContainer {
   private readonly panel: string;
   private readonly extensionUri: vscode.Uri;
 
+  readonly onDidReceiveMessage;
+
   constructor({
     panel,
     webview,
@@ -25,6 +27,8 @@ export class WebviewContainer {
       localResourceRoots: [this.extensionUri],
     };
     this.webview.html = this.createHtml();
+
+    this.onDidReceiveMessage = this.webview.onDidReceiveMessage;
   }
 
   async updateState(state: PanelState) {

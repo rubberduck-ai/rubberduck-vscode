@@ -1,11 +1,11 @@
 import { Explanation } from "@rubberduck/common";
 import React from "react";
 
-export const ExplanationView: React.FC<{
+export const ExpandedExplanationView: React.FC<{
   explanation: Explanation;
 }> = ({ explanation }) => (
-  <div className="explanation">
-    <div className="head">
+  <div className={`explanation expanded`}>
+    <div className="header">
       Code explanation ({explanation.filename} {explanation.selectionStartLine}:
       {explanation.selectionEndLine})
     </div>
