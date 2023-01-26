@@ -106,6 +106,7 @@ export class ChatController {
           }),
         ],
       }),
+      maxTokens: 512,
     });
 
     await this.updateChatPanel();
