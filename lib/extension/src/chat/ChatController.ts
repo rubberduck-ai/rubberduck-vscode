@@ -26,11 +26,15 @@ export class ChatController {
     this.openAIClient = openAIClient;
   }
 
+  private async updateChatPanel() {
+    await this.chatPanel.update(this.chatModel);
+  }
+
   async receivePanelMessage(message: any) {
     switch (message.type) {
       case "clickCollapsedExplanation":
         this.chatModel.selectedExplanationIndex = message.data.index;
-        await this.chatPanel.update(this.chatModel);
+        await this.updateChatPanel();
         break;
     }
   }
@@ -63,7 +67,7 @@ export class ChatController {
     this.chatModel.selectedExplanationIndex =
       this.chatModel.explanations.length - 1;
 
-    await this.chatPanel.update(this.chatModel); // update with loading state
+    await this.updateChatPanel();
 
     explanation.content = await this.openAIClient.generateCompletion({
       prompt: assemblePrompt({
@@ -90,6 +94,6 @@ export class ChatController {
       }),
     });
 
-    await this.chatPanel.update(this.chatModel);
+    await this.updateChatPanel();
   }
 }
