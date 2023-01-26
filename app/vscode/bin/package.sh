@@ -10,6 +10,12 @@ echo "Copying extension lib files..."
 mkdir -p dist/extension/dist
 cp dev/extension/dist/extension.js dist/extension/dist/extension.js
 
+echo "Copying webview lib files..."
+mkdir -p dist/webview/asset
+mkdir -p dist/webview/dist
+cp dev/webview/asset/* dist/webview/asset
+cp dev/webview/dist/webview.js dist/webview/dist/webview.js
+
 echo "Packaging extension..."
 cd dist
 pnpm vsce package --no-dependencies --no-rewrite-relative-links

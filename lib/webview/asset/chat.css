@@ -1,0 +1,4 @@
+body {
+  padding-top: 0;
+  padding: var(--container-padding);
+}

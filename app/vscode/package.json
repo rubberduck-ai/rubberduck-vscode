@@ -5,6 +5,7 @@
   "scripts": {},
   "devDependencies": {},
   "dependencies": {
-    "@rubberduck/extension": "*"
+    "@rubberduck/extension": "*",
+    "@rubberduck/webview": "*"
   }
 }

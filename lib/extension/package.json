@@ -2,7 +2,6 @@
   "name": "@rubberduck/extension",
   "version": "0.0.0",
   "private": true,
-  "scripts": {},
   "devDependencies": {
     "@types/vscode": "1.74.0"
   },
