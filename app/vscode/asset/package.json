@@ -26,5 +26,19 @@
   "main": "./extension/dist/extension.js",
   "activationEvents": [
     "onStartupFinished"
-  ]
+  ],
+  "contributes": {
+   "commands": [
+      {
+        "command": "rubberduck.enterOpenAIApiKey",
+        "category": "Rubberduck",
+        "title": "Enter OpenAI API key"
+      },
+      {
+        "command": "rubberduck.clearOpenAIApiKey",
+        "category": "Rubberduck",
+        "title": "Clear OpenAI API key"
+      }
+    ]
+  }
 }

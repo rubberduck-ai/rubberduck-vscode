@@ -14,7 +14,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "lib/vscode-extension",
-        "command": "npx esbuild build/extension.js --bundle --platform=node --outfile=dist/extension.js"
+        "command": "npx esbuild build/extension.js --external:vscode --bundle --platform=node --outfile=dist/extension.js"
       }
     }
   }
