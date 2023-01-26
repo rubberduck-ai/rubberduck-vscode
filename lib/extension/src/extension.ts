@@ -1,3 +1,4 @@
+import { Explanation } from "@rubberduck/common";
 import axios from "axios";
 import * as vscode from "vscode";
 import { ApiKeyManager } from "./ApiKeyManager";
@@ -11,6 +12,8 @@ export const activate = async (context: vscode.ExtensionContext) => {
   const chatPanel = new ChatPanel({
     extensionUri: context.extensionUri,
   });
+
+  const explanations: Array<Explanation> = [];
 
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider("rubberduck.chat", chatPanel)
@@ -75,11 +78,15 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
       await vscode.commands.executeCommand("rubberduck.chat.focus");
 
-      await chatPanel.update({
+      explanations.push({
         filename: document.fileName.split("/").pop()!,
         content: completion,
         selectionStartLine: range.start.line,
         selectionEndLine: range.end.line,
+      });
+
+      await chatPanel.update({
+        explanations,
       });
     })
   );

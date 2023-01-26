@@ -1,4 +1,4 @@
-import { Explanation } from "@rubberduck/common";
+import { Explanation, PanelState } from "@rubberduck/common";
 import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { ExplanationView } from "./component/ExplanationView";
@@ -9,11 +9,17 @@ const rootElement = document.getElementById("root");
 if (rootElement != undefined) {
   const reactRoot = createRoot(rootElement);
 
-  function render(explanation?: Explanation | undefined) {
+  function render(panelState?: PanelState | undefined) {
     try {
       reactRoot.render(
         <React.StrictMode>
-          {explanation && <ExplanationView explanation={explanation} />}
+          {panelState && (
+            <div>
+              {panelState.explanations.map((explanation: Explanation) => (
+                <ExplanationView explanation={explanation} />
+              ))}
+            </div>
+          )}
         </React.StrictMode>
       );
     } catch (error) {
