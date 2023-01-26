@@ -1,0 +1,30 @@
+{
+  "publisher": "rubberduck",
+  "name": "rubberduck-vscode",
+  "version": "0.0.0",
+  "displayName": "Rubberduck",
+  "description": "",
+  "keywords": [
+  ],
+  "categories": [
+  ],
+  "icon": "media/extension-icon.png",
+  "galleryBanner": {
+    "color": "#111827",
+    "theme": "dark"
+  },
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "homepage": "",
+  "repository": "",
+  "bugs": "",
+  "extensionKind": [
+    "workspace"
+  ],
+  "main": "./extension/dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ]
+}

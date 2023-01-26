@@ -7,3 +7,5 @@ OpenAI GPT Code Chat
 
 1. Install pnpm: `brew install pnpm`
 2. Run `pnpm install` to install dependencies
+3. Run `pnpm nx run vscode-extension:build` to build the extension
+4. Use "run - app/vscode" inside VSCode to run the extension

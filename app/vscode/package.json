@@ -1,0 +1,9 @@
+{
+  "name": "@rubberduck/app-vscode",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+  },
+  "devDependencies": {
+  }
+}
