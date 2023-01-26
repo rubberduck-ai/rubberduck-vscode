@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { ChatController } from "./chat/ChatController";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
@@ -9,24 +10,23 @@ export const activate = async (context: vscode.ExtensionContext) => {
     secretStorage: context.secrets,
   });
 
-  const openAIClient = new OpenAIClient({
-    apiKeyManager,
-  });
-
   const chatPanel = new ChatPanel({
     extensionUri: context.extensionUri,
   });
 
   const chatModel = new ChatModel();
 
-  chatPanel.onDidReceiveMessage(async (message: any) => {
-    switch (message.type) {
-      case "clickCollapsedExplanation":
-        chatModel.selectedExplanationIndex = message.data.index;
-        await chatPanel.update(chatModel);
-        break;
-    }
+  const chatController = new ChatController({
+    chatPanel,
+    chatModel,
+    openAIClient: new OpenAIClient({
+      apiKeyManager,
+    }),
   });
+
+  chatPanel.onDidReceiveMessage(
+    chatController.receivePanelMessage.bind(chatController)
+  );
 
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider("rubberduck.chat", chatPanel)
@@ -50,41 +50,10 @@ export const activate = async (context: vscode.ExtensionContext) => {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("rubberduck.chat.explainCode", async () => {
-      const activeEditor = vscode.window.activeTextEditor;
-      const document = activeEditor?.document;
-      const range = activeEditor?.selection;
-
-      if (range == null || document == null) {
-        return;
-      }
-
-      const selectedText = document.getText(range);
-
-      if (selectedText.length === 0) {
-        return;
-      }
-
-      await vscode.commands.executeCommand("rubberduck.chat.focus");
-
-      const explanation = {
-        filename: document.fileName.split("/").pop()!,
-        content: undefined,
-        selectionStartLine: range.start.line,
-        selectionEndLine: range.end.line,
-      };
-
-      chatModel.explanations.push(explanation);
-      chatModel.selectedExplanationIndex = chatModel.explanations.length - 1;
-
-      await chatPanel.update(chatModel); // update with loading state
-
-      explanation.content = await openAIClient.generateCompletion({
-        prompt: `Explain the code below:\n\n ${selectedText}`,
-      });
-
-      await chatPanel.update(chatModel);
-    })
+    vscode.commands.registerCommand(
+      "rubberduck.chat.explainCode",
+      chatController.explainCode.bind(chatController)
+    )
   );
 };
 
