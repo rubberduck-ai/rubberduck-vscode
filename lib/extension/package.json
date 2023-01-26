@@ -6,6 +6,7 @@
     "@types/vscode": "1.74.0"
   },
   "dependencies": {
+    "@rubberduck/common": "*",
     "axios": "1.2.4"
   }
 }

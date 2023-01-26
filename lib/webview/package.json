@@ -8,6 +8,7 @@
     "@types/react-dom": "18.0.10"
   },
   "dependencies": {
+    "@rubberduck/common": "*",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   }

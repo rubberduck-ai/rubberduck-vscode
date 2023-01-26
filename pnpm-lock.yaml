@@ -26,23 +26,30 @@ importers:
       '@rubberduck/extension': link:../../lib/extension
       '@rubberduck/webview': link:../../lib/webview
 
+  lib/common:
+    specifiers: {}
+
   lib/extension:
     specifiers:
+      '@rubberduck/common': '*'
       '@types/vscode': 1.74.0
       axios: 1.2.4
     dependencies:
+      '@rubberduck/common': link:../common
       axios: 1.2.4
     devDependencies:
       '@types/vscode': 1.74.0
 
   lib/webview:
     specifiers:
+      '@rubberduck/common': '*'
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.10
       '@types/vscode-webview': 1.57.0
       react: 18.2.0
       react-dom: 18.2.0
     dependencies:
+      '@rubberduck/common': link:../common
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:

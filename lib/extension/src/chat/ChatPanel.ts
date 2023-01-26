@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import { Explanation } from "@rubberduck/common";
 import * as vscode from "vscode";
 import { WebviewContainer } from "../webview/WebviewContainer";
 
@@ -20,14 +21,14 @@ export class ChatPanel implements vscode.WebviewViewProvider {
 
   private webviewPanel: WebviewContainer | undefined;
 
-  private content: string | undefined;
+  private explanation: Explanation | undefined;
 
   constructor({ extensionUri }: { readonly extensionUri: vscode.Uri }) {
     this.extensionUri = extensionUri;
   }
 
   private async renderPanel() {
-    return this.webviewPanel?.updateState(this.content);
+    return this.webviewPanel?.updateState(this.explanation);
   }
 
   async resolveWebviewView(
@@ -53,8 +54,8 @@ export class ChatPanel implements vscode.WebviewViewProvider {
     this.renderPanel();
   }
 
-  async update(content: string) {
-    this.content = content;
+  async update(explanation: Explanation) {
+    this.explanation = explanation;
     return this.renderPanel();
   }
 

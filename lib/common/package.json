@@ -1,0 +1,8 @@
+{
+  "name": "@rubberduck/common",
+  "version": "0.0.0",
+  "private": true,
+  "main": "build/index.js",
+  "devDependencies": {},
+  "dependencies": {}
+}
