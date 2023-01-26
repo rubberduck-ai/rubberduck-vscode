@@ -1,5 +1,9 @@
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
+import { BasicSection } from "../prompt/BasicSection";
+import { CodeSection } from "../prompt/CodeSection";
+import { LinesSection } from "../prompt/LinesSection";
+import { assemblePrompt } from "../prompt/Prompt";
 import { ChatModel } from "./ChatModel";
 import { ChatPanel } from "./ChatPanel";
 
@@ -62,7 +66,28 @@ export class ChatController {
     await this.chatPanel.update(this.chatModel); // update with loading state
 
     explanation.content = await this.openAIClient.generateCompletion({
-      prompt: `Explain the code below:\n\n ${selectedText}`,
+      prompt: assemblePrompt({
+        sections: [
+          new LinesSection({
+            title: "Goal",
+            lines: [
+              "Summarize the code below (emphasizing its key functionality).",
+            ],
+          }),
+          new CodeSection({
+            code: selectedText,
+          }),
+          new LinesSection({
+            title: "Task",
+            lines: [
+              "Summarize the code at a high level (including goal and purpose) with an emphasis on its key functionality.",
+            ],
+          }),
+          new BasicSection({
+            title: "Answer",
+          }),
+        ],
+      }),
     });
 
     await this.chatPanel.update(this.chatModel);
