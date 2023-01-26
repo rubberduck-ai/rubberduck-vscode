@@ -1,7 +1,7 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "displayName": "Rubberduck - GPT-3 powered code chat",
   "description": "I'm building a chat assistant in public - follow along!",
   "keywords": [
