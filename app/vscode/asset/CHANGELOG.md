@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.9 - 2023-01-27
+
+### Added
+
+- "Start chat" command
+
 ## 0.0.8 - 2023-01-27
 
 ### Improved
