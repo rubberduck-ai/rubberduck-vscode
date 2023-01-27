@@ -8,6 +8,20 @@ You can find the Visual Studio Code extension here:
 
 - https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode
 
+## Functionality
+
+### Chat
+
+![Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-start-chat.png)
+
+### Explain code
+
+![Explain code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-code-explanation.png)
+
+### Write test
+
+![Write test](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-write-test.gif)
+
 ## Development
 
 ### Setup
