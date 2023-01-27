@@ -20,13 +20,16 @@ export const ChatInput: React.FC<{
         ref={callbackRef}
         placeholder={placeholder}
         rows={1 /* TODO auto-expand */}
-        onKeyUp={(e) => {
+        onKeyUp={(event) => {
           // ignore shift+enter to allow the user to enter multiple lines
-          if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            onSend((e.target as any).value);
+          if (
+            event.key === "Enter" &&
+            !event.shiftKey &&
+            event.target instanceof HTMLTextAreaElement
+          ) {
+            event.preventDefault();
+            event.stopPropagation();
+            onSend(event.target.value);
           }
         }}
       />

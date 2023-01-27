@@ -50,13 +50,14 @@ export class ChatController {
     }
 
     const selectedText = document.getText(range);
+    const filename = document.fileName.split("/").pop();
 
-    if (selectedText.length === 0) {
+    if (selectedText.length === 0 || filename == undefined) {
       return undefined;
     }
 
     return {
-      filename: document.fileName.split("/").pop()!,
+      filename,
       range,
       selectedText,
     };

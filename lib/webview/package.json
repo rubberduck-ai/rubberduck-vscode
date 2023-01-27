@@ -6,7 +6,9 @@
   "devDependencies": {
     "@types/vscode-webview": "1.57.0",
     "@types/react": "18.0.26",
-    "@types/react-dom": "18.0.10"
+    "@types/react-dom": "18.0.10",
+    "eslint-plugin-react": "^7.32.1",
+    "eslint": "^8.32.0"
   },
   "dependencies": {
     "@rubberduck/common": "*",

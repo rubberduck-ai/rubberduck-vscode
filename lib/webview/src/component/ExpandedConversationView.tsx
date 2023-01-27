@@ -12,8 +12,8 @@ export const ExpandedConversationView: React.FC<{
     <ConversationHeader conversation={conversation} />
 
     <div className="detail">
-      {conversation.messages.map((message) => (
-        <div className={`message ${message.author}`}>
+      {conversation.messages.map((message, i) => (
+        <div className={`message ${message.author}`} key={i}>
           {message.author === "user" && message.content}
           {message.author === "bot" && (
             <ReactMarkdown>{message.content}</ReactMarkdown>

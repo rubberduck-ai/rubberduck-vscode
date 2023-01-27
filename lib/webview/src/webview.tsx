@@ -10,7 +10,7 @@ const rootElement = document.getElementById("root");
 if (rootElement != undefined) {
   const reactRoot = createRoot(rootElement);
 
-  function render(panelState?: PanelState | undefined) {
+  const render = (panelState?: PanelState | undefined) => {
     try {
       reactRoot.render(
         <React.StrictMode>
@@ -20,7 +20,7 @@ if (rootElement != undefined) {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   StateManager.registerUpdateListener(render);
 

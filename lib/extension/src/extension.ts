@@ -60,4 +60,6 @@ export const activate = async (context: vscode.ExtensionContext) => {
   );
 };
 
-export const deactivate = async () => {};
+export const deactivate = async () => {
+  // noop
+};

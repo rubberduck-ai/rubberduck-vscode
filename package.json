@@ -6,11 +6,14 @@
   "private": true,
   "devDependencies": {
     "@types/node": "^18.11.18",
-    "nx": "15.4.1",
-    "typescript": "4.9.4",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "@vscode/vsce": "2.16.0",
     "esbuild": "0.16.10",
+    "eslint": "^8.32.0",
+    "nx": "15.4.1",
     "prettier": "2.8.3",
-    "@vscode/vsce": "2.16.0"
+    "typescript": "4.9.4"
   },
   "workspaces": [
     "app/*",
