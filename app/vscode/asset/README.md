@@ -7,9 +7,10 @@ Check out [this Twitter thread](https://twitter.com/lgrammel/status/161854646667
 ### Chat
 
 1. You can start a chat using one of the following options:
-   a. Run the `Rubberduck: Start chat` command from the command palette
-   b. Use the keyboard shortcut: `Cmd + Y` (Mac) or `Ctrl + Y` (Windows / Linux)
-   c. Press 💬 on the MacOS touch bar (if available)
+   1. Run the `Rubberduck: Start chat` command from the command palette
+   1. Use the "Start new chat" button in the side panel
+   1. Use the keyboard shortcut: `Cmd + Y` (Mac) or `Ctrl + Y` (Windows / Linux)
+   1. Press 💬 on the MacOS touch bar (if available)
 2. Ask a question in the new conversation thread in the Rubberduck sidebar panel
 
 ![Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-start-chat.png)
@@ -18,8 +19,8 @@ Check out [this Twitter thread](https://twitter.com/lgrammel/status/161854646667
 
 1. Select a piece of code in the editor
 2. Invoke the "explain code" command using one of the following options:
-   a. Run the `Rubberduck: Explain code` command from the command palette
-   b. Select the `Explain code` entry in the editor context menu (right-click)
+   1. Run the `Rubberduck: Explain code` command from the command palette
+   1. Select the `Explain code` entry in the editor context menu (right-click)
 3. The explanations shows up in the Rubberduck sidebar panel
 
 ![Explain code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-code-explanation.png)
@@ -28,8 +29,8 @@ Check out [this Twitter thread](https://twitter.com/lgrammel/status/161854646667
 
 1. Select a piece of code in the editor
 2. Invoke the "write code" command using one of the following options:
-   a. Run the `Rubberduck: Write code` command from the command palette
-   b. Select the `Write code` entry in the editor context menu (right-click)
+   1. Run the `Rubberduck: Write code` command from the command palette
+   1. Select the `Write code` entry in the editor context menu (right-click)
 3. The test case shows up in a new editor tab
 
 ![Write test](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-write-test.gif)
