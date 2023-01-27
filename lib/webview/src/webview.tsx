@@ -1,7 +1,7 @@
 import { PanelState } from "@rubberduck/common";
 import * as React from "react";
 import { createRoot } from "react-dom/client";
-import { ChatPanel } from "./panel/ChatPanel";
+import { ChatPanelView } from "./panel/ChatPanelView";
 import { sendMessage } from "./vscode/SendMessage";
 import * as StateManager from "./vscode/StateManager";
 
@@ -14,7 +14,7 @@ if (rootElement != undefined) {
     try {
       reactRoot.render(
         <React.StrictMode>
-          <ChatPanel sendMessage={sendMessage} panelState={panelState} />
+          <ChatPanelView sendMessage={sendMessage} panelState={panelState} />
         </React.StrictMode>
       );
     } catch (error) {

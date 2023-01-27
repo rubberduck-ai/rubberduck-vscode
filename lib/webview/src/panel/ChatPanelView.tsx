@@ -4,7 +4,7 @@ import { CollapsedConversationView } from "../component/CollapsedConversationVie
 import { ExpandedConversationView } from "../component/ExpandedConversationView";
 import { SendMessage } from "../vscode/SendMessage";
 
-export const ChatPanel: React.FC<{
+export const ChatPanelView: React.FC<{
   sendMessage: SendMessage;
   panelState: PanelState;
 }> = ({ panelState, sendMessage }) => {
