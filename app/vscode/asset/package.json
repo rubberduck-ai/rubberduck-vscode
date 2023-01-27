@@ -1,9 +1,9 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "displayName": "Rubberduck - GPT-3 powered code chat",
-  "description": "I'm building a chat assistant in public - follow along!",
+  "description": "Code explanations, chat, and unit test generation powered by OpenAI's GPT-3 API.",
   "keywords": [
     "ai",
     "gpt",
