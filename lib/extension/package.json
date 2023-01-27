@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@types/vscode": "1.74.0"
+    "@types/vscode": "1.72.0"
   },
   "dependencies": {
     "@rubberduck/common": "*",

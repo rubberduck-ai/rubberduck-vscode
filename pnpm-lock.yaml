@@ -35,13 +35,13 @@ importers:
   lib/extension:
     specifiers:
       '@rubberduck/common': '*'
-      '@types/vscode': 1.74.0
+      '@types/vscode': 1.72.0
       axios: 1.2.4
     dependencies:
       '@rubberduck/common': link:../common
       axios: 1.2.4
     devDependencies:
-      '@types/vscode': 1.74.0
+      '@types/vscode': 1.72.0
 
   lib/webview:
     specifiers:
@@ -345,8 +345,8 @@ packages:
     resolution: {integrity: sha512-x3Cb/SMa1IwRHfSvKaZDZOTh4cNoG505c3NjTqGlMC082m++x/ETUmtYniDsw6SSmYzZXO8KBNhYxR0+VqymqA==}
     dev: true
 
-  /@types/vscode/1.74.0:
-    resolution: {integrity: sha512-LyeCIU3jb9d38w0MXFwta9r0Jx23ugujkAxdwLTNCyspdZTKUc43t7ppPbCiPoQ/Ivd/pnDFZrb4hWd45wrsgA==}
+  /@types/vscode/1.72.0:
+    resolution: {integrity: sha512-WvHluhUo+lQvE3I4wUagRpnkHuysB4qSyOQUyIAS9n9PYMJjepzTUD8Jyks0YeXoPD0UGctjqp2u84/b3v6Ydw==}
     dev: true
 
   /@vscode/vsce/2.16.0:

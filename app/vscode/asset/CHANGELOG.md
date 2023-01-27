@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.8 - 2023-01-27
+
+### Improved
+
+- Add support for Visual Studio Code 1.72
+
 ## 0.0.7 - 2023-01-27
 
 ### Added
