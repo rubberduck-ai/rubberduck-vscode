@@ -61,3 +61,23 @@ body {
     width: 15px;
   }
 }
+
+.chat-input {
+  border: 1px solid var(--vscode-input-border);
+  border-radius: 5px;
+  margin-top: 20px;
+  padding: 5px;
+
+  background-color: var(--vscode-sideBar-background);
+}
+
+.chat-input > textarea {
+  background-color: var(--vscode-sideBar-background);
+
+  font-style: italic;
+  resize: none;
+}
+
+.chat-input > textarea:focus {
+  outline: none;
+}

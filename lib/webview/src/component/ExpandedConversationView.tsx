@@ -1,10 +1,12 @@
 import { Conversation } from "@rubberduck/common";
 import React from "react";
+import { ChatInput } from "./ChatInput";
 import { ConversationHeader } from "./ConversationHeader";
 
 export const ExpandedConversationView: React.FC<{
   conversation: Conversation;
-}> = ({ conversation }) => (
+  onSendMessage: (message: string) => void;
+}> = ({ conversation, onSendMessage }) => (
   <div className={`explanation expanded`}>
     <ConversationHeader conversation={conversation} />
 
@@ -12,6 +14,12 @@ export const ExpandedConversationView: React.FC<{
       {conversation.messages.map((message) => message.content)}
       {conversation.state.type === "waitingForBotAnswer" && (
         <div className={"in-progress"} />
+      )}
+      {conversation.state.type === "userCanReply" && (
+        <ChatInput
+          placeholder={conversation.messages.length > 0 ? "Reply…" : "Ask…"}
+          onSend={onSendMessage}
+        />
       )}
     </div>
   </div>

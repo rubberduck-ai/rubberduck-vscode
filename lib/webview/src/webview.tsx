@@ -19,7 +19,15 @@ if (rootElement != undefined) {
             <div>
               {panelState.conversations.map((conversation, i) =>
                 panelState.selectedConversationIndex === i ? (
-                  <ExpandedConversationView conversation={conversation} />
+                  <ExpandedConversationView
+                    conversation={conversation}
+                    onSendMessage={(message: string) =>
+                      sendMessage({
+                        type: "sendMessage",
+                        data: { index: i, message },
+                      })
+                    }
+                  />
                 ) : (
                   <CollapsedConversationView
                     conversation={conversation}
