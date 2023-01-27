@@ -4,13 +4,17 @@ export type Message = {
 };
 
 export type Conversation = {
-  trigger: {
-    type: "explainCode";
-    filename: string;
-    selectionStartLine: number;
-    selectionEndLine: number;
-    selection: string;
-  };
+  trigger:
+    | {
+        type: "explainCode";
+        filename: string;
+        selectionStartLine: number;
+        selectionEndLine: number;
+        selection: string;
+      }
+    | {
+        type: "startChat";
+      };
   messages: Array<Message>;
   state: {
     type: "userCanReply" | "waitingForBotAnswer";

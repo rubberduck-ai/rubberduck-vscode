@@ -36,6 +36,10 @@ export class ChatController {
     await this.chatPanel.update(this.chatModel);
   }
 
+  private async showChatPanel() {
+    await vscode.commands.executeCommand("rubberduck.chat.focus");
+  }
+
   private async getActiveEditorSelectionInput() {
     const activeEditor = vscode.window.activeTextEditor;
     const document = activeEditor?.document;
@@ -112,6 +116,22 @@ export class ChatController {
     }
   }
 
+  async startChat() {
+    await this.showChatPanel();
+
+    this.chatModel.addAndSelectConversation({
+      trigger: {
+        type: "startChat",
+      },
+      messages: [],
+      state: {
+        type: "userCanReply",
+      },
+    });
+
+    await this.updateChatPanel();
+  }
+
   async writeTest() {
     const input = await this.getActiveEditorSelectionInput();
 
@@ -173,7 +193,7 @@ export class ChatController {
       return;
     }
 
-    await vscode.commands.executeCommand("rubberduck.chat.focus");
+    await this.showChatPanel();
 
     const conversation: Conversation = {
       trigger: {
@@ -189,9 +209,7 @@ export class ChatController {
       },
     };
 
-    this.chatModel.conversations.push(conversation);
-    this.chatModel.selectedConversationIndex =
-      this.chatModel.conversations.length - 1;
+    this.chatModel.addAndSelectConversation(conversation);
 
     await this.updateChatPanel();
 

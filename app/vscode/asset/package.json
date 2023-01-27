@@ -54,6 +54,12 @@
         "title": "Clear OpenAI API key"
       },
       {
+        "command": "rubberduck.startChat",
+        "title": "Start chat",
+        "category": "Rubberduck",
+        "icon": "$(comment-discussion)"
+      },
+      {
         "command": "rubberduck.explainCode",
         "title": "Explain code",
         "category": "Rubberduck",
