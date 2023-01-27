@@ -70,6 +70,11 @@
         "title": "Write test",
         "category": "Rubberduck",
         "icon": "$(beaker)"
+      },
+      {
+        "command": "rubberduck.touchBar.startChat",
+        "category": "Rubberduck",
+        "title": "💬"
       }
     ],
     "keybindings": [
@@ -84,6 +89,20 @@
         "key": "Ctrl+y"
       }
     ],
+    "menus": {
+      "touchBar": [
+        {
+          "command": "rubberduck.touchBar.startChat",
+          "group": "rubberduck"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "rubberduck.touchBar.startChat",
+          "when": "false"
+        }
+      ]
+    },
     "viewsContainers": {
       "activitybar": [
         {

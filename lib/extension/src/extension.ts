@@ -69,6 +69,13 @@ export const activate = async (context: vscode.ExtensionContext) => {
       chatController.startChat.bind(chatController)
     )
   );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "rubberduck.touchBar.startChat",
+      chatController.startChat.bind(chatController)
+    )
+  );
 };
 
 export const deactivate = async () => {};
