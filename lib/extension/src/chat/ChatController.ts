@@ -167,7 +167,7 @@ export class ChatController {
     await this.updateChatPanel();
   }
 
-  async writeTest() {
+  async generateTest() {
     const input = await this.getActiveEditorSelectionInput();
 
     if (input == null) {

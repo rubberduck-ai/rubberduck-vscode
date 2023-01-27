@@ -10,7 +10,7 @@ You can find the Visual Studio Code extension here:
 
 ## Functionality
 
-### Chat
+### AI Chat
 
 ![Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-start-chat.png)
 
@@ -18,9 +18,9 @@ You can find the Visual Studio Code extension here:
 
 ![Explain code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-code-explanation.png)
 
-### Write test
+### Generate test
 
-![Write test](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-write-test.gif)
+![Generate test](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-test.gif)
 
 ## Development
 

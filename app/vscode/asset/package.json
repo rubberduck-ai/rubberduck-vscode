@@ -1,14 +1,14 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "Rubberduck - GPT-3 powered code chat",
-  "description": "Code explanations, chat, and unit test generation powered by OpenAI's GPT-3 API.",
+  "description": "AI Chat, code explanations, and test generation powered by the official OpenAI API.",
   "keywords": [
     "ai",
+    "chatgpt",
     "gpt",
     "openai",
-    "chatgpt",
     "codex",
     "copilot",
     "code explanation"
@@ -66,8 +66,8 @@
         "icon": "$(comment-discussion)"
       },
       {
-        "command": "rubberduck.writeTest",
-        "title": "Write Test",
+        "command": "rubberduck.generateTest",
+        "title": "Generate Test",
         "category": "Rubberduck",
         "icon": "$(beaker)"
       },
@@ -109,7 +109,7 @@
           "when": "editorHasSelection"
         },
         {
-          "command": "rubberduck.writeTest",
+          "command": "rubberduck.generateTest",
           "group": "rubberduck",
           "when": "editorHasSelection"
         }
