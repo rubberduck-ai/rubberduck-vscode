@@ -1,2 +1,2 @@
-export * from "./Explanation";
+export * from "./Conversation";
 export * from "./PanelState";

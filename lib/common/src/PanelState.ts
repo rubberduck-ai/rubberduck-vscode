@@ -1,8 +1,8 @@
-import { Explanation } from "./Explanation";
+import { Conversation } from "./Conversation";
 
 export type PanelState =
   | {
-      explanations: Array<Explanation>;
-      selectedExplanationIndex: number | undefined;
+      conversations: Array<Conversation>;
+      selectedConversationIndex: number | undefined;
     }
   | undefined;

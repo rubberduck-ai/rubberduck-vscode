@@ -1,3 +1,4 @@
+import { Conversation, Message } from "@rubberduck/common";
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { BasicSection } from "../prompt/BasicSection";
@@ -55,7 +56,7 @@ export class ChatController {
   async receivePanelMessage(message: any) {
     switch (message.type) {
       case "clickCollapsedExplanation":
-        this.chatModel.selectedExplanationIndex = message.data.index;
+        this.chatModel.selectedConversationIndex = message.data.index;
         await this.updateChatPanel();
         break;
     }
@@ -124,20 +125,27 @@ export class ChatController {
 
     await vscode.commands.executeCommand("rubberduck.chat.focus");
 
-    const explanation = {
-      filename: input.filename,
-      content: undefined,
-      selectionStartLine: input.range.start.line,
-      selectionEndLine: input.range.end.line,
+    const conversation: Conversation = {
+      trigger: {
+        type: "explainCode",
+        filename: input.filename,
+        selectionStartLine: input.range.start.line,
+        selectionEndLine: input.range.end.line,
+        selection: input.selectedText,
+      },
+      messages: [],
+      state: {
+        type: "waitingForBotAnswer",
+      },
     };
 
-    this.chatModel.explanations.push(explanation);
-    this.chatModel.selectedExplanationIndex =
-      this.chatModel.explanations.length - 1;
+    this.chatModel.conversations.push(conversation);
+    this.chatModel.selectedConversationIndex =
+      this.chatModel.conversations.length - 1;
 
     await this.updateChatPanel();
 
-    explanation.content = await this.openAIClient.generateCompletion({
+    const explanation = await this.openAIClient.generateCompletion({
       prompt: assemblePrompt({
         sections: [
           new LinesSection({
@@ -162,6 +170,12 @@ export class ChatController {
       }),
       maxTokens: 512,
     });
+
+    conversation.messages.push({
+      author: "bot",
+      content: explanation,
+    } satisfies Message);
+    conversation.state.type = "userCanReply";
 
     await this.updateChatPanel();
   }

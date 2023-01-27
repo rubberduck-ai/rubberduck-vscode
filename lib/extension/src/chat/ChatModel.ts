@@ -1,6 +1,6 @@
-import { Explanation } from "@rubberduck/common";
+import { Conversation } from "@rubberduck/common";
 
 export class ChatModel {
-  explanations: Array<Explanation> = [];
-  selectedExplanationIndex: number | undefined;
+  conversations: Array<Conversation> = [];
+  selectedConversationIndex: number | undefined;
 }
