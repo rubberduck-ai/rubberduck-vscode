@@ -86,6 +86,9 @@ export class ChatController {
         const botRole = "Bot";
         const userRole = "Developer";
 
+        const lastMessage =
+          conversation.messages[conversation.messages.length - 1];
+
         const response = await this.openAIClient.generateCompletion({
           prompt: assemblePrompt({
             sections: [
@@ -93,8 +96,12 @@ export class ChatController {
                 title: "Instructions",
                 lines: [
                   "Continue the conversation below.",
-                  "Pay special attention to the current request.",
+                  "Pay special attention to the current ${userRole.toLocaleLowerCase()} request.",
                 ],
+              }),
+              new LinesSection({
+                title: "Current request",
+                lines: [`${userRole}: ${lastMessage}`],
               }),
               new ConversationSection({
                 messages: conversation.messages,
@@ -103,12 +110,12 @@ export class ChatController {
                 title: "Task",
                 lines: [
                   "Write a response that continues the conversation.",
-                  "Think through each step carefully and describe it accurately in 2-5 sentences.",
                   `Stay focused on current ${userRole.toLocaleLowerCase()} request.`,
                   "Consider the possibility that there might not be a solution.",
                   "Ask for clarification if the message does not make sense or more input is needed.",
                   "Use the style of a documentation article.",
-                  "Include code snippets where appropriate.",
+                  "Omit any links.",
+                  "Include code snippets using Markdown where appropriate.",
                 ],
               }),
               new LinesSection({
