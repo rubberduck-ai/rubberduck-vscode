@@ -81,3 +81,23 @@ body {
 .chat-input > textarea:focus {
   outline: none;
 }
+
+.chat-message {
+  margin-bottom: 10px;
+}
+
+.chat-message.bot {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.chat-message.user {
+  font-style: italic;
+}
+
+.chat-message.user {
+  padding: 10px;
+  border-radius: 10px;
+  border-bottom-left-radius: 0px;
+  background-color: var(--vscode-inputValidation-infoBackground);
+}
