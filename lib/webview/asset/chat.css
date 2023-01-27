@@ -1,3 +1,7 @@
+:root {
+  --rubberduck-container-padding: calc(var(--container-padding) / 2);
+}
+
 body {
   padding-top: 0;
 }
@@ -6,11 +10,24 @@ body {
   vertical-align: sub;
 }
 
+.start-chat {
+  padding: var(--rubberduck-container-padding);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.start-chat > button {
+  background-color: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+}
+
+.start-chat > button:hover {
+  background-color: var(--vscode-button-secondaryHoverBackground);
+}
+
 .conversation {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-right: var(--container-padding);
-  padding-left: var(--container-padding);
+  padding: var(--rubberduck-container-padding);
+  cursor: default;
 }
 
 .conversation > .header > i {

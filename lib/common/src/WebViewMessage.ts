@@ -2,6 +2,9 @@ import zod from "zod";
 
 export const WebViewMessageSchema = zod.discriminatedUnion("type", [
   zod.object({
+    type: zod.literal("startChat"),
+  }),
+  zod.object({
     type: zod.literal("clickCollapsedExplanation"),
     data: zod.object({
       index: zod.number(),

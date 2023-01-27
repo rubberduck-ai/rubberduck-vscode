@@ -4,16 +4,27 @@ import { CollapsedConversationView } from "../component/CollapsedConversationVie
 import { ExpandedConversationView } from "../component/ExpandedConversationView";
 import { SendMessage } from "../vscode/SendMessage";
 
+const StartChatButton: React.FC<{
+  onClick: () => void;
+}> = ({ onClick }) => (
+  <div className="start-chat">
+    <button onClick={onClick}>Start new chat</button>
+  </div>
+);
+
 export const ChatPanelView: React.FC<{
   sendMessage: SendMessage;
   panelState: PanelState;
 }> = ({ panelState, sendMessage }) => {
   if (panelState === undefined) {
-    return <></>;
+    return (
+      <StartChatButton onClick={() => sendMessage({ type: "startChat" })} />
+    );
   }
 
   return (
     <div>
+      <StartChatButton onClick={() => sendMessage({ type: "startChat" })} />
       {panelState.conversations.map((conversation, i) =>
         panelState.selectedConversationIndex === i ? (
           <ExpandedConversationView

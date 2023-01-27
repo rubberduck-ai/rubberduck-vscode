@@ -64,8 +64,9 @@ export class ChatController {
 
   async receivePanelMessage(rawMessage: unknown) {
     const message = WebViewMessageSchema.parse(rawMessage);
+    const type = message.type;
 
-    switch (message.type) {
+    switch (type) {
       case "clickCollapsedExplanation": {
         this.chatModel.selectedConversationIndex = message.data.index;
         await this.updateChatPanel();
@@ -137,6 +138,15 @@ export class ChatController {
         };
 
         await this.updateChatPanel();
+        break;
+      }
+      case "startChat": {
+        await this.startChat();
+        break;
+      }
+      default: {
+        const exhaustiveCheck: never = type;
+        throw new Error(`unsupported type: ${exhaustiveCheck}`);
       }
     }
   }
