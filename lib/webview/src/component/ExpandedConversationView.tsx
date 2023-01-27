@@ -11,7 +11,9 @@ export const ExpandedConversationView: React.FC<{
     <ConversationHeader conversation={conversation} />
 
     <div className="detail">
-      {conversation.messages.map((message) => message.content)}
+      {conversation.messages.map((message) => (
+        <div>{message.content}</div>
+      ))}
       {conversation.state.type === "waitingForBotAnswer" && (
         <div className={"in-progress"} />
       )}

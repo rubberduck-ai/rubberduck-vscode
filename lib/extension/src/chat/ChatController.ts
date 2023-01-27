@@ -7,6 +7,7 @@ import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { BasicSection } from "../prompt/BasicSection";
 import { CodeSection } from "../prompt/CodeSection";
+import { ConversationSection } from "../prompt/ConversationSection";
 import { LinesSection } from "../prompt/LinesSection";
 import { assemblePrompt } from "../prompt/Prompt";
 import { ChatModel } from "./ChatModel";
@@ -61,10 +62,53 @@ export class ChatController {
     const message = WebViewMessageSchema.parse(rawMessage);
 
     switch (message.type) {
-      case "clickCollapsedExplanation":
+      case "clickCollapsedExplanation": {
         this.chatModel.selectedConversationIndex = message.data.index;
         await this.updateChatPanel();
         break;
+      }
+      case "sendChatMessage": {
+        const conversation = this.chatModel.conversations[message.data.index];
+        conversation.messages.push({
+          author: "user",
+          content: message.data.message,
+        });
+        conversation.state = {
+          type: "waitingForBotAnswer",
+        };
+
+        await this.updateChatPanel();
+
+        const response = await this.openAIClient.generateCompletion({
+          prompt: assemblePrompt({
+            sections: [
+              new ConversationSection({
+                messages: conversation.messages,
+              }),
+              new LinesSection({
+                title: "Task",
+                lines: ["Write a response that continues the conversation."],
+              }),
+              new LinesSection({
+                title: "Response",
+                lines: ["bot:"],
+              }),
+            ],
+          }),
+          maxTokens: 1024,
+          stop: ["bot:", "user:"],
+        });
+
+        conversation.messages.push({
+          author: "bot",
+          content: response,
+        });
+        conversation.state = {
+          type: "userCanReply",
+        };
+
+        await this.updateChatPanel();
+      }
     }
   }
 
