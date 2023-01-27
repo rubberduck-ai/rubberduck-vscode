@@ -101,6 +101,18 @@
           "command": "rubberduck.touchBar.startChat",
           "when": "false"
         }
+      ],
+      "editor/context": [
+        {
+          "command": "rubberduck.explainCode",
+          "group": "rubberduck",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "rubberduck.writeTest",
+          "group": "rubberduck",
+          "when": "editorHasSelection"
+        }
       ]
     },
     "viewsContainers": {
