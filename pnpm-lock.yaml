@@ -27,7 +27,10 @@ importers:
       '@rubberduck/webview': link:../../lib/webview
 
   lib/common:
-    specifiers: {}
+    specifiers:
+      zod: 3.20.2
+    dependencies:
+      zod: 3.20.2
 
   lib/extension:
     specifiers:
@@ -1760,3 +1763,7 @@ packages:
     dependencies:
       buffer-crc32: 0.2.13
     dev: true
+
+  /zod/3.20.2:
+    resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
+    dev: false

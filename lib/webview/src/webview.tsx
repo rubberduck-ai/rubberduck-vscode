@@ -23,7 +23,7 @@ if (rootElement != undefined) {
                     conversation={conversation}
                     onSendMessage={(message: string) =>
                       sendMessage({
-                        type: "sendMessage",
+                        type: "sendChatMessage",
                         data: { index: i, message },
                       })
                     }

@@ -1,4 +1,8 @@
-import { Conversation, Message } from "@rubberduck/common";
+import {
+  Conversation,
+  Message,
+  WebViewMessageSchema,
+} from "@rubberduck/common";
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { BasicSection } from "../prompt/BasicSection";
@@ -53,7 +57,9 @@ export class ChatController {
     };
   }
 
-  async receivePanelMessage(message: any) {
+  async receivePanelMessage(rawMessage: unknown) {
+    const message = WebViewMessageSchema.parse(rawMessage);
+
     switch (message.type) {
       case "clickCollapsedExplanation":
         this.chatModel.selectedConversationIndex = message.data.index;
