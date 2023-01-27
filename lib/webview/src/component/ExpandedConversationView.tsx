@@ -1,5 +1,6 @@
 import { Conversation } from "@rubberduck/common";
 import React from "react";
+import ReactMarkdown from "react-markdown";
 import { ChatInput } from "./ChatInput";
 import { ConversationHeader } from "./ConversationHeader";
 
@@ -13,7 +14,10 @@ export const ExpandedConversationView: React.FC<{
     <div className="detail">
       {conversation.messages.map((message) => (
         <div className={`chat-message ${message.author}`}>
-          {message.content}
+          {message.author === "user" && message.content}
+          {message.author === "bot" && (
+            <ReactMarkdown>{message.content}</ReactMarkdown>
+          )}
         </div>
       ))}
       {conversation.state.type === "waitingForBotAnswer" && (

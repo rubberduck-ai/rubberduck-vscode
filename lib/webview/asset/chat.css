@@ -86,6 +86,19 @@ body {
   margin-bottom: 10px;
 }
 
+.chat-message > p {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.chat-message code {
+  white-space: pre-wrap;
+}
+
+.chat-message pre {
+  white-space: pre-wrap;
+}
+
 .chat-message.bot {
   padding-left: 10px;
   padding-right: 10px;
@@ -100,4 +113,17 @@ body {
   border-radius: 10px;
   border-bottom-left-radius: 0px;
   background-color: var(--vscode-inputValidation-infoBackground);
+}
+
+.chat-message > p {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.chat-message code {
+  white-space: pre-wrap;
+}
+
+.chat-message pre {
+  white-space: pre-wrap;
 }

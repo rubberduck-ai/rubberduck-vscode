@@ -1,9 +1,3 @@
-/*
- * Copyright P42 Software UG (haftungsbeschränkt). All Rights Reserved.
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import * as vscode from "vscode";
 
 const OPEN_AI_API_KEY_SECRET_KEY = "rubberduck.openAI.apiKey";
