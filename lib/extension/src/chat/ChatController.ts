@@ -83,6 +83,9 @@ export class ChatController {
 
         await this.updateChatPanel();
 
+        const botRole = "Bot";
+        const userRole = "Developer";
+
         const response = await this.openAIClient.generateCompletion({
           prompt: assemblePrompt({
             sections: [
@@ -95,12 +98,12 @@ export class ChatController {
               }),
               new LinesSection({
                 title: "Response",
-                lines: ["bot:"],
+                lines: [`${botRole}:`],
               }),
             ],
           }),
           maxTokens: 1024,
-          stop: ["bot:", "user:"],
+          stop: [`${botRole}:`, `${userRole}:`],
         });
 
         conversation.messages.push({
