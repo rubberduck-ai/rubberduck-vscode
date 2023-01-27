@@ -6,7 +6,7 @@ Check out [this Twitter thread](https://twitter.com/lgrammel/status/161854646667
 
 ### Chat
 
-1. Run the `Rubberduck: Start chat` command
+1. Run the `Rubberduck: Start chat` command (or use the keyboard shortcut: `Cmd + Y` (Mac) or `Ctrl + Y` (Windows / Linux)
 2. Ask a question in the Rubberduck sidebar panel
 
 ![Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-start-chat.png)

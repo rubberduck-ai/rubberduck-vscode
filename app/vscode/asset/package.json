@@ -72,6 +72,18 @@
         "icon": "$(beaker)"
       }
     ],
+    "keybindings": [
+      {
+        "command": "rubberduck.startChat",
+        "when": "isMac",
+        "key": "Cmd+y"
+      },
+      {
+        "command": "rubberduck.startChat",
+        "when": "!isMac",
+        "key": "Ctrl+y"
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {
