@@ -29,48 +29,30 @@ export const activate = async (context: vscode.ExtensionContext) => {
   );
 
   context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider("rubberduck.chat", chatPanel)
-  );
-
-  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider("rubberduck.chat", chatPanel),
     vscode.commands.registerCommand(
       "rubberduck.enterOpenAIApiKey",
       apiKeyManager.enterOpenAIApiKey.bind(apiKeyManager)
-    )
-  );
-
-  context.subscriptions.push(
+    ),
     vscode.commands.registerCommand(
       "rubberduck.clearOpenAIApiKey",
       async () => {
         await apiKeyManager.clearOpenAIApiKey();
         vscode.window.showInformationMessage("OpenAI API key cleared.");
       }
-    )
-  );
-
-  context.subscriptions.push(
+    ),
     vscode.commands.registerCommand(
       "rubberduck.explainCode",
       chatController.explainCode.bind(chatController)
-    )
-  );
-
-  context.subscriptions.push(
+    ),
     vscode.commands.registerCommand(
       "rubberduck.writeTest",
       chatController.writeTest.bind(chatController)
-    )
-  );
-
-  context.subscriptions.push(
+    ),
     vscode.commands.registerCommand(
       "rubberduck.startChat",
       chatController.startChat.bind(chatController)
-    )
-  );
-
-  context.subscriptions.push(
+    ),
     vscode.commands.registerCommand(
       "rubberduck.touchBar.startChat",
       chatController.startChat.bind(chatController)
