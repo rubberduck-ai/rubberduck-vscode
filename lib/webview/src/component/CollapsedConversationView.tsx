@@ -6,7 +6,7 @@ export const CollapsedConversationView: React.FC<{
   conversation: Conversation;
   onClick: () => void;
 }> = ({ conversation, onClick }) => (
-  <div className={`explanation collapsed`} onClick={onClick}>
+  <div className={`conversation collapsed`} onClick={onClick}>
     <ConversationHeader conversation={conversation} />
   </div>
 );

@@ -6,37 +6,37 @@ body {
   vertical-align: sub;
 }
 
-.explanation {
+.conversation {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-right: var(--container-padding);
   padding-left: var(--container-padding);
 }
 
-.explanation > .header > i {
+.conversation > .header > i {
   margin-right: 5px;
 }
 
-.explanation > .detail {
+.conversation > .detail {
   min-height: 25px;
 }
 
-.explanation.collapsed {
+.conversation.collapsed {
   cursor: pointer;
 }
 
-.explanation.collapsed:hover {
+.conversation.collapsed:hover {
   background-color: var(--vscode-editor-background);
 }
 
-.explanation.expanded {
+.conversation.expanded {
   border-top: 1px solid var(--vscode-input-border);
   border-bottom: 1px solid var(--vscode-input-border);
 
   background-color: var(--vscode-editor-background);
 }
 
-.explanation.expanded > .header {
+.conversation.expanded > .header {
   margin-bottom: 10px;
 }
 
@@ -82,48 +82,48 @@ body {
   outline: none;
 }
 
-.chat-message {
+.message {
   margin-bottom: 10px;
 }
 
-.chat-message > p {
+.message > p {
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-.chat-message code {
+.message code {
   white-space: pre-wrap;
 }
 
-.chat-message pre {
+.message pre {
   white-space: pre-wrap;
 }
 
-.chat-message.bot {
+.message.bot {
   padding-left: 10px;
   padding-right: 10px;
 }
 
-.chat-message.user {
+.message.user {
   font-style: italic;
 }
 
-.chat-message.user {
+.message.user {
   padding: 10px;
   border-radius: 10px;
   border-bottom-left-radius: 0px;
   background-color: var(--vscode-inputValidation-infoBackground);
 }
 
-.chat-message > p {
+.message > p {
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-.chat-message code {
+.message code {
   white-space: pre-wrap;
 }
 
-.chat-message pre {
+.message pre {
   white-space: pre-wrap;
 }
