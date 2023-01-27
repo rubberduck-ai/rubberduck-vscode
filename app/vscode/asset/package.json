@@ -55,19 +55,19 @@
       },
       {
         "command": "rubberduck.startChat",
-        "title": "Start chat",
+        "title": "Start Chat",
         "category": "Rubberduck",
         "icon": "$(comment-discussion)"
       },
       {
         "command": "rubberduck.explainCode",
-        "title": "Explain code",
+        "title": "Explain Code",
         "category": "Rubberduck",
         "icon": "$(comment-discussion)"
       },
       {
         "command": "rubberduck.writeTest",
-        "title": "Write test",
+        "title": "Write Test",
         "category": "Rubberduck",
         "icon": "$(beaker)"
       },
