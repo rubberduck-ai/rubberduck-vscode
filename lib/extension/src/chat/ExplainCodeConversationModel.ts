@@ -23,15 +23,22 @@ export class ExplainCodeConversationModel extends ConversationModel {
       range: vscode.Range;
       selectedText: string;
     },
-    { openAIClient }: { openAIClient: OpenAIClient }
+    {
+      openAIClient,
+      updateChatPanel,
+    }: {
+      openAIClient: OpenAIClient;
+      updateChatPanel: () => Promise<void>;
+    }
   ) {
     super({
       id,
-      openAIClient,
       initialState: {
         type: "waitingForBotAnswer",
         botAction: "Generating explanation",
       },
+      openAIClient,
+      updateChatPanel,
     });
 
     this.filename = filename;
@@ -51,12 +58,12 @@ export class ExplainCodeConversationModel extends ConversationModel {
     } as const;
   }
 
-  async answer() {
-    if (this.state.type !== "waitingForBotAnswer") {
-      return;
+  async answer(userMessage?: string) {
+    if (userMessage != undefined) {
+      await this.addUserMessage({ content: userMessage });
     }
 
-    this.addBotMessage({
+    await this.addBotMessage({
       content:
         this.messages.length === 0
           ? await generateExplainCodeCompletion({

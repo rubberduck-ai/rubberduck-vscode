@@ -31,6 +31,13 @@ export class ChatController {
     this.nextChatId = util.createNextId({ prefix: "chat-" });
   }
 
+  private get conversationOptions() {
+    return {
+      openAIClient: this.openAIClient,
+      updateChatPanel: this.updateChatPanel.bind(this),
+    };
+  }
+
   private async updateChatPanel() {
     await this.chatPanel.update(this.chatModel);
   }
@@ -94,16 +101,9 @@ export class ChatController {
         break;
       }
       case "sendChatMessage": {
-        const conversation = this.chatModel.conversations[message.data.index];
-        conversation.addUserMessage({ content: message.data.message });
-        await this.updateChatPanel();
-        await conversation.answer();
-
-        if (conversation instanceof GenerateTestConversationModel) {
-          await conversation.updateEditor();
-        }
-
-        await this.updateChatPanel();
+        await this.chatModel.conversations[message.data.index].answer(
+          message.data.message
+        );
         break;
       }
       case "startChat": {
@@ -124,7 +124,7 @@ export class ChatController {
           id: this.nextChatId(),
           selectedText: this.getSelectedTextFromActiveEditor(),
         },
-        { openAIClient: this.openAIClient }
+        this.conversationOptions
       )
     );
   }
@@ -145,13 +145,11 @@ export class ChatController {
           selectedText: input.selectedText,
           language: input.language,
         },
-        { openAIClient: this.openAIClient }
+        this.conversationOptions
       )
     );
 
     await conversation.answer();
-    await conversation.updateEditor();
-    await this.updateChatPanel();
   }
 
   async explainCode() {
@@ -169,11 +167,10 @@ export class ChatController {
           range: input.range,
           selectedText: input.selectedText,
         },
-        { openAIClient: this.openAIClient }
+        this.conversationOptions
       )
     );
 
     await conversation.answer();
-    await this.updateChatPanel();
   }
 }

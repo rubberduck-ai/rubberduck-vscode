@@ -6,27 +6,31 @@ export abstract class ConversationModel {
   protected readonly openAIClient: OpenAIClient;
   protected state: webviewApi.Conversation["state"];
   protected readonly messages: webviewApi.Message[];
+  private readonly updateChatPanel: () => Promise<void>;
 
   constructor({
     id,
     openAIClient,
     initialState,
+    updateChatPanel,
   }: {
     id: string;
     openAIClient: OpenAIClient;
     initialState: webviewApi.Conversation["state"];
+    updateChatPanel: () => Promise<void>;
   }) {
     this.id = id;
     this.openAIClient = openAIClient;
     this.state = initialState;
+    this.updateChatPanel = updateChatPanel;
     this.messages = [];
   }
 
-  abstract answer(): Promise<void>;
+  abstract answer(userMessage?: string): Promise<void>;
 
   abstract getTrigger(): webviewApi.Conversation["trigger"];
 
-  addUserMessage({
+  async addUserMessage({
     content,
     botAction,
   }: {
@@ -35,9 +39,10 @@ export abstract class ConversationModel {
   }) {
     this.messages.push({ author: "user", content });
     this.state = { type: "waitingForBotAnswer", botAction };
+    await this.updateChatPanel();
   }
 
-  addBotMessage({
+  async addBotMessage({
     content,
     responsePlaceholder,
   }: {
@@ -46,6 +51,7 @@ export abstract class ConversationModel {
   }) {
     this.messages.push({ author: "bot", content });
     this.state = { type: "userCanReply", responsePlaceholder };
+    await this.updateChatPanel();
   }
 
   toWebviewConversation(): webviewApi.Conversation {

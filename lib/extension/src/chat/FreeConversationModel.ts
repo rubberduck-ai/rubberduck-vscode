@@ -14,9 +14,20 @@ export class FreeConversationModel extends ConversationModel {
       id: string;
       selectedText?: string | undefined;
     },
-    { openAIClient }: { openAIClient: OpenAIClient }
+    {
+      openAIClient,
+      updateChatPanel,
+    }: {
+      openAIClient: OpenAIClient;
+      updateChatPanel: () => Promise<void>;
+    }
   ) {
-    super({ id, openAIClient, initialState: { type: "userCanReply" } });
+    super({
+      id,
+      initialState: { type: "userCanReply" },
+      openAIClient,
+      updateChatPanel,
+    });
 
     this.selectedText = selectedText;
   }
@@ -25,8 +36,12 @@ export class FreeConversationModel extends ConversationModel {
     return { type: "startChat" } as const;
   }
 
-  async answer() {
-    this.addBotMessage({
+  async answer(userMessage?: string) {
+    if (userMessage != undefined) {
+      await this.addUserMessage({ content: userMessage });
+    }
+
+    await this.addBotMessage({
       content: await generateChatCompletion({
         introSections:
           this.selectedText != null

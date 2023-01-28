@@ -28,15 +28,22 @@ export class GenerateTestConversationModel extends ConversationModel {
       selectedText: string;
       language: string | undefined;
     },
-    { openAIClient }: { openAIClient: OpenAIClient }
+    {
+      openAIClient,
+      updateChatPanel,
+    }: {
+      openAIClient: OpenAIClient;
+      updateChatPanel: () => Promise<void>;
+    }
   ) {
     super({
       id,
-      openAIClient,
       initialState: {
         type: "waitingForBotAnswer",
         botAction: "Generating test",
       },
+      openAIClient,
+      updateChatPanel,
     });
 
     this.filename = filename;
@@ -57,7 +64,7 @@ export class GenerateTestConversationModel extends ConversationModel {
     } as const;
   }
 
-  async updateEditor() {
+  private async updateEditor() {
     const testContent = this.testContent;
 
     if (testContent == undefined) {
@@ -92,20 +99,19 @@ export class GenerateTestConversationModel extends ConversationModel {
     }
   }
 
-  async answer() {
-    if (this.state.type !== "waitingForBotAnswer") {
-      return;
+  async answer(userMessage?: string) {
+    if (userMessage != undefined) {
+      await this.addUserMessage({
+        content: userMessage,
+        botAction: "Updating Test",
+      });
     }
 
-    const userMessages = this.messages.filter(
-      (message) => message.author === "user"
-    );
-
     const testContent =
-      userMessages.length > 0 && this.testContent != null
+      userMessage != undefined && this.testContent != null
         ? await generateRefineCodeCompletion({
             code: this.testContent,
-            instruction: userMessages[userMessages.length - 1].content,
+            instruction: userMessage,
             openAIClient: this.openAIClient,
           })
         : await generateGenerateTestCompletion({
@@ -115,9 +121,11 @@ export class GenerateTestConversationModel extends ConversationModel {
 
     this.testContent = testContent;
 
-    this.addBotMessage({
-      content: "Test generated.",
+    await this.addBotMessage({
+      content: userMessage != undefined ? "Test updated." : "Test generated.",
       responsePlaceholder: "Instruct how to refine the test…",
     });
+
+    await this.updateEditor();
   }
 }
