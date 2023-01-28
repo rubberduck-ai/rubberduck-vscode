@@ -15,7 +15,6 @@ export const ConversationHeader: React.FC<{
   <div className="header">
     {(() => {
       const type = conversation.trigger.type;
-
       switch (type) {
         case "startChat": {
           return (

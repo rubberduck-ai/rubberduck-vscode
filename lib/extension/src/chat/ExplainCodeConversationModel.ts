@@ -63,26 +63,33 @@ export class ExplainCodeConversationModel extends ConversationModel {
       await this.addUserMessage({ content: userMessage });
     }
 
+    const completion =
+      this.messages.length === 0
+        ? await generateExplainCodeCompletion({
+            selectedText: this.selectedText,
+            openAIClient: this.openAIClient,
+          })
+        : await generateChatCompletion({
+            introSections: [
+              new CodeSection({
+                code: this.selectedText,
+              }),
+              new LinesSection({
+                title: "Code Summary",
+                lines: [this.messages[0].content],
+              }),
+            ],
+            messages: this.messages.slice(1),
+            openAIClient: this.openAIClient,
+          });
+
+    if (completion.type === "error") {
+      await this.setErrorStatus({ errorMessage: completion.errorMessage });
+      return;
+    }
+
     await this.addBotMessage({
-      content:
-        this.messages.length === 0
-          ? await generateExplainCodeCompletion({
-              selectedText: this.selectedText,
-              openAIClient: this.openAIClient,
-            })
-          : await generateChatCompletion({
-              introSections: [
-                new CodeSection({
-                  code: this.selectedText,
-                }),
-                new LinesSection({
-                  title: "Code Summary",
-                  lines: [this.messages[0].content],
-                }),
-              ],
-              messages: this.messages.slice(1),
-              openAIClient: this.openAIClient,
-            }),
+      content: completion.content,
     });
   }
 }

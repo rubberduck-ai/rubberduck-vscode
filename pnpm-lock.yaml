@@ -43,9 +43,11 @@ importers:
       '@rubberduck/common': '*'
       '@types/vscode': 1.72.0
       axios: 1.2.4
+      zod: 3.20.2
     dependencies:
       '@rubberduck/common': link:../common
       axios: 1.2.4
+      zod: 3.20.2
     devDependencies:
       '@types/vscode': 1.72.0
 

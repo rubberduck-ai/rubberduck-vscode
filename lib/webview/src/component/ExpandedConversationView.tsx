@@ -28,23 +28,42 @@ export const ExpandedConversationView: React.FC<{
             )}
           </div>
         ))}
-        {conversation.state.type === "waitingForBotAnswer" && (
-          <div className="message bot">
-            {conversation.state.botAction ?? ""}
-            <span className={"in-progress"} />
-          </div>
-        )}
-        {conversation.state.type === "userCanReply" && (
-          <ChatInput
-            placeholder={
-              conversation.state.responsePlaceholder ??
-              conversation.messages.length > 0
-                ? "Reply…"
-                : "Ask…"
+        {(() => {
+          const type = conversation.state.type;
+          switch (type) {
+            case "waitingForBotAnswer":
+              return (
+                <div className="message bot">
+                  {conversation.state.botAction ?? ""}
+                  <span className={"in-progress"} />
+                </div>
+              );
+            case "userCanReply":
+              return (
+                <ChatInput
+                  placeholder={
+                    conversation.state.responsePlaceholder ??
+                    conversation.messages.length > 0
+                      ? "Reply…"
+                      : "Ask…"
+                  }
+                  onSend={onSendMessage}
+                />
+              );
+            case "error":
+              return (
+                <div key={"error"} className={"message bot error"}>
+                  <span className={"error-message"}>
+                    Error: {conversation.state.errorMessage}
+                  </span>
+                </div>
+              );
+            default: {
+              const exhaustiveCheck: never = type;
+              throw new Error(`unsupported type: ${exhaustiveCheck}`);
             }
-            onSend={onSendMessage}
-          />
-        )}
+          }
+        })()}
       </div>
     </div>
   );

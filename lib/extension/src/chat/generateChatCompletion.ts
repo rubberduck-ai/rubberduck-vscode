@@ -22,45 +22,43 @@ export async function generateChatCompletion({
 }) {
   const lastMessage = messages[messages.length - 1];
 
-  return (
-    await openAIClient.generateCompletion({
-      prompt: assemblePrompt({
-        sections: [
-          new LinesSection({
-            title: "Instructions",
-            lines: [
-              "Continue the conversation below.",
-              "Pay special attention to the current ${userRole.toLocaleLowerCase()} request.",
-            ],
-          }),
-          new LinesSection({
-            title: "Current request",
-            lines: [`${userRole}: ${lastMessage}`],
-          }),
-          ...introSections,
-          new ConversationSection({
-            messages,
-          }),
-          new LinesSection({
-            title: "Task",
-            lines: [
-              "Write a response that continues the conversation.",
-              `Stay focused on current ${userRole.toLocaleLowerCase()} request.`,
-              "Consider the possibility that there might not be a solution.",
-              "Ask for clarification if the message does not make sense or more input is needed.",
-              "Use the style of a documentation article.",
-              "Omit any links.",
-              "Include code snippets (using Markdown) and examples where appropriate.",
-            ],
-          }),
-          new LinesSection({
-            title: "Response",
-            lines: [`${botRole}:`],
-          }),
-        ],
-      }),
-      maxTokens,
-      stop: [`${botRole}:`, `${userRole}:`],
-    })
-  ).trim();
+  return openAIClient.generateCompletion({
+    prompt: assemblePrompt({
+      sections: [
+        new LinesSection({
+          title: "Instructions",
+          lines: [
+            "Continue the conversation below.",
+            "Pay special attention to the current ${userRole.toLocaleLowerCase()} request.",
+          ],
+        }),
+        new LinesSection({
+          title: "Current request",
+          lines: [`${userRole}: ${lastMessage}`],
+        }),
+        ...introSections,
+        new ConversationSection({
+          messages,
+        }),
+        new LinesSection({
+          title: "Task",
+          lines: [
+            "Write a response that continues the conversation.",
+            `Stay focused on current ${userRole.toLocaleLowerCase()} request.`,
+            "Consider the possibility that there might not be a solution.",
+            "Ask for clarification if the message does not make sense or more input is needed.",
+            "Use the style of a documentation article.",
+            "Omit any links.",
+            "Include code snippets (using Markdown) and examples where appropriate.",
+          ],
+        }),
+        new LinesSection({
+          title: "Response",
+          lines: [`${botRole}:`],
+        }),
+      ],
+    }),
+    maxTokens,
+    stop: [`${botRole}:`, `${userRole}:`],
+  });
 }

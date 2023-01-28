@@ -30,7 +30,7 @@ export abstract class ConversationModel {
 
   abstract getTrigger(): webviewApi.Conversation["trigger"];
 
-  async addUserMessage({
+  protected async addUserMessage({
     content,
     botAction,
   }: {
@@ -42,7 +42,7 @@ export abstract class ConversationModel {
     await this.updateChatPanel();
   }
 
-  async addBotMessage({
+  protected async addBotMessage({
     content,
     responsePlaceholder,
   }: {
@@ -51,6 +51,11 @@ export abstract class ConversationModel {
   }) {
     this.messages.push({ author: "bot", content });
     this.state = { type: "userCanReply", responsePlaceholder };
+    await this.updateChatPanel();
+  }
+
+  protected async setErrorStatus({ errorMessage }: { errorMessage: string }) {
+    this.state = { type: "error", errorMessage };
     await this.updateChatPanel();
   }
 

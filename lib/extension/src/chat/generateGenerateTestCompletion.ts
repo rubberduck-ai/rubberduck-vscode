@@ -12,32 +12,30 @@ export async function generateGenerateTestCompletion({
   maxTokens?: number;
   openAIClient: OpenAIClient;
 }) {
-  return (
-    await openAIClient.generateCompletion({
-      prompt: assemblePrompt({
-        sections: [
-          new LinesSection({
-            title: "Instructions",
-            lines: ["Write a unit test for the code below."],
-          }),
-          new CodeSection({
-            code: selectedText,
-          }),
-          new LinesSection({
-            title: "Task",
-            lines: [
-              "Write a unit test that contains test cases for the happy path and for all edge cases.",
-            ],
-          }),
+  return openAIClient.generateCompletion({
+    prompt: assemblePrompt({
+      sections: [
+        new LinesSection({
+          title: "Instructions",
+          lines: ["Write a unit test for the code below."],
+        }),
+        new CodeSection({
+          code: selectedText,
+        }),
+        new LinesSection({
+          title: "Task",
+          lines: [
+            "Write a unit test that contains test cases for the happy path and for all edge cases.",
+          ],
+        }),
 
-          new LinesSection({
-            title: "Answer",
-            lines: ["```"],
-          }),
-        ],
-      }),
-      maxTokens,
-      stop: ["```"],
-    })
-  ).trim();
+        new LinesSection({
+          title: "Answer",
+          lines: ["```"],
+        }),
+      ],
+    }),
+    maxTokens,
+    stop: ["```"],
+  });
 }

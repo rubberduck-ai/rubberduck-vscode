@@ -14,29 +14,27 @@ export async function generateRefineCodeCompletion({
   maxTokens?: number;
   openAIClient: OpenAIClient;
 }) {
-  return (
-    await openAIClient.generateCompletion({
-      prompt: assemblePrompt({
-        sections: [
-          new LinesSection({
-            title: "Instructions",
-            lines: [`Rewrite the code below as follows: "${instruction}"`],
-          }),
-          new CodeSection({
-            code,
-          }),
-          new LinesSection({
-            title: "Task",
-            lines: [`Rewrite the code as follows: "${instruction}"`],
-          }),
-          new LinesSection({
-            title: "Answer",
-            lines: ["```"],
-          }),
-        ],
-      }),
-      maxTokens,
-      stop: ["```"],
-    })
-  ).trim();
+  return openAIClient.generateCompletion({
+    prompt: assemblePrompt({
+      sections: [
+        new LinesSection({
+          title: "Instructions",
+          lines: [`Rewrite the code below as follows: "${instruction}"`],
+        }),
+        new CodeSection({
+          code,
+        }),
+        new LinesSection({
+          title: "Task",
+          lines: [`Rewrite the code as follows: "${instruction}"`],
+        }),
+        new LinesSection({
+          title: "Answer",
+          lines: ["```"],
+        }),
+      ],
+    }),
+    maxTokens,
+    stop: ["```"],
+  });
 }

@@ -41,20 +41,27 @@ export class FreeConversationModel extends ConversationModel {
       await this.addUserMessage({ content: userMessage });
     }
 
+    const completion = await generateChatCompletion({
+      introSections:
+        this.selectedText != null
+          ? [
+              new CodeSection({
+                title: "Selected Code",
+                code: this.selectedText,
+              }),
+            ]
+          : [],
+      messages: this.messages,
+      openAIClient: this.openAIClient,
+    });
+
+    if (completion.type === "error") {
+      await this.setErrorStatus({ errorMessage: completion.errorMessage });
+      return;
+    }
+
     await this.addBotMessage({
-      content: await generateChatCompletion({
-        introSections:
-          this.selectedText != null
-            ? [
-                new CodeSection({
-                  title: "Selected Code",
-                  code: this.selectedText,
-                }),
-              ]
-            : [],
-        messages: this.messages,
-        openAIClient: this.openAIClient,
-      }),
+      content: completion.content,
     });
   }
 }

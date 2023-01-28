@@ -107,7 +107,7 @@ export class GenerateTestConversationModel extends ConversationModel {
       });
     }
 
-    const testContent =
+    const completion =
       userMessage != undefined && this.testContent != null
         ? await generateRefineCodeCompletion({
             code: this.testContent,
@@ -119,7 +119,12 @@ export class GenerateTestConversationModel extends ConversationModel {
             openAIClient: this.openAIClient,
           });
 
-    this.testContent = testContent;
+    if (completion.type === "error") {
+      await this.setErrorStatus({ errorMessage: completion.errorMessage });
+      return;
+    }
+
+    this.testContent = completion.content;
 
     await this.addBotMessage({
       content: userMessage != undefined ? "Test updated." : "Test generated.",
