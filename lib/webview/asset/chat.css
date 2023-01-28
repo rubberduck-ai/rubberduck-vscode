@@ -26,7 +26,6 @@ body {
 }
 
 .conversation {
-  padding: var(--rubberduck-container-padding);
   cursor: default;
 }
 
@@ -39,6 +38,9 @@ body {
 }
 
 .conversation.collapsed {
+  padding: var(--rubberduck-container-padding);
+  color: var(--vscode-disabledForeground);
+  background-color: var(--vscode-sideBar-background);
   cursor: pointer;
 }
 
@@ -55,6 +57,14 @@ body {
 
 .conversation.expanded > .header {
   margin-bottom: 10px;
+  padding: 10px;
+  background-color: var(--vscode-inputValidation-infoBackground);
+}
+
+.conversation > .header > .message.user {
+  margin: 0;
+  padding: 0;
+  background-color: inherit;
 }
 
 .in-progress:after {
@@ -80,9 +90,11 @@ body {
 }
 
 .chat-input {
+  margin-top: 20px;
+  margin: var(--rubberduck-container-padding);
+
   border: 1px solid var(--vscode-input-border);
   border-radius: 5px;
-  margin-top: 20px;
   padding: 5px;
 
   background-color: var(--vscode-sideBar-background);
@@ -100,6 +112,8 @@ body {
 }
 
 .message {
+  margin-left: var(--rubberduck-container-padding);
+  margin-right: var(--rubberduck-container-padding);
   margin-bottom: 10px;
 }
 
@@ -116,19 +130,14 @@ body {
   white-space: pre-wrap;
 }
 
-.message.bot {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
 .message.user {
   font-style: italic;
 }
 
 .message.user {
+  margin-left: 0;
+  margin-right: 0;
   padding: 10px;
-  border-radius: 10px;
-  border-bottom-left-radius: 0px;
   background-color: var(--vscode-inputValidation-infoBackground);
 }
 

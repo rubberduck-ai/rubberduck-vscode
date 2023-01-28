@@ -21,7 +21,13 @@ export const ConversationHeader: React.FC<{
           return (
             <>
               <i className="codicon codicon-comment-discussion inline" />
-              Chat
+              {conversation.messages.length === 0 ? (
+                "New Chat"
+              ) : (
+                <span className="message user">
+                  {conversation.messages[0].content}
+                </span>
+              )}
             </>
           );
         }
