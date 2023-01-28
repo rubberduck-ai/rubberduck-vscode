@@ -1,6 +1,6 @@
 import zod from "zod";
 
-export const WebViewMessageSchema = zod.discriminatedUnion("type", [
+export const outgoingMessageSchema = zod.discriminatedUnion("type", [
   zod.object({
     type: zod.literal("startChat"),
   }),
@@ -19,4 +19,7 @@ export const WebViewMessageSchema = zod.discriminatedUnion("type", [
   }),
 ]);
 
-export type WebViewMessage = zod.infer<typeof WebViewMessageSchema>;
+/**
+ * A message sent from the webview to the extension.
+ */
+export type OutgoingMessage = zod.infer<typeof outgoingMessageSchema>;

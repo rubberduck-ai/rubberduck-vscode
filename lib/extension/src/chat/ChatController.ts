@@ -64,7 +64,7 @@ export class ChatController {
   }
 
   async receivePanelMessage(rawMessage: unknown) {
-    const message = webviewApi.WebViewMessageSchema.parse(rawMessage);
+    const message = webviewApi.outgoingMessageSchema.parse(rawMessage);
     const type = message.type;
 
     switch (type) {

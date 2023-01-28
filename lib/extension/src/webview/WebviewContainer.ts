@@ -35,7 +35,7 @@ export class WebviewContainer {
     return this.webview.postMessage({
       type: "updateState",
       state,
-    });
+    } satisfies webviewApi.IncomingMessage["data"]);
   }
 
   private getUri(...paths: string[]) {

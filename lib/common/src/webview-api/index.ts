@@ -1,3 +1,4 @@
 export * from "./Conversation";
-export * from "./WebViewMessage";
+export * from "./IncomingMessage";
+export * from "./OutgoingMessage";
 export * from "./PanelState";

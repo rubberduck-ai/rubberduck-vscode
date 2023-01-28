@@ -1,8 +1,12 @@
-import { Conversation } from "./Conversation";
+import zod from "zod";
+import { conversationSchema } from "./Conversation";
 
-export type PanelState =
-  | {
-      conversations: Array<Conversation>;
-      selectedConversationIndex: number | undefined;
-    }
-  | undefined;
+export const panelStateSchema = zod.union([
+  zod.object({
+    conversations: zod.array(conversationSchema),
+    selectedConversationIndex: zod.union([zod.number(), zod.undefined()]),
+  }),
+  zod.undefined(),
+]);
+
+export type PanelState = zod.infer<typeof panelStateSchema>;
