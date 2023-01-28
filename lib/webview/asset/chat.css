@@ -123,10 +123,16 @@ body {
 }
 
 .message code {
+  color: var(--vscode-editor-foreground);
   white-space: pre-wrap;
 }
 
 .message pre {
+  border-radius: var(--rubberduck-container-padding);
+  padding: var(--rubberduck-container-padding);
+  background-color: var(--vscode-editor-wordHighlightStrongBackground);
+
+  color: var(--vscode-editor-foreground);
   white-space: pre-wrap;
 }
 
