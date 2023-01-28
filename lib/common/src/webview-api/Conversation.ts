@@ -1,5 +1,14 @@
 import zod from "zod";
 
+export const selectionSchema = zod.object({
+  filename: zod.string(),
+  startLine: zod.number(),
+  endLine: zod.number(),
+  text: zod.string(),
+});
+
+export type Selection = zod.infer<typeof selectionSchema>;
+
 export const messageSchema = zod.object({
   author: zod.union([zod.literal("user"), zod.literal("bot")]),
   content: zod.string(),
@@ -12,10 +21,11 @@ export const conversationSchema = zod.object({
   trigger: zod.discriminatedUnion("type", [
     zod.object({
       type: zod.literal("explainCode"),
-      filename: zod.string(),
-      selectionStartLine: zod.number(),
-      selectionEndLine: zod.number(),
-      selection: zod.string(),
+      selection: selectionSchema,
+    }),
+    zod.object({
+      type: zod.literal("generateTest"),
+      selection: selectionSchema,
     }),
     zod.object({
       type: zod.literal("startChat"),

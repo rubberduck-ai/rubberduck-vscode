@@ -35,10 +35,12 @@ export class ExplainCodeConversationModel extends ConversationModel {
   getTrigger() {
     return {
       type: "explainCode",
-      filename: this.filename,
-      selectionStartLine: this.range.start.line,
-      selectionEndLine: this.range.end.line,
-      selection: this.selectedText,
+      selection: {
+        filename: this.filename,
+        startLine: this.range.start.line,
+        endLine: this.range.end.line,
+        text: this.selectedText,
+      },
     } as const;
   }
 

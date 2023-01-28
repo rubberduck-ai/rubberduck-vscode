@@ -6,7 +6,7 @@ import { ChatPanel } from "./ChatPanel";
 import { ConversationModel } from "./ConversationModel";
 import { ExplainCodeConversationModel } from "./ExplainCodeConversationModel";
 import { FreeConversationModel } from "./FreeConversationModel";
-import { generateGenerateTestCompletion } from "./generateGenerateTestCompletion";
+import { GenerateTestConversationModel } from "./GenerateTestConversationModel";
 
 export class ChatController {
   private readonly chatPanel: ChatPanel;
@@ -35,7 +35,9 @@ export class ChatController {
     await this.chatPanel.update(this.chatModel);
   }
 
-  private async addAndShowConversation(conversation: ConversationModel) {
+  private async addAndShowConversation<T extends ConversationModel>(
+    conversation: T
+  ): Promise<T> {
     this.chatModel.addAndSelectConversation(conversation);
 
     await this.showChatPanel();
@@ -95,6 +97,11 @@ export class ChatController {
         conversation.addUserMessage({ content: message.data.message });
         await this.updateChatPanel();
         await conversation.answer();
+
+        if (conversation instanceof GenerateTestConversationModel) {
+          await conversation.updateEditor();
+        }
+
         await this.updateChatPanel();
         break;
       }
@@ -128,24 +135,21 @@ export class ChatController {
       return;
     }
 
-    const test: string = await vscode.window.withProgress(
-      { location: vscode.ProgressLocation.Notification },
-      async (progress) => {
-        progress.report({ message: "Generating test…" });
-
-        return await generateGenerateTestCompletion({
+    const conversation = await this.addAndShowConversation(
+      new GenerateTestConversationModel(
+        {
+          id: this.nextChatId(),
+          filename: input.filename,
+          range: input.range,
           selectedText: input.selectedText,
-          openAIClient: this.openAIClient,
-        });
-      }
+        },
+        { openAIClient: this.openAIClient }
+      )
     );
 
-    await vscode.window.showTextDocument(
-      await vscode.workspace.openTextDocument({
-        content: test,
-      }),
-      vscode.ViewColumn.Beside
-    );
+    await conversation.answer();
+    await conversation.updateEditor();
+    await this.updateChatPanel();
   }
 
   async explainCode() {
