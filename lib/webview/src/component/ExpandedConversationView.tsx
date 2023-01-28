@@ -21,11 +21,19 @@ export const ExpandedConversationView: React.FC<{
         </div>
       ))}
       {conversation.state.type === "waitingForBotAnswer" && (
-        <div className={"in-progress"} />
+        <div className="message bot">
+          {conversation.state.botAction ?? ""}
+          <span className={"in-progress"} />
+        </div>
       )}
       {conversation.state.type === "userCanReply" && (
         <ChatInput
-          placeholder={conversation.messages.length > 0 ? "Reply…" : "Ask…"}
+          placeholder={
+            conversation.state.responsePlaceholder ??
+            conversation.messages.length > 0
+              ? "Reply…"
+              : "Ask…"
+          }
           onSend={onSendMessage}
         />
       )}

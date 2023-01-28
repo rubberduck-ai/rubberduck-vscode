@@ -26,14 +26,26 @@ export abstract class ConversationModel {
 
   abstract getTrigger(): webviewApi.Conversation["trigger"];
 
-  addUserMessage({ content }: { content: string }) {
+  addUserMessage({
+    content,
+    botAction,
+  }: {
+    content: string;
+    botAction?: string;
+  }) {
     this.messages.push({ author: "user", content });
-    this.state = { type: "waitingForBotAnswer" };
+    this.state = { type: "waitingForBotAnswer", botAction };
   }
 
-  addBotMessage({ content }: { content: string }) {
+  addBotMessage({
+    content,
+    responsePlaceholder,
+  }: {
+    content: string;
+    responsePlaceholder?: string;
+  }) {
     this.messages.push({ author: "bot", content });
-    this.state = { type: "userCanReply" };
+    this.state = { type: "userCanReply", responsePlaceholder };
   }
 
   toWebviewConversation(): webviewApi.Conversation {

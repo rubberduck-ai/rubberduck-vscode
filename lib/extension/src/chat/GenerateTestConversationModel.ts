@@ -26,7 +26,14 @@ export class GenerateTestConversationModel extends ConversationModel {
     },
     { openAIClient }: { openAIClient: OpenAIClient }
   ) {
-    super({ id, openAIClient, initialState: { type: "waitingForBotAnswer" } });
+    super({
+      id,
+      openAIClient,
+      initialState: {
+        type: "waitingForBotAnswer",
+        botAction: "Generating test",
+      },
+    });
 
     this.filename = filename;
     this.range = range;
@@ -96,6 +103,7 @@ export class GenerateTestConversationModel extends ConversationModel {
 
     this.addBotMessage({
       content: "Test generated.",
+      responsePlaceholder: "Instruct how to refine the test…",
     });
   }
 }

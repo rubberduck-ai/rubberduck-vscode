@@ -35,9 +35,11 @@ export const conversationSchema = zod.object({
   state: zod.discriminatedUnion("type", [
     zod.object({
       type: zod.literal("userCanReply"),
+      responsePlaceholder: zod.union([zod.string(), zod.undefined()]),
     }),
     zod.object({
       type: zod.literal("waitingForBotAnswer"),
+      botAction: zod.union([zod.string(), zod.undefined()]),
     }),
   ]),
 });

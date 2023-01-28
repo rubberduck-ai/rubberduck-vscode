@@ -25,7 +25,14 @@ export class ExplainCodeConversationModel extends ConversationModel {
     },
     { openAIClient }: { openAIClient: OpenAIClient }
   ) {
-    super({ id, openAIClient, initialState: { type: "waitingForBotAnswer" } });
+    super({
+      id,
+      openAIClient,
+      initialState: {
+        type: "waitingForBotAnswer",
+        botAction: "Generating explanation",
+      },
+    });
 
     this.filename = filename;
     this.range = range;
