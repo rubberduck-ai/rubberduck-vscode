@@ -1,9 +1,4 @@
-import {
-  Conversation,
-  Message,
-  WebViewMessageSchema,
-  util,
-} from "@rubberduck/common";
+import { webviewApi, util } from "@rubberduck/common";
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { BasicSection } from "../prompt/BasicSection";
@@ -69,7 +64,7 @@ export class ChatController {
   }
 
   async receivePanelMessage(rawMessage: unknown) {
-    const message = WebViewMessageSchema.parse(rawMessage);
+    const message = webviewApi.WebViewMessageSchema.parse(rawMessage);
     const type = message.type;
 
     switch (type) {
@@ -237,7 +232,7 @@ export class ChatController {
 
     await this.showChatPanel();
 
-    const conversation: Conversation = {
+    const conversation: webviewApi.Conversation = {
       id: this.nextChatId(),
       trigger: {
         type: "explainCode",
@@ -285,7 +280,7 @@ export class ChatController {
     conversation.messages.push({
       author: "bot",
       content: explanation,
-    } satisfies Message);
+    } satisfies webviewApi.Message);
     conversation.state.type = "userCanReply";
 
     await this.updateChatPanel();

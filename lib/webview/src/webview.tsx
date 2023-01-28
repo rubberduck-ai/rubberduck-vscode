@@ -1,4 +1,4 @@
-import { PanelState } from "@rubberduck/common";
+import { webviewApi } from "@rubberduck/common";
 import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { ChatPanelView } from "./panel/ChatPanelView";
@@ -10,7 +10,7 @@ const rootElement = document.getElementById("root");
 if (rootElement != undefined) {
   const reactRoot = createRoot(rootElement);
 
-  const render = (panelState?: PanelState | undefined) => {
+  const render = (panelState?: webviewApi.PanelState) => {
     try {
       reactRoot.render(
         <React.StrictMode>

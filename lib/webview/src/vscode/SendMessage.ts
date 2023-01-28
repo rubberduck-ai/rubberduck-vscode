@@ -1,7 +1,7 @@
 import { vscodeApi } from "./VsCodeApi";
-import { WebViewMessage } from "@rubberduck/common";
+import { webviewApi } from "@rubberduck/common";
 
-export type SendMessage = (message: WebViewMessage) => void;
+export type SendMessage = (message: webviewApi.WebViewMessage) => void;
 
 export const sendMessage: SendMessage = (message) => {
   vscodeApi.postMessage(message);

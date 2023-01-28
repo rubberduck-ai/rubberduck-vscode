@@ -1,11 +1,11 @@
-import { Conversation } from "@rubberduck/common";
+import { webviewApi } from "@rubberduck/common";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import { ChatInput } from "./ChatInput";
 import { ConversationHeader } from "./ConversationHeader";
 
 export const ExpandedConversationView: React.FC<{
-  conversation: Conversation;
+  conversation: webviewApi.Conversation;
   onSendMessage: (message: string) => void;
 }> = ({ conversation, onSendMessage }) => (
   <div className={`conversation expanded`}>

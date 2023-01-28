@@ -1,8 +1,8 @@
-import { Conversation } from "@rubberduck/common";
+import { webviewApi } from "@rubberduck/common";
 import React from "react";
 
 export const ConversationHeader: React.FC<{
-  conversation: Conversation;
+  conversation: webviewApi.Conversation;
 }> = ({ conversation }) => (
   <div className="header">
     {conversation.trigger.type === "explainCode" && (

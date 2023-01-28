@@ -1,4 +1,4 @@
-import { PanelState } from "@rubberduck/common";
+import { webviewApi } from "@rubberduck/common";
 import React from "react";
 import { CollapsedConversationView } from "../component/CollapsedConversationView";
 import { ExpandedConversationView } from "../component/ExpandedConversationView";
@@ -14,7 +14,7 @@ const StartChatButton: React.FC<{
 
 export const ChatPanelView: React.FC<{
   sendMessage: SendMessage;
-  panelState: PanelState;
+  panelState: webviewApi.PanelState;
 }> = ({ panelState, sendMessage }) => {
   if (panelState === undefined) {
     return (

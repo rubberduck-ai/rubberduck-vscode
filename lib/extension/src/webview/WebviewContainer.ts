@@ -1,4 +1,4 @@
-import { PanelState } from "@rubberduck/common";
+import { webviewApi } from "@rubberduck/common";
 import * as vscode from "vscode";
 import { generateNonce } from "./generateNonce";
 
@@ -31,7 +31,7 @@ export class WebviewContainer {
     this.onDidReceiveMessage = this.webview.onDidReceiveMessage;
   }
 
-  async updateState(state: PanelState) {
+  async updateState(state: webviewApi.PanelState) {
     return this.webview.postMessage({
       type: "updateState",
       state,

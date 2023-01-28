@@ -1,4 +1,4 @@
-import { PanelState } from "@rubberduck/common";
+import { webviewApi } from "@rubberduck/common";
 import * as vscode from "vscode";
 import { WebviewContainer } from "../webview/WebviewContainer";
 
@@ -15,7 +15,7 @@ export class ChatPanel implements vscode.WebviewViewProvider {
 
   private webviewPanel: WebviewContainer | undefined;
 
-  private state: PanelState | undefined;
+  private state: webviewApi.PanelState;
 
   constructor({ extensionUri }: { readonly extensionUri: vscode.Uri }) {
     this.extensionUri = extensionUri;
@@ -57,7 +57,7 @@ export class ChatPanel implements vscode.WebviewViewProvider {
     this.renderPanel();
   }
 
-  async update(state: PanelState) {
+  async update(state: webviewApi.PanelState) {
     this.state = state;
     return this.renderPanel();
   }

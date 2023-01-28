@@ -1,9 +1,9 @@
-import { Conversation } from "@rubberduck/common";
+import { webviewApi } from "@rubberduck/common";
 import React from "react";
 import { ConversationHeader } from "./ConversationHeader";
 
 export const CollapsedConversationView: React.FC<{
-  conversation: Conversation;
+  conversation: webviewApi.Conversation;
   onClick: () => void;
 }> = ({ conversation, onClick }) => (
   <div className={`conversation collapsed`} onClick={onClick}>
