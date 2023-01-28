@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2 - 2023-01-28
+
+### Added
+
+- OpenAI error handling and retry.
+
 ## 0.3.1 - 2023-01-28
 
 ### Improved

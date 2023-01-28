@@ -55,19 +55,19 @@
       },
       {
         "command": "rubberduck.startChat",
-        "title": "Start Chat",
+        "title": "Start Chat 💬",
         "category": "Rubberduck",
         "icon": "$(comment-discussion)"
       },
       {
         "command": "rubberduck.explainCode",
-        "title": "Explain Code",
+        "title": "Explain Code 💬",
         "category": "Rubberduck",
         "icon": "$(comment-discussion)"
       },
       {
         "command": "rubberduck.generateTest",
-        "title": "Generate Test",
+        "title": "Generate Test 💬",
         "category": "Rubberduck",
         "icon": "$(beaker)"
       },
@@ -103,6 +103,11 @@
         }
       ],
       "editor/context": [
+        {
+          "command": "rubberduck.startChat",
+          "group": "rubberduck",
+          "when": "editorHasSelection"
+        },
         {
           "command": "rubberduck.explainCode",
           "group": "rubberduck",
