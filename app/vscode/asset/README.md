@@ -2,7 +2,7 @@
 
 ## AI Chat
 
-Chat with an AI Assistant about your code and software development topics.
+Chat with an AI Assistant about your code and software development topics. Rubberduck knows the editor selection at the time of conversation start.
 
 1. You can start a chat using one of the following options:
    1. Run the `Rubberduck: Start chat` command from the command palette.
