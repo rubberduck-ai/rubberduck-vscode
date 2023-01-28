@@ -8,6 +8,7 @@ export class GenerateTestConversationModel extends ConversationModel {
   readonly filename: string;
   readonly range: vscode.Range;
   readonly selectedText: string;
+  readonly language: string | undefined;
 
   testContent: string | undefined;
   testDocument: vscode.TextDocument | undefined;
@@ -19,11 +20,13 @@ export class GenerateTestConversationModel extends ConversationModel {
       filename,
       range,
       selectedText,
+      language,
     }: {
       id: string;
       filename: string;
       range: vscode.Range;
       selectedText: string;
+      language: string | undefined;
     },
     { openAIClient }: { openAIClient: OpenAIClient }
   ) {
@@ -39,6 +42,7 @@ export class GenerateTestConversationModel extends ConversationModel {
     this.filename = filename;
     this.range = range;
     this.selectedText = selectedText;
+    this.language = language;
   }
 
   getTrigger() {
@@ -64,6 +68,7 @@ export class GenerateTestConversationModel extends ConversationModel {
     const testDocument =
       this.testDocument ??
       (await vscode.workspace.openTextDocument({
+        language: this.language,
         content: testContent,
       }));
 

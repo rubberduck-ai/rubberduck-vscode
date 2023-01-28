@@ -79,6 +79,7 @@ export class ChatController {
       filename,
       range,
       selectedText,
+      language: activeEditor?.document.languageId,
     };
   }
 
@@ -142,6 +143,7 @@ export class ChatController {
           filename: input.filename,
           range: input.range,
           selectedText: input.selectedText,
+          language: input.language,
         },
         { openAIClient: this.openAIClient }
       )
