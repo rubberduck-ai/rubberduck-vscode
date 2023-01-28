@@ -110,6 +110,10 @@ export class ChatController {
         await this.startChat();
         break;
       }
+      case "retry": {
+        await this.chatModel.conversations[message.data.index].retry();
+        break;
+      }
       default: {
         const exhaustiveCheck: never = type;
         throw new Error(`unsupported type: ${exhaustiveCheck}`);

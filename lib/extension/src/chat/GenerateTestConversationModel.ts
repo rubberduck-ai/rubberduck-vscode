@@ -99,14 +99,7 @@ export class GenerateTestConversationModel extends ConversationModel {
     }
   }
 
-  async answer(userMessage?: string) {
-    if (userMessage != undefined) {
-      await this.addUserMessage({
-        content: userMessage,
-        botAction: "Updating Test",
-      });
-    }
-
+  async executeGenerateTest(userMessage?: string) {
     const completion =
       userMessage != undefined && this.testContent != null
         ? await generateRefineCodeCompletion({
@@ -132,5 +125,32 @@ export class GenerateTestConversationModel extends ConversationModel {
     });
 
     await this.updateEditor();
+  }
+
+  async retry() {
+    const userMessages = this.messages.filter(
+      (message) => message.author === "user"
+    );
+
+    const userMessage = userMessages[userMessages.length - 1]?.content;
+
+    this.state = {
+      type: "waitingForBotAnswer",
+      botAction: userMessage != undefined ? "Test updated." : "Test generated.",
+    };
+    await this.updateChatPanel();
+
+    await this.executeGenerateTest(userMessage);
+  }
+
+  async answer(userMessage?: string) {
+    if (userMessage != undefined) {
+      await this.addUserMessage({
+        content: userMessage,
+        botAction: "Updating Test",
+      });
+    }
+
+    await this.executeGenerateTest(userMessage);
   }
 }

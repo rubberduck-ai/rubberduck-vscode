@@ -7,7 +7,8 @@ import { ConversationHeader } from "./ConversationHeader";
 export const ExpandedConversationView: React.FC<{
   conversation: webviewApi.Conversation;
   onSendMessage: (message: string) => void;
-}> = ({ conversation, onSendMessage }) => {
+  onClickRetry: () => void;
+}> = ({ conversation, onSendMessage, onClickRetry }) => {
   // The first message of a free chat is shown in the header,
   // so we don't want to show it again in the detail view:
   const messages =
@@ -55,6 +56,10 @@ export const ExpandedConversationView: React.FC<{
                 <div key={"error"} className={"message bot error"}>
                   <span className={"error-message"}>
                     Error: {conversation.state.errorMessage}
+                  </span>
+                  <span className={"error-retry"} onClick={onClickRetry}>
+                    <i className="codicon codicon-debug-restart inline" />
+                    <span style={{ marginLeft: "5px" }}>Retry</span>
                   </span>
                 </div>
               );

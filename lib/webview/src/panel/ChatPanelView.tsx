@@ -36,6 +36,12 @@ export const ChatPanelView: React.FC<{
                 data: { index: i, message },
               })
             }
+            onClickRetry={() =>
+              sendMessage({
+                type: "retry",
+                data: { index: i },
+              })
+            }
           />
         ) : (
           <CollapsedConversationView

@@ -36,11 +36,7 @@ export class FreeConversationModel extends ConversationModel {
     return { type: "startChat" } as const;
   }
 
-  async answer(userMessage?: string) {
-    if (userMessage != undefined) {
-      await this.addUserMessage({ content: userMessage });
-    }
-
+  private async executeChat() {
     const completion = await generateChatCompletion({
       introSections:
         this.selectedText != null
@@ -63,5 +59,20 @@ export class FreeConversationModel extends ConversationModel {
     await this.addBotMessage({
       content: completion.content,
     });
+  }
+
+  async retry() {
+    this.state = { type: "waitingForBotAnswer" };
+    await this.updateChatPanel();
+
+    await this.executeChat();
+  }
+
+  async answer(userMessage?: string) {
+    if (userMessage != undefined) {
+      await this.addUserMessage({ content: userMessage });
+    }
+
+    await this.executeChat();
   }
 }

@@ -165,3 +165,16 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
+.message.error > .error-retry {
+  cursor: pointer;
+  display: flex;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 10px;
+}
+
+.message.error > .error-retry:hover {
+  filter: brightness(125%);
+  cursor: pointer;
+}

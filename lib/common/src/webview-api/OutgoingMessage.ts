@@ -17,6 +17,12 @@ export const outgoingMessageSchema = zod.discriminatedUnion("type", [
       message: zod.string(),
     }),
   }),
+  zod.object({
+    type: zod.literal("retry"),
+    data: zod.object({
+      index: zod.number(),
+    }),
+  }),
 ]);
 
 /**

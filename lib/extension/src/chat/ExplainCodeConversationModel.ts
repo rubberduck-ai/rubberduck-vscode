@@ -58,11 +58,7 @@ export class ExplainCodeConversationModel extends ConversationModel {
     } as const;
   }
 
-  async answer(userMessage?: string) {
-    if (userMessage != undefined) {
-      await this.addUserMessage({ content: userMessage });
-    }
-
+  private async executeExplainCode() {
     const completion =
       this.messages.length === 0
         ? await generateExplainCodeCompletion({
@@ -91,5 +87,20 @@ export class ExplainCodeConversationModel extends ConversationModel {
     await this.addBotMessage({
       content: completion.content,
     });
+  }
+
+  async retry() {
+    this.state = { type: "waitingForBotAnswer" };
+    await this.updateChatPanel();
+
+    await this.executeExplainCode();
+  }
+
+  async answer(userMessage?: string) {
+    if (userMessage != undefined) {
+      await this.addUserMessage({ content: userMessage });
+    }
+
+    await this.executeExplainCode();
   }
 }
