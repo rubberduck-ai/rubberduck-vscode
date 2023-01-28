@@ -48,7 +48,16 @@ export class ChatController {
     await vscode.commands.executeCommand("rubberduck.chat.focus");
   }
 
-  private async getActiveEditorSelectionInput() {
+  private getSelectedTextFromActiveEditor() {
+    const activeEditor = vscode.window.activeTextEditor;
+    const document = activeEditor?.document;
+    const range = activeEditor?.selection;
+    const selectedText = document?.getText(range);
+
+    return (selectedText?.length ?? 0) > 0 ? selectedText : undefined;
+  }
+
+  private getActiveEditorSelectionInput() {
     const activeEditor = vscode.window.activeTextEditor;
     const document = activeEditor?.document;
     const range = activeEditor?.selection;
@@ -57,10 +66,10 @@ export class ChatController {
       return undefined;
     }
 
-    const selectedText = document.getText(range);
+    const selectedText = this.getSelectedTextFromActiveEditor();
     const filename = document.fileName.split("/").pop();
 
-    if (selectedText.length === 0 || filename == undefined) {
+    if (selectedText == undefined || filename == undefined) {
       return undefined;
     }
 
@@ -103,14 +112,17 @@ export class ChatController {
   async startChat() {
     await this.addAndShowConversation(
       new FreeConversationModel(
-        { id: this.nextChatId() },
+        {
+          id: this.nextChatId(),
+          selectedText: this.getSelectedTextFromActiveEditor(),
+        },
         { openAIClient: this.openAIClient }
       )
     );
   }
 
   async generateTest() {
-    const input = await this.getActiveEditorSelectionInput();
+    const input = this.getActiveEditorSelectionInput();
 
     if (input == null) {
       return;
@@ -137,7 +149,7 @@ export class ChatController {
   }
 
   async explainCode() {
-    const input = await this.getActiveEditorSelectionInput();
+    const input = this.getActiveEditorSelectionInput();
 
     if (input == null) {
       return;
@@ -156,7 +168,6 @@ export class ChatController {
     );
 
     await conversation.answer();
-
     await this.updateChatPanel();
   }
 }
