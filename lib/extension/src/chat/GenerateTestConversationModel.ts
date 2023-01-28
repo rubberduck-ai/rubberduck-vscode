@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { ConversationModel } from "./ConversationModel";
 import { generateGenerateTestCompletion } from "./generateGenerateTestCompletion";
+import { generateRefineCodeCompletion } from "./generateRefineCodeCompletion";
 
 export class GenerateTestConversationModel extends ConversationModel {
   readonly filename: string;
@@ -91,13 +92,21 @@ export class GenerateTestConversationModel extends ConversationModel {
       return;
     }
 
-    const testContent = await generateGenerateTestCompletion({
-      selectedText: this.selectedText,
-      userMessages: this.messages
-        .filter((message) => message.author === "user")
-        .map((message) => message.content),
-      openAIClient: this.openAIClient,
-    });
+    const userMessages = this.messages.filter(
+      (message) => message.author === "user"
+    );
+
+    const testContent =
+      userMessages.length > 0 && this.testContent != null
+        ? await generateRefineCodeCompletion({
+            code: this.testContent,
+            instruction: userMessages[userMessages.length - 1].content,
+            openAIClient: this.openAIClient,
+          })
+        : await generateGenerateTestCompletion({
+            selectedText: this.selectedText,
+            openAIClient: this.openAIClient,
+          });
 
     this.testContent = testContent;
 

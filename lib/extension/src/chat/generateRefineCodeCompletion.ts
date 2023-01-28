@@ -3,12 +3,14 @@ import { CodeSection } from "../prompt/CodeSection";
 import { LinesSection } from "../prompt/LinesSection";
 import { assemblePrompt } from "../prompt/Prompt";
 
-export async function generateGenerateTestCompletion({
-  selectedText,
+export async function generateRefineCodeCompletion({
+  code,
+  instruction,
   maxTokens = 1536,
   openAIClient,
 }: {
-  selectedText: string;
+  code: string;
+  instruction: string;
   maxTokens?: number;
   openAIClient: OpenAIClient;
 }) {
@@ -18,18 +20,15 @@ export async function generateGenerateTestCompletion({
         sections: [
           new LinesSection({
             title: "Instructions",
-            lines: ["Write a unit test for the code below."],
+            lines: [`Rewrite the code below as follows: "${instruction}"`],
           }),
           new CodeSection({
-            code: selectedText,
+            code,
           }),
           new LinesSection({
             title: "Task",
-            lines: [
-              "Write a unit test that contains test cases for the happy path and for all edge cases.",
-            ],
+            lines: [`Rewrite the code as follows: "${instruction}"`],
           }),
-
           new LinesSection({
             title: "Answer",
             lines: ["```"],
