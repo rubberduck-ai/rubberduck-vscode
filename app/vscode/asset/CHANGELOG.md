@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.0 - 2021-01-28
+
+### Added
+
+- "Generate Test" uses the conversation interface. You can refine tests by talking to the bot.
+
+## 0.2.0 - 2021-01-28
+
+### Added
+
+- "Explain code" and "Start chat" contain information about the editor selection.
+
 ## 0.1.0 - 2021-01-27
 
 ### Added

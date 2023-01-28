@@ -20,7 +20,7 @@ You can find the Visual Studio Code extension here:
 
 ### Generate test
 
-![Generate test](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-test.gif)
+![Generate test](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-test.png)
 
 ## Development
 
