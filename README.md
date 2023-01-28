@@ -31,6 +31,10 @@ You can find the Visual Studio Code extension here:
 3. Run `pnpm nx run-many --target=build` to build the extension
 4. Use "run - app/vscode" inside VSCode to run the extension
 
+### Commands
+
+- **Lint**: `pnpm nx lint --skip-nx-cache`
+
 ### Package extension
 
 1. Run `pnpm nx run vscode:package`
