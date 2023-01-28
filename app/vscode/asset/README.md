@@ -35,7 +35,7 @@ Generate test cases automatically to help you write tests faster.
    1. Select the `Generate test` entry in the editor context menu (right-click).
 3. The test case shows up in a new editor tab. You can refine it in the conversation panel.
 
-![Generate test](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-test.png)
+![Generate test](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-test.gif)
 
 # Setup
 

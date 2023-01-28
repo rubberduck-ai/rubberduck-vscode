@@ -1,18 +1,26 @@
 # Changelog
 
-## 0.3.0 - 2021-01-28
+## 0.3.1 - 2023-01-28
+
+### Improved
+
+- Cleaner UI.
+- Improved prompts for better answers.
+- Test refinement uses the current test code.
+
+## 0.3.0 - 2023-01-28
 
 ### Added
 
 - "Generate Test" uses the conversation interface. You can refine tests by talking to the bot.
 
-## 0.2.0 - 2021-01-28
+## 0.2.0 - 2023-01-28
 
 ### Added
 
 - "Explain code" and "Start chat" contain information about the editor selection.
 
-## 0.1.0 - 2021-01-27
+## 0.1.0 - 2023-01-27
 
 ### Added
 
@@ -45,7 +53,7 @@
 
 - "Write test" command
 
-## 0.0.1 - 2021-01-26
+## 0.0.1 - 2023-01-26
 
 ### Added
 
