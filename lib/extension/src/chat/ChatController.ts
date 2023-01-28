@@ -1,13 +1,12 @@
-import { webviewApi, util } from "@rubberduck/common";
+import { util, webviewApi } from "@rubberduck/common";
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
-import { BasicSection } from "../prompt/BasicSection";
-import { CodeSection } from "../prompt/CodeSection";
-import { ConversationSection } from "../prompt/ConversationSection";
-import { LinesSection } from "../prompt/LinesSection";
-import { assemblePrompt } from "../prompt/Prompt";
 import { ChatModel } from "./ChatModel";
 import { ChatPanel } from "./ChatPanel";
+import { ConversationModel } from "./ConversationModel";
+import { ExplainCodeConversationModel } from "./ExplainCodeConversationModel";
+import { FreeConversationModel } from "./FreeConversationModel";
+import { generateGenerateTestCompletion } from "./generateGenerateTestCompletion";
 
 export class ChatController {
   private readonly chatPanel: ChatPanel;
@@ -34,6 +33,15 @@ export class ChatController {
 
   private async updateChatPanel() {
     await this.chatPanel.update(this.chatModel);
+  }
+
+  private async addAndShowConversation(conversation: ConversationModel) {
+    this.chatModel.addAndSelectConversation(conversation);
+
+    await this.showChatPanel();
+    await this.updateChatPanel();
+
+    return conversation;
   }
 
   private async showChatPanel() {
@@ -75,69 +83,9 @@ export class ChatController {
       }
       case "sendChatMessage": {
         const conversation = this.chatModel.conversations[message.data.index];
-        conversation.messages.push({
-          author: "user",
-          content: message.data.message,
-        });
-        conversation.state = {
-          type: "waitingForBotAnswer",
-        };
-
+        conversation.addUserMessage({ content: message.data.message });
         await this.updateChatPanel();
-
-        const botRole = "Bot";
-        const userRole = "Developer";
-
-        const lastMessage =
-          conversation.messages[conversation.messages.length - 1];
-
-        const response = await this.openAIClient.generateCompletion({
-          prompt: assemblePrompt({
-            sections: [
-              new LinesSection({
-                title: "Instructions",
-                lines: [
-                  "Continue the conversation below.",
-                  "Pay special attention to the current ${userRole.toLocaleLowerCase()} request.",
-                ],
-              }),
-              new LinesSection({
-                title: "Current request",
-                lines: [`${userRole}: ${lastMessage}`],
-              }),
-              new ConversationSection({
-                messages: conversation.messages,
-              }),
-              new LinesSection({
-                title: "Task",
-                lines: [
-                  "Write a response that continues the conversation.",
-                  `Stay focused on current ${userRole.toLocaleLowerCase()} request.`,
-                  "Consider the possibility that there might not be a solution.",
-                  "Ask for clarification if the message does not make sense or more input is needed.",
-                  "Use the style of a documentation article.",
-                  "Omit any links.",
-                  "Include code snippets using Markdown where appropriate.",
-                ],
-              }),
-              new LinesSection({
-                title: "Response",
-                lines: [`${botRole}:`],
-              }),
-            ],
-          }),
-          maxTokens: 1024,
-          stop: [`${botRole}:`, `${userRole}:`],
-        });
-
-        conversation.messages.push({
-          author: "bot",
-          content: response,
-        });
-        conversation.state = {
-          type: "userCanReply",
-        };
-
+        await conversation.answer();
         await this.updateChatPanel();
         break;
       }
@@ -153,20 +101,12 @@ export class ChatController {
   }
 
   async startChat() {
-    await this.showChatPanel();
-
-    this.chatModel.addAndSelectConversation({
-      id: this.nextChatId(),
-      trigger: {
-        type: "startChat",
-      },
-      messages: [],
-      state: {
-        type: "userCanReply",
-      },
-    });
-
-    await this.updateChatPanel();
+    await this.addAndShowConversation(
+      new FreeConversationModel(
+        { id: this.nextChatId() },
+        { openAIClient: this.openAIClient }
+      )
+    );
   }
 
   async generateTest() {
@@ -177,41 +117,14 @@ export class ChatController {
     }
 
     const test: string = await vscode.window.withProgress(
-      {
-        location: vscode.ProgressLocation.Notification,
-      },
+      { location: vscode.ProgressLocation.Notification },
       async (progress) => {
-        progress.report({
-          message: "Generating test…",
-        });
+        progress.report({ message: "Generating test…" });
 
-        return (
-          await this.openAIClient.generateCompletion({
-            prompt: assemblePrompt({
-              sections: [
-                new LinesSection({
-                  title: "Instructions",
-                  lines: ["Write a unit test for the code below."],
-                }),
-                new CodeSection({
-                  code: input.selectedText,
-                }),
-                new LinesSection({
-                  title: "Task",
-                  lines: [
-                    "Write a unit test that contains test cases for the happy path and for all edge cases.",
-                  ],
-                }),
-                new LinesSection({
-                  title: "Answer",
-                  lines: ["```"],
-                }),
-              ],
-            }),
-            maxTokens: 2048,
-            stop: ["```"],
-          })
-        ).trim();
+        return await generateGenerateTestCompletion({
+          selectedText: input.selectedText,
+          openAIClient: this.openAIClient,
+        });
       }
     );
 
@@ -230,58 +143,19 @@ export class ChatController {
       return;
     }
 
-    await this.showChatPanel();
+    const conversation = await this.addAndShowConversation(
+      new ExplainCodeConversationModel(
+        {
+          id: this.nextChatId(),
+          filename: input.filename,
+          range: input.range,
+          selectedText: input.selectedText,
+        },
+        { openAIClient: this.openAIClient }
+      )
+    );
 
-    const conversation: webviewApi.Conversation = {
-      id: this.nextChatId(),
-      trigger: {
-        type: "explainCode",
-        filename: input.filename,
-        selectionStartLine: input.range.start.line,
-        selectionEndLine: input.range.end.line,
-        selection: input.selectedText,
-      },
-      messages: [],
-      state: {
-        type: "waitingForBotAnswer",
-      },
-    };
-
-    this.chatModel.addAndSelectConversation(conversation);
-
-    await this.updateChatPanel();
-
-    const explanation = await this.openAIClient.generateCompletion({
-      prompt: assemblePrompt({
-        sections: [
-          new LinesSection({
-            title: "Instructions",
-            lines: [
-              "Summarize the code below (emphasizing its key functionality).",
-            ],
-          }),
-          new CodeSection({
-            code: input.selectedText,
-          }),
-          new LinesSection({
-            title: "Task",
-            lines: [
-              "Summarize the code at a high level (including goal and purpose) with an emphasis on its key functionality.",
-            ],
-          }),
-          new BasicSection({
-            title: "Answer",
-          }),
-        ],
-      }),
-      maxTokens: 512,
-    });
-
-    conversation.messages.push({
-      author: "bot",
-      content: explanation,
-    } satisfies webviewApi.Message);
-    conversation.state.type = "userCanReply";
+    await conversation.answer();
 
     await this.updateChatPanel();
   }

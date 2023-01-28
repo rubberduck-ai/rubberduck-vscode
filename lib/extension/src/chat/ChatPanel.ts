@@ -1,6 +1,7 @@
 import { webviewApi } from "@rubberduck/common";
 import * as vscode from "vscode";
 import { WebviewContainer } from "../webview/WebviewContainer";
+import { ChatModel } from "./ChatModel";
 
 export class ChatPanel implements vscode.WebviewViewProvider {
   public static readonly id = "rubberduck.chat";
@@ -57,8 +58,13 @@ export class ChatPanel implements vscode.WebviewViewProvider {
     this.renderPanel();
   }
 
-  async update(state: webviewApi.PanelState) {
-    this.state = state;
+  async update(model: ChatModel) {
+    this.state = {
+      selectedConversationIndex: model.selectedConversationIndex,
+      conversations: model.conversations.map((conversation) =>
+        conversation.toWebviewConversation()
+      ),
+    };
     return this.renderPanel();
   }
 
