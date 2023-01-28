@@ -3,14 +3,17 @@ import { OpenAIClient } from "../openai/OpenAIClient";
 import { ConversationSection } from "../prompt/ConversationSection";
 import { LinesSection } from "../prompt/LinesSection";
 import { assemblePrompt } from "../prompt/Prompt";
+import { Section } from "../prompt/Section";
 
 export async function generateChatCompletion({
+  introSections = [],
   messages,
   botRole = "Bot",
   userRole = "Developer",
   maxTokens = 1024,
   openAIClient,
 }: {
+  introSections?: Section[];
   messages: webviewApi.Message[];
   botRole?: string;
   userRole?: string;
@@ -34,6 +37,7 @@ export async function generateChatCompletion({
             title: "Current request",
             lines: [`${userRole}: ${lastMessage}`],
           }),
+          ...introSections,
           new ConversationSection({
             messages,
           }),

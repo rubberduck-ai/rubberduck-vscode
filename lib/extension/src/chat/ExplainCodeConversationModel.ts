@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
+import { CodeSection } from "../prompt/CodeSection";
+import { LinesSection } from "../prompt/LinesSection";
 import { ConversationModel } from "./ConversationModel";
 import { generateChatCompletion } from "./generateChatCompletion";
 import { generateExplainCodeCompletion } from "./generateExplainCodeCompletion";
@@ -53,7 +55,16 @@ export class ExplainCodeConversationModel extends ConversationModel {
               openAIClient: this.openAIClient,
             })
           : await generateChatCompletion({
-              messages: this.messages,
+              introSections: [
+                new CodeSection({
+                  code: this.selectedText,
+                }),
+                new LinesSection({
+                  title: "Code Summary",
+                  lines: [this.messages[0].content],
+                }),
+              ],
+              messages: this.messages.slice(1),
               openAIClient: this.openAIClient,
             }),
     });
