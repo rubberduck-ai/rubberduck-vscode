@@ -49,7 +49,8 @@ export async function generateChatCompletion({
               "Consider the possibility that there might not be a solution.",
               "Ask for clarification if the message does not make sense or more input is needed.",
               "Use the style of a documentation article.",
-              "Include code snippets using Markdown where appropriate.",
+              "Omit any links.",
+              "Include code snippets (using Markdown) and examples where appropriate.",
             ],
           }),
           new LinesSection({
