@@ -2,6 +2,7 @@ import {
   Conversation,
   Message,
   WebViewMessageSchema,
+  util,
 } from "@rubberduck/common";
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
@@ -18,6 +19,8 @@ export class ChatController {
   private readonly chatModel: ChatModel;
   private readonly openAIClient: OpenAIClient;
 
+  private readonly nextChatId: () => string;
+
   constructor({
     chatPanel,
     chatModel,
@@ -30,6 +33,8 @@ export class ChatController {
     this.chatPanel = chatPanel;
     this.chatModel = chatModel;
     this.openAIClient = openAIClient;
+
+    this.nextChatId = util.createNextId({ prefix: "chat-" });
   }
 
   private async updateChatPanel() {
@@ -156,6 +161,7 @@ export class ChatController {
     await this.showChatPanel();
 
     this.chatModel.addAndSelectConversation({
+      id: this.nextChatId(),
       trigger: {
         type: "startChat",
       },
@@ -232,6 +238,7 @@ export class ChatController {
     await this.showChatPanel();
 
     const conversation: Conversation = {
+      id: this.nextChatId(),
       trigger: {
         type: "explainCode",
         filename: input.filename,

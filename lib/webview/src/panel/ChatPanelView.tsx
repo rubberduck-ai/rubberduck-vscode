@@ -28,6 +28,7 @@ export const ChatPanelView: React.FC<{
       {panelState.conversations.map((conversation, i) =>
         panelState.selectedConversationIndex === i ? (
           <ExpandedConversationView
+            key={conversation.id}
             conversation={conversation}
             onSendMessage={(message: string) =>
               sendMessage({
@@ -38,6 +39,7 @@ export const ChatPanelView: React.FC<{
           />
         ) : (
           <CollapsedConversationView
+            key={conversation.id}
             conversation={conversation}
             onClick={() =>
               sendMessage({

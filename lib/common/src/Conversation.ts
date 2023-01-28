@@ -4,6 +4,7 @@ export type Message = {
 };
 
 export type Conversation = {
+  id: string;
   trigger:
     | {
         type: "explainCode";
