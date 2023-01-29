@@ -30,7 +30,11 @@ export abstract class ConversationModel {
 
   abstract answer(userMessage?: string): Promise<void>;
 
-  abstract getTrigger(): webviewApi.Conversation["trigger"];
+  abstract getTitle(): string;
+
+  abstract isTitleMessage(): boolean;
+
+  abstract getCodicon(): string;
 
   protected async addUserMessage({
     content,
@@ -64,8 +68,12 @@ export abstract class ConversationModel {
   toWebviewConversation(): webviewApi.Conversation {
     return {
       id: this.id,
-      trigger: this.getTrigger(),
-      messages: this.messages,
+      header: {
+        title: this.getTitle(),
+        isTitleMessage: this.isTitleMessage(),
+        codicon: this.getCodicon(),
+      },
+      messages: this.isTitleMessage() ? this.messages.slice(1) : this.messages,
       state: this.state,
     };
   }

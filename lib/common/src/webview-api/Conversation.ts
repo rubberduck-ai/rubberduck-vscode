@@ -18,19 +18,11 @@ export type Message = zod.infer<typeof messageSchema>;
 
 export const conversationSchema = zod.object({
   id: zod.string(),
-  trigger: zod.discriminatedUnion("type", [
-    zod.object({
-      type: zod.literal("explainCode"),
-      selection: selectionSchema,
-    }),
-    zod.object({
-      type: zod.literal("generateTest"),
-      selection: selectionSchema,
-    }),
-    zod.object({
-      type: zod.literal("startChat"),
-    }),
-  ]),
+  header: zod.object({
+    title: zod.string(),
+    isTitleMessage: zod.boolean(),
+    codicon: zod.string(),
+  }),
   messages: zod.array(messageSchema),
   state: zod.discriminatedUnion("type", [
     zod.object({

@@ -9,19 +9,12 @@ export const ExpandedConversationView: React.FC<{
   onSendMessage: (message: string) => void;
   onClickRetry: () => void;
 }> = ({ conversation, onSendMessage, onClickRetry }) => {
-  // The first message of a free chat is shown in the header,
-  // so we don't want to show it again in the detail view:
-  const messages =
-    conversation.trigger.type === "startChat"
-      ? conversation.messages.slice(1)
-      : conversation.messages;
-
   return (
     <div className={`conversation expanded`}>
       <ConversationHeader conversation={conversation} />
 
       <div className="detail">
-        {messages.map((message, i) => (
+        {conversation.messages.map((message, i) => (
           <div className={`message ${message.author}`} key={i}>
             {message.author === "user" && message.content}
             {message.author === "bot" && (

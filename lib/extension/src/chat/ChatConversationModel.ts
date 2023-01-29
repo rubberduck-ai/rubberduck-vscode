@@ -1,6 +1,5 @@
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
-import { getActiveEditorSelectionInput } from "../vscode/getActiveEditorSelectionInput";
 import { getSelectedTextFromActiveEditor } from "../vscode/getSelectedTextFromActiveEditor";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
@@ -62,8 +61,16 @@ export class ChatConversationModel extends ConversationModel {
     this.selectedText = selectedText;
   }
 
-  getTrigger() {
-    return { type: "startChat" } as const;
+  getTitle(): string {
+    return this.messages.length === 0 ? "New Chat" : this.messages[0].content;
+  }
+
+  isTitleMessage(): boolean {
+    return this.messages.length > 0;
+  }
+
+  getCodicon(): string {
+    return "comment-discussion";
   }
 
   private async executeChat() {

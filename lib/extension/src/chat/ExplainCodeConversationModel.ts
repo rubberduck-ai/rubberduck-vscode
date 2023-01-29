@@ -85,16 +85,16 @@ export class ExplainCodeConversationModel extends ConversationModel {
     this.selectedText = selectedText;
   }
 
-  getTrigger() {
-    return {
-      type: "explainCode",
-      selection: {
-        filename: this.filename,
-        startLine: this.range.start.line,
-        endLine: this.range.end.line,
-        text: this.selectedText,
-      },
-    } as const;
+  getTitle(): string {
+    return `Explain Code (${this.filename} ${this.range.start.line}:${this.range.end.line})`;
+  }
+
+  isTitleMessage(): boolean {
+    return false;
+  }
+
+  getCodicon(): string {
+    return "book";
   }
 
   private async executeExplainCode() {

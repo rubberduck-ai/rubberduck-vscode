@@ -92,16 +92,16 @@ export class GenerateTestConversationModel extends ConversationModel {
     this.language = language;
   }
 
-  getTrigger() {
-    return {
-      type: "generateTest",
-      selection: {
-        filename: this.filename,
-        startLine: this.range.start.line,
-        endLine: this.range.end.line,
-        text: this.selectedText,
-      },
-    } as const;
+  getTitle(): string {
+    return `Generate Test (${this.filename} ${this.range.start.line}:${this.range.end.line})`;
+  }
+
+  isTitleMessage(): boolean {
+    return false;
+  }
+
+  getCodicon(): string {
+    return "beaker";
   }
 
   private async updateEditor() {
