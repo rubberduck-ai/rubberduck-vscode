@@ -41,6 +41,7 @@ export class EditCodeConversationModel extends ConversationModel {
           range: input.range,
           selectedText: input.selectedText,
           language: input.language,
+          editor: input.editor,
         },
         {
           openAIClient,
@@ -57,6 +58,7 @@ export class EditCodeConversationModel extends ConversationModel {
   readonly range: vscode.Range;
   readonly selectedText: string;
   readonly language: string | undefined;
+  readonly editor: vscode.TextEditor;
 
   editContent: string | undefined;
 
@@ -70,6 +72,7 @@ export class EditCodeConversationModel extends ConversationModel {
       range,
       selectedText,
       language,
+      editor,
     }: {
       id: string;
       filename: string;
@@ -77,6 +80,7 @@ export class EditCodeConversationModel extends ConversationModel {
       range: vscode.Range;
       selectedText: string;
       language: string | undefined;
+      editor: vscode.TextEditor;
     },
     {
       openAIClient,
@@ -104,6 +108,7 @@ export class EditCodeConversationModel extends ConversationModel {
     this.selectedText = selectedText;
     this.language = language;
     this.extensionUri = extensionUri;
+    this.editor = editor;
   }
 
   getTitle(): string {
@@ -145,10 +150,15 @@ export class EditCodeConversationModel extends ConversationModel {
       contextLines: 3,
     });
 
+    const targetColumn =
+      this.editor.viewColumn === vscode.ViewColumn.One
+        ? vscode.ViewColumn.Two
+        : vscode.ViewColumn.One;
+
     const panel = vscode.window.createWebviewPanel(
       "rubberduck.diff",
-      "Diff",
-      vscode.ViewColumn.Beside // TODO Better one/two switch
+      `${this.filename} (edit)`,
+      targetColumn
     );
 
     const container = new WebviewContainer({

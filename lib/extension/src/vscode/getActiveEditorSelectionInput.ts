@@ -6,7 +6,7 @@ export function getActiveEditorSelectionInput() {
   const document = activeEditor?.document;
   const range = activeEditor?.selection;
 
-  if (range == null || document == null) {
+  if (range == null || document == null || activeEditor == null) {
     return undefined;
   }
 
@@ -18,6 +18,7 @@ export function getActiveEditorSelectionInput() {
   }
 
   return {
+    editor: activeEditor,
     filename,
     document,
     range,
