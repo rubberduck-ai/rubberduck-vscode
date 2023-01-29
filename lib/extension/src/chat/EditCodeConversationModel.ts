@@ -142,9 +142,35 @@ export class EditCodeConversationModel extends ConversationModel {
       document.offsetAt(this.range.start)
     );
     const suffix = originalContent.substring(document.offsetAt(this.range.end));
-    const editedFileContent = `${prefix}${editContent}${suffix}`;
+
+    // calculate the minimum number of leading whitespace characters per line in the selected text:
+    const minLeadingWhitespace = this.selectedText
+      .split("\n")
+      .map((line) => line.match(/^\s*/)?.[0] ?? "")
+      .filter((line) => line.length > 0)
+      .reduce((min, line) => Math.min(min, line.length), Infinity);
+
+    // calculate the minimum number of leading whitespace characters per line in the new text:
+    const minLeadingWhitespaceNew = editContent
+      .split("\n")
+      .map((line) => line.match(/^\s*/)?.[0] ?? "")
+      .filter((line) => line.length > 0)
+      .reduce((min, line) => Math.min(min, line.length), Infinity);
+
+    // add leading whitespace to each line in the new text to match the original text:
+    const editedFileContentWithWhitespace = editContent
+      .split("\n")
+      .map((line) => {
+        const leadingWhitespace = line.match(/^\s*/)?.[0] ?? "";
+        const relativeIndent =
+          leadingWhitespace.length - minLeadingWhitespaceNew;
+        const newIndent = Math.max(0, minLeadingWhitespace + relativeIndent);
+        return " ".repeat(newIndent) + line.substring(leadingWhitespace.length);
+      })
+      .join("\n");
 
     // diff the original file content with the edited file content:
+    const editedFileContent = `${prefix}${editedFileContentWithWhitespace}${suffix}`;
     const diff = createDiff({
       filename: this.filename,
       originalContent,
