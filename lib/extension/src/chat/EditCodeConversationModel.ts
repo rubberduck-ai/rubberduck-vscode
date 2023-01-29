@@ -5,6 +5,7 @@ import { CodeSection } from "../prompt/CodeSection";
 import { LinesSection } from "../prompt/LinesSection";
 import { assemblePrompt } from "../prompt/Prompt";
 import { getActiveEditorSelectionInput } from "../vscode/getActiveEditorSelectionInput";
+import { WebviewContainer } from "../webview/WebviewContainer";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 
@@ -15,10 +16,12 @@ export class EditCodeConversationModel extends ConversationModel {
     generateChatId,
     openAIClient,
     updateChatPanel,
+    extensionUri,
   }: {
     generateChatId: () => string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
+    extensionUri: vscode.Uri;
   }): Promise<ConversationModelFactoryResult> {
     const input = getActiveEditorSelectionInput();
 
@@ -42,6 +45,7 @@ export class EditCodeConversationModel extends ConversationModel {
         {
           openAIClient,
           updateChatPanel,
+          extensionUri,
         }
       ),
       shouldImmediatelyAnswer: false,
@@ -55,8 +59,8 @@ export class EditCodeConversationModel extends ConversationModel {
   readonly language: string | undefined;
 
   editContent: string | undefined;
-  editDocument: vscode.TextDocument | undefined;
-  editEditor: vscode.TextEditor | undefined;
+
+  private readonly extensionUri: vscode.Uri;
 
   constructor(
     {
@@ -77,9 +81,11 @@ export class EditCodeConversationModel extends ConversationModel {
     {
       openAIClient,
       updateChatPanel,
+      extensionUri,
     }: {
       openAIClient: OpenAIClient;
       updateChatPanel: () => Promise<void>;
+      extensionUri: vscode.Uri;
     }
   ) {
     super({
@@ -97,6 +103,7 @@ export class EditCodeConversationModel extends ConversationModel {
     this.range = range;
     this.selectedText = selectedText;
     this.language = language;
+    this.extensionUri = extensionUri;
   }
 
   getTitle(): string {
@@ -138,32 +145,23 @@ export class EditCodeConversationModel extends ConversationModel {
       contextLines: 3,
     });
 
-    // introduce local variable to ensure that editDocument is defined:
-    const editDocument =
-      this.editDocument ??
-      (await vscode.workspace.openTextDocument({
-        language: this.language,
-        content: diff,
-      }));
+    const panel = vscode.window.createWebviewPanel(
+      "rubberduck.diff",
+      "Diff",
+      vscode.ViewColumn.Beside // TODO Better one/two switch
+    );
 
-    this.editDocument = editDocument;
+    const container = new WebviewContainer({
+      panel: "diff",
+      webview: panel.webview,
+      extensionUri: this.extensionUri,
+    });
 
-    if (this.editEditor == undefined) {
-      this.editEditor = await vscode.window.showTextDocument(
-        editDocument,
-        vscode.ViewColumn.Beside
-      );
-    } else {
-      this.editEditor.edit((edit: vscode.TextEditorEdit) => {
-        edit.replace(
-          new vscode.Range(
-            editDocument.positionAt(0),
-            editDocument.positionAt(editDocument.getText().length - 1)
-          ),
-          diff
-        );
-      });
-    }
+    await container.updateState({
+      type: "diff",
+      filename: this.filename,
+      diff,
+    });
   }
 
   private async executeEditCode() {
@@ -187,7 +185,7 @@ export class EditCodeConversationModel extends ConversationModel {
             lines: [
               `Edit the current code as follows:`,
               ...instructions,
-              "Preserve and use the current indentation level.",
+              "Preserve the indentation level.",
             ],
           }),
           new LinesSection({

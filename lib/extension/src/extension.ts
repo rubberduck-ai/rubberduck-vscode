@@ -27,6 +27,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
     openAIClient: new OpenAIClient({
       apiKeyManager,
     }),
+    extensionUri: context.extensionUri,
     conversationTypes: {
       [ChatConversationModel.id]: ChatConversationModel,
       [EditCodeConversationModel.id]: EditCodeConversationModel,

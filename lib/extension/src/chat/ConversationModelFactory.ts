@@ -1,3 +1,4 @@
+import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { ConversationModel } from "./ConversationModel";
 
@@ -17,9 +18,11 @@ export type ConversationModelFactory = {
     generateChatId,
     openAIClient,
     updateChatPanel,
+    extensionUri,
   }: {
     generateChatId(): string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
+    extensionUri: vscode.Uri;
   }): Promise<ConversationModelFactoryResult>;
 };

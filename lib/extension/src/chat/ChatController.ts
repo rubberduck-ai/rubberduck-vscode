@@ -12,6 +12,7 @@ export class ChatController {
   private readonly chatModel: ChatModel;
   private readonly openAIClient: OpenAIClient;
   private readonly conversationTypes: Record<string, ConversationModelFactory>;
+  private readonly extensionUri: vscode.Uri;
 
   private readonly generateConversationId: () => string;
 
@@ -20,16 +21,19 @@ export class ChatController {
     chatModel,
     openAIClient,
     conversationTypes,
+    extensionUri,
   }: {
     chatPanel: ChatPanel;
     chatModel: ChatModel;
     openAIClient: OpenAIClient;
     conversationTypes: Record<string, ConversationModelFactory>;
+    extensionUri: vscode.Uri;
   }) {
     this.chatPanel = chatPanel;
     this.chatModel = chatModel;
     this.openAIClient = openAIClient;
     this.conversationTypes = conversationTypes;
+    this.extensionUri = extensionUri;
 
     this.generateConversationId = util.createNextId({
       prefix: "conversation-",
@@ -101,6 +105,7 @@ export class ChatController {
       generateChatId: this.generateConversationId,
       openAIClient: this.openAIClient,
       updateChatPanel: this.updateChatPanel.bind(this),
+      extensionUri: this.extensionUri,
     });
 
     if (result.result === "unavailable") {

@@ -14,48 +14,42 @@ const StartChatButton: React.FC<{
 
 export const ChatPanelView: React.FC<{
   sendMessage: SendMessage;
-  panelState: webviewApi.PanelState;
-}> = ({ panelState, sendMessage }) => {
-  if (panelState === undefined) {
-    return (
-      <StartChatButton onClick={() => sendMessage({ type: "startChat" })} />
-    );
-  }
-
-  return (
-    <div>
-      <StartChatButton onClick={() => sendMessage({ type: "startChat" })} />
-      {panelState.conversations.map((conversation, i) =>
-        panelState.selectedConversationIndex === i ? (
-          <ExpandedConversationView
-            key={conversation.id}
-            conversation={conversation}
-            onSendMessage={(message: string) =>
-              sendMessage({
-                type: "sendChatMessage",
-                data: { index: i, message },
-              })
-            }
-            onClickRetry={() =>
-              sendMessage({
-                type: "retry",
-                data: { index: i },
-              })
-            }
-          />
-        ) : (
-          <CollapsedConversationView
-            key={conversation.id}
-            conversation={conversation}
-            onClick={() =>
-              sendMessage({
-                type: "clickCollapsedExplanation",
-                data: { index: i },
-              })
-            }
-          />
-        )
-      )}
-    </div>
-  );
-};
+  panelState: webviewApi.PanelState & {
+    type: "chat";
+  };
+}> = ({ panelState, sendMessage }) => (
+  <div>
+    <StartChatButton onClick={() => sendMessage({ type: "startChat" })} />
+    {panelState.conversations.map((conversation, i) =>
+      panelState.selectedConversationIndex === i ? (
+        <ExpandedConversationView
+          key={conversation.id}
+          conversation={conversation}
+          onSendMessage={(message: string) =>
+            sendMessage({
+              type: "sendChatMessage",
+              data: { index: i, message },
+            })
+          }
+          onClickRetry={() =>
+            sendMessage({
+              type: "retry",
+              data: { index: i },
+            })
+          }
+        />
+      ) : (
+        <CollapsedConversationView
+          key={conversation.id}
+          conversation={conversation}
+          onClick={() =>
+            sendMessage({
+              type: "clickCollapsedExplanation",
+              data: { index: i },
+            })
+          }
+        />
+      )
+    )}
+  </div>
+);

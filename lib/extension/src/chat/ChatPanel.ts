@@ -60,6 +60,7 @@ export class ChatPanel implements vscode.WebviewViewProvider {
 
   async update(model: ChatModel) {
     this.state = {
+      type: "chat",
       selectedConversationIndex: model.selectedConversationIndex,
       conversations: model.conversations.map((conversation) =>
         conversation.toWebviewConversation()

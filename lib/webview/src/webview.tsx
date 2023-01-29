@@ -2,6 +2,7 @@ import { webviewApi } from "@rubberduck/common";
 import * as React from "react";
 import { createRoot, Root } from "react-dom/client";
 import { ChatPanelView } from "./panel/ChatPanelView";
+import { DiffPanelView } from "./panel/DiffPanelView";
 import { sendMessage } from "./vscode/SendMessage";
 
 let reactRoot: Root | undefined = undefined;
@@ -10,7 +11,26 @@ const render = (panelState?: webviewApi.PanelState) => {
   try {
     reactRoot?.render(
       <React.StrictMode>
-        <ChatPanelView sendMessage={sendMessage} panelState={panelState} />
+        {(() => {
+          switch (panelState?.type) {
+            case "chat":
+              return (
+                <ChatPanelView
+                  sendMessage={sendMessage}
+                  panelState={panelState}
+                />
+              );
+            case "diff":
+              return (
+                <DiffPanelView
+                  sendMessage={sendMessage}
+                  panelState={panelState}
+                />
+              );
+            default:
+              return <div />;
+          }
+        })()}
       </React.StrictMode>
     );
   } catch (error) {
