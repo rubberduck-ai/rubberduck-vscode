@@ -1,5 +1,6 @@
 import { createDiff } from "@rubberduck/diff";
 import * as vscode from "vscode";
+import { DiffEditor } from "../diff/DiffEditor";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
@@ -61,6 +62,7 @@ export class EditCodeConversationModel extends ConversationModel {
   readonly editor: vscode.TextEditor;
 
   editContent: string | undefined;
+  diffEditor: DiffEditor | undefined;
 
   private readonly diffEditorManager: DiffEditorManager;
 
@@ -150,17 +152,19 @@ export class EditCodeConversationModel extends ConversationModel {
       contextLines: 3,
     });
 
-    const targetColumn =
-      this.editor.viewColumn === vscode.ViewColumn.One
-        ? vscode.ViewColumn.Two
-        : vscode.ViewColumn.One;
+    if (this.diffEditor == undefined) {
+      const targetColumn =
+        this.editor.viewColumn === vscode.ViewColumn.One
+          ? vscode.ViewColumn.Two
+          : vscode.ViewColumn.One;
 
-    const diffEditor = this.diffEditorManager.createDiffEditor({
-      filename: this.filename,
-      editorColumn: targetColumn,
-    });
+      this.diffEditor = this.diffEditorManager.createDiffEditor({
+        filename: this.filename,
+        editorColumn: targetColumn,
+      });
+    }
 
-    await (await diffEditor).updateDiff(diff);
+    await this.diffEditor.updateDiff(diff);
   }
 
   private async executeEditCode() {

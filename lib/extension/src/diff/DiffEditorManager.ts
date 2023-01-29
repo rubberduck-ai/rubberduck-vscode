@@ -8,7 +8,7 @@ export class DiffEditorManager {
     this.extensionUri = extensionUri;
   }
 
-  async createDiffEditor({
+  createDiffEditor({
     filename,
     editorColumn,
   }: {
