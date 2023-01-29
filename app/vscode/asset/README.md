@@ -12,31 +12,43 @@ Chat with an AI Assistant about your code and software development topics. Rubbe
    1. Press 💬 on the MacOS touch bar (if available).
 2. Ask a question in the new conversation thread in the Rubberduck sidebar panel.
 
-![Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-start-chat.png)
+![AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-start-chat.png)
 
-## Explain code
+## Explain Code
 
 Get AI generated explanations that help you understand code quicker.
 
 1. Select the code that you want to have explained in the editor.
-2. Invoke the "explain code" command using one of the following options:
+2. Invoke the "Explain Code" command using one of the following options:
    1. Run the `Rubberduck: Explain Code 💬` command from the command palette.
    1. Select the `Explain Code 💬` entry in the editor context menu (right-click).
 3. The explanations shows up in the Rubberduck sidebar panel.
 
-![Explain code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-code-explanation.png)
+![Explain Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-code-explanation.png)
 
-## Generate test cases
+## Generate Tests
 
 Generate test cases automatically to help you write tests faster.
 
 1. Select a piece of code in the editor for which you want to generate a test case.
-2. Invoke the "generate test" command using one of the following options:
+2. Invoke the "Generate Test" command using one of the following options:
    1. Run the `Rubberduck: Generate Test 💬` command from the command palette.
    1. Select the `Generate Test 💬` entry in the editor context menu (right-click).
 3. The test case shows up in a new editor tab. You can refine it in the conversation panel.
 
-![Generate test](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-test.gif)
+![Generate Test](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-test.gif)
+
+## Diagnose Errors
+
+Let Rubberduck identify error causes and suggest fixes to fix compiler and linter errors faster.
+
+1. Select a piece of code in the editor that contains errors.
+2. Invoke the "Diagnose Errors" command using one of the following options:
+   1. Run the `Rubberduck: Diagnose Errors 💬` command from the command palette.
+   1. Select the `Diagnose Errors 💬` entry in the editor context menu (right-click).
+3. The test case shows up in a new editor tab. You can refine it in the conversation panel.
+
+![Diagnose Errors](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-diagnose-errors.png)
 
 # Setup
 

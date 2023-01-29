@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 - 2023-01-29
+
+### Added
+
+- "Diagnose errors" command
+
 ## 0.3.2 - 2023-01-28
 
 ### Added

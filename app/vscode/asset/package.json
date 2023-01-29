@@ -1,9 +1,9 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "displayName": "Rubberduck - GPT-3 powered code chat",
-  "description": "AI Chat, code explanations, and test generation powered by the official OpenAI API.",
+  "description": "AI Chat, code explanations, test generation, and error diagnosis powered by the official OpenAI API.",
   "keywords": [
     "ai",
     "chatgpt",
