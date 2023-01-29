@@ -60,6 +60,12 @@
         "icon": "$(comment-discussion)"
       },
       {
+        "command": "rubberduck.editCode",
+        "title": "Edit Code 💬",
+        "category": "Rubberduck",
+        "icon": "$(comment-discussion)"
+      },
+      {
         "command": "rubberduck.explainCode",
         "title": "Explain Code 💬",
         "category": "Rubberduck",
@@ -111,6 +117,11 @@
       "editor/context": [
         {
           "command": "rubberduck.startChat",
+          "group": "rubberduck",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "rubberduck.editCode",
           "group": "rubberduck",
           "when": "editorHasSelection"
         },

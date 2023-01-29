@@ -4,6 +4,7 @@ import { ChatConversationModel } from "./chat/ChatConversationModel";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
 import { DiagnoseErrorsConversationModel } from "./chat/DiagnoseErrorsConversationModel copy";
+import { EditCodeConversationModel } from "./chat/EditCodeConversationModel";
 import { ExplainCodeConversationModel } from "./chat/ExplainCodeConversationModel";
 import { GenerateTestConversationModel } from "./chat/GenerateTestConversationModel";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
@@ -28,6 +29,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
     }),
     conversationTypes: {
       [ChatConversationModel.id]: ChatConversationModel,
+      [EditCodeConversationModel.id]: EditCodeConversationModel,
       [ExplainCodeConversationModel.id]: ExplainCodeConversationModel,
       [GenerateTestConversationModel.id]: GenerateTestConversationModel,
       [DiagnoseErrorsConversationModel.id]: DiagnoseErrorsConversationModel,
@@ -62,6 +64,9 @@ export const activate = async (context: vscode.ExtensionContext) => {
     }),
     vscode.commands.registerCommand("rubberduck.startChat", () => {
       chatController.createConversation(ChatConversationModel.id);
+    }),
+    vscode.commands.registerCommand("rubberduck.editCode", () => {
+      chatController.createConversation(EditCodeConversationModel.id);
     }),
     vscode.commands.registerCommand("rubberduck.touchBar.startChat", () => {
       chatController.createConversation(ChatConversationModel.id);
