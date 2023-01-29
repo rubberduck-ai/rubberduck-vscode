@@ -1,10 +1,50 @@
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
+import { getActiveEditorSelectionInput } from "../vscode/getActiveEditorSelectionInput";
 import { ConversationModel } from "./ConversationModel";
+import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateGenerateTestCompletion } from "./generateGenerateTestCompletion";
 import { generateRefineCodeCompletion } from "./generateRefineCodeCompletion";
 
 export class GenerateTestConversationModel extends ConversationModel {
+  static id = "generateTest";
+
+  static async createConversationModel({
+    generateChatId,
+    openAIClient,
+    updateChatPanel,
+  }: {
+    generateChatId: () => string;
+    openAIClient: OpenAIClient;
+    updateChatPanel: () => Promise<void>;
+  }): Promise<ConversationModelFactoryResult> {
+    const input = getActiveEditorSelectionInput();
+
+    if (input == undefined) {
+      return {
+        result: "unavailable",
+      };
+    }
+
+    return {
+      result: "success",
+      conversation: new GenerateTestConversationModel(
+        {
+          id: generateChatId(),
+          filename: input.filename,
+          range: input.range,
+          selectedText: input.selectedText,
+          language: input.language,
+        },
+        {
+          openAIClient,
+          updateChatPanel,
+        }
+      ),
+      shouldImmediatelyAnswer: true,
+    };
+  }
+
   readonly filename: string;
   readonly range: vscode.Range;
   readonly selectedText: string;

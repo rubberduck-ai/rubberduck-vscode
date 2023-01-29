@@ -1,41 +1,39 @@
 import { util, webviewApi } from "@rubberduck/common";
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
+import { ChatConversationModel } from "./ChatConversationModel";
 import { ChatModel } from "./ChatModel";
 import { ChatPanel } from "./ChatPanel";
 import { ConversationModel } from "./ConversationModel";
-import { ExplainCodeConversationModel } from "./ExplainCodeConversationModel";
-import { FreeConversationModel } from "./FreeConversationModel";
-import { GenerateTestConversationModel } from "./GenerateTestConversationModel";
+import { ConversationModelFactory } from "./ConversationModelFactory";
 
 export class ChatController {
   private readonly chatPanel: ChatPanel;
   private readonly chatModel: ChatModel;
   private readonly openAIClient: OpenAIClient;
+  private readonly conversationTypes: Record<string, ConversationModelFactory>;
 
-  private readonly nextChatId: () => string;
+  private readonly generateConversationId: () => string;
 
   constructor({
     chatPanel,
     chatModel,
     openAIClient,
+    conversationTypes,
   }: {
     chatPanel: ChatPanel;
     chatModel: ChatModel;
     openAIClient: OpenAIClient;
+    conversationTypes: Record<string, ConversationModelFactory>;
   }) {
     this.chatPanel = chatPanel;
     this.chatModel = chatModel;
     this.openAIClient = openAIClient;
+    this.conversationTypes = conversationTypes;
 
-    this.nextChatId = util.createNextId({ prefix: "chat-" });
-  }
-
-  private get conversationOptions() {
-    return {
-      openAIClient: this.openAIClient,
-      updateChatPanel: this.updateChatPanel.bind(this),
-    };
+    this.generateConversationId = util.createNextId({
+      prefix: "conversation-",
+    });
   }
 
   private async updateChatPanel() {
@@ -57,39 +55,6 @@ export class ChatController {
     await vscode.commands.executeCommand("rubberduck.chat.focus");
   }
 
-  private getSelectedTextFromActiveEditor() {
-    const activeEditor = vscode.window.activeTextEditor;
-    const document = activeEditor?.document;
-    const range = activeEditor?.selection;
-    const selectedText = document?.getText(range);
-
-    return (selectedText?.length ?? 0) > 0 ? selectedText : undefined;
-  }
-
-  private getActiveEditorSelectionInput() {
-    const activeEditor = vscode.window.activeTextEditor;
-    const document = activeEditor?.document;
-    const range = activeEditor?.selection;
-
-    if (range == null || document == null) {
-      return undefined;
-    }
-
-    const selectedText = this.getSelectedTextFromActiveEditor();
-    const filename = document.fileName.split("/").pop();
-
-    if (selectedText == undefined || filename == undefined) {
-      return undefined;
-    }
-
-    return {
-      filename,
-      range,
-      selectedText,
-      language: activeEditor?.document.languageId,
-    };
-  }
-
   async receivePanelMessage(rawMessage: unknown) {
     const message = webviewApi.outgoingMessageSchema.parse(rawMessage);
     const type = message.type;
@@ -107,7 +72,7 @@ export class ChatController {
         break;
       }
       case "startChat": {
-        await this.startChat();
+        await this.createConversation(ChatConversationModel.id);
         break;
       }
       case "retry": {
@@ -121,60 +86,31 @@ export class ChatController {
     }
   }
 
-  async startChat() {
-    await this.addAndShowConversation(
-      new FreeConversationModel(
-        {
-          id: this.nextChatId(),
-          selectedText: this.getSelectedTextFromActiveEditor(),
-        },
-        this.conversationOptions
-      )
-    );
-  }
+  async createConversation(conversationTypeId: string) {
+    const factory = this.conversationTypes[conversationTypeId];
 
-  async generateTest() {
-    const input = this.getActiveEditorSelectionInput();
+    if (factory == undefined) {
+      await vscode.window.showErrorMessage(
+        `No conversation type found for ${conversationTypeId}`
+      );
 
-    if (input == null) {
       return;
     }
 
-    const conversation = await this.addAndShowConversation(
-      new GenerateTestConversationModel(
-        {
-          id: this.nextChatId(),
-          filename: input.filename,
-          range: input.range,
-          selectedText: input.selectedText,
-          language: input.language,
-        },
-        this.conversationOptions
-      )
-    );
+    const result = await factory.createConversationModel({
+      generateChatId: this.generateConversationId,
+      openAIClient: this.openAIClient,
+      updateChatPanel: this.updateChatPanel.bind(this),
+    });
 
-    await conversation.answer();
-  }
-
-  async explainCode() {
-    const input = this.getActiveEditorSelectionInput();
-
-    if (input == null) {
+    if (result.result === "unavailable") {
       return;
     }
 
-    const conversation = await this.addAndShowConversation(
-      new ExplainCodeConversationModel(
-        {
-          id: this.nextChatId(),
-          filename: input.filename,
-          range: input.range,
-          selectedText: input.selectedText,
-        },
-        this.conversationOptions
-      )
-    );
+    await this.addAndShowConversation(result.conversation);
 
-    await conversation.answer();
+    if (result.shouldImmediatelyAnswer) {
+      await result.conversation.answer();
+    }
   }
 }

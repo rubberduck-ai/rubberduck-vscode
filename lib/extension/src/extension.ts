@@ -1,7 +1,10 @@
 import * as vscode from "vscode";
 import { ChatController } from "./chat/ChatController";
+import { ChatConversationModel } from "./chat/ChatConversationModel";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
+import { ExplainCodeConversationModel } from "./chat/ExplainCodeConversationModel";
+import { GenerateTestConversationModel } from "./chat/GenerateTestConversationModel";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
 import { OpenAIClient } from "./openai/OpenAIClient";
 
@@ -22,6 +25,11 @@ export const activate = async (context: vscode.ExtensionContext) => {
     openAIClient: new OpenAIClient({
       apiKeyManager,
     }),
+    conversationTypes: {
+      [ChatConversationModel.id]: ChatConversationModel,
+      [ExplainCodeConversationModel.id]: ExplainCodeConversationModel,
+      [GenerateTestConversationModel.id]: GenerateTestConversationModel,
+    },
   });
 
   chatPanel.onDidReceiveMessage(
@@ -41,22 +49,18 @@ export const activate = async (context: vscode.ExtensionContext) => {
         vscode.window.showInformationMessage("OpenAI API key cleared.");
       }
     ),
-    vscode.commands.registerCommand(
-      "rubberduck.explainCode",
-      chatController.explainCode.bind(chatController)
-    ),
-    vscode.commands.registerCommand(
-      "rubberduck.generateTest",
-      chatController.generateTest.bind(chatController)
-    ),
-    vscode.commands.registerCommand(
-      "rubberduck.startChat",
-      chatController.startChat.bind(chatController)
-    ),
-    vscode.commands.registerCommand(
-      "rubberduck.touchBar.startChat",
-      chatController.startChat.bind(chatController)
-    )
+    vscode.commands.registerCommand("rubberduck.explainCode", () => {
+      chatController.createConversation(ExplainCodeConversationModel.id);
+    }),
+    vscode.commands.registerCommand("rubberduck.generateTest", () => {
+      chatController.createConversation(GenerateTestConversationModel.id);
+    }),
+    vscode.commands.registerCommand("rubberduck.startChat", () => {
+      chatController.createConversation(ChatConversationModel.id);
+    }),
+    vscode.commands.registerCommand("rubberduck.touchBar.startChat", () => {
+      chatController.createConversation(ChatConversationModel.id);
+    })
   );
 };
 

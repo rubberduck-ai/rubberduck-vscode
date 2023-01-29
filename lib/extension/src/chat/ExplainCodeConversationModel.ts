@@ -2,11 +2,50 @@ import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
 import { LinesSection } from "../prompt/LinesSection";
+import { getActiveEditorSelectionInput } from "../vscode/getActiveEditorSelectionInput";
 import { ConversationModel } from "./ConversationModel";
+import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
 import { generateExplainCodeCompletion } from "./generateExplainCodeCompletion";
 
 export class ExplainCodeConversationModel extends ConversationModel {
+  static id = "explainCode";
+
+  static async createConversationModel({
+    generateChatId,
+    openAIClient,
+    updateChatPanel,
+  }: {
+    generateChatId: () => string;
+    openAIClient: OpenAIClient;
+    updateChatPanel: () => Promise<void>;
+  }): Promise<ConversationModelFactoryResult> {
+    const input = getActiveEditorSelectionInput();
+
+    if (input == undefined) {
+      return {
+        result: "unavailable",
+      };
+    }
+
+    return {
+      result: "success",
+      conversation: new ExplainCodeConversationModel(
+        {
+          id: generateChatId(),
+          filename: input.filename,
+          range: input.range,
+          selectedText: input.selectedText,
+        },
+        {
+          openAIClient,
+          updateChatPanel,
+        }
+      ),
+      shouldImmediatelyAnswer: true,
+    };
+  }
+
   readonly filename: string;
   readonly range: vscode.Range;
   readonly selectedText: string;

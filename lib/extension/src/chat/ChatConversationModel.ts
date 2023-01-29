@@ -1,9 +1,39 @@
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
+import { getActiveEditorSelectionInput } from "../vscode/getActiveEditorSelectionInput";
+import { getSelectedTextFromActiveEditor } from "../vscode/getSelectedTextFromActiveEditor";
 import { ConversationModel } from "./ConversationModel";
+import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
 
-export class FreeConversationModel extends ConversationModel {
+export class ChatConversationModel extends ConversationModel {
+  static id = "chat";
+
+  static async createConversationModel({
+    generateChatId,
+    openAIClient,
+    updateChatPanel,
+  }: {
+    generateChatId: () => string;
+    openAIClient: OpenAIClient;
+    updateChatPanel: () => Promise<void>;
+  }): Promise<ConversationModelFactoryResult> {
+    return {
+      result: "success",
+      conversation: new ChatConversationModel(
+        {
+          id: generateChatId(),
+          selectedText: getSelectedTextFromActiveEditor(),
+        },
+        {
+          openAIClient,
+          updateChatPanel,
+        }
+      ),
+      shouldImmediatelyAnswer: false,
+    };
+  }
+
   readonly selectedText: string | undefined;
 
   constructor(
