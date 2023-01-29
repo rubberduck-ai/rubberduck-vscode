@@ -19,6 +19,7 @@ export function getActiveEditorSelectionInput() {
 
   return {
     filename,
+    document,
     range,
     selectedText,
     language: activeEditor?.document.languageId,

@@ -1,3 +1,4 @@
+import { createDiff } from "@rubberduck/diff";
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
@@ -33,6 +34,7 @@ export class EditCodeConversationModel extends ConversationModel {
         {
           id: generateChatId(),
           filename: input.filename,
+          sourceDocument: input.document,
           range: input.range,
           selectedText: input.selectedText,
           language: input.language,
@@ -47,6 +49,7 @@ export class EditCodeConversationModel extends ConversationModel {
   }
 
   readonly filename: string;
+  readonly sourceDocument: vscode.TextDocument;
   readonly range: vscode.Range;
   readonly selectedText: string;
   readonly language: string | undefined;
@@ -59,12 +62,14 @@ export class EditCodeConversationModel extends ConversationModel {
     {
       id,
       filename,
+      sourceDocument,
       range,
       selectedText,
       language,
     }: {
       id: string;
       filename: string;
+      sourceDocument: vscode.TextDocument;
       range: vscode.Range;
       selectedText: string;
       language: string | undefined;
@@ -88,6 +93,7 @@ export class EditCodeConversationModel extends ConversationModel {
     });
 
     this.filename = filename;
+    this.sourceDocument = sourceDocument;
     this.range = range;
     this.selectedText = selectedText;
     this.language = language;
@@ -114,12 +120,30 @@ export class EditCodeConversationModel extends ConversationModel {
       return;
     }
 
+    // edit the file content with the editContent:
+    const document = this.sourceDocument;
+    const originalContent = document.getText();
+    const prefix = originalContent.substring(
+      0,
+      document.offsetAt(this.range.start)
+    );
+    const suffix = originalContent.substring(document.offsetAt(this.range.end));
+    const editedFileContent = `${prefix}${editContent}${suffix}`;
+
+    // diff the original file content with the edited file content:
+    const diff = createDiff({
+      filename: this.filename,
+      originalContent,
+      newContent: editedFileContent,
+      contextLines: 3,
+    });
+
     // introduce local variable to ensure that editDocument is defined:
     const editDocument =
       this.editDocument ??
       (await vscode.workspace.openTextDocument({
         language: this.language,
-        content: editContent,
+        content: diff,
       }));
 
     this.editDocument = editDocument;
@@ -136,7 +160,7 @@ export class EditCodeConversationModel extends ConversationModel {
             editDocument.positionAt(0),
             editDocument.positionAt(editDocument.getText().length - 1)
           ),
-          editContent
+          diff
         );
       });
     }
@@ -152,14 +176,19 @@ export class EditCodeConversationModel extends ConversationModel {
         sections: [
           new LinesSection({
             title: "Instructions",
-            lines: [`Rewrite the code below as follows:`, ...instructions],
+            lines: [`Edit the current code below as follows:`, ...instructions],
           }),
           new CodeSection({
+            title: "Current Code",
             code: this.selectedText,
           }),
           new LinesSection({
             title: "Task",
-            lines: [`Rewrite the code as follows:`, ...instructions],
+            lines: [
+              `Edit the current code as follows:`,
+              ...instructions,
+              "Preserve and use the current indentation level.",
+            ],
           }),
           new LinesSection({
             title: "Answer",
@@ -176,7 +205,7 @@ export class EditCodeConversationModel extends ConversationModel {
       return;
     }
 
-    this.editContent = completion.content;
+    this.editContent = completion.content.trim();
 
     await this.addBotMessage({
       content: "Edit generated",

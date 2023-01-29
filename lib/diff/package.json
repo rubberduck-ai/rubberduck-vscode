@@ -1,0 +1,13 @@
+{
+  "name": "@rubberduck/diff",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./build/index.js",
+  "scripts": {},
+  "devDependencies": {
+    "@types/diff-match-patch": "1.0.32"
+  },
+  "dependencies": {
+    "diff-match-patch": "1.0.5"
+  }
+}

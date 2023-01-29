@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@rubberduck/common": "*",
+    "@rubberduck/diff": "*",
     "axios": "1.2.4",
     "zod": "3.20.2"
   }
