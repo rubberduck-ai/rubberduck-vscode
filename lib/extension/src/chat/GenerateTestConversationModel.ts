@@ -157,7 +157,7 @@ export class GenerateTestConversationModel extends ConversationModel {
       return;
     }
 
-    this.testContent = completion.content;
+    this.testContent = completion.content.trim();
 
     await this.addBotMessage({
       content: userMessage != undefined ? "Test updated." : "Test generated.",

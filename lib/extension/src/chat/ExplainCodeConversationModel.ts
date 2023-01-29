@@ -124,7 +124,7 @@ export class ExplainCodeConversationModel extends ConversationModel {
     }
 
     await this.addBotMessage({
-      content: completion.content,
+      content: completion.content.trim(),
     });
   }
 
