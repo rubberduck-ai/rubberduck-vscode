@@ -27,9 +27,13 @@ export const ChatInput: React.FC<{
             !event.shiftKey &&
             event.target instanceof HTMLTextAreaElement
           ) {
-            event.preventDefault();
-            event.stopPropagation();
-            onSend(event.target.value);
+            const value = event.target.value.trim();
+
+            if (value !== "") {
+              event.preventDefault();
+              event.stopPropagation();
+              onSend(value);
+            }
           }
         }}
       />
