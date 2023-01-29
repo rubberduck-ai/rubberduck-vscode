@@ -177,20 +177,13 @@ export class EditCodeConversationModel extends ConversationModel {
         sections: [
           new LinesSection({
             title: "Instructions",
-            lines: [`Edit the current code below as follows:`, ...instructions],
+            lines: [`Edit the code below as follows:`, ...instructions],
           }),
           new CodeSection({
-            title: "Current Code",
+            title: "Code",
             code: this.selectedText,
           }),
-          new LinesSection({
-            title: "Task",
-            lines: [
-              `Edit the current code as follows:`,
-              ...instructions,
-              "Preserve the indentation level.",
-            ],
-          }),
+
           new LinesSection({
             title: "Answer",
             lines: ["```"],
