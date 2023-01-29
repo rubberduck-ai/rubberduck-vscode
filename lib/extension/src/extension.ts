@@ -3,7 +3,7 @@ import { ChatController } from "./chat/ChatController";
 import { ChatConversationModel } from "./chat/ChatConversationModel";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
-import { DiagnoseErrorsConversationModel } from "./chat/DiagnoseErrorsConversationModel copy";
+import { DiagnoseErrorsConversationModel } from "./chat/DiagnoseErrorsConversationModel";
 import { EditCodeConversationModel } from "./chat/EditCodeConversationModel";
 import { ExplainCodeConversationModel } from "./chat/ExplainCodeConversationModel";
 import { GenerateTestConversationModel } from "./chat/GenerateTestConversationModel";
