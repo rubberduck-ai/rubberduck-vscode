@@ -7,6 +7,7 @@ import { DiagnoseErrorsConversationModel } from "./chat/DiagnoseErrorsConversati
 import { EditCodeConversationModel } from "./chat/EditCodeConversationModel";
 import { ExplainCodeConversationModel } from "./chat/ExplainCodeConversationModel";
 import { GenerateTestConversationModel } from "./chat/GenerateTestConversationModel";
+import { DiffEditorManager } from "./diff/DiffEditorManager";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
 import { OpenAIClient } from "./openai/OpenAIClient";
 
@@ -27,7 +28,9 @@ export const activate = async (context: vscode.ExtensionContext) => {
     openAIClient: new OpenAIClient({
       apiKeyManager,
     }),
-    extensionUri: context.extensionUri,
+    diffEditorManager: new DiffEditorManager({
+      extensionUri: context.extensionUri,
+    }),
     conversationTypes: {
       [ChatConversationModel.id]: ChatConversationModel,
       [EditCodeConversationModel.id]: EditCodeConversationModel,

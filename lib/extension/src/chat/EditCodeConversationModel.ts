@@ -1,11 +1,11 @@
 import { createDiff } from "@rubberduck/diff";
 import * as vscode from "vscode";
+import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
 import { LinesSection } from "../prompt/LinesSection";
 import { assemblePrompt } from "../prompt/Prompt";
 import { getActiveEditorSelectionInput } from "../vscode/getActiveEditorSelectionInput";
-import { WebviewContainer } from "../webview/WebviewContainer";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 
@@ -16,12 +16,12 @@ export class EditCodeConversationModel extends ConversationModel {
     generateChatId,
     openAIClient,
     updateChatPanel,
-    extensionUri,
+    diffEditorManager,
   }: {
     generateChatId: () => string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
-    extensionUri: vscode.Uri;
+    diffEditorManager: DiffEditorManager;
   }): Promise<ConversationModelFactoryResult> {
     const input = getActiveEditorSelectionInput();
 
@@ -46,7 +46,7 @@ export class EditCodeConversationModel extends ConversationModel {
         {
           openAIClient,
           updateChatPanel,
-          extensionUri,
+          diffEditorManager,
         }
       ),
       shouldImmediatelyAnswer: false,
@@ -62,7 +62,7 @@ export class EditCodeConversationModel extends ConversationModel {
 
   editContent: string | undefined;
 
-  private readonly extensionUri: vscode.Uri;
+  private readonly diffEditorManager: DiffEditorManager;
 
   constructor(
     {
@@ -85,11 +85,11 @@ export class EditCodeConversationModel extends ConversationModel {
     {
       openAIClient,
       updateChatPanel,
-      extensionUri,
+      diffEditorManager,
     }: {
       openAIClient: OpenAIClient;
       updateChatPanel: () => Promise<void>;
-      extensionUri: vscode.Uri;
+      diffEditorManager: DiffEditorManager;
     }
   ) {
     super({
@@ -107,7 +107,7 @@ export class EditCodeConversationModel extends ConversationModel {
     this.range = range;
     this.selectedText = selectedText;
     this.language = language;
-    this.extensionUri = extensionUri;
+    this.diffEditorManager = diffEditorManager;
     this.editor = editor;
   }
 
@@ -155,23 +155,12 @@ export class EditCodeConversationModel extends ConversationModel {
         ? vscode.ViewColumn.Two
         : vscode.ViewColumn.One;
 
-    const panel = vscode.window.createWebviewPanel(
-      "rubberduck.diff",
-      `${this.filename} (edit)`,
-      targetColumn
-    );
-
-    const container = new WebviewContainer({
-      panel: "diff",
-      webview: panel.webview,
-      extensionUri: this.extensionUri,
-    });
-
-    await container.updateState({
-      type: "diff",
+    const diffEditor = this.diffEditorManager.createDiffEditor({
       filename: this.filename,
-      diff,
+      editorColumn: targetColumn,
     });
+
+    await (await diffEditor).updateDiff(diff);
   }
 
   private async executeEditCode() {

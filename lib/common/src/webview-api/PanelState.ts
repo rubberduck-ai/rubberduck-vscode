@@ -10,7 +10,6 @@ export const panelStateSchema = zod
     }),
     zod.object({
       type: zod.literal("diff"),
-      filename: zod.string(),
       diff: zod.string(),
     }),
   ])

@@ -1,5 +1,6 @@
 import { util, webviewApi } from "@rubberduck/common";
 import * as vscode from "vscode";
+import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { ChatConversationModel } from "./ChatConversationModel";
 import { ChatModel } from "./ChatModel";
@@ -12,7 +13,7 @@ export class ChatController {
   private readonly chatModel: ChatModel;
   private readonly openAIClient: OpenAIClient;
   private readonly conversationTypes: Record<string, ConversationModelFactory>;
-  private readonly extensionUri: vscode.Uri;
+  private readonly diffEditorManager: DiffEditorManager;
 
   private readonly generateConversationId: () => string;
 
@@ -21,19 +22,19 @@ export class ChatController {
     chatModel,
     openAIClient,
     conversationTypes,
-    extensionUri,
+    diffEditorManager,
   }: {
     chatPanel: ChatPanel;
     chatModel: ChatModel;
     openAIClient: OpenAIClient;
     conversationTypes: Record<string, ConversationModelFactory>;
-    extensionUri: vscode.Uri;
+    diffEditorManager: DiffEditorManager;
   }) {
     this.chatPanel = chatPanel;
     this.chatModel = chatModel;
     this.openAIClient = openAIClient;
     this.conversationTypes = conversationTypes;
-    this.extensionUri = extensionUri;
+    this.diffEditorManager = diffEditorManager;
 
     this.generateConversationId = util.createNextId({
       prefix: "conversation-",
@@ -105,7 +106,7 @@ export class ChatController {
       generateChatId: this.generateConversationId,
       openAIClient: this.openAIClient,
       updateChatPanel: this.updateChatPanel.bind(this),
-      extensionUri: this.extensionUri,
+      diffEditorManager: this.diffEditorManager,
     });
 
     if (result.result === "unavailable") {
