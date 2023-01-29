@@ -72,6 +72,12 @@
         "icon": "$(beaker)"
       },
       {
+        "command": "rubberduck.diagnoseErrors",
+        "title": "Diagnose Errors 💬",
+        "category": "Rubberduck",
+        "icon": "$(search-fuzzy)"
+      },
+      {
         "command": "rubberduck.touchBar.startChat",
         "category": "Rubberduck",
         "title": "💬"
@@ -115,6 +121,11 @@
         },
         {
           "command": "rubberduck.generateTest",
+          "group": "rubberduck",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "rubberduck.diagnoseErrors",
           "group": "rubberduck",
           "when": "editorHasSelection"
         }
