@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.7.0 - 2023-01-30
+
+### Added
+
+- CTRL/CMD + M keyboard shortcut to start code editing.
+
+### Fixed
+
+- Several bugs.
+
 ## 0.6.1 - 2023-01-30
 
 ### Added
