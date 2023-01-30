@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.1 - 2023-01-30
+
+### Added
+
+- Show information messages when commands cannot be executed.
+
 ## 0.6.0 - 2023-01-30
 
 ### Added
