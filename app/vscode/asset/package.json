@@ -1,7 +1,7 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "displayName": "Rubberduck - GPT-3 powered code chat",
   "description": "Use AI-powered code edits, explanations, test generation, error diagnosis, and chat with the official OpenAI API.",
   "keywords": [
@@ -24,7 +24,7 @@
   ],
   "icon": "media/extension-icon.png",
   "galleryBanner": {
-    "color": "#93c9da",
+    "color": "#b4d7e4",
     "theme": "light"
   },
   "license": "SEE LICENSE IN LICENSE.txt",
