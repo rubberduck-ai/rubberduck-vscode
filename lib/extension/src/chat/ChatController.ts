@@ -56,7 +56,7 @@ export class ChatController {
     return conversation;
   }
 
-  private async showChatPanel() {
+  async showChatPanel() {
     await vscode.commands.executeCommand("rubberduck.chat.focus");
   }
 

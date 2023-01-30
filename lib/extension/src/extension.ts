@@ -74,6 +74,9 @@ export const activate = async (context: vscode.ExtensionContext) => {
     }),
     vscode.commands.registerCommand("rubberduck.touchBar.startChat", () => {
       chatController.createConversation(ChatConversationModel.id);
+    }),
+    vscode.commands.registerCommand("rubberduck.showChatPanel", async () => {
+      await chatController.showChatPanel();
     })
   );
 };

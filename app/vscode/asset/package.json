@@ -87,6 +87,12 @@
         "command": "rubberduck.touchBar.startChat",
         "category": "Rubberduck",
         "title": "💬"
+      },
+      {
+        "command": "rubberduck.showChatPanel",
+        "title": "Show Chat Panel 💬",
+        "category": "Rubberduck",
+        "icon": "$(comment-discussion)"
       }
     ],
     "keybindings": [
