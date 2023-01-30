@@ -4,6 +4,7 @@ import { BasicSection } from "../prompt/BasicSection";
 import { CodeSection } from "../prompt/CodeSection";
 import { LinesSection } from "../prompt/LinesSection";
 import { assemblePrompt } from "../prompt/Prompt";
+import { getActiveEditor } from "../vscode/getActiveEditor";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
@@ -54,15 +55,18 @@ export class DiagnoseErrorsConversationModel extends ConversationModel {
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
   }): Promise<ConversationModelFactoryResult> {
-    const activeEditor = vscode.window.activeTextEditor;
-    const document = activeEditor?.document;
-    const range = activeEditor?.selection;
+    const activeEditor = getActiveEditor();
 
-    if (range == null || document == null) {
+    if (activeEditor == undefined) {
       return {
         result: "unavailable",
+        type: "info",
+        message: "No active editor",
       };
     }
+
+    const document = activeEditor.document;
+    const range = activeEditor.selection;
 
     const errors = vscode.languages.getDiagnostics(document.uri).filter(
       (diagnostic) =>
@@ -77,6 +81,8 @@ export class DiagnoseErrorsConversationModel extends ConversationModel {
     if (filename == undefined || errors.length === 0) {
       return {
         result: "unavailable",
+        type: "info",
+        message: "No errors found.",
       };
     }
 

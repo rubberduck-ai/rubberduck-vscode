@@ -1,6 +1,6 @@
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
-import { getSelectedTextFromActiveEditor } from "../vscode/getSelectedTextFromActiveEditor";
+import { getActiveEditor } from "../vscode/getActiveEditor";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
@@ -17,12 +17,34 @@ export class ChatConversationModel extends ConversationModel {
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
   }): Promise<ConversationModelFactoryResult> {
+    const activeEditor = getActiveEditor();
+
+    if (activeEditor == undefined) {
+      return {
+        result: "unavailable",
+        type: "info",
+        message: "No active editor",
+      };
+    }
+
+    const document = activeEditor.document;
+    const range = activeEditor.selection;
+    const selectedText = document.getText(range);
+
+    if (selectedText.trim().length === 0) {
+      return {
+        result: "unavailable",
+        type: "info",
+        message: "No selected text.",
+      };
+    }
+
     return {
       result: "success",
       conversation: new ChatConversationModel(
         {
           id: generateChatId(),
-          selectedText: getSelectedTextFromActiveEditor(),
+          selectedText,
         },
         {
           openAIClient,

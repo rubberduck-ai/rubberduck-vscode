@@ -10,6 +10,12 @@ export type ConversationModelFactoryResult =
     }
   | {
       result: "unavailable";
+      type?: undefined;
+    }
+  | {
+      result: "unavailable";
+      type: "info" | "error";
+      message: string;
     };
 
 export type ConversationModelFactory = {

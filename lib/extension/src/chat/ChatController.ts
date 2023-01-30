@@ -113,6 +113,12 @@ export class ChatController {
     });
 
     if (result.result === "unavailable") {
+      if (result.type === "info") {
+        await vscode.window.showInformationMessage(result.message);
+      } else if (result.type === "error") {
+        await vscode.window.showErrorMessage(result.message);
+      }
+
       return;
     }
 

@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
 import { LinesSection } from "../prompt/LinesSection";
-import { getActiveEditorSelectionInput } from "../vscode/getActiveEditorSelectionInput";
+import { getActiveEditor } from "../vscode/getActiveEditor";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
@@ -20,11 +20,25 @@ export class ExplainCodeConversationModel extends ConversationModel {
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
   }): Promise<ConversationModelFactoryResult> {
-    const input = getActiveEditorSelectionInput();
+    const activeEditor = getActiveEditor();
 
-    if (input == undefined) {
+    if (activeEditor == undefined) {
       return {
         result: "unavailable",
+        type: "info",
+        message: "No active editor",
+      };
+    }
+
+    const document = activeEditor.document;
+    const range = activeEditor.selection;
+    const selectedText = document.getText(range);
+
+    if (selectedText.trim().length === 0) {
+      return {
+        result: "unavailable",
+        type: "info",
+        message: "No selected text.",
       };
     }
 
@@ -33,9 +47,10 @@ export class ExplainCodeConversationModel extends ConversationModel {
       conversation: new ExplainCodeConversationModel(
         {
           id: generateChatId(),
-          filename: input.filename,
-          range: input.range,
-          selectedText: input.selectedText,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          filename: document.fileName.split("/").pop()!,
+          range,
+          selectedText,
         },
         {
           openAIClient,

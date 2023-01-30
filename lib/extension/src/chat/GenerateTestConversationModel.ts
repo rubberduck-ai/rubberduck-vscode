@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
-import { getActiveEditorSelectionInput } from "../vscode/getActiveEditorSelectionInput";
+import { getActiveEditor } from "../vscode/getActiveEditor";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateGenerateTestCompletion } from "./generateGenerateTestCompletion";
@@ -18,11 +18,25 @@ export class GenerateTestConversationModel extends ConversationModel {
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
   }): Promise<ConversationModelFactoryResult> {
-    const input = getActiveEditorSelectionInput();
+    const activeEditor = getActiveEditor();
 
-    if (input == undefined) {
+    if (activeEditor == undefined) {
       return {
         result: "unavailable",
+        type: "info",
+        message: "No active editor",
+      };
+    }
+
+    const document = activeEditor.document;
+    const range = activeEditor.selection;
+    const selectedText = document.getText(range);
+
+    if (selectedText.trim().length === 0) {
+      return {
+        result: "unavailable",
+        type: "info",
+        message: "No selected text.",
       };
     }
 
@@ -31,10 +45,11 @@ export class GenerateTestConversationModel extends ConversationModel {
       conversation: new GenerateTestConversationModel(
         {
           id: generateChatId(),
-          filename: input.filename,
-          range: input.range,
-          selectedText: input.selectedText,
-          language: input.language,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          filename: document.fileName.split("/").pop()!,
+          range,
+          selectedText,
+          language: activeEditor.document.languageId,
         },
         {
           openAIClient,
