@@ -125,6 +125,7 @@ body {
 .message code {
   color: var(--vscode-editor-foreground);
   white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .message pre {
