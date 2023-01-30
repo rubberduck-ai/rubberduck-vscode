@@ -19,25 +19,9 @@ export class ChatConversationModel extends ConversationModel {
   }): Promise<ConversationModelFactoryResult> {
     const activeEditor = getActiveEditor();
 
-    if (activeEditor == undefined) {
-      return {
-        result: "unavailable",
-        type: "info",
-        message: "No active editor",
-      };
-    }
-
-    const document = activeEditor.document;
-    const range = activeEditor.selection;
-    const selectedText = document.getText(range);
-
-    if (selectedText.trim().length === 0) {
-      return {
-        result: "unavailable",
-        type: "info",
-        message: "No selected text.",
-      };
-    }
+    const document = activeEditor?.document;
+    const range = activeEditor?.selection;
+    const selectedText = document?.getText(range);
 
     return {
       result: "success",
