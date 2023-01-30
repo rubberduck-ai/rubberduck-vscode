@@ -65,12 +65,12 @@ export class ChatController {
     const type = message.type;
 
     switch (type) {
-      case "clickCollapsedExplanation": {
+      case "clickCollapsedConversation": {
         this.chatModel.selectedConversationId = message.data.id;
         await this.updateChatPanel();
         break;
       }
-      case "sendChatMessage": {
+      case "sendMessage": {
         await this.chatModel
           .getConversationById(message.data.id)
           ?.answer(message.data.message);
@@ -78,6 +78,11 @@ export class ChatController {
       }
       case "startChat": {
         await this.createConversation(ChatConversationModel.id);
+        break;
+      }
+      case "deleteConversation": {
+        this.chatModel.deleteConversation(message.data.id);
+        await this.updateChatPanel();
         break;
       }
       case "retry": {

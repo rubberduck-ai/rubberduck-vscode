@@ -37,6 +37,17 @@ body {
   min-height: 25px;
 }
 
+.conversation > .footer {
+  color: var(--vscode-disabledForeground);
+
+  padding: var(--rubberduck-container-padding);
+  padding-top: 0;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+}
+
 .conversation.collapsed {
   padding: var(--rubberduck-container-padding);
   color: var(--vscode-disabledForeground);
@@ -178,4 +189,12 @@ body {
 .message.error > .error-retry:hover {
   filter: brightness(125%);
   cursor: pointer;
+}
+
+.action-delete {
+  cursor: pointer;
+}
+
+.action-delete:hover {
+  color: var(--vscode-charts-red);
 }

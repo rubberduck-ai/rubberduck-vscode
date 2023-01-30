@@ -8,7 +8,8 @@ export const ExpandedConversationView: React.FC<{
   conversation: webviewApi.Conversation;
   onSendMessage: (message: string) => void;
   onClickRetry: () => void;
-}> = ({ conversation, onSendMessage, onClickRetry }) => {
+  onClickDelete: () => void;
+}> = ({ conversation, onSendMessage, onClickRetry, onClickDelete }) => {
   return (
     <div className={`conversation expanded`}>
       <ConversationHeader conversation={conversation} />
@@ -62,6 +63,15 @@ export const ExpandedConversationView: React.FC<{
             }
           }
         })()}
+      </div>
+
+      <div className="footer">
+        <span>
+          <i
+            className="codicon codicon-trash inline action-delete"
+            onClick={onClickDelete}
+          />
+        </span>
       </div>
     </div>
   );

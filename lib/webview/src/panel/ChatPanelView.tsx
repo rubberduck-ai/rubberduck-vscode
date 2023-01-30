@@ -28,6 +28,12 @@ export const ChatPanelView: React.FC<{
     );
   }
 
+  if (panelState.conversations.length === 0) {
+    return (
+      <StartChatButton onClick={() => sendMessage({ type: "startChat" })} />
+    );
+  }
+
   return (
     <div>
       {panelState.conversations.map((conversation) =>
@@ -37,13 +43,19 @@ export const ChatPanelView: React.FC<{
             conversation={conversation}
             onSendMessage={(message: string) =>
               sendMessage({
-                type: "sendChatMessage",
+                type: "sendMessage",
                 data: { id: conversation.id, message },
               })
             }
             onClickRetry={() =>
               sendMessage({
                 type: "retry",
+                data: { id: conversation.id },
+              })
+            }
+            onClickDelete={() =>
+              sendMessage({
+                type: "deleteConversation",
                 data: { id: conversation.id },
               })
             }
@@ -54,7 +66,7 @@ export const ChatPanelView: React.FC<{
             conversation={conversation}
             onClick={() =>
               sendMessage({
-                type: "clickCollapsedExplanation",
+                type: "clickCollapsedConversation",
                 data: { id: conversation.id },
               })
             }
