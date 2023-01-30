@@ -1,8 +1,13 @@
 import { webviewApi } from "@rubberduck/common";
-import React from "react";
-import { DiffView } from "../component/DiffView";
+import React, { PureComponent } from "react";
 import { SendMessage } from "../vscode/SendMessage";
+import ReactDiffViewer from "react-diff-viewer-continued";
 
+class Diff extends PureComponent {
+  render = () => {
+    return <ReactDiffViewer oldValue={"a"} newValue={"b"} splitView={true} />;
+  };
+}
 export const DiffPanelView: React.FC<{
   sendMessage: SendMessage;
   panelState: webviewApi.PanelState;
@@ -17,9 +22,10 @@ export const DiffPanelView: React.FC<{
     );
   }
 
-  return (
-    <div>
-      <DiffView diff={panelState.diff} />
-    </div>
-  );
+  console.log({
+    originalContent: panelState.originalContent,
+    newContent: panelState.newContent,
+  });
+
+  return <Diff />;
 };

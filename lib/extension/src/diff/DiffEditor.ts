@@ -27,10 +27,17 @@ export class DiffEditor {
     });
   }
 
-  async updateDiff(diff: string) {
+  async updateDiff({
+    originalContent,
+    newContent,
+  }: {
+    originalContent: string;
+    newContent: string;
+  }) {
     await this.container.updateState({
       type: "diff",
-      diff,
+      originalContent,
+      newContent,
     });
   }
 }

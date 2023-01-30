@@ -1,4 +1,3 @@
-import { createDiff } from "@rubberduck/diff";
 import * as vscode from "vscode";
 import { DiffEditor } from "../diff/DiffEditor";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
@@ -170,13 +169,7 @@ export class EditCodeConversationModel extends ConversationModel {
       .join("\n");
 
     // diff the original file content with the edited file content:
-    const editedFileContent = `${prefix}${editedFileContentWithWhitespace}${suffix}`;
-    const diff = createDiff({
-      filename: this.filename,
-      originalContent,
-      newContent: editedFileContent,
-      contextLines: 3,
-    });
+    const newContent = `${prefix}${editedFileContentWithWhitespace}${suffix}`;
 
     if (this.diffEditor == undefined) {
       const targetColumn =
@@ -190,7 +183,10 @@ export class EditCodeConversationModel extends ConversationModel {
       });
     }
 
-    await this.diffEditor.updateDiff(diff);
+    await this.diffEditor.updateDiff({
+      originalContent,
+      newContent,
+    });
   }
 
   private async executeEditCode() {
