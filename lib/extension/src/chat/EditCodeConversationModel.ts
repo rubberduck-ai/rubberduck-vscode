@@ -212,9 +212,13 @@ export class EditCodeConversationModel extends ConversationModel {
           return;
         }
 
-        await this.editor.edit((edit) => {
-          edit.replace(this.range, editContentWithAdjustedWhitespace);
-        });
+        const edit = new vscode.WorkspaceEdit();
+        edit.replace(
+          document.uri,
+          this.range,
+          editContentWithAdjustedWhitespace
+        );
+        await vscode.workspace.applyEdit(edit);
 
         const tabGroups = vscode.window.tabGroups;
         const allTabs: vscode.Tab[] = tabGroups.all
