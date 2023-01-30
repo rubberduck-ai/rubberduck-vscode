@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0 - 2023-01-30
+
+### Added
+
+- "Remove conversation" button.
+
 ## 0.7.2 - 2023-01-30
 
 ### Added
