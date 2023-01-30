@@ -10,7 +10,7 @@ Chat with Rubberduck about your code and software development topics. Rubberduck
    1. Use the "Start new chat" button in the side panel.
    1. Use the keyboard shortcut: `Cmd + Y` (Mac) or `Ctrl + Y` (Windows / Linux).
    1. Press 💬 on the MacOS touch bar (if available).
-2. Ask a question in the new conversation thread in the Rubberduck sidebar panel.
+1. Ask a question in the new conversation thread in the Rubberduck sidebar panel.
 
 ![AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-start-chat.png)
 
@@ -19,13 +19,15 @@ Chat with Rubberduck about your code and software development topics. Rubberduck
 Change the selected code by instructing Rubberduck to create an edit.
 
 1. Select the code that you want to change in the editor.
-2. Invoke the "Edit Code" command using one of the following options:
+1. Invoke the "Edit Code" command using one of the following options:
+
    1. Run the `Rubberduck: Edit Code 💬` command from the command palette.
    1. Select the `Edit Code 💬` entry in the editor context menu (right-click).
-   1. Use the keyboard shortcut: `Cmd + M` (Mac) or `Ctrl + M` (Windows / Linux).
-3. Rubberduck will generate a diff view.
-4. Provide additional instructions to Rubberduck in the chat thread.
-5. When you are happy with the changes, apply them using the "Apply" button in the diff view.
+   1. Use the keyboard shortcut: `Ctrl + Cmd + E` (Mac) or `Ctrl + Alt + E` (Windows / Linux).
+
+1. Rubberduck will generate a diff view.
+1. Provide additional instructions to Rubberduck in the chat thread.
+1. When you are happy with the changes, apply them using the "Apply" button in the diff view.
 
 ![Edit Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-edit-code.png)
 
@@ -34,10 +36,10 @@ Change the selected code by instructing Rubberduck to create an edit.
 Ask Rubberduck to explain the selected code.
 
 1. Select the code that you want to have explained in the editor.
-2. Invoke the "Explain Code" command using one of the following options:
+1. Invoke the "Explain Code" command using one of the following options:
    1. Run the `Rubberduck: Explain Code 💬` command from the command palette.
    1. Select the `Explain Code 💬` entry in the editor context menu (right-click).
-3. The explanations shows up in the Rubberduck sidebar panel.
+1. The explanations shows up in the Rubberduck sidebar panel.
 
 ![Explain Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-code-explanation.png)
 

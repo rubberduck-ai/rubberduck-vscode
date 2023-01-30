@@ -1,7 +1,7 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "displayName": "Rubberduck - GPT-3 powered code chat",
   "description": "Use AI-powered code edits, explanations, test generation, error diagnosis, and chat with the official OpenAI API.",
   "keywords": [
@@ -103,12 +103,12 @@
       {
         "command": "rubberduck.editCode",
         "when": "isMac",
-        "key": "Cmd+m"
+        "key": "Ctrl+Cmd+e"
       },
       {
         "command": "rubberduck.editCode",
         "when": "!isMac",
-        "key": "Ctrl+m"
+        "key": "Ctrl+Alt+e"
       }
     ],
     "menus": {

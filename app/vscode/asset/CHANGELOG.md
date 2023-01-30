@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.1 - 2023-01-30
+
+### Changed
+
+- Changed the "Edit Code" shortcut to CTRL + ALT/CMD + E.
+
 ## 0.7.0 - 2023-01-30
 
 ### Added
