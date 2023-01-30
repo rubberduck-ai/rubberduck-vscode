@@ -8,6 +8,11 @@ import * as StateManager from "./vscode/StateManager";
 
 const rootElement = document.getElementById("root");
 
+const panel = document.currentScript?.getAttribute("data-panel-id");
+const isStateReloadingEnabled =
+  document.currentScript?.getAttribute("data-state-reloading-enabled") ===
+  "true";
+
 if (rootElement != undefined) {
   const reactRoot = createRoot(rootElement);
 
@@ -16,7 +21,7 @@ if (rootElement != undefined) {
       reactRoot?.render(
         <React.StrictMode>
           {(() => {
-            switch (panelState?.type) {
+            switch (panel) {
               case "chat":
                 return (
                   <ChatPanelView
@@ -42,6 +47,6 @@ if (rootElement != undefined) {
     }
   };
 
-  render(StateManager.getState());
+  render(isStateReloadingEnabled ? StateManager.getState() : undefined);
   StateManager.registerUpdateListener(render);
 }

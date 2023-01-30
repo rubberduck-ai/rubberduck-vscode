@@ -4,23 +4,27 @@ import { generateNonce } from "./generateNonce";
 
 export class WebviewContainer {
   private readonly webview: vscode.Webview;
-  private readonly panel: string;
+  private readonly panelId: string;
   private readonly extensionUri: vscode.Uri;
+  private readonly isStateReloadingEnabled: boolean;
 
   readonly onDidReceiveMessage;
 
   constructor({
-    panel,
+    panelId,
     webview,
     extensionUri,
+    isStateReloadingEnabled,
   }: {
-    panel: string;
+    panelId: "chat" | "diff";
     webview: vscode.Webview;
     extensionUri: vscode.Uri;
+    isStateReloadingEnabled: boolean;
   }) {
-    this.panel = panel;
+    this.panelId = panelId;
     this.webview = webview;
     this.extensionUri = extensionUri;
+    this.isStateReloadingEnabled = isStateReloadingEnabled;
 
     this.webview.options = {
       enableScripts: true,
@@ -48,7 +52,7 @@ export class WebviewContainer {
     const baseCssUri = this.getUri("asset", "base.css");
     const codiconsCssUri = this.getUri("asset", "codicons.css");
     const diffCssUri = this.getUri("asset", "diff.css");
-    const webviewCssUri = this.getUri("asset", `${this.panel}.css`);
+    const webviewCssUri = this.getUri("asset", `${this.panelId}.css`);
     const scriptUri = this.getUri("dist", "webview.js");
 
     // Use a nonce to only allow a specific script to be run.
@@ -60,7 +64,8 @@ export class WebviewContainer {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; font-src ${cspSource}; style-src ${cspSource}; script-src 'nonce-${nonce}';" />
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'none'; font-src ${cspSource}; style-src ${cspSource}; script-src 'nonce-${nonce}';" />
     <link href="${baseCssUri}" rel="stylesheet" />
     <link href="${codiconsCssUri}" rel="stylesheet" />
     <link href="${diffCssUri}" rel="stylesheet" />
@@ -69,7 +74,10 @@ export class WebviewContainer {
   </head>
   <body>
     <div id="root" />
-    <script nonce="${nonce}" src="${scriptUri}" />
+    <script nonce="${nonce}" 
+            src="${scriptUri}" 
+            data-panel-id="${this.panelId}" 
+            data-state-reloading-enabled="${this.isStateReloadingEnabled}" />
   </body>
 </html>`;
   }

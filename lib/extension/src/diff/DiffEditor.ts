@@ -20,7 +20,8 @@ export class DiffEditor {
     );
 
     this.container = new WebviewContainer({
-      panel: "diff",
+      panelId: "diff",
+      isStateReloadingEnabled: true,
       webview: panel.webview,
       extensionUri,
     });

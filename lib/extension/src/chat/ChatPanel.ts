@@ -28,7 +28,8 @@ export class ChatPanel implements vscode.WebviewViewProvider {
 
   async resolveWebviewView(webviewView: vscode.WebviewView) {
     this.webviewPanel = new WebviewContainer({
-      panel: "chat",
+      panelId: "chat",
+      isStateReloadingEnabled: false,
       webview: webviewView.webview,
       extensionUri: this.extensionUri,
     });

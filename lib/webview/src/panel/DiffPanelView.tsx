@@ -5,11 +5,21 @@ import { SendMessage } from "../vscode/SendMessage";
 
 export const DiffPanelView: React.FC<{
   sendMessage: SendMessage;
-  panelState: webviewApi.PanelState & {
-    type: "diff";
-  };
-}> = ({ panelState, sendMessage }) => (
-  <div>
-    <DiffView diff={panelState.diff} />
-  </div>
-);
+  panelState: webviewApi.PanelState;
+}> = ({ panelState, sendMessage }) => {
+  if (panelState == null) {
+    return <></>;
+  }
+
+  if (panelState.type !== "diff") {
+    throw new Error(
+      `Invalid panel state '${panelState.type}' (expected 'diff'))`
+    );
+  }
+
+  return (
+    <div>
+      <DiffView diff={panelState.diff} />
+    </div>
+  );
+};
