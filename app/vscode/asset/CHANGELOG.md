@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.2 - 2023-01-30
+
+### Added
+
+- Chat panel icons for creating chats and for accessing the walkthrough.
+
 ## 0.7.1 - 2023-01-30
 
 ### Changed
