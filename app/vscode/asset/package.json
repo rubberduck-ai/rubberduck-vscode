@@ -99,6 +99,16 @@
         "command": "rubberduck.startChat",
         "when": "!isMac",
         "key": "Ctrl+y"
+      },
+      {
+        "command": "rubberduck.editCode",
+        "when": "isMac",
+        "key": "Cmd+m"
+      },
+      {
+        "command": "rubberduck.editCode",
+        "when": "!isMac",
+        "key": "Ctrl+m"
       }
     ],
     "menus": {
