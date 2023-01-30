@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0 - 2023-01-30
+
+### Added
+
+- "Edit code" command
+
 ## 0.4.0 - 2023-01-29
 
 ### Added
