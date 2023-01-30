@@ -65,7 +65,7 @@ export const DiffView: React.FC<DiffViewProps> = ({ diff }) => {
         }) => (
           <Diff
             key={`${oldRevision}-${newRevision}-unified`}
-            // viewType="unified"
+            viewType="unified"
             diffType={type}
             hunks={hunks}
           >
