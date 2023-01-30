@@ -1,7 +1,7 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "displayName": "Rubberduck - GPT-3 powered code chat",
   "description": "Use AI-powered code edits, explanations, test generation, error diagnosis, and chat with the official OpenAI API.",
   "keywords": [
@@ -159,6 +159,71 @@
           "type": "webview"
         }
       ]
-    }
+    },
+    "walkthroughs": [
+      {
+        "id": "rubberduck",
+        "title": "Rubberduck",
+        "description": "Your AI Chat Assistant in Visual Studio Code",
+        "steps": [
+          {
+            "id": "setup",
+            "title": "Setup Rubberduck",
+            "description": "[Enter your OpenAI API key](command:rubberduck.enterOpenAIApiKey) to get started.",
+            "media": {
+              "markdown": "walkthrough/setup.md"
+            }
+          },
+          {
+            "id": "chat",
+            "title": "Chat",
+            "description": "Chat with Rubberduck about your code and software development topics.",
+            "media": {
+              "markdown": "walkthrough/chat.md"
+            }
+          },
+          {
+            "id": "code-edit",
+            "title": "Edit Code",
+            "description": "Change the selected code by instructing Rubberduck to create an edit.",
+            "media": {
+              "markdown": "walkthrough/code-edit.md"
+            }
+          },
+          {
+            "id": "ai-code-explanation",
+            "title": "Explain Code",
+            "description": "Ask Rubberduck to explain the selected code.",
+            "media": {
+              "markdown": "walkthrough/code-explanation.md"
+            }
+          },
+          {
+            "id": "test-generation",
+            "title": "Generate Tests",
+            "description": "Generate test cases with Rubberduck.",
+            "media": {
+              "markdown": "walkthrough/test-generation.md"
+            }
+          },
+          {
+            "id": "diagnose-errors",
+            "title": "Diagnose Errors",
+            "description": "Let Rubberduck identify error causes and suggest fixes to fix compiler and linter errors faster.",
+            "media": {
+              "markdown": "walkthrough/diagnose-errors.md"
+            }
+          },
+          {
+            "id": "project",
+            "title": "Project",
+            "description": "Learn more about Rubberduck.",
+            "media": {
+              "markdown": "walkthrough/project.md"
+            }
+          }
+        ]
+      }
+    ]
   }
 }

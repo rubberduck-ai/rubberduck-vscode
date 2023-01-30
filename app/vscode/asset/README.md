@@ -1,8 +1,8 @@
 # Usage
 
-## AI Chat
+## Chat
 
-Chat with an AI Assistant about your code and software development topics. Rubberduck knows the editor selection at the time of conversation start.
+Chat with Rubberduck about your code and software development topics. Rubberduck knows the editor selection at the time of conversation start.
 
 1. You can start a chat using one of the following options:
    1. Run the `Rubberduck: Start Chat 💬` command from the command palette.
@@ -30,7 +30,7 @@ Change the selected code by instructing Rubberduck to create an edit.
 
 ## Explain Code
 
-Get AI generated explanations that help you understand code quicker.
+Ask Rubberduck to explain the selected code.
 
 1. Select the code that you want to have explained in the editor.
 2. Invoke the "Explain Code" command using one of the following options:
@@ -42,7 +42,7 @@ Get AI generated explanations that help you understand code quicker.
 
 ## Generate Tests
 
-Generate test cases automatically to help you write tests faster.
+Generate test cases with Rubberduck.
 
 1. Select a piece of code in the editor for which you want to generate a test case.
 2. Invoke the "Generate Test" command using one of the following options:

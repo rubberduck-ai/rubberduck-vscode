@@ -1,16 +1,22 @@
 # Changelog
 
+## 0.6.0 - 2023-01-30
+
+### Added
+
+- Add walkthrough.
+
 ## 0.5.0 - 2023-01-30
 
 ### Added
 
-- "Edit code" command
+- "Edit code" command.
 
 ## 0.4.0 - 2023-01-29
 
 ### Added
 
-- "Diagnose errors" command
+- "Diagnose errors" command.
 
 ## 0.3.2 - 2023-01-28
 

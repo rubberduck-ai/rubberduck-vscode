@@ -1,4 +1,11 @@
 {
   "editor.formatOnSave": true,
-  "cSpell.words": ["codicon", "openai", "rubberduck"]
+  "cSpell.words": [
+    "chatgpt",
+    "codicon",
+    "openai",
+    "rubberduck",
+    "walkthrough",
+    "walkthroughs"
+  ]
 }
