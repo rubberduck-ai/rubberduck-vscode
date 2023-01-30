@@ -66,14 +66,14 @@ export class ChatController {
 
     switch (type) {
       case "clickCollapsedExplanation": {
-        this.chatModel.selectedConversationIndex = message.data.index;
+        this.chatModel.selectedConversationId = message.data.id;
         await this.updateChatPanel();
         break;
       }
       case "sendChatMessage": {
-        await this.chatModel.conversations[message.data.index].answer(
-          message.data.message
-        );
+        await this.chatModel
+          .getConversationById(message.data.id)
+          ?.answer(message.data.message);
         break;
       }
       case "startChat": {
@@ -81,7 +81,7 @@ export class ChatController {
         break;
       }
       case "retry": {
-        await this.chatModel.conversations[message.data.index].retry();
+        await this.chatModel.getConversationById(message.data.id)?.retry();
         break;
       }
       case "applyDiff": {

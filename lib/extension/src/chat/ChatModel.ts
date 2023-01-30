@@ -2,10 +2,14 @@ import { ConversationModel } from "./ConversationModel";
 
 export class ChatModel {
   conversations: Array<ConversationModel> = [];
-  selectedConversationIndex: number | undefined;
+  selectedConversationId: string | undefined;
 
   addAndSelectConversation(conversation: ConversationModel) {
     this.conversations.push(conversation);
-    this.selectedConversationIndex = this.conversations.length - 1;
+    this.selectedConversationId = conversation.id;
+  }
+
+  getConversationById(id: string): ConversationModel | undefined {
+    return this.conversations.find((conversation) => conversation.id === id);
   }
 }

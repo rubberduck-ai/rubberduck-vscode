@@ -7,20 +7,20 @@ export const outgoingMessageSchema = zod.discriminatedUnion("type", [
   zod.object({
     type: zod.literal("clickCollapsedExplanation"),
     data: zod.object({
-      index: zod.number(),
+      id: zod.string(),
     }),
   }),
   zod.object({
     type: zod.literal("sendChatMessage"),
     data: zod.object({
-      index: zod.number(),
+      id: zod.string(),
       message: zod.string(),
     }),
   }),
   zod.object({
     type: zod.literal("retry"),
     data: zod.object({
-      index: zod.number(),
+      id: zod.string(),
     }),
   }),
   zod.object({

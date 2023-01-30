@@ -6,7 +6,7 @@ export const panelStateSchema = zod
     zod.object({
       type: zod.literal("chat"),
       conversations: zod.array(conversationSchema),
-      selectedConversationIndex: zod.union([zod.number(), zod.undefined()]),
+      selectedConversationId: zod.union([zod.string(), zod.undefined()]),
     }),
     zod.object({
       type: zod.literal("diff"),

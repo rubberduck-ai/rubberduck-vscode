@@ -2,7 +2,7 @@ import { webviewApi } from "@rubberduck/common";
 import { OpenAIClient } from "../openai/OpenAIClient";
 
 export abstract class ConversationModel {
-  protected readonly id: string;
+  readonly id: string;
   protected readonly openAIClient: OpenAIClient;
   protected state: webviewApi.Conversation["state"];
   protected readonly messages: webviewApi.Message[];

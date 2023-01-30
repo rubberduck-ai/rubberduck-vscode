@@ -30,21 +30,21 @@ export const ChatPanelView: React.FC<{
 
   return (
     <div>
-      {panelState.conversations.map((conversation, i) =>
-        panelState.selectedConversationIndex === i ? (
+      {panelState.conversations.map((conversation) =>
+        panelState.selectedConversationId === conversation.id ? (
           <ExpandedConversationView
             key={conversation.id}
             conversation={conversation}
             onSendMessage={(message: string) =>
               sendMessage({
                 type: "sendChatMessage",
-                data: { index: i, message },
+                data: { id: conversation.id, message },
               })
             }
             onClickRetry={() =>
               sendMessage({
                 type: "retry",
-                data: { index: i },
+                data: { id: conversation.id },
               })
             }
           />
@@ -55,7 +55,7 @@ export const ChatPanelView: React.FC<{
             onClick={() =>
               sendMessage({
                 type: "clickCollapsedExplanation",
-                data: { index: i },
+                data: { id: conversation.id },
               })
             }
           />
