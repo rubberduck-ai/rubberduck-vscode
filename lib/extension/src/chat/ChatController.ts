@@ -84,6 +84,9 @@ export class ChatController {
         await this.chatModel.conversations[message.data.index].retry();
         break;
       }
+      case "applyDiff": {
+        break;
+      }
       default: {
         const exhaustiveCheck: never = type;
         throw new Error(`unsupported type: ${exhaustiveCheck}`);

@@ -1,3 +1,4 @@
+import { webviewApi } from "@rubberduck/common";
 import { createDiff } from "@rubberduck/diff";
 import * as vscode from "vscode";
 import { DiffEditor } from "../diff/DiffEditor";
@@ -158,7 +159,7 @@ export class EditCodeConversationModel extends ConversationModel {
       .reduce((min, line) => Math.min(min, line.length), Infinity);
 
     // add leading whitespace to each line in the new text to match the original text:
-    const editedFileContentWithWhitespace = editContent
+    const editContentWithAdjustedWhitespace = editContent
       .split("\n")
       .map((line) => {
         const leadingWhitespace = line.match(/^\s*/)?.[0] ?? "";
@@ -170,7 +171,7 @@ export class EditCodeConversationModel extends ConversationModel {
       .join("\n");
 
     // diff the original file content with the edited file content:
-    const editedFileContent = `${prefix}${editedFileContentWithWhitespace}${suffix}`;
+    const editedFileContent = `${prefix}${editContentWithAdjustedWhitespace}${suffix}`;
     const diff = createDiff({
       filename: this.filename,
       originalContent,
@@ -187,6 +188,36 @@ export class EditCodeConversationModel extends ConversationModel {
       this.diffEditor = this.diffEditorManager.createDiffEditor({
         filename: this.filename,
         editorColumn: targetColumn,
+        conversationId: this.id,
+      });
+
+      this.diffEditor.onDidReceiveMessage(async (rawMessage) => {
+        const message = webviewApi.outgoingMessageSchema.parse(rawMessage);
+        if (message.type !== "applyDiff") {
+          return;
+        }
+
+        await this.editor.edit((edit) => {
+          edit.replace(this.range, editContentWithAdjustedWhitespace);
+        });
+
+        const tabGroups = vscode.window.tabGroups;
+        const allTabs: vscode.Tab[] = tabGroups.all
+          .map((tabGroup) => tabGroup.tabs)
+          .flat();
+
+        const tab = allTabs.find((tab) => {
+          return (
+            (tab.input as any).viewType ===
+            `mainThreadWebview-rubberduck.diff.${this.id}`
+          );
+        });
+
+        if (tab != undefined) {
+          await tabGroups.close(tab);
+        }
+
+        this.diffEditor = undefined;
       });
     }
 

@@ -23,6 +23,9 @@ export const outgoingMessageSchema = zod.discriminatedUnion("type", [
       index: zod.number(),
     }),
   }),
+  zod.object({
+    type: zod.literal("applyDiff"),
+  }),
 ]);
 
 /**

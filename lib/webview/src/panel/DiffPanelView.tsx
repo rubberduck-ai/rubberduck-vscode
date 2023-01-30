@@ -18,8 +18,19 @@ export const DiffPanelView: React.FC<{
   }
 
   return (
-    <div>
+    <>
       <DiffView diff={panelState.diff} />
-    </div>
+      <div style={{ margin: "var(--container-padding" }}>
+        <button
+          onClick={() => {
+            sendMessage({
+              type: "applyDiff",
+            });
+          }}
+        >
+          Apply
+        </button>
+      </div>
+    </>
   );
 };
