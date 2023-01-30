@@ -77,6 +77,11 @@ export const activate = async (context: vscode.ExtensionContext) => {
     }),
     vscode.commands.registerCommand("rubberduck.showChatPanel", async () => {
       await chatController.showChatPanel();
+    }),
+    vscode.commands.registerCommand("rubberduck.getStarted", async () => {
+      await vscode.commands.executeCommand("workbench.action.openWalkthrough", {
+        category: `rubberduck.rubberduck-vscode#rubberduck`,
+      });
     })
   );
 };

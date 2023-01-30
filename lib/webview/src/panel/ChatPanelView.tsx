@@ -30,7 +30,6 @@ export const ChatPanelView: React.FC<{
 
   return (
     <div>
-      <StartChatButton onClick={() => sendMessage({ type: "startChat" })} />
       {panelState.conversations.map((conversation, i) =>
         panelState.selectedConversationIndex === i ? (
           <ExpandedConversationView

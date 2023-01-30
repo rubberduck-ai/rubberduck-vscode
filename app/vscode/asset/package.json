@@ -93,6 +93,12 @@
         "title": "Show Chat Panel 💬",
         "category": "Rubberduck",
         "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "rubberduck.getStarted",
+        "title": "Get Started",
+        "category": "Rubberduck",
+        "icon": "$(question)"
       }
     ],
     "keybindings": [
@@ -118,6 +124,18 @@
       }
     ],
     "menus": {
+      "view/title": [
+        {
+          "command": "rubberduck.startChat",
+          "when": "view == rubberduck.chat",
+          "group": "navigation@1"
+        },
+        {
+          "command": "rubberduck.getStarted",
+          "when": "view == rubberduck.chat",
+          "group": "navigation@9"
+        }
+      ],
       "touchBar": [
         {
           "command": "rubberduck.touchBar.startChat",
