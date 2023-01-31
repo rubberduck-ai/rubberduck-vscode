@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.5 - 2023-01-31
+
+### Fixed
+
+- When creating a edit, sometimes no diff was shown. Fixed.
+
 ## 0.8.0 - 2023-01-30
 
 ### Added

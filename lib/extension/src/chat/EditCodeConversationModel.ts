@@ -181,7 +181,10 @@ export class EditCodeConversationModel extends ConversationModel {
         const relativeIndent =
           leadingWhitespace.length - minLeadingWhitespaceNew;
         const newIndent = Math.max(0, minLeadingWhitespace + relativeIndent);
-        return " ".repeat(newIndent) + line.substring(leadingWhitespace.length);
+        return (
+          (newIndent < Infinity ? " ".repeat(newIndent) : "") +
+          line.substring(leadingWhitespace.length)
+        );
       })
       .join("\n");
 
