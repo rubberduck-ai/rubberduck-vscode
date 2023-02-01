@@ -1,11 +1,13 @@
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
+import { ConversationSection } from "../prompt/ConversationSection";
+import { LinesSection } from "../prompt/LinesSection";
+import { assemblePrompt } from "../prompt/Prompt";
 import { ConversationModel } from "./ConversationModel";
 import {
   ConversationModelFactory,
   ConversationModelFactoryResult,
 } from "./ConversationModelFactory";
-import { generateChatCompletion } from "./generateChatCompletion";
 
 export class BasicChatConversationTemplate implements ConversationModelFactory {
   id = "chat";
@@ -74,18 +76,60 @@ class BasicChatConversation extends ConversationModel {
       | string
       | undefined;
 
-    const completion = await generateChatCompletion({
-      introSections:
-        selectedText != null
-          ? [
-              new CodeSection({
-                title: "Selected Code",
-                code: selectedText,
-              }),
-            ]
-          : [],
-      messages: this.messages,
-      openAIClient: this.openAIClient,
+    const botRole = "Bot";
+    const userRole = "Developer";
+
+    const lastMessage = this.messages[this.messages.length - 1];
+
+    const completion = await this.openAIClient.generateCompletion({
+      prompt: assemblePrompt({
+        sections: [
+          new LinesSection({
+            title: "Instructions",
+            lines: [
+              "Continue the conversation below.",
+              `Pay special attention to the current ${userRole} request.`,
+            ],
+          }),
+          new LinesSection({
+            title: "Current request",
+            lines: [`${userRole}: ${lastMessage}`],
+          }),
+          ...(selectedText != null
+            ? [
+                new CodeSection({
+                  title: "Selected Code",
+                  code: selectedText,
+                }),
+              ]
+            : []),
+          new ConversationSection({
+            messages: this.messages,
+            roles: {
+              bot: botRole,
+              user: userRole,
+            },
+          }),
+          new LinesSection({
+            title: "Task",
+            lines: [
+              "Write a response that continues the conversation.",
+              `Stay focused on current ${userRole} request.`,
+              "Consider the possibility that there might not be a solution.",
+              "Ask for clarification if the message does not make sense or more input is needed.",
+              "Use the style of a documentation article.",
+              "Omit any links.",
+              "Include code snippets (using Markdown) and examples where appropriate.",
+            ],
+          }),
+          new LinesSection({
+            title: "Response",
+            lines: [`${botRole}:`],
+          }),
+        ],
+      }),
+      maxTokens: 1024,
+      stop: [`${botRole}:`, `${userRole}:`],
     });
 
     if (completion.type === "error") {
