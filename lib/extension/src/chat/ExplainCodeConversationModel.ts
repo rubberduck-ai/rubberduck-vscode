@@ -12,6 +12,8 @@ import { getRequiredSelectedText } from "./getRequiredSelectedText";
 export class ExplainCodeConversationModel extends ConversationModel {
   static id = "explainCode";
 
+  static inputs = [];
+
   static async createConversationModel({
     generateChatId,
     openAIClient,

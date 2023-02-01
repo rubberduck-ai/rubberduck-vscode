@@ -43,6 +43,8 @@ ${lineErrors
 export class DiagnoseErrorsConversationModel extends ConversationModel {
   static id = "diagnoseErrors";
 
+  static inputs = [];
+
   static async createConversationModel({
     generateChatId,
     openAIClient,

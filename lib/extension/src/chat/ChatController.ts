@@ -2,7 +2,6 @@ import { util, webviewApi } from "@rubberduck/common";
 import * as vscode from "vscode";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
-import { ChatConversationModel } from "./ChatConversationModel";
 import { ChatModel } from "./ChatModel";
 import { ChatPanel } from "./ChatPanel";
 import { ConversationModel } from "./ConversationModel";
@@ -16,7 +15,7 @@ export class ChatController {
   private readonly openAIClient: OpenAIClient;
   private readonly conversationTypes: Record<string, ConversationModelFactory>;
   private readonly diffEditorManager: DiffEditorManager;
-
+  private readonly basicChatTemplateId: string;
   private readonly generateConversationId: () => string;
 
   constructor({
@@ -25,18 +24,21 @@ export class ChatController {
     openAIClient,
     conversationTypes,
     diffEditorManager,
+    basicChatTemplateId,
   }: {
     chatPanel: ChatPanel;
     chatModel: ChatModel;
     openAIClient: OpenAIClient;
     conversationTypes: Record<string, ConversationModelFactory>;
     diffEditorManager: DiffEditorManager;
+    basicChatTemplateId: string;
   }) {
     this.chatPanel = chatPanel;
     this.chatModel = chatModel;
     this.openAIClient = openAIClient;
     this.conversationTypes = conversationTypes;
     this.diffEditorManager = diffEditorManager;
+    this.basicChatTemplateId = basicChatTemplateId;
 
     this.generateConversationId = util.createNextId({
       prefix: "conversation-",
@@ -79,7 +81,7 @@ export class ChatController {
         break;
       }
       case "startChat": {
-        await this.createConversation(ChatConversationModel.id);
+        await this.createConversation(this.basicChatTemplateId);
         break;
       }
       case "deleteConversation": {

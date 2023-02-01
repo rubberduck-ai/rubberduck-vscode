@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
+import { BasicChatConversationTemplate } from "./chat/BasicChatConversationTemplate";
 import { ChatController } from "./chat/ChatController";
-import { ChatConversationModel } from "./chat/ChatConversationModel";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
 import { DiagnoseErrorsConversationModel } from "./chat/DiagnoseErrorsConversationModel";
@@ -15,6 +15,8 @@ export const activate = async (context: vscode.ExtensionContext) => {
   const apiKeyManager = new ApiKeyManager({
     secretStorage: context.secrets,
   });
+
+  const basicChatTemplate = new BasicChatConversationTemplate();
 
   const chatPanel = new ChatPanel({
     extensionUri: context.extensionUri,
@@ -32,12 +34,13 @@ export const activate = async (context: vscode.ExtensionContext) => {
       extensionUri: context.extensionUri,
     }),
     conversationTypes: {
-      [ChatConversationModel.id]: ChatConversationModel,
+      [basicChatTemplate.id]: basicChatTemplate,
       [EditCodeConversationModel.id]: EditCodeConversationModel,
       [ExplainCodeConversationModel.id]: ExplainCodeConversationModel,
       [GenerateTestConversationModel.id]: GenerateTestConversationModel,
       [DiagnoseErrorsConversationModel.id]: DiagnoseErrorsConversationModel,
     },
+    basicChatTemplateId: basicChatTemplate.id,
   });
 
   chatPanel.onDidReceiveMessage(
@@ -67,13 +70,13 @@ export const activate = async (context: vscode.ExtensionContext) => {
       chatController.createConversation(GenerateTestConversationModel.id);
     }),
     vscode.commands.registerCommand("rubberduck.startChat", () => {
-      chatController.createConversation(ChatConversationModel.id);
+      chatController.createConversation(basicChatTemplate.id);
     }),
     vscode.commands.registerCommand("rubberduck.editCode", () => {
       chatController.createConversation(EditCodeConversationModel.id);
     }),
     vscode.commands.registerCommand("rubberduck.touchBar.startChat", () => {
-      chatController.createConversation(ChatConversationModel.id);
+      chatController.createConversation(basicChatTemplate.id);
     }),
     vscode.commands.registerCommand("rubberduck.showChatPanel", async () => {
       await chatController.showChatPanel();

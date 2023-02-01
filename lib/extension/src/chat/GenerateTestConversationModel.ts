@@ -10,6 +10,8 @@ import { getRequiredSelectedText } from "./getRequiredSelectedText";
 export class GenerateTestConversationModel extends ConversationModel {
   static id = "generateTest";
 
+  static inputs = [];
+
   static async createConversationModel({
     generateChatId,
     openAIClient,

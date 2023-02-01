@@ -19,6 +19,8 @@ import {
 export class EditCodeConversationModel extends ConversationModel {
   static id = "editCode";
 
+  static inputs = [];
+
   static async createConversationModel({
     generateChatId,
     openAIClient,

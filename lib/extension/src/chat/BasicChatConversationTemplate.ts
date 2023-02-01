@@ -1,15 +1,18 @@
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
 import { ConversationModel } from "./ConversationModel";
-import { ConversationModelFactoryResult } from "./ConversationModelFactory";
+import {
+  ConversationModelFactory,
+  ConversationModelFactoryResult,
+} from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
 
-export class ChatConversationModel extends ConversationModel {
-  static id = "chat";
+export class BasicChatConversationTemplate implements ConversationModelFactory {
+  id = "chat";
 
-  static inputs = ["optionalSelectedText"];
+  inputs = ["optionalSelectedText"];
 
-  static async createConversationModel({
+  async createConversationModel({
     generateChatId,
     openAIClient,
     updateChatPanel,
@@ -22,36 +25,29 @@ export class ChatConversationModel extends ConversationModel {
   }): Promise<ConversationModelFactoryResult> {
     return {
       result: "success",
-      conversation: new ChatConversationModel(
-        {
-          id: generateChatId(),
-          initData,
-        },
-        {
-          openAIClient,
-          updateChatPanel,
-        }
-      ),
+      conversation: new BasicChatConversation({
+        id: generateChatId(),
+        initData,
+        openAIClient,
+        updateChatPanel,
+      }),
       shouldImmediatelyAnswer: false,
     };
   }
+}
 
-  constructor(
-    {
-      id,
-      initData,
-    }: {
-      id: string;
-      initData: Map<string, unknown>;
-    },
-    {
-      openAIClient,
-      updateChatPanel,
-    }: {
-      openAIClient: OpenAIClient;
-      updateChatPanel: () => Promise<void>;
-    }
-  ) {
+class BasicChatConversation extends ConversationModel {
+  constructor({
+    id,
+    initData,
+    openAIClient,
+    updateChatPanel,
+  }: {
+    id: string;
+    initData: Map<string, unknown>;
+    openAIClient: OpenAIClient;
+    updateChatPanel: () => Promise<void>;
+  }) {
     super({
       id,
       initialState: { type: "userCanReply" },
