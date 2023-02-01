@@ -4,6 +4,7 @@ import { getActiveEditor } from "../vscode/getActiveEditor";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
+import { getOptionalSelectedText } from "./getOptionalSelectedText";
 
 export class ChatConversationModel extends ConversationModel {
   static id = "chat";
@@ -17,11 +18,13 @@ export class ChatConversationModel extends ConversationModel {
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
   }): Promise<ConversationModelFactoryResult> {
-    const activeEditor = getActiveEditor();
+    const result = await getOptionalSelectedText();
 
-    const document = activeEditor?.document;
-    const range = activeEditor?.selection;
-    const selectedText = document?.getText(range);
+    if (result.result === "unavailable") {
+      return result;
+    }
+
+    const { selectedText } = result.data;
 
     return {
       result: "success",

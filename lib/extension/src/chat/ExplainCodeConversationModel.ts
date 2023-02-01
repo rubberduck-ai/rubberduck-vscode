@@ -2,11 +2,11 @@ import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
 import { LinesSection } from "../prompt/LinesSection";
-import { getActiveEditor } from "../vscode/getActiveEditor";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
 import { generateExplainCodeCompletion } from "./generateExplainCodeCompletion";
+import { getRequiredSelectedText } from "./getRequiredSelectedText";
 
 export class ExplainCodeConversationModel extends ConversationModel {
   static id = "explainCode";
@@ -20,27 +20,13 @@ export class ExplainCodeConversationModel extends ConversationModel {
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
   }): Promise<ConversationModelFactoryResult> {
-    const activeEditor = getActiveEditor();
+    const result = await getRequiredSelectedText();
 
-    if (activeEditor == undefined) {
-      return {
-        result: "unavailable",
-        type: "info",
-        message: "No active editor",
-      };
+    if (result.result === "unavailable") {
+      return result;
     }
 
-    const document = activeEditor.document;
-    const range = activeEditor.selection;
-    const selectedText = document.getText(range);
-
-    if (selectedText.trim().length === 0) {
-      return {
-        result: "unavailable",
-        type: "info",
-        message: "No selected text.",
-      };
-    }
+    const { selectedText, range, document } = result.data;
 
     return {
       result: "success",
