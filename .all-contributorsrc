@@ -1,0 +1,50 @@
+{
+  "projectName": "rubberduck-vscode",
+  "projectOwner": "rubberduck-ai",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "none",
+  "contributorsPerLine": 7,
+  "contributorsSortAlphabetically": false,
+  "skipCi": true,
+  "contributors": [
+    {
+      "login": "lgrammel",
+      "name": "Lars Grammel",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/205036?v=4",
+      "profile": "http://larsgrammel.de",
+      "contributions": [
+        "idea",
+        "code",
+        "doc",
+        "review",
+        "question"
+      ]
+    },
+    {
+      "login": "iainvm",
+      "name": "Iain Majer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2806167?v=4",
+      "profile": "http://iainvm.github.io",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "nicoespeon",
+      "name": "Nicolas Carlo",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1094774?v=4",
+      "profile": "https://nicoespeon.com",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    }
+  ]
+}
