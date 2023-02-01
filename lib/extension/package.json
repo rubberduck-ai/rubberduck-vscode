@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "vitest src/"
+    "test": "vitest run src/",
+    "test-watch": "vitest src/"
   },
   "devDependencies": {
     "@types/vscode": "1.72.0"

@@ -2,7 +2,10 @@
   "name": "rubberduck-vscode-root",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "test": "pnpm nx run extension:test",
+    "test-watch": "pnpm nx run extension:test-watch"
+  },
   "private": true,
   "devDependencies": {
     "@types/node": "^18.11.18",
