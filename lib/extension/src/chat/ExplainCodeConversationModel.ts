@@ -6,6 +6,7 @@ import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
 import { generateExplainCodeCompletion } from "./generateExplainCodeCompletion";
+import { getFileInformation } from "./getFileInformation";
 import { getRequiredSelectedText } from "./getRequiredSelectedText";
 
 export class ExplainCodeConversationModel extends ConversationModel {
@@ -21,12 +22,17 @@ export class ExplainCodeConversationModel extends ConversationModel {
     updateChatPanel: () => Promise<void>;
   }): Promise<ConversationModelFactoryResult> {
     const result = await getRequiredSelectedText();
+    const result2 = await getFileInformation();
 
     if (result.result === "unavailable") {
       return result;
     }
+    if (result2.result === "unavailable") {
+      return result2;
+    }
 
-    const { selectedText, range, filename } = result.data;
+    const { selectedText, range } = result.data;
+    const { filename } = result2.data;
 
     return {
       result: "success",
