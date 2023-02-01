@@ -119,6 +119,7 @@ export class DiagnoseErrorsConversationModel extends ConversationModel {
       },
       openAIClient,
       updateChatPanel,
+      initData: new Map(),
     });
 
     this.filename = filename;

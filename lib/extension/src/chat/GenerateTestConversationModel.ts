@@ -90,6 +90,7 @@ export class GenerateTestConversationModel extends ConversationModel {
       },
       openAIClient,
       updateChatPanel,
+      initData: new Map(),
     });
 
     this.filename = filename;

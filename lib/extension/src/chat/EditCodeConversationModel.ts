@@ -93,6 +93,7 @@ export class EditCodeConversationModel extends ConversationModel {
       },
       openAIClient,
       updateChatPanel,
+      initData: new Map(),
     });
 
     const { selectedText, range } = data.get(

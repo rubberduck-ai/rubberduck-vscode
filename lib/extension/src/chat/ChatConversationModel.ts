@@ -31,7 +31,7 @@ export class ChatConversationModel extends ConversationModel {
       conversation: new ChatConversationModel(
         {
           id: generateChatId(),
-          data: result.data,
+          initData: result.data,
         },
         {
           openAIClient,
@@ -42,15 +42,13 @@ export class ChatConversationModel extends ConversationModel {
     };
   }
 
-  readonly selectedText: string | undefined;
-
   constructor(
     {
       id,
-      data,
+      initData,
     }: {
       id: string;
-      data: Map<string, unknown>;
+      initData: Map<string, unknown>;
     },
     {
       openAIClient,
@@ -65,9 +63,8 @@ export class ChatConversationModel extends ConversationModel {
       initialState: { type: "userCanReply" },
       openAIClient,
       updateChatPanel,
+      initData,
     });
-
-    this.selectedText = data.get("optionalSelectedText") as string | undefined;
   }
 
   getTitle(): string {
@@ -83,13 +80,17 @@ export class ChatConversationModel extends ConversationModel {
   }
 
   private async executeChat() {
+    const selectedText = this.initData.get("optionalSelectedText") as
+      | string
+      | undefined;
+
     const completion = await generateChatCompletion({
       introSections:
-        this.selectedText != null
+        selectedText != null
           ? [
               new CodeSection({
                 title: "Selected Code",
-                code: this.selectedText,
+                code: selectedText,
               }),
             ]
           : [],

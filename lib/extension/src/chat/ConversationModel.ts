@@ -8,22 +8,27 @@ export abstract class ConversationModel {
   protected readonly messages: webviewApi.Message[];
   protected readonly updateChatPanel: () => Promise<void>;
 
+  protected readonly initData: Map<string, unknown>;
+
   constructor({
     id,
     openAIClient,
     initialState,
     updateChatPanel,
+    initData,
   }: {
     id: string;
     openAIClient: OpenAIClient;
     initialState: webviewApi.Conversation["state"];
     updateChatPanel: () => Promise<void>;
+    initData: Map<string, unknown>;
   }) {
     this.id = id;
     this.openAIClient = openAIClient;
     this.state = initialState;
     this.updateChatPanel = updateChatPanel;
     this.messages = [];
+    this.initData = initData;
   }
 
   abstract retry(): Promise<void>;

@@ -84,6 +84,7 @@ export class ExplainCodeConversationModel extends ConversationModel {
       },
       openAIClient,
       updateChatPanel,
+      initData: new Map(),
     });
 
     this.filename = filename;
