@@ -3,6 +3,7 @@ import { CodeSection } from "../prompt/CodeSection";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
+import { getCompositeInput } from "./getCompositeInput";
 import { getOptionalSelectedText } from "./getOptionalSelectedText";
 
 export class ChatConversationModel extends ConversationModel {
@@ -17,20 +18,20 @@ export class ChatConversationModel extends ConversationModel {
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
   }): Promise<ConversationModelFactoryResult> {
-    const result = await getOptionalSelectedText();
+    const result = await getCompositeInput({
+      optionalSelectedText: getOptionalSelectedText,
+    })();
 
     if (result.result === "unavailable") {
       return result;
     }
-
-    const { selectedText } = result.data;
 
     return {
       result: "success",
       conversation: new ChatConversationModel(
         {
           id: generateChatId(),
-          selectedText,
+          data: result.data,
         },
         {
           openAIClient,
@@ -46,10 +47,10 @@ export class ChatConversationModel extends ConversationModel {
   constructor(
     {
       id,
-      selectedText,
+      data,
     }: {
       id: string;
-      selectedText?: string | undefined;
+      data: Map<string, unknown>;
     },
     {
       openAIClient,
@@ -66,7 +67,7 @@ export class ChatConversationModel extends ConversationModel {
       updateChatPanel,
     });
 
-    this.selectedText = selectedText;
+    this.selectedText = data.get("optionalSelectedText") as string | undefined;
   }
 
   getTitle(): string {

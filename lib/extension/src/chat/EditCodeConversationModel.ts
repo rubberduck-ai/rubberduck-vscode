@@ -39,22 +39,12 @@ export class EditCodeConversationModel extends ConversationModel {
       return result;
     }
 
-    const result1 = result.data.get("requiredSelectedText");
-    const result2 = result.data.get("fileInformation");
-
-    const { selectedText, range } = result1 as RequiredSelectedTextData;
-    const { filename, language, activeEditor } = result2 as FileInformationData;
-
     return {
       result: "success",
       conversation: new EditCodeConversationModel(
         {
           id: generateChatId(),
-          filename,
-          range,
-          selectedText,
-          language,
-          editor: activeEditor,
+          data: result.data,
         },
         {
           openAIClient,
@@ -80,18 +70,10 @@ export class EditCodeConversationModel extends ConversationModel {
   constructor(
     {
       id,
-      filename,
-      range,
-      selectedText,
-      language,
-      editor,
+      data,
     }: {
       id: string;
-      filename: string;
-      range: vscode.Range;
-      selectedText: string;
-      language: string | undefined;
-      editor: vscode.TextEditor;
+      data: Map<string, unknown>;
     },
     {
       openAIClient,
@@ -113,12 +95,20 @@ export class EditCodeConversationModel extends ConversationModel {
       updateChatPanel,
     });
 
+    const { selectedText, range } = data.get(
+      "requiredSelectedText"
+    ) as RequiredSelectedTextData;
+
+    const { filename, language, activeEditor } = data.get(
+      "fileInformation"
+    ) as FileInformationData;
+
     this.filename = filename;
     this.range = range;
     this.selectedText = selectedText;
     this.language = language;
     this.diffEditorManager = diffEditorManager;
-    this.editor = editor;
+    this.editor = activeEditor;
   }
 
   getTitle(): string {
