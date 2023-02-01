@@ -42,3 +42,4 @@ Once you have completed these steps, you should be able to run and develop the e
 
 - **Lint**: `pnpm nx lint --skip-nx-cache`
 - **Package**: `pnpm nx run vscode:package`
+- **Test**: `pnpm nx run extension:test`
