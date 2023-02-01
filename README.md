@@ -1,5 +1,8 @@
 # Rubberduck - GPT-3 powered chat inside Visual Studio Code
 
+<video src="https://github.com/rubberduck-ai/rubberduck-vscode-asset/blob/main/screencast/2023-01-31-rubberduck-v1.mp4?raw=true"
+       controls="controls" width="100%" height="auto" />
+
 ## Resources
 
 - [Extension - Visual Studio Code marketplace](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
