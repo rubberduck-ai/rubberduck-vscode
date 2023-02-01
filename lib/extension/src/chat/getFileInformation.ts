@@ -2,11 +2,13 @@ import * as vscode from "vscode";
 import { getActiveEditor } from "../vscode/getActiveEditor";
 import { getInput } from "./getInput";
 
-export const getFileInformation: getInput<{
+export type FileInformationData = {
   language: string;
   filename: string;
   activeEditor: vscode.TextEditor;
-}> = async () => {
+};
+
+export const getFileInformation: getInput<FileInformationData> = async () => {
   const activeEditor = getActiveEditor();
 
   if (activeEditor == undefined) {

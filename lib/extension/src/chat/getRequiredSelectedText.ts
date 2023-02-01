@@ -2,10 +2,14 @@ import * as vscode from "vscode";
 import { getActiveEditor } from "../vscode/getActiveEditor";
 import { getInput } from "./getInput";
 
-export const getRequiredSelectedText: getInput<{
+export type RequiredSelectedTextData = {
   selectedText: string;
   range: vscode.Range;
-}> = async () => {
+};
+
+export const getRequiredSelectedText: getInput<
+  RequiredSelectedTextData
+> = async () => {
   const activeEditor = getActiveEditor();
 
   if (activeEditor == undefined) {

@@ -9,8 +9,12 @@ import { LinesSection } from "../prompt/LinesSection";
 import { assemblePrompt } from "../prompt/Prompt";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
-import { getFileInformation } from "./getFileInformation";
-import { getRequiredSelectedText } from "./getRequiredSelectedText";
+import { getCompositeInput } from "./getCompositeInput";
+import { FileInformationData, getFileInformation } from "./getFileInformation";
+import {
+  getRequiredSelectedText,
+  RequiredSelectedTextData,
+} from "./getRequiredSelectedText";
 
 export class EditCodeConversationModel extends ConversationModel {
   static id = "editCode";
@@ -26,18 +30,20 @@ export class EditCodeConversationModel extends ConversationModel {
     updateChatPanel: () => Promise<void>;
     diffEditorManager: DiffEditorManager;
   }): Promise<ConversationModelFactoryResult> {
-    const result = await getRequiredSelectedText();
-    const result2 = await getFileInformation();
+    const result = await getCompositeInput({
+      requiredSelectedText: getRequiredSelectedText,
+      fileInformation: getFileInformation,
+    })();
 
     if (result.result === "unavailable") {
       return result;
     }
-    if (result2.result === "unavailable") {
-      return result2;
-    }
 
-    const { selectedText, range } = result.data;
-    const { filename, language, activeEditor } = result2.data;
+    const result1 = result.data.get("requiredSelectedText");
+    const result2 = result.data.get("fileInformation");
+
+    const { selectedText, range } = result1 as RequiredSelectedTextData;
+    const { filename, language, activeEditor } = result2 as FileInformationData;
 
     return {
       result: "success",
