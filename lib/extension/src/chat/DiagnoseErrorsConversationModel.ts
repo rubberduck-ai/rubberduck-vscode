@@ -4,17 +4,14 @@ import { BasicSection } from "../prompt/BasicSection";
 import { CodeSection } from "../prompt/CodeSection";
 import { LinesSection } from "../prompt/LinesSection";
 import { assemblePrompt } from "../prompt/Prompt";
-import { getActiveEditor } from "../vscode/getActiveEditor";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
-
-type Error = {
-  code?: string | number | undefined;
-  source?: string | undefined;
-  message: string;
-  line: number;
-};
+import {
+  ErrorInRange,
+  getErrorsInSelectionRange,
+} from "./getErrorsInSelectionRange";
+import { getFileInformation } from "./getFileInformation";
 
 function annotateSelectionWithErrors({
   selectionText,
@@ -23,7 +20,7 @@ function annotateSelectionWithErrors({
 }: {
   selectionText: string;
   selectionStartLine: number;
-  errors: Array<Error>;
+  errors: Array<ErrorInRange>;
 }) {
   return selectionText
     .split("\n")
@@ -55,44 +52,18 @@ export class DiagnoseErrorsConversationModel extends ConversationModel {
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
   }): Promise<ConversationModelFactoryResult> {
-    const activeEditor = getActiveEditor();
+    const result = await getErrorsInSelectionRange();
+    const result2 = await getFileInformation();
 
-    if (activeEditor == undefined) {
-      return {
-        result: "unavailable",
-        type: "info",
-        message: "No active editor",
-      };
+    if (result.result === "unavailable") {
+      return result;
+    }
+    if (result2.result === "unavailable") {
+      return result2;
     }
 
-    const document = activeEditor.document;
-    const range = activeEditor.selection;
-
-    const errors = vscode.languages.getDiagnostics(document.uri).filter(
-      (diagnostic) =>
-        diagnostic.severity === vscode.DiagnosticSeverity.Error &&
-        // line based filtering, because the ranges tend to be to inaccurate:
-        diagnostic.range.start.line >= range.start.line &&
-        diagnostic.range.end.line <= range.end.line
-    );
-
-    const filename = document.fileName.split("/").pop();
-
-    if (filename == undefined || errors.length === 0) {
-      return {
-        result: "unavailable",
-        type: "info",
-        message: "No errors found.",
-      };
-    }
-
-    // get document text between range start line and range end line
-    const rangeText = document.getText(
-      new vscode.Range(
-        new vscode.Position(range.start.line, 0),
-        new vscode.Position(range.end.line + 1, 0)
-      )
-    );
+    const { errors, range, rangeText } = result.data;
+    const { filename } = result2.data;
 
     return {
       result: "success",
@@ -102,13 +73,7 @@ export class DiagnoseErrorsConversationModel extends ConversationModel {
           filename,
           range,
           selectedText: rangeText,
-          errors: errors.map((error) => ({
-            line: error.range.start.line,
-            message: error.message,
-            source: error.source,
-            code:
-              typeof error.code === "object" ? error.code.value : error.code,
-          })),
+          errors,
         },
         {
           openAIClient,
@@ -122,7 +87,7 @@ export class DiagnoseErrorsConversationModel extends ConversationModel {
   readonly filename: string;
   readonly range: vscode.Range;
   readonly selectedText: string;
-  readonly errors: Array<Error>;
+  readonly errors: Array<ErrorInRange>;
 
   constructor(
     {
@@ -136,7 +101,7 @@ export class DiagnoseErrorsConversationModel extends ConversationModel {
       filename: string;
       range: vscode.Range;
       selectedText: string;
-      errors: Array<Error>;
+      errors: Array<ErrorInRange>;
     },
     {
       openAIClient,
