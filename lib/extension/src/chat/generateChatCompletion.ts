@@ -39,6 +39,10 @@ export async function generateChatCompletion({
         ...introSections,
         new ConversationSection({
           messages,
+          roles: {
+            bot: botRole,
+            user: userRole,
+          },
         }),
         new LinesSection({
           title: "Task",
