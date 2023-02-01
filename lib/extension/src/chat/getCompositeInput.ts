@@ -1,9 +1,11 @@
 import { getInput } from "./getInput";
 
 export const getCompositeInput =
-  (inputs: Record<string, getInput<unknown>>): getInput<Map<string, unknown>> =>
+  <Inputs extends Record<string, getInput<unknown>>>(
+    inputs: Inputs
+  ): getInput<Map<keyof Inputs, unknown>> =>
   async () => {
-    const result: Map<string, unknown> = new Map();
+    const result: Map<keyof Inputs, unknown> = new Map();
 
     for (const [key, input] of Object.entries(inputs)) {
       const inputResult = await input();
