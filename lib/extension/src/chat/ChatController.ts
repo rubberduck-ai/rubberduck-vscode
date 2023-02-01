@@ -7,6 +7,8 @@ import { ChatModel } from "./ChatModel";
 import { ChatPanel } from "./ChatPanel";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactory } from "./ConversationModelFactory";
+import { getInput } from "./getInput";
+import { getOptionalSelectedText } from "./getOptionalSelectedText";
 
 export class ChatController {
   private readonly chatPanel: ChatPanel;
@@ -110,11 +112,44 @@ export class ChatController {
       return;
     }
 
+    const availableInputs: Record<string, getInput<unknown>> = {
+      optionalSelectedText: getOptionalSelectedText,
+    };
+
+    const initData = new Map<string, unknown>();
+
+    for (const inputKey of factory.inputs) {
+      const input = availableInputs[inputKey];
+
+      if (input == undefined) {
+        await vscode.window.showErrorMessage(
+          `No input found for input '${inputKey}'`
+        );
+
+        return;
+      }
+
+      const initResult = await input();
+
+      if (initResult.result === "unavailable") {
+        if (initResult.type === "info") {
+          await vscode.window.showInformationMessage(initResult.message);
+        } else if (initResult.type === "error") {
+          await vscode.window.showErrorMessage(initResult.message);
+        }
+
+        return;
+      }
+
+      initData.set(inputKey, initResult.data);
+    }
+
     const result = await factory.createConversationModel({
       generateChatId: this.generateConversationId,
       openAIClient: this.openAIClient,
       updateChatPanel: this.updateChatPanel.bind(this),
       diffEditorManager: this.diffEditorManager,
+      initData,
     });
 
     if (result.result === "unavailable") {

@@ -3,35 +3,29 @@ import { CodeSection } from "../prompt/CodeSection";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";
-import { getCompositeInput } from "./getCompositeInput";
-import { getOptionalSelectedText } from "./getOptionalSelectedText";
 
 export class ChatConversationModel extends ConversationModel {
   static id = "chat";
+
+  static inputs = ["optionalSelectedText"];
 
   static async createConversationModel({
     generateChatId,
     openAIClient,
     updateChatPanel,
+    initData,
   }: {
     generateChatId: () => string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
+    initData: Map<string, unknown>;
   }): Promise<ConversationModelFactoryResult> {
-    const result = await getCompositeInput({
-      optionalSelectedText: getOptionalSelectedText,
-    })();
-
-    if (result.result === "unavailable") {
-      return result;
-    }
-
     return {
       result: "success",
       conversation: new ChatConversationModel(
         {
           id: generateChatId(),
-          initData: result.data,
+          initData,
         },
         {
           openAIClient,

@@ -20,15 +20,20 @@ export type ConversationModelFactoryResult =
 
 export type ConversationModelFactory = {
   id: string;
+
+  inputs: Array<string>;
+
   createConversationModel({
     generateChatId,
     openAIClient,
     updateChatPanel,
     diffEditorManager,
+    initData,
   }: {
     generateChatId(): string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
     diffEditorManager: DiffEditorManager;
+    initData: Map<string, unknown>;
   }): Promise<ConversationModelFactoryResult>;
 };
