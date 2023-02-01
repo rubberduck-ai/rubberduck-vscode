@@ -72,8 +72,10 @@ Let Rubberduck identify error causes and suggest fixes to fix compiler and linte
 1. Get an OpenAI API key from [beta.openai.com/account/api-keys](https://beta.openai.com/account/api-keys) (you'll need to sign up for an account)
 2. Enter the API key with the `Rubberduck: Enter OpenAI API key` command
 
-# More
+# Project
 
-**I'm building this extension in public!**
+**Rubberduck is open source!**
 
-Check out [this Twitter thread](https://twitter.com/lgrammel/status/1618546466678804481) or follow [@lgrammel](https://twitter.com/lgrammel) for updates.
+- Repository: [github.com/rubberduck-ai/rubberduck-vscode](https://github.com/rubberduck-ai/rubberduck-vscode)
+- Discord: [discord.gg/8KN2HmyZmn](https://discord.gg/8KN2HmyZmn)
+- Twitter: Follow [@lgrammel](https://twitter.com/lgrammel) for updates.
