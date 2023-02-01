@@ -11,7 +11,7 @@
 - [Extension - Visual Studio Code marketplace](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
 - [Rubberduck Discord](https://discord.gg/8KN2HmyZmn)
 
-## Functionality
+## What it can do for you
 
 ### AI Chat
 
@@ -29,7 +29,7 @@
 
 ![Generate Tests](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-test.gif)
 
-## Diagnose Errors
+### Diagnose Errors
 
 ![Diagnose Errors](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-diagnose-errors.png)
 
