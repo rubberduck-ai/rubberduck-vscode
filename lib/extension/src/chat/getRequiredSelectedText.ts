@@ -5,7 +5,8 @@ import { getInput } from "./getInput";
 export const getRequiredSelectedText: getInput<{
   selectedText: string;
   range: vscode.Range;
-  document: vscode.TextDocument;
+  language: string;
+  filename: string;
 }> = async () => {
   const activeEditor = getActiveEditor();
 
@@ -20,6 +21,8 @@ export const getRequiredSelectedText: getInput<{
   const document = activeEditor.document;
   const range = activeEditor.selection;
   const selectedText = document.getText(range);
+  const language = document.languageId;
+  const filename = document.fileName.split("/").pop();
 
   if (selectedText.trim().length === 0) {
     return {
@@ -29,12 +32,21 @@ export const getRequiredSelectedText: getInput<{
     };
   }
 
+  if (filename == undefined) {
+    return {
+      result: "unavailable",
+      type: "info",
+      message: "No filename found.",
+    };
+  }
+
   return {
     result: "success",
     data: {
       selectedText,
       range,
-      document,
+      language,
+      filename,
     },
   };
 };

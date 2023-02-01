@@ -26,15 +26,14 @@ export class ExplainCodeConversationModel extends ConversationModel {
       return result;
     }
 
-    const { selectedText, range, document } = result.data;
+    const { selectedText, range, filename } = result.data;
 
     return {
       result: "success",
       conversation: new ExplainCodeConversationModel(
         {
           id: generateChatId(),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          filename: document.fileName.split("/").pop()!,
+          filename,
           range,
           selectedText,
         },
