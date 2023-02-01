@@ -115,8 +115,6 @@ export class OpenAIClient {
         errorMessage: string;
       }
   > {
-    console.log(prompt);
-
     const result = await this.postToApi({
       path: `/v1/completions`,
       content: {
