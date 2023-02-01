@@ -27,19 +27,17 @@
 
 ![Diagnose Errors](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-diagnose-errors.png)
 
-## Development Guide
+## Running it locally & Contributing
 
-### Setup
+### [Contributing Guide][contributing]
 
-1. Install pnpm: `brew install pnpm`
-2. Run `pnpm install` to install dependencies
-3. Run `pnpm nx run-many --target=build` to build the extension
-4. Use "run - app/vscode" inside VSCode to run the extension
+Read our [contributing guide][contributing] to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes.
 
-Once you have completed these steps, you should be able to run and develop the extension.
+### [Good First Issues][good-first-issues]
 
-### Commands
+To help you get your feet wet and become familiar with our contribution process, we have a list of [good first issues][good-first-issues] that contains things with a relatively limited scope. This is a great place to get started!
 
-- **Lint**: `pnpm nx lint --skip-nx-cache`
-- **Package**: `pnpm nx run vscode:package`
-- **Test**: `pnpm nx run extension:test`
+<!-- Links -->
+
+[contributing]: https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/CONTRIBUTING.md
+[good-first-issues]: https://github.com/rubberduck-ai/rubberduck-vscode/labels/good%20first%20issue
