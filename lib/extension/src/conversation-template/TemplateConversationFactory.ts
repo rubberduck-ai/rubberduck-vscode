@@ -93,6 +93,10 @@ class TemplateConversation extends ConversationModel {
 
     const lastMessage = this.messages[this.messages.length - 1];
 
+    const variables = new Map<string, string | undefined>();
+    variables.set("selectedText", selectedText);
+    variables.set("lastMessage", lastMessage?.content);
+
     const prompt = this.template.prompt;
 
     const completion = await this.openAIClient.generateCompletion({
@@ -104,7 +108,13 @@ class TemplateConversation extends ConversationModel {
               case "lines": {
                 return new LinesSection({
                   title: section.title,
-                  lines: section.lines, // TODO inject vars
+                  lines: section.lines.map((line) => {
+                    // replace ${variable} with the value of the variable:
+                    return line.replace(
+                      /\$\{([^}]+)\}/g,
+                      (_, variable) => variables.get(variable) ?? ""
+                    );
+                  }),
                 });
               }
               case "conversation": {
