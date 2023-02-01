@@ -87,9 +87,9 @@ class TemplateConversation extends ConversationModel {
   }
 
   private async executeChat() {
-    const selectedText = this.initData.get("optionalSelectedText") as
-      | string
-      | undefined;
+    const { selectedText } = this.initData.get("optionalSelectedText") as {
+      selectedText: string | undefined;
+    };
 
     const lastMessage = this.messages[this.messages.length - 1];
 
