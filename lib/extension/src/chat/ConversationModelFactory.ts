@@ -19,9 +19,9 @@ export type ConversationModelFactoryResult =
     };
 
 export type ConversationModelFactory = {
-  id: string;
+  readonly id: string;
 
-  inputs: Array<string>;
+  readonly inputs: Array<string>;
 
   createConversationModel({
     generateChatId,
