@@ -105,7 +105,16 @@ export class OpenAIClient {
     prompt: string;
     maxTokens: number;
     stop?: string[] | undefined;
-  }) {
+  }): Promise<
+    | {
+        type: "success";
+        content: string;
+      }
+    | {
+        type: "error";
+        errorMessage: string;
+      }
+  > {
     const result = await this.postToApi({
       path: `/v1/completions`,
       content: {
@@ -122,11 +131,22 @@ export class OpenAIClient {
       schema: OpenAICompletionSchema,
     });
 
-    return result.type === "error"
-      ? result
-      : ({
-          type: "success",
-          content: result.data.choices[0].text,
-        } as const);
+    if (result.type === "error") {
+      return result;
+    }
+
+    const choice = result.data.choices[0];
+
+    if (choice == undefined) {
+      return {
+        type: "error",
+        errorMessage: "No completion found",
+      };
+    }
+
+    return {
+      type: "success",
+      content: choice.text,
+    };
   }
 }

@@ -113,8 +113,10 @@ export class ExplainCodeConversationModel extends ConversationModel {
   }
 
   private async executeExplainCode() {
+    const firstMessage = this.messages[0];
+
     const completion =
-      this.messages.length === 0
+      firstMessage == undefined
         ? await generateExplainCodeCompletion({
             selectedText: this.selectedText,
             openAIClient: this.openAIClient,
@@ -126,7 +128,7 @@ export class ExplainCodeConversationModel extends ConversationModel {
               }),
               new LinesSection({
                 title: "Code Summary",
-                lines: [this.messages[0].content],
+                lines: [firstMessage.content],
               }),
             ],
             messages: this.messages.slice(1),

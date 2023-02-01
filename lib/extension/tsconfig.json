@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
+    "noUncheckedIndexedAccess": true,
     "rootDir": "./src",
     "outDir": "./build"
   },

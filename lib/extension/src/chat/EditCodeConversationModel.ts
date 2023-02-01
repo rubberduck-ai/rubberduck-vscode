@@ -130,9 +130,9 @@ export class EditCodeConversationModel extends ConversationModel {
   }
 
   getTitle(): string {
-    return `${
-      this.messages.length === 0 ? "Edit Code" : this.messages[0].content
-    } (${this.filename} ${this.range.start.line}:${this.range.end.line})`;
+    return `${this.messages[0]?.content ?? "Edit Code"} (${this.filename} ${
+      this.range.start.line
+    }:${this.range.end.line})`;
   }
 
   isTitleMessage(): boolean {

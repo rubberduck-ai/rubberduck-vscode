@@ -68,7 +68,7 @@ export class ChatConversationModel extends ConversationModel {
   }
 
   getTitle(): string {
-    return this.messages.length === 0 ? "New Chat" : this.messages[0].content;
+    return this.messages[0]?.content ?? "New Chat";
   }
 
   isTitleMessage(): boolean {
