@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
 import { OpenAIClient } from "../openai/OpenAIClient";
-import { getActiveEditor } from "../vscode/getActiveEditor";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateGenerateTestCompletion } from "./generateGenerateTestCompletion";
 import { generateRefineCodeCompletion } from "./generateRefineCodeCompletion";
+import { getRequiredSelectedText } from "./getRequiredSelectedText";
 
 export class GenerateTestConversationModel extends ConversationModel {
   static id = "generateTest";
@@ -18,38 +18,23 @@ export class GenerateTestConversationModel extends ConversationModel {
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
   }): Promise<ConversationModelFactoryResult> {
-    const activeEditor = getActiveEditor();
+    const result = await getRequiredSelectedText();
 
-    if (activeEditor == undefined) {
-      return {
-        result: "unavailable",
-        type: "info",
-        message: "No active editor",
-      };
+    if (result.result === "unavailable") {
+      return result;
     }
 
-    const document = activeEditor.document;
-    const range = activeEditor.selection;
-    const selectedText = document.getText(range);
-
-    if (selectedText.trim().length === 0) {
-      return {
-        result: "unavailable",
-        type: "info",
-        message: "No selected text.",
-      };
-    }
+    const { selectedText, range, language, filename } = result.data;
 
     return {
       result: "success",
       conversation: new GenerateTestConversationModel(
         {
           id: generateChatId(),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          filename: document.fileName.split("/").pop()!,
+          filename,
           range,
           selectedText,
-          language: activeEditor.document.languageId,
+          language,
         },
         {
           openAIClient,
