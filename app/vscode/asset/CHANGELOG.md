@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.1 - 2023-02-01
+
+### Fixed
+
+- Incorrect description of diagnose errors. Thanks @iainvm for the fix!
+
+## 1.0.0 - 2023-02-01
+
+- First major release! Only minor README changes.
+
 ## 0.8.5 - 2023-01-31
 
 ### Fixed
