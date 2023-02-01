@@ -29,7 +29,7 @@ export async function generateChatCompletion({
           title: "Instructions",
           lines: [
             "Continue the conversation below.",
-            "Pay special attention to the current ${userRole.toLocaleLowerCase()} request.",
+            `Pay special attention to the current ${userRole.toLocaleLowerCase()} request.`,
           ],
         }),
         new LinesSection({
