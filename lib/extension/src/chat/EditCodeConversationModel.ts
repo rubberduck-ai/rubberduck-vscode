@@ -7,9 +7,10 @@ import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
 import { LinesSection } from "../prompt/LinesSection";
 import { assemblePrompt } from "../prompt/Prompt";
-import { getActiveEditor } from "../vscode/getActiveEditor";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
+import { getFileInformation } from "./getFileInformation";
+import { getRequiredSelectedText } from "./getRequiredSelectedText";
 
 export class EditCodeConversationModel extends ConversationModel {
   static id = "editCode";
@@ -25,39 +26,28 @@ export class EditCodeConversationModel extends ConversationModel {
     updateChatPanel: () => Promise<void>;
     diffEditorManager: DiffEditorManager;
   }): Promise<ConversationModelFactoryResult> {
-    const activeEditor = getActiveEditor();
+    const result = await getRequiredSelectedText();
+    const result2 = await getFileInformation();
 
-    if (activeEditor == undefined) {
-      return {
-        result: "unavailable",
-        type: "info",
-        message: "No active editor",
-      };
+    if (result.result === "unavailable") {
+      return result;
+    }
+    if (result2.result === "unavailable") {
+      return result2;
     }
 
-    const document = activeEditor.document;
-    const range = activeEditor.selection;
-    const selectedText = document.getText(range);
-
-    if (selectedText.trim().length === 0) {
-      return {
-        result: "unavailable",
-        type: "info",
-        message: "No selected text.",
-      };
-    }
+    const { selectedText, range } = result.data;
+    const { filename, language, activeEditor } = result2.data;
 
     return {
       result: "success",
       conversation: new EditCodeConversationModel(
         {
           id: generateChatId(),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          filename: document.fileName.split("/").pop()!,
-          sourceDocument: document,
+          filename,
           range,
           selectedText,
-          language: activeEditor.document.languageId,
+          language,
           editor: activeEditor,
         },
         {
@@ -71,7 +61,6 @@ export class EditCodeConversationModel extends ConversationModel {
   }
 
   readonly filename: string;
-  readonly sourceDocument: vscode.TextDocument;
   readonly range: vscode.Range;
   readonly selectedText: string;
   readonly language: string | undefined;
@@ -86,7 +75,6 @@ export class EditCodeConversationModel extends ConversationModel {
     {
       id,
       filename,
-      sourceDocument,
       range,
       selectedText,
       language,
@@ -94,7 +82,6 @@ export class EditCodeConversationModel extends ConversationModel {
     }: {
       id: string;
       filename: string;
-      sourceDocument: vscode.TextDocument;
       range: vscode.Range;
       selectedText: string;
       language: string | undefined;
@@ -121,7 +108,6 @@ export class EditCodeConversationModel extends ConversationModel {
     });
 
     this.filename = filename;
-    this.sourceDocument = sourceDocument;
     this.range = range;
     this.selectedText = selectedText;
     this.language = language;
@@ -151,7 +137,7 @@ export class EditCodeConversationModel extends ConversationModel {
     }
 
     // edit the file content with the editContent:
-    const document = this.sourceDocument;
+    const document = this.editor.document;
     const originalContent = document.getText();
     const prefix = originalContent.substring(
       0,

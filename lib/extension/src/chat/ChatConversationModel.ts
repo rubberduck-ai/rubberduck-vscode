@@ -1,6 +1,5 @@
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { CodeSection } from "../prompt/CodeSection";
-import { getActiveEditor } from "../vscode/getActiveEditor";
 import { ConversationModel } from "./ConversationModel";
 import { ConversationModelFactoryResult } from "./ConversationModelFactory";
 import { generateChatCompletion } from "./generateChatCompletion";

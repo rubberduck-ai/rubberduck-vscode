@@ -1,9 +1,11 @@
+import * as vscode from "vscode";
 import { getActiveEditor } from "../vscode/getActiveEditor";
 import { getInput } from "./getInput";
 
 export const getFileInformation: getInput<{
   language: string;
   filename: string;
+  activeEditor: vscode.TextEditor;
 }> = async () => {
   const activeEditor = getActiveEditor();
 
@@ -30,6 +32,7 @@ export const getFileInformation: getInput<{
   return {
     result: "success",
     data: {
+      activeEditor,
       language,
       filename,
     },
