@@ -3,13 +3,11 @@ import { DiagnoseErrorsConversation } from "./built-in/DiagnoseErrorsConversatio
 import { EditCodeConversation } from "./built-in/EditCodeConversation";
 import { GenerateTestConversation } from "./built-in/GenerateTestConversationModel";
 import { ConversationType } from "./ConversationType";
-import {
-  basicChatTemplate,
-  explainCodeTemplate,
-} from "./template/BuiltInTemplates";
+import { explainCodeTemplate } from "./built-in/ExplainCodeTemplate";
 import { conversationTemplateSchema } from "./template/ConversationTemplate";
 import { loadConversationTemplatesFromWorkspace } from "./template/loadConversationTemplatesFromWorkspace";
 import { TemplateConversationType } from "./template/TemplateConversationType";
+import { basicChatTemplate } from "./built-in/BasicChatTemplate";
 
 export class ConversationTypesProvider {
   private readonly conversationTypes = new Map<string, ConversationType>();
