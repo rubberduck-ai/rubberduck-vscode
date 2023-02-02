@@ -8,7 +8,8 @@ import { EditCodeConversationModel } from "./chat/EditCodeConversationModel";
 import { ExplainCodeConversationModel } from "./chat/ExplainCodeConversationModel";
 import { GenerateTestConversationModel } from "./chat/GenerateTestConversationModel";
 import { basicChatTemplate } from "./conversation-template/BuiltInTemplates";
-import { ConversationTemplateSchema } from "./conversation-template/ConversationTemplate";
+import { conversationTemplateSchema } from "./conversation-template/ConversationTemplate";
+import { loadConversationTemplatesFromWorkspace } from "./conversation-template/loadConversationTemplatesFromWorkspace";
 import { TemplateConversationFactory } from "./conversation-template/TemplateConversationFactory";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
@@ -20,7 +21,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
   });
 
   const basicChat = new TemplateConversationFactory({
-    template: ConversationTemplateSchema.parse(basicChatTemplate),
+    template: conversationTemplateSchema.parse(basicChatTemplate),
   });
 
   const conversationTypes = new Map<string, ConversationModelFactory>();
@@ -41,6 +42,23 @@ export const activate = async (context: vscode.ExtensionContext) => {
     DiagnoseErrorsConversationModel.id,
     DiagnoseErrorsConversationModel
   );
+
+  const workspaceTemplateLoadingResults =
+    await loadConversationTemplatesFromWorkspace();
+  for (const loadingResult of workspaceTemplateLoadingResults) {
+    if (loadingResult.type === "error") {
+      vscode.window.showErrorMessage(
+        `Error loading conversation template from ${loadingResult.file.path}: ${loadingResult.error}`
+      );
+
+      continue;
+    }
+
+    const factory = new TemplateConversationFactory({
+      template: loadingResult.template,
+    });
+    conversationTypes.set(factory.id, factory);
+  }
 
   const chatPanel = new ChatPanel({
     extensionUri: context.extensionUri,

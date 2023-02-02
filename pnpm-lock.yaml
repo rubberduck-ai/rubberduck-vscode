@@ -11,7 +11,7 @@ importers:
       esbuild: 0.16.10
       eslint: ^8.32.0
       eslint-config-prettier: 8.6.0
-      husky: 8.0.3
+      husky: ^8.0.0
       lint-staged: 13.1.0
       nx: 15.4.1
       prettier: 2.8.3
@@ -61,11 +61,13 @@ importers:
       '@rubberduck/diff': '*'
       '@types/vscode': 1.72.0
       axios: 1.2.4
+      secure-json-parse: 2.7.0
       zod: 3.20.2
     dependencies:
       '@rubberduck/common': link:../common
       '@rubberduck/diff': link:../diff
       axios: 1.2.4
+      secure-json-parse: 2.7.0
       zod: 3.20.2
     devDependencies:
       '@types/vscode': 1.72.0
@@ -3319,6 +3321,10 @@ packages:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
     dependencies:
       loose-envify: 1.4.0
+    dev: false
+
+  /secure-json-parse/2.7.0:
+    resolution: {integrity: sha512-6aU+Rwsezw7VR8/nyvKTx8QpWH9FrcYiXXlqC4z5d5XQBDRqtbfsRjnwGyqbi3gddNtWHuEk9OANUotL26qKUw==}
     dev: false
 
   /semver/5.7.1:

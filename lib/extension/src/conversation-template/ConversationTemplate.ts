@@ -1,6 +1,6 @@
 import zod from "zod";
 
-export const ConversationTemplateSchema = zod.object({
+export const conversationTemplateSchema = zod.object({
   id: zod.string(),
   engineVersion: zod.literal(0),
   type: zod.literal("basic-chat"),
@@ -31,4 +31,4 @@ export const ConversationTemplateSchema = zod.object({
   }),
 });
 
-export type ConversationTemplate = zod.infer<typeof ConversationTemplateSchema>;
+export type ConversationTemplate = zod.infer<typeof conversationTemplateSchema>;
