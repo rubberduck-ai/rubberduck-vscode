@@ -11,7 +11,8 @@ import { generateExplainCodeCompletion } from "./generateExplainCodeCompletion";
 
 export class ExplainCodeConversation extends Conversation {
   static id = "explainCode";
-
+  static label = "Explain Code";
+  static source = "built-in" as const;
   static inputs = [];
 
   static async createConversation({

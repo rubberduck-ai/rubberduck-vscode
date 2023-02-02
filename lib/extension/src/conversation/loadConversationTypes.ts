@@ -13,6 +13,7 @@ export async function loadConversationTypes() {
   const builtInConversationTypes = [
     new TemplateConversationType({
       template: conversationTemplateSchema.parse(basicChatTemplate),
+      source: "built-in",
     }),
     EditCodeConversation,
     ExplainCodeConversation,
@@ -38,6 +39,7 @@ export async function loadConversationTypes() {
 
     const factory = new TemplateConversationType({
       template: loadingResult.template,
+      source: "local-workspace",
     });
     conversationTypes.set(factory.id, factory);
   }

@@ -42,7 +42,8 @@ ${lineErrors
 
 export class DiagnoseErrorsConversation extends Conversation {
   static id = "diagnoseErrors";
-
+  static label = "Diagnose Errors";
+  static source = "built-in" as const;
   static inputs = [];
 
   static async createConversation({

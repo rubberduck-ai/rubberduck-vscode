@@ -21,7 +21,8 @@ import {
 
 export class EditCodeConversation extends Conversation {
   static id = "editCode";
-
+  static label = "Edit Code";
+  static source = "built-in" as const;
   static inputs = [];
 
   static async createConversation({

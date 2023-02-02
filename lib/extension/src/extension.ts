@@ -25,6 +25,8 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   const conversationTypes = await loadConversationTypes();
 
+  console.log(Array.of(conversationTypes.keys()));
+
   const chatController = new ChatController({
     chatPanel,
     chatModel,

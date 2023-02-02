@@ -9,7 +9,8 @@ import { getFileInformation } from "../input/getFileInformation";
 
 export class GenerateTestConversation extends Conversation {
   static id = "generateTest";
-
+  static label = "Generate Test";
+  static source = "built-in" as const;
   static inputs = [];
 
   static async createConversation({

@@ -13,13 +13,24 @@ import { ConversationTemplate } from "./ConversationTemplate";
 
 export class TemplateConversationType implements ConversationType {
   readonly id: string;
+  readonly label: string;
+  readonly source: ConversationType["source"];
   readonly inputs = ["optionalSelectedText"];
 
   private template: ConversationTemplate;
 
-  constructor({ template }: { template: ConversationTemplate }) {
+  constructor({
+    template,
+    source,
+  }: {
+    template: ConversationTemplate;
+    source: ConversationType["source"];
+  }) {
     this.template = template;
+
     this.id = template.id;
+    this.label = template.label;
+    this.source = source;
   }
 
   async createConversation({
