@@ -2,7 +2,7 @@
   "id": "find-bugs",
   "engineVersion": 0,
   "type": "selected-code-analysis-chat",
-  "label": "Find bugs (WIP)",
+  "label": "Find bugs",
   "description": "Find any potential bugs in the selected code.",
   "codicon": "bug",
   "initVariableConstraints": [
@@ -18,7 +18,7 @@
         "type": "lines",
         "title": "Instructions",
         "lines": [
-          "Search for potential bugs and defects in the code below.",
+          "What could be wrong with the code below?",
           "Pay special attention to logical expressions and make sure they are sound."
         ]
       },
@@ -30,8 +30,12 @@
         "type": "lines",
         "title": "Task",
         "lines": [
-          "Describe any potential bugs or defects in the code.",
-          "Consider that there might not be any problems with the code."
+          "Describe what could be wrong with the code.",
+          "Include any potential bugs or defects in the code.",
+          "Pay special attention to logical expressions and their soundness.",
+          "Consider that there might not be any problems with the code.",
+          "Provide potential fix suggestions where possible.",
+          "Include code snippets (using Markdown) and examples where appropriate."
         ]
       },
       {
@@ -40,7 +44,7 @@
         "lines": []
       }
     ],
-    "maxTokens": 512
+    "maxTokens": 1024
   },
   "chatTitle": "Find bugs",
   "chatPrompt": {
