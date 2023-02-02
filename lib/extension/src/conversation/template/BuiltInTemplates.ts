@@ -60,7 +60,7 @@ export const basicChatTemplate: ConversationTemplate = {
 export const explainCodeTemplate: ConversationTemplate = {
   id: "explain-code",
   engineVersion: 0,
-  type: "analysis-chat",
+  type: "selected-code-analysis-chat",
   label: "Explain Code",
   description: "Explain the selected code.",
   codicon: "book",

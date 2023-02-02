@@ -42,7 +42,7 @@ export const conversationTemplateSchema = zod.discriminatedUnion("type", [
     prompt: promptSchema,
   }),
   baseTemplateSchema.extend({
-    type: zod.literal("analysis-chat"),
+    type: zod.literal("selected-code-analysis-chat"),
     analysisPrompt: promptSchema,
     chatPrompt: promptSchema,
   }),
