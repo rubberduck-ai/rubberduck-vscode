@@ -13,7 +13,7 @@ export class TemplateConversationType implements ConversationType {
   readonly label: string;
   readonly description: string;
   readonly source: ConversationType["source"];
-  readonly inputs = ["optionalSelectedText"];
+  readonly inputs = ["filename", "selectedText", "selectedRange"];
 
   private template: ConversationTemplate;
 
@@ -43,6 +43,19 @@ export class TemplateConversationType implements ConversationType {
     updateChatPanel: () => Promise<void>;
     initData: Map<string, unknown>;
   }): Promise<CreateConversationResult> {
+    for (const constraint of this.template.initVariableConstraints ?? []) {
+      if (
+        constraint.type === "required" &&
+        !initData.has(constraint.variable)
+      ) {
+        return {
+          result: "unavailable",
+          type: "info",
+          message: `Missing required variable ${constraint.variable}`,
+        };
+      }
+    }
+
     return {
       result: "success",
       conversation: new TemplateConversation({
@@ -111,7 +124,7 @@ class TemplateConversation extends Conversation {
   }
 
   private async executeChat() {
-    const selectedText = this.initData.get("optionalSelectedText") as
+    const selectedText = this.initData.get("selectedText") as
       | string
       | undefined;
 
