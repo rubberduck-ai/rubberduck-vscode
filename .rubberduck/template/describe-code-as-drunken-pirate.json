@@ -41,7 +41,8 @@
         "lines": []
       }
     ],
-    "maxTokens": 512
+    "maxTokens": 512,
+    "temperature": 0.8
   },
   "chatTitle": "Drunken pirate",
   "chatPrompt": {
@@ -86,6 +87,7 @@
       }
     ],
     "maxTokens": 1024,
-    "stop": ["Drunken Pirate:", "Developer:"]
+    "stop": ["Drunken Pirate:", "Developer:"],
+    "temperature": 0.7
   }
 }

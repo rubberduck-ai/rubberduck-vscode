@@ -113,10 +113,12 @@ export class OpenAIClient {
     prompt,
     maxTokens,
     stop,
+    temperature = 0,
   }: {
     prompt: string;
     maxTokens: number;
     stop?: string[] | undefined;
+    temperature?: number | undefined;
   }): Promise<
     | {
         type: "success";
@@ -140,7 +142,7 @@ export class OpenAIClient {
         prompt,
         max_tokens: maxTokens,
         stop,
-        temperature: 0,
+        temperature,
         // top_p is excluded because temperature is set
         best_of: 1,
         frequency_penalty: 0,

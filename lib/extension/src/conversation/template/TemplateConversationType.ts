@@ -155,6 +155,7 @@ class TemplateConversation extends Conversation {
       }),
       maxTokens: prompt.maxTokens,
       stop: prompt.stop,
+      temperature: prompt.temperature,
     });
 
     if (completion.type === "error") {

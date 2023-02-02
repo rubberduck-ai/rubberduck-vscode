@@ -24,6 +24,7 @@ const promptSchema = zod.object({
   ),
   maxTokens: zod.number(),
   stop: zod.array(zod.string()).optional(),
+  temperature: zod.number().optional(),
 });
 
 export type Prompt = zod.infer<typeof promptSchema>;

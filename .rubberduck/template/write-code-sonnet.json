@@ -36,7 +36,8 @@
         "lines": []
       }
     ],
-    "maxTokens": 512
+    "maxTokens": 1024,
+    "temperature": 0.5
   },
   "chatTitle": "Code Sonnet",
   "chatPrompt": {
@@ -85,6 +86,7 @@
       }
     ],
     "maxTokens": 1024,
-    "stop": ["Shakespeare:", "Developer:"]
+    "stop": ["Shakespeare:", "Developer:"],
+    "temperature": 0.5
   }
 }
