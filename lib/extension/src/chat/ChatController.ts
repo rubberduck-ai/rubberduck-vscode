@@ -13,7 +13,7 @@ export class ChatController {
   private readonly chatPanel: ChatPanel;
   private readonly chatModel: ChatModel;
   private readonly openAIClient: OpenAIClient;
-  private readonly conversationTypes: Record<string, ConversationModelFactory>;
+  private readonly conversationTypes: Map<string, ConversationModelFactory>;
   private readonly diffEditorManager: DiffEditorManager;
   private readonly basicChatTemplateId: string;
   private readonly generateConversationId: () => string;
@@ -29,7 +29,7 @@ export class ChatController {
     chatPanel: ChatPanel;
     chatModel: ChatModel;
     openAIClient: OpenAIClient;
-    conversationTypes: Record<string, ConversationModelFactory>;
+    conversationTypes: Map<string, ConversationModelFactory>;
     diffEditorManager: DiffEditorManager;
     basicChatTemplateId: string;
   }) {
@@ -104,7 +104,7 @@ export class ChatController {
   }
 
   async createConversation(conversationTypeId: string) {
-    const factory = this.conversationTypes[conversationTypeId];
+    const factory = this.conversationTypes.get(conversationTypeId);
 
     if (factory == undefined) {
       await vscode.window.showErrorMessage(

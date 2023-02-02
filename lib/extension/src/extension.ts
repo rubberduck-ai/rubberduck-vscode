@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { ChatController } from "./chat/ChatController";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
+import { ConversationModelFactory } from "./chat/ConversationModelFactory";
 import { DiagnoseErrorsConversationModel } from "./chat/DiagnoseErrorsConversationModel";
 import { EditCodeConversationModel } from "./chat/EditCodeConversationModel";
 import { ExplainCodeConversationModel } from "./chat/ExplainCodeConversationModel";
@@ -22,6 +23,25 @@ export const activate = async (context: vscode.ExtensionContext) => {
     template: ConversationTemplateSchema.parse(basicChatTemplate),
   });
 
+  const conversationTypes = new Map<string, ConversationModelFactory>();
+  conversationTypes.set(basicChat.id, basicChat);
+  conversationTypes.set(
+    EditCodeConversationModel.id,
+    EditCodeConversationModel
+  );
+  conversationTypes.set(
+    ExplainCodeConversationModel.id,
+    ExplainCodeConversationModel
+  );
+  conversationTypes.set(
+    GenerateTestConversationModel.id,
+    GenerateTestConversationModel
+  );
+  conversationTypes.set(
+    DiagnoseErrorsConversationModel.id,
+    DiagnoseErrorsConversationModel
+  );
+
   const chatPanel = new ChatPanel({
     extensionUri: context.extensionUri,
   });
@@ -37,13 +57,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
     diffEditorManager: new DiffEditorManager({
       extensionUri: context.extensionUri,
     }),
-    conversationTypes: {
-      [basicChat.id]: basicChat,
-      [EditCodeConversationModel.id]: EditCodeConversationModel,
-      [ExplainCodeConversationModel.id]: ExplainCodeConversationModel,
-      [GenerateTestConversationModel.id]: GenerateTestConversationModel,
-      [DiagnoseErrorsConversationModel.id]: DiagnoseErrorsConversationModel,
-    },
+    conversationTypes,
     basicChatTemplateId: basicChat.id,
   });
 
