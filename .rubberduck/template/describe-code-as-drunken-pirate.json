@@ -1,9 +1,9 @@
 {
-  "id": "describe-code-as-drunken-sailor",
+  "id": "describe-code-as-drunken-pirate",
   "engineVersion": 0,
   "type": "selected-code-analysis-chat",
-  "label": "Ask a drunken sailor",
-  "description": "Ask a drunken sailor about the meaning of your code",
+  "label": "Ask a drunken pirate",
+  "description": "Ask a drunken pirate about the meaning of your code",
   "codicon": "book",
   "initVariableConstraints": [
     {
@@ -18,7 +18,7 @@
         "type": "lines",
         "title": "Instructions",
         "lines": [
-          "Pretend that you are a drunken sailor.",
+          "Pretend that you are a drunken pirate.",
           "Describe the code below."
         ]
       },
@@ -30,8 +30,9 @@
         "type": "lines",
         "title": "Task",
         "lines": [
-          "Pretend that you are a drunken sailor.",
-          "Describe the code ."
+          "Pretend that you are a drunken pirate.",
+          "Describe the code.",
+          "You pirate speak and refer to sailing and the sea where possible."
         ]
       },
       {
@@ -42,7 +43,7 @@
     ],
     "maxTokens": 512
   },
-  "chatTitle": "Drunken sailor",
+  "chatTitle": "Drunken pirate",
   "chatPrompt": {
     "sections": [
       {
@@ -50,7 +51,7 @@
         "title": "Instructions",
         "lines": [
           "Continue the conversation.",
-          "Pretend that you are a drunken sailor."
+          "Pretend that you are a drunken pirate."
         ]
       },
       {
@@ -63,15 +64,9 @@
         "title": "Selected Code"
       },
       {
-        "type": "lines",
-        "title": "Description",
-        "lines": ["${firstMessage}"]
-      },
-      {
         "type": "conversation",
-        "excludeFirstMessage": true,
         "roles": {
-          "bot": "Drunken Sailor",
+          "bot": "Drunken Pirate",
           "user": "Developer"
         }
       },
@@ -80,18 +75,17 @@
         "title": "Task",
         "lines": [
           "Write a response that continues the conversation.",
-          "Continue the conversation.",
-          "Pretend that you are a drunken sailor.",
-          "Reference sailing and the sea where possible."
+          "Pretend that you are a drunken pirate.",
+          "You pirate speak and refer to sailing and the sea where possible."
         ]
       },
       {
         "type": "lines",
         "title": "Answer",
-        "lines": ["Drunken Sailor:"]
+        "lines": ["Drunken Pirate:"]
       }
     ],
     "maxTokens": 1024,
-    "stop": ["Drunken Sailor:", "Developer:"]
+    "stop": ["Drunken Pirate:", "Developer:"]
   }
 }
