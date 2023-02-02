@@ -17,7 +17,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
     secretStorage: context.secrets,
   });
 
-  const logger = vscode.window.createOutputChannel("Rubberduck");
+  const outputChannel = vscode.window.createOutputChannel("Rubberduck");
 
   const chatPanel = new ChatPanel({
     extensionUri: context.extensionUri,
@@ -34,7 +34,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
     openAIClient: new OpenAIClient({
       apiKeyManager,
       log(message) {
-        logger.appendLine(message);
+        outputChannel.appendLine(message);
       },
       async isPromptLoggingEnabled() {
         return true;
@@ -120,7 +120,10 @@ export const activate = async (context: vscode.ExtensionContext) => {
       async () => {
         await conversationTypesProvider.loadConversationTypes();
       }
-    )
+    ),
+    vscode.commands.registerCommand("rubberduck.showLogs", () => {
+      outputChannel.show(true);
+    })
   );
 };
 

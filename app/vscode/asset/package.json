@@ -111,6 +111,12 @@
         "title": "Reload Conversation Types",
         "category": "Rubberduck",
         "icon": "$(sync)"
+      },
+      {
+        "command": "rubberduck.showLogs",
+        "title": "Show Logs",
+        "category": "Rubberduck",
+        "icon": "$(output)"
       }
     ],
     "keybindings": [
