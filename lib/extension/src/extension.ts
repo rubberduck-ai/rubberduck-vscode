@@ -7,7 +7,7 @@ import { EditCodeConversation } from "./conversation/built-in/EditCodeConversati
 import { ExplainCodeConversation } from "./conversation/built-in/ExplainCodeConversation";
 import { GenerateTestConversation } from "./conversation/built-in/GenerateTestConversationModel";
 import { ConversationTypesProvider } from "./conversation/ConversationTypesProvider";
-import { BASIC_CHAT_ID } from "./conversation/template/BuiltInTemplates";
+import { basicChatTemplate } from "./conversation/template/BuiltInTemplates";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
 import { OpenAIClient } from "./openai/OpenAIClient";
@@ -46,7 +46,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
     getConversationType(id: string) {
       return conversationTypesProvider.getConversationType(id);
     },
-    basicChatTemplateId: BASIC_CHAT_ID,
+    basicChatTemplateId: basicChatTemplate.id,
   });
 
   chatPanel.onDidReceiveMessage(
@@ -76,7 +76,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
       chatController.createConversation(GenerateTestConversation.id);
     }),
     vscode.commands.registerCommand("rubberduck.startChat", () => {
-      chatController.createConversation(BASIC_CHAT_ID);
+      chatController.createConversation(basicChatTemplate.id);
     }),
     vscode.commands.registerCommand("rubberduck.editCode", () => {
       chatController.createConversation(EditCodeConversation.id);
@@ -105,7 +105,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
       await chatController.createConversation(result.id);
     }),
     vscode.commands.registerCommand("rubberduck.touchBar.startChat", () => {
-      chatController.createConversation(BASIC_CHAT_ID);
+      chatController.createConversation(basicChatTemplate.id);
     }),
     vscode.commands.registerCommand("rubberduck.showChatPanel", async () => {
       await chatController.showChatPanel();

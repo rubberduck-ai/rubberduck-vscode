@@ -1,9 +1,7 @@
 import { ConversationTemplate } from "./ConversationTemplate";
 
-export const BASIC_CHAT_ID = "chat";
-
 export const basicChatTemplate: ConversationTemplate = {
-  id: BASIC_CHAT_ID,
+  id: "chat",
   engineVersion: 0,
   type: "basic-chat",
   label: "Start Chat",
