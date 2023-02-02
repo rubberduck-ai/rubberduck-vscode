@@ -1,4 +1,4 @@
-import { getActiveEditor } from "../vscode/getActiveEditor";
+import { getActiveEditor } from "../../vscode/getActiveEditor";
 import { getInput } from "./getInput";
 
 export const getOptionalSelectedText: getInput<{

@@ -1,17 +1,17 @@
-import { ConversationModel } from "../chat/ConversationModel";
+import { OpenAIClient } from "../../openai/OpenAIClient";
+import { CodeSection } from "../../prompt/CodeSection";
+import { ConversationSection } from "../../prompt/ConversationSection";
+import { LinesSection } from "../../prompt/LinesSection";
+import { assemblePrompt } from "../../prompt/Prompt";
+import { Section } from "../../prompt/Section";
+import { Conversation } from "../Conversation";
 import {
-  ConversationModelFactory,
-  ConversationModelFactoryResult,
-} from "../chat/ConversationModelFactory";
-import { OpenAIClient } from "../openai/OpenAIClient";
-import { CodeSection } from "../prompt/CodeSection";
-import { ConversationSection } from "../prompt/ConversationSection";
-import { LinesSection } from "../prompt/LinesSection";
-import { assemblePrompt } from "../prompt/Prompt";
-import { Section } from "../prompt/Section";
+  ConversationType,
+  CreateConversationResult,
+} from "../ConversationType";
 import { ConversationTemplate } from "./ConversationTemplate";
 
-export class TemplateConversationFactory implements ConversationModelFactory {
+export class TemplateConversationType implements ConversationType {
   readonly id: string;
   readonly inputs = ["optionalSelectedText"];
 
@@ -22,7 +22,7 @@ export class TemplateConversationFactory implements ConversationModelFactory {
     this.id = template.id;
   }
 
-  async createConversationModel({
+  async createConversation({
     generateChatId,
     openAIClient,
     updateChatPanel,
@@ -32,7 +32,7 @@ export class TemplateConversationFactory implements ConversationModelFactory {
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
     initData: Map<string, unknown>;
-  }): Promise<ConversationModelFactoryResult> {
+  }): Promise<CreateConversationResult> {
     return {
       result: "success",
       conversation: new TemplateConversation({
@@ -47,7 +47,7 @@ export class TemplateConversationFactory implements ConversationModelFactory {
   }
 }
 
-class TemplateConversation extends ConversationModel {
+class TemplateConversation extends Conversation {
   private readonly template: ConversationTemplate;
 
   constructor({

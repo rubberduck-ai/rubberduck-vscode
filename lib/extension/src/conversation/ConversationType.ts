@@ -1,11 +1,11 @@
 import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
-import { ConversationModel } from "./ConversationModel";
+import { Conversation } from "./Conversation";
 
-export type ConversationModelFactoryResult =
+export type CreateConversationResult =
   | {
       result: "success";
-      conversation: ConversationModel;
+      conversation: Conversation;
       shouldImmediatelyAnswer: boolean;
     }
   | {
@@ -18,12 +18,12 @@ export type ConversationModelFactoryResult =
       message: string;
     };
 
-export type ConversationModelFactory = {
+export type ConversationType = {
   readonly id: string;
 
   readonly inputs: Array<string>;
 
-  createConversationModel({
+  createConversation({
     generateChatId,
     openAIClient,
     updateChatPanel,
@@ -35,5 +35,5 @@ export type ConversationModelFactory = {
     updateChatPanel: () => Promise<void>;
     diffEditorManager: DiffEditorManager;
     initData: Map<string, unknown>;
-  }): Promise<ConversationModelFactoryResult>;
+  }): Promise<CreateConversationResult>;
 };

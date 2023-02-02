@@ -1,15 +1,15 @@
-import { ConversationModel } from "./ConversationModel";
+import { Conversation } from "../conversation/Conversation";
 
 export class ChatModel {
-  conversations: Array<ConversationModel> = [];
+  conversations: Array<Conversation> = [];
   selectedConversationId: string | undefined;
 
-  addAndSelectConversation(conversation: ConversationModel) {
+  addAndSelectConversation(conversation: Conversation) {
     this.conversations.push(conversation);
     this.selectedConversationId = conversation.id;
   }
 
-  getConversationById(id: string): ConversationModel | undefined {
+  getConversationById(id: string): Conversation | undefined {
     return this.conversations.find((conversation) => conversation.id === id);
   }
 

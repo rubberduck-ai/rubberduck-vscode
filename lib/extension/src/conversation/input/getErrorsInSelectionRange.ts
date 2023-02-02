@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getActiveEditor } from "../vscode/getActiveEditor";
+import { getActiveEditor } from "../../vscode/getActiveEditor";
 import { getInput } from "./getInput";
 
 export type ErrorInRange = {

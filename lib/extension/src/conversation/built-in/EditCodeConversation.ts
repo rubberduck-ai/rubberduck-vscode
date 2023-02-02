@@ -1,27 +1,30 @@
 import { webviewApi } from "@rubberduck/common";
 import { createDiff } from "@rubberduck/diff";
 import * as vscode from "vscode";
-import { DiffEditor } from "../diff/DiffEditor";
-import { DiffEditorManager } from "../diff/DiffEditorManager";
-import { OpenAIClient } from "../openai/OpenAIClient";
-import { CodeSection } from "../prompt/CodeSection";
-import { LinesSection } from "../prompt/LinesSection";
-import { assemblePrompt } from "../prompt/Prompt";
-import { ConversationModel } from "./ConversationModel";
-import { ConversationModelFactoryResult } from "./ConversationModelFactory";
-import { getCompositeInput } from "./getCompositeInput";
-import { FileInformationData, getFileInformation } from "./getFileInformation";
+import { DiffEditor } from "../../diff/DiffEditor";
+import { DiffEditorManager } from "../../diff/DiffEditorManager";
+import { OpenAIClient } from "../../openai/OpenAIClient";
+import { CodeSection } from "../../prompt/CodeSection";
+import { LinesSection } from "../../prompt/LinesSection";
+import { assemblePrompt } from "../../prompt/Prompt";
+import { Conversation } from "../Conversation";
+import { CreateConversationResult } from "../ConversationType";
+import { getCompositeInput } from "../input/getCompositeInput";
+import {
+  FileInformationData,
+  getFileInformation,
+} from "../input/getFileInformation";
 import {
   getRequiredSelectedText,
   RequiredSelectedTextData,
-} from "./getRequiredSelectedText";
+} from "../input/getRequiredSelectedText";
 
-export class EditCodeConversationModel extends ConversationModel {
+export class EditCodeConversation extends Conversation {
   static id = "editCode";
 
   static inputs = [];
 
-  static async createConversationModel({
+  static async createConversation({
     generateChatId,
     openAIClient,
     updateChatPanel,
@@ -31,7 +34,7 @@ export class EditCodeConversationModel extends ConversationModel {
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
     diffEditorManager: DiffEditorManager;
-  }): Promise<ConversationModelFactoryResult> {
+  }): Promise<CreateConversationResult> {
     const result = await getCompositeInput({
       requiredSelectedText: getRequiredSelectedText,
       fileInformation: getFileInformation,
@@ -43,7 +46,7 @@ export class EditCodeConversationModel extends ConversationModel {
 
     return {
       result: "success",
-      conversation: new EditCodeConversationModel(
+      conversation: new EditCodeConversation(
         {
           id: generateChatId(),
           data: result.data,

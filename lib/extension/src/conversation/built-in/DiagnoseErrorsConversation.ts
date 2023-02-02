@@ -1,17 +1,17 @@
 import * as vscode from "vscode";
-import { OpenAIClient } from "../openai/OpenAIClient";
-import { BasicSection } from "../prompt/BasicSection";
-import { CodeSection } from "../prompt/CodeSection";
-import { LinesSection } from "../prompt/LinesSection";
-import { assemblePrompt } from "../prompt/Prompt";
-import { ConversationModel } from "./ConversationModel";
-import { ConversationModelFactoryResult } from "./ConversationModelFactory";
-import { generateChatCompletion } from "./generateChatCompletion";
+import { OpenAIClient } from "../../openai/OpenAIClient";
+import { BasicSection } from "../../prompt/BasicSection";
+import { CodeSection } from "../../prompt/CodeSection";
+import { LinesSection } from "../../prompt/LinesSection";
+import { assemblePrompt } from "../../prompt/Prompt";
+import { Conversation } from "../Conversation";
+import { CreateConversationResult } from "../ConversationType";
 import {
   ErrorInRange,
   getErrorsInSelectionRange,
-} from "./getErrorsInSelectionRange";
-import { getFileInformation } from "./getFileInformation";
+} from "../input/getErrorsInSelectionRange";
+import { getFileInformation } from "../input/getFileInformation";
+import { generateChatCompletion } from "./generateChatCompletion";
 
 function annotateSelectionWithErrors({
   selectionText,
@@ -40,12 +40,12 @@ ${lineErrors
     .join("\n");
 }
 
-export class DiagnoseErrorsConversationModel extends ConversationModel {
+export class DiagnoseErrorsConversation extends Conversation {
   static id = "diagnoseErrors";
 
   static inputs = [];
 
-  static async createConversationModel({
+  static async createConversation({
     generateChatId,
     openAIClient,
     updateChatPanel,
@@ -53,7 +53,7 @@ export class DiagnoseErrorsConversationModel extends ConversationModel {
     generateChatId: () => string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
-  }): Promise<ConversationModelFactoryResult> {
+  }): Promise<CreateConversationResult> {
     const result = await getErrorsInSelectionRange();
     const result2 = await getFileInformation();
 
@@ -69,7 +69,7 @@ export class DiagnoseErrorsConversationModel extends ConversationModel {
 
     return {
       result: "success",
-      conversation: new DiagnoseErrorsConversationModel(
+      conversation: new DiagnoseErrorsConversation(
         {
           id: generateChatId(),
           filename,

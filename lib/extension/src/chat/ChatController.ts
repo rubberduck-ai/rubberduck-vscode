@@ -4,16 +4,16 @@ import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { ChatModel } from "./ChatModel";
 import { ChatPanel } from "./ChatPanel";
-import { ConversationModel } from "./ConversationModel";
-import { ConversationModelFactory } from "./ConversationModelFactory";
-import { getInput } from "./getInput";
-import { getOptionalSelectedText } from "./getOptionalSelectedText";
+import { Conversation } from "../conversation/Conversation";
+import { ConversationType } from "../conversation/ConversationType";
+import { getInput } from "../conversation/input/getInput";
+import { getOptionalSelectedText } from "../conversation/input/getOptionalSelectedText";
 
 export class ChatController {
   private readonly chatPanel: ChatPanel;
   private readonly chatModel: ChatModel;
   private readonly openAIClient: OpenAIClient;
-  private readonly conversationTypes: Map<string, ConversationModelFactory>;
+  private readonly conversationTypes: Map<string, ConversationType>;
   private readonly diffEditorManager: DiffEditorManager;
   private readonly basicChatTemplateId: string;
   private readonly generateConversationId: () => string;
@@ -29,7 +29,7 @@ export class ChatController {
     chatPanel: ChatPanel;
     chatModel: ChatModel;
     openAIClient: OpenAIClient;
-    conversationTypes: Map<string, ConversationModelFactory>;
+    conversationTypes: Map<string, ConversationType>;
     diffEditorManager: DiffEditorManager;
     basicChatTemplateId: string;
   }) {
@@ -49,7 +49,7 @@ export class ChatController {
     await this.chatPanel.update(this.chatModel);
   }
 
-  private async addAndShowConversation<T extends ConversationModel>(
+  private async addAndShowConversation<T extends Conversation>(
     conversation: T
   ): Promise<T> {
     this.chatModel.addAndSelectConversation(conversation);
@@ -146,7 +146,7 @@ export class ChatController {
       initData.set(inputKey, initResult.data);
     }
 
-    const result = await factory.createConversationModel({
+    const result = await factory.createConversation({
       generateChatId: this.generateConversationId,
       openAIClient: this.openAIClient,
       updateChatPanel: this.updateChatPanel.bind(this),

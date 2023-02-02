@@ -1,20 +1,20 @@
 import * as vscode from "vscode";
-import { OpenAIClient } from "../openai/OpenAIClient";
-import { CodeSection } from "../prompt/CodeSection";
-import { LinesSection } from "../prompt/LinesSection";
-import { ConversationModel } from "./ConversationModel";
-import { ConversationModelFactoryResult } from "./ConversationModelFactory";
+import { OpenAIClient } from "../../openai/OpenAIClient";
+import { CodeSection } from "../../prompt/CodeSection";
+import { LinesSection } from "../../prompt/LinesSection";
+import { Conversation } from "../Conversation";
+import { CreateConversationResult } from "../ConversationType";
+import { getFileInformation } from "../input/getFileInformation";
+import { getRequiredSelectedText } from "../input/getRequiredSelectedText";
 import { generateChatCompletion } from "./generateChatCompletion";
 import { generateExplainCodeCompletion } from "./generateExplainCodeCompletion";
-import { getFileInformation } from "./getFileInformation";
-import { getRequiredSelectedText } from "./getRequiredSelectedText";
 
-export class ExplainCodeConversationModel extends ConversationModel {
+export class ExplainCodeConversation extends Conversation {
   static id = "explainCode";
 
   static inputs = [];
 
-  static async createConversationModel({
+  static async createConversation({
     generateChatId,
     openAIClient,
     updateChatPanel,
@@ -22,7 +22,7 @@ export class ExplainCodeConversationModel extends ConversationModel {
     generateChatId: () => string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
-  }): Promise<ConversationModelFactoryResult> {
+  }): Promise<CreateConversationResult> {
     const result = await getRequiredSelectedText();
     const result2 = await getFileInformation();
 
@@ -38,7 +38,7 @@ export class ExplainCodeConversationModel extends ConversationModel {
 
     return {
       result: "success",
-      conversation: new ExplainCodeConversationModel(
+      conversation: new ExplainCodeConversation(
         {
           id: generateChatId(),
           filename,

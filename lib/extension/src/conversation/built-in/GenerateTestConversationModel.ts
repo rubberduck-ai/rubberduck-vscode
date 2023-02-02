@@ -1,18 +1,18 @@
 import * as vscode from "vscode";
-import { OpenAIClient } from "../openai/OpenAIClient";
-import { ConversationModel } from "./ConversationModel";
-import { ConversationModelFactoryResult } from "./ConversationModelFactory";
+import { OpenAIClient } from "../../openai/OpenAIClient";
+import { Conversation } from "../../conversation/Conversation";
 import { generateGenerateTestCompletion } from "./generateGenerateTestCompletion";
 import { generateRefineCodeCompletion } from "./generateRefineCodeCompletion";
-import { getFileInformation } from "./getFileInformation";
-import { getRequiredSelectedText } from "./getRequiredSelectedText";
+import { CreateConversationResult } from "../ConversationType";
+import { getRequiredSelectedText } from "../input/getRequiredSelectedText";
+import { getFileInformation } from "../input/getFileInformation";
 
-export class GenerateTestConversationModel extends ConversationModel {
+export class GenerateTestConversation extends Conversation {
   static id = "generateTest";
 
   static inputs = [];
 
-  static async createConversationModel({
+  static async createConversation({
     generateChatId,
     openAIClient,
     updateChatPanel,
@@ -20,7 +20,7 @@ export class GenerateTestConversationModel extends ConversationModel {
     generateChatId: () => string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
-  }): Promise<ConversationModelFactoryResult> {
+  }): Promise<CreateConversationResult> {
     const result = await getRequiredSelectedText();
     const result2 = await getFileInformation();
 
@@ -36,7 +36,7 @@ export class GenerateTestConversationModel extends ConversationModel {
 
     return {
       result: "success",
-      conversation: new GenerateTestConversationModel(
+      conversation: new GenerateTestConversation(
         {
           id: generateChatId(),
           filename,

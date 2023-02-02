@@ -2,15 +2,13 @@ import * as vscode from "vscode";
 import { ChatController } from "./chat/ChatController";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
-import { DiagnoseErrorsConversationModel } from "./chat/DiagnoseErrorsConversationModel";
-import { EditCodeConversationModel } from "./chat/EditCodeConversationModel";
-import { ExplainCodeConversationModel } from "./chat/ExplainCodeConversationModel";
-import { GenerateTestConversationModel } from "./chat/GenerateTestConversationModel";
-import { basicChatTemplate } from "./conversation-template/BuiltInTemplates";
-import { conversationTemplateSchema } from "./conversation-template/ConversationTemplate";
-import { TemplateConversationFactory } from "./conversation-template/TemplateConversationFactory";
+import { DiagnoseErrorsConversation } from "./conversation/built-in/DiagnoseErrorsConversation";
+import { EditCodeConversation } from "./conversation/built-in/EditCodeConversation";
+import { ExplainCodeConversation } from "./conversation/built-in/ExplainCodeConversation";
+import { GenerateTestConversation } from "./conversation/built-in/GenerateTestConversationModel";
+import { initConversationTypes } from "./conversation/initConversationTypes";
+import { BASIC_CHAT_ID } from "./conversation/template/BuiltInTemplates";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
-import { initConversationTypes } from "./initConversationTypes";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
 import { OpenAIClient } from "./openai/OpenAIClient";
 
@@ -35,9 +33,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
       extensionUri: context.extensionUri,
     }),
     conversationTypes: await initConversationTypes(),
-    basicChatTemplateId: new TemplateConversationFactory({
-      template: conversationTemplateSchema.parse(basicChatTemplate),
-    }).id,
+    basicChatTemplateId: BASIC_CHAT_ID,
   });
 
   chatPanel.onDidReceiveMessage(
@@ -58,30 +54,22 @@ export const activate = async (context: vscode.ExtensionContext) => {
       }
     ),
     vscode.commands.registerCommand("rubberduck.diagnoseErrors", () => {
-      chatController.createConversation(DiagnoseErrorsConversationModel.id);
+      chatController.createConversation(DiagnoseErrorsConversation.id);
     }),
     vscode.commands.registerCommand("rubberduck.explainCode", () => {
-      chatController.createConversation(ExplainCodeConversationModel.id);
+      chatController.createConversation(ExplainCodeConversation.id);
     }),
     vscode.commands.registerCommand("rubberduck.generateTest", () => {
-      chatController.createConversation(GenerateTestConversationModel.id);
+      chatController.createConversation(GenerateTestConversation.id);
     }),
     vscode.commands.registerCommand("rubberduck.startChat", () => {
-      chatController.createConversation(
-        new TemplateConversationFactory({
-          template: conversationTemplateSchema.parse(basicChatTemplate),
-        }).id
-      );
+      chatController.createConversation(BASIC_CHAT_ID);
     }),
     vscode.commands.registerCommand("rubberduck.editCode", () => {
-      chatController.createConversation(EditCodeConversationModel.id);
+      chatController.createConversation(EditCodeConversation.id);
     }),
     vscode.commands.registerCommand("rubberduck.touchBar.startChat", () => {
-      chatController.createConversation(
-        new TemplateConversationFactory({
-          template: conversationTemplateSchema.parse(basicChatTemplate),
-        }).id
-      );
+      chatController.createConversation(BASIC_CHAT_ID);
     }),
     vscode.commands.registerCommand("rubberduck.showChatPanel", async () => {
       await chatController.showChatPanel();

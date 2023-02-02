@@ -1,8 +1,8 @@
-import { OpenAIClient } from "../openai/OpenAIClient";
-import { BasicSection } from "../prompt/BasicSection";
-import { CodeSection } from "../prompt/CodeSection";
-import { LinesSection } from "../prompt/LinesSection";
-import { assemblePrompt } from "../prompt/Prompt";
+import { OpenAIClient } from "../../openai/OpenAIClient";
+import { BasicSection } from "../../prompt/BasicSection";
+import { CodeSection } from "../../prompt/CodeSection";
+import { LinesSection } from "../../prompt/LinesSection";
+import { assemblePrompt } from "../../prompt/Prompt";
 
 export async function generateExplainCodeCompletion({
   selectedText,

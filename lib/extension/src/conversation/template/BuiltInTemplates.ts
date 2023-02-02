@@ -1,9 +1,11 @@
 import { ConversationTemplate } from "./ConversationTemplate";
 
+export const BASIC_CHAT_ID = "basic-chat";
+
 export const basicChatTemplate: ConversationTemplate = {
   id: "chat",
   engineVersion: 0,
-  type: "basic-chat",
+  type: BASIC_CHAT_ID,
   codicon: "comment-discussion",
   prompt: {
     sections: [

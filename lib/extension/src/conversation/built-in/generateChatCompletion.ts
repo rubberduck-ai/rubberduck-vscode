@@ -1,9 +1,9 @@
 import { webviewApi } from "@rubberduck/common";
-import { OpenAIClient } from "../openai/OpenAIClient";
-import { ConversationSection } from "../prompt/ConversationSection";
-import { LinesSection } from "../prompt/LinesSection";
-import { assemblePrompt } from "../prompt/Prompt";
-import { Section } from "../prompt/Section";
+import { OpenAIClient } from "../../openai/OpenAIClient";
+import { ConversationSection } from "../../prompt/ConversationSection";
+import { LinesSection } from "../../prompt/LinesSection";
+import { assemblePrompt } from "../../prompt/Prompt";
+import { Section } from "../../prompt/Section";
 
 export async function generateChatCompletion({
   introSections = [],
