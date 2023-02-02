@@ -37,7 +37,9 @@ export function createPromptForConversationTemplate({
           }
           case "conversation": {
             return new ConversationSection({
-              messages,
+              messages: section.excludeFirstMessage
+                ? messages.slice(1)
+                : messages,
               roles: {
                 bot: section.roles.bot,
                 user: section.roles.user,

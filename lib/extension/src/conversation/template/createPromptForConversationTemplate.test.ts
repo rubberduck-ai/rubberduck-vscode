@@ -55,6 +55,38 @@ Expert: Hello
 Developer: Hi`);
   });
 
+  it("should exclude first message in a conversation section if configured", () => {
+    const sections = [
+      {
+        type: "conversation" as const,
+        excludeFirstMessage: true,
+        roles: {
+          bot: "Expert",
+          user: "Developer",
+        },
+      },
+    ];
+    const variables = {
+      selectedText: undefined,
+      lastMessage: "Hi",
+      messages: [
+        {
+          author: "bot" as const,
+          content: "Hello",
+        },
+        {
+          author: "user" as const,
+          content: "Hi",
+        },
+      ],
+    };
+
+    const result = createPromptForConversationTemplate({ sections, variables });
+
+    expect(result).toBe(`## Conversation
+Developer: Hi`);
+  });
+
   it("should return a prompt with optional selected code section", () => {
     const sections = [
       {

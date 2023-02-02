@@ -119,7 +119,7 @@ export const explainCodeTemplate: ConversationTemplate = {
       },
       {
         type: "conversation",
-        excludeFirstLine: true,
+        excludeFirstMessage: true,
         roles: {
           bot: "Bot",
           user: "Developer",

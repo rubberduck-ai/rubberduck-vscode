@@ -14,7 +14,7 @@ const promptSchema = zod.object({
       }),
       zod.object({
         type: zod.literal("conversation"),
-        excludeFirstLine: zod.boolean().optional(),
+        excludeFirstMessage: zod.boolean().optional(),
         roles: zod.object({
           bot: zod.string(),
           user: zod.string(),
