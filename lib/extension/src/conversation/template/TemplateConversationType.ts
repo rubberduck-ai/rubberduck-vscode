@@ -1,3 +1,4 @@
+import * as vscode from "vscode";
 import { OpenAIClient } from "../../openai/OpenAIClient";
 import { Conversation } from "../Conversation";
 import {
@@ -12,7 +13,7 @@ export class TemplateConversationType implements ConversationType {
   readonly label: string;
   readonly description: string;
   readonly source: ConversationType["source"];
-  readonly inputs = ["optionalSelectedText"];
+  readonly inputs = ["filename", "selectedText", "selectedRange"];
 
   private template: ConversationTemplate;
 
@@ -42,6 +43,21 @@ export class TemplateConversationType implements ConversationType {
     updateChatPanel: () => Promise<void>;
     initData: Map<string, unknown>;
   }): Promise<CreateConversationResult> {
+    for (const constraint of this.template.initVariableConstraints ?? []) {
+      if (
+        (constraint.type === "non-empty-text" &&
+          !initData.has(constraint.variable)) ||
+        typeof initData.get(constraint.variable) !== "string" ||
+        initData.get(constraint.variable) === ""
+      ) {
+        return {
+          result: "unavailable",
+          type: "info",
+          message: `The ${constraint.variable} variable is not set.`,
+        };
+      }
+    }
+
     return {
       result: "success",
       conversation: new TemplateConversation({
@@ -91,11 +107,18 @@ class TemplateConversation extends Conversation {
   }
 
   getTitle(): string {
-    return this.messages[0]?.content ?? "New Chat";
+    const filename = this.initData.get("filename") as string;
+    const selectedRange = this.initData.get("selectedRange") as vscode.Range;
+
+    return this.template.type === "basic-chat"
+      ? this.messages[0]?.content ?? "New Chat"
+      : `${this.template.chatTitle} (${filename} ${selectedRange.start.line}:${selectedRange.end.line})`;
   }
 
   isTitleMessage(): boolean {
-    return this.messages.length > 0;
+    return this.template.type === "basic-chat"
+      ? this.messages.length > 0
+      : false;
   }
 
   getCodicon(): string {
@@ -103,24 +126,27 @@ class TemplateConversation extends Conversation {
   }
 
   private async executeChat() {
-    const { selectedText } = this.initData.get("optionalSelectedText") as {
-      selectedText: string | undefined;
-    };
+    const selectedText = this.initData.get("selectedText") as
+      | string
+      | undefined;
 
     const messages = this.messages;
+    const firstMessage = messages[0];
     const lastMessage = messages[messages.length - 1];
 
     const variables = {
       selectedText,
+      firstMessage: firstMessage?.content,
       lastMessage: lastMessage?.content,
       messages,
     };
 
-    if (this.template.type !== "basic-chat") {
-      throw new Error("unsupported template type");
-    }
-
-    const prompt = this.template.prompt;
+    const prompt =
+      this.template.type === "basic-chat"
+        ? this.template.prompt
+        : firstMessage == null
+        ? this.template.analysisPrompt
+        : this.template.chatPrompt;
 
     const completion = await this.openAIClient.generateCompletion({
       prompt: createPromptForConversationTemplate({

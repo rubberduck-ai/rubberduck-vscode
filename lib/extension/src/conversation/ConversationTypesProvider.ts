@@ -1,13 +1,13 @@
 import * as vscode from "vscode";
 import { DiagnoseErrorsConversation } from "./built-in/DiagnoseErrorsConversation";
 import { EditCodeConversation } from "./built-in/EditCodeConversation";
-import { ExplainCodeConversation } from "./built-in/ExplainCodeConversation";
 import { GenerateTestConversation } from "./built-in/GenerateTestConversationModel";
 import { ConversationType } from "./ConversationType";
-import { basicChatTemplate } from "./template/BuiltInTemplates";
+import { explainCodeTemplate } from "./built-in/ExplainCodeTemplate";
 import { conversationTemplateSchema } from "./template/ConversationTemplate";
 import { loadConversationTemplatesFromWorkspace } from "./template/loadConversationTemplatesFromWorkspace";
 import { TemplateConversationType } from "./template/TemplateConversationType";
+import { basicChatTemplate } from "./built-in/BasicChatTemplate";
 
 export class ConversationTypesProvider {
   private readonly conversationTypes = new Map<string, ConversationType>();
@@ -26,8 +26,11 @@ export class ConversationTypesProvider {
         template: conversationTemplateSchema.parse(basicChatTemplate),
         source: "built-in",
       }),
+      new TemplateConversationType({
+        template: conversationTemplateSchema.parse(explainCodeTemplate),
+        source: "built-in",
+      }),
       EditCodeConversation,
-      ExplainCodeConversation,
       GenerateTestConversation,
       DiagnoseErrorsConversation,
     ];

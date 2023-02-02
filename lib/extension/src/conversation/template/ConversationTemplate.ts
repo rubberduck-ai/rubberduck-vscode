@@ -34,6 +34,14 @@ const baseTemplateSchema = zod.object({
   label: zod.string(),
   description: zod.string(),
   codicon: zod.string(),
+  initVariableConstraints: zod
+    .array(
+      zod.object({
+        type: zod.literal("non-empty-text"),
+        variable: zod.string(),
+      })
+    )
+    .optional(),
 });
 
 export const conversationTemplateSchema = zod.discriminatedUnion("type", [
@@ -45,6 +53,7 @@ export const conversationTemplateSchema = zod.discriminatedUnion("type", [
     type: zod.literal("selected-code-analysis-chat"),
     analysisPlaceholder: zod.string().optional(),
     analysisPrompt: promptSchema,
+    chatTitle: zod.string(),
     chatPrompt: promptSchema,
   }),
 ]);
