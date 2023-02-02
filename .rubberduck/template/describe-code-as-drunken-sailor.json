@@ -1,9 +1,9 @@
 {
-  "id": "explain-code-with-sonnet",
+  "id": "describe-code-as-drunken-sailor",
   "engineVersion": 0,
   "type": "selected-code-analysis-chat",
-  "label": "Write a code sonnet",
-  "description": "Describe the selected code, Shakespeare style.",
+  "label": "Ask a drunken sailor",
+  "description": "Ask a drunken sailor about the meaning of your code",
   "codicon": "book",
   "initVariableConstraints": [
     {
@@ -11,14 +11,15 @@
       "variable": "selectedText"
     }
   ],
-  "analysisPlaceholder": "Composing poetry",
+  "analysisPlaceholder": "Thinking",
   "analysisPrompt": {
     "sections": [
       {
         "type": "lines",
         "title": "Instructions",
         "lines": [
-          "Describe the code below in the style of a Shakespeare sonnet."
+          "Pretend that you are a drunken sailor.",
+          "Describe the code below."
         ]
       },
       {
@@ -28,23 +29,29 @@
       {
         "type": "lines",
         "title": "Task",
-        "lines": ["Describe the code in the style of a Shakespeare sonnet."]
+        "lines": [
+          "Pretend that you are a drunken sailor.",
+          "Describe the code ."
+        ]
       },
       {
         "type": "lines",
-        "title": "Sonnet",
+        "title": "Description",
         "lines": []
       }
     ],
     "maxTokens": 512
   },
-  "chatTitle": "Code Sonnet",
+  "chatTitle": "Drunken sailor",
   "chatPrompt": {
     "sections": [
       {
         "type": "lines",
         "title": "Instructions",
-        "lines": ["Continue the conversation.", "Use 16th century English."]
+        "lines": [
+          "Continue the conversation.",
+          "Pretend that you are a drunken sailor."
+        ]
       },
       {
         "type": "lines",
@@ -57,14 +64,14 @@
       },
       {
         "type": "lines",
-        "title": "Code Summary",
+        "title": "Description",
         "lines": ["${firstMessage}"]
       },
       {
         "type": "conversation",
         "excludeFirstMessage": true,
         "roles": {
-          "bot": "Shakespeare",
+          "bot": "Drunken Sailor",
           "user": "Developer"
         }
       },
@@ -73,18 +80,18 @@
         "title": "Task",
         "lines": [
           "Write a response that continues the conversation.",
-          "Use 16th century English.",
-          "Reference events from the 16th century when possible.",
-          "Try making it a sonnet."
+          "Continue the conversation.",
+          "Pretend that you are a drunken sailor.",
+          "Reference sailing and the sea where possible."
         ]
       },
       {
         "type": "lines",
-        "title": "Response",
-        "lines": ["Shakespeare:"]
+        "title": "Answer",
+        "lines": ["Drunken Sailor:"]
       }
     ],
     "maxTokens": 1024,
-    "stop": ["Shakespeare:", "Developer:"]
+    "stop": ["Drunken Sailor:", "Developer:"]
   }
 }
