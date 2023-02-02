@@ -6,7 +6,7 @@ import { DiagnoseErrorsConversation } from "./conversation/built-in/DiagnoseErro
 import { EditCodeConversation } from "./conversation/built-in/EditCodeConversation";
 import { ExplainCodeConversation } from "./conversation/built-in/ExplainCodeConversation";
 import { GenerateTestConversation } from "./conversation/built-in/GenerateTestConversationModel";
-import { initConversationTypes } from "./conversation/initConversationTypes";
+import { loadConversationTypes } from "./conversation/loadConversationTypes";
 import { BASIC_CHAT_ID } from "./conversation/template/BuiltInTemplates";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
@@ -23,6 +23,8 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   const chatModel = new ChatModel();
 
+  const conversationTypes = await loadConversationTypes();
+
   const chatController = new ChatController({
     chatPanel,
     chatModel,
@@ -32,7 +34,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
     diffEditorManager: new DiffEditorManager({
       extensionUri: context.extensionUri,
     }),
-    conversationTypes: await initConversationTypes(),
+    conversationTypes,
     basicChatTemplateId: BASIC_CHAT_ID,
   });
 

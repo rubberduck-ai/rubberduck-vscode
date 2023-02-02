@@ -9,7 +9,7 @@ import { conversationTemplateSchema } from "./template/ConversationTemplate";
 import { loadConversationTemplatesFromWorkspace } from "./template/loadConversationTemplatesFromWorkspace";
 import { TemplateConversationType } from "./template/TemplateConversationType";
 
-export async function initConversationTypes() {
+export async function loadConversationTypes() {
   const builtInConversationTypes = [
     new TemplateConversationType({
       template: conversationTemplateSchema.parse(basicChatTemplate),
