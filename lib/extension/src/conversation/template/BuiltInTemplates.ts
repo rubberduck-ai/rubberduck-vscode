@@ -93,6 +93,7 @@ export const explainCodeTemplate: ConversationTemplate = {
     ],
     maxTokens: 512,
   },
+  chatTitle: "Explain Code",
   chatPrompt: {
     sections: [
       {

@@ -45,6 +45,7 @@ export const conversationTemplateSchema = zod.discriminatedUnion("type", [
     type: zod.literal("selected-code-analysis-chat"),
     analysisPlaceholder: zod.string().optional(),
     analysisPrompt: promptSchema,
+    chatTitle: zod.string(),
     chatPrompt: promptSchema,
   }),
 ]);

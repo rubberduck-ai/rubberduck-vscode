@@ -1,3 +1,4 @@
+import * as vscode from "vscode";
 import { OpenAIClient } from "../../openai/OpenAIClient";
 import { Conversation } from "../Conversation";
 import {
@@ -91,11 +92,18 @@ class TemplateConversation extends Conversation {
   }
 
   getTitle(): string {
-    return this.messages[0]?.content ?? "New Chat";
+    const filename = this.initData.get("filename");
+    const range = this.initData.get("range") as vscode.Range;
+
+    return this.template.type === "basic-chat"
+      ? this.messages[0]?.content ?? "New Chat"
+      : `${this.template.chatTitle} (${filename} ${range.start.line}:${range.end.line})`;
   }
 
   isTitleMessage(): boolean {
-    return this.messages.length > 0;
+    return this.template.type === "basic-chat"
+      ? this.messages.length > 0
+      : false;
   }
 
   getCodicon(): string {
@@ -108,19 +116,22 @@ class TemplateConversation extends Conversation {
     };
 
     const messages = this.messages;
+    const firstMessage = messages[0];
     const lastMessage = messages[messages.length - 1];
 
     const variables = {
       selectedText,
+      firstMessage: firstMessage?.content,
       lastMessage: lastMessage?.content,
       messages,
     };
 
-    if (this.template.type !== "basic-chat") {
-      throw new Error("unsupported template type");
-    }
-
-    const prompt = this.template.prompt;
+    const prompt =
+      this.template.type === "basic-chat"
+        ? this.template.prompt
+        : firstMessage == null
+        ? this.template.analysisPrompt
+        : this.template.chatPrompt;
 
     const completion = await this.openAIClient.generateCompletion({
       prompt: createPromptForConversationTemplate({
