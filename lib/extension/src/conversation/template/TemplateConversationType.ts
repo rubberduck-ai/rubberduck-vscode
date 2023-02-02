@@ -51,7 +51,7 @@ export class TemplateConversationType implements ConversationType {
         updateChatPanel,
         template: this.template,
       }),
-      shouldImmediatelyAnswer: false,
+      shouldImmediatelyAnswer: this.template.type === "analysis-chat",
     };
   }
 }
