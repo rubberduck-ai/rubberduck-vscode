@@ -23,12 +23,12 @@ export class TemplateConversationType implements ConversationType {
   }
 
   async createConversation({
-    generateChatId,
+    conversationId,
     openAIClient,
     updateChatPanel,
     initData,
   }: {
-    generateChatId: () => string;
+    conversationId: string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
     initData: Map<string, unknown>;
@@ -36,7 +36,7 @@ export class TemplateConversationType implements ConversationType {
     return {
       result: "success",
       conversation: new TemplateConversation({
-        id: generateChatId(),
+        id: conversationId,
         initData,
         openAIClient,
         updateChatPanel,

@@ -147,7 +147,7 @@ export class ChatController {
     }
 
     const result = await conversationType.createConversation({
-      generateChatId: this.generateConversationId,
+      conversationId: this.generateConversationId(),
       openAIClient: this.openAIClient,
       updateChatPanel: this.updateChatPanel.bind(this),
       diffEditorManager: this.diffEditorManager,

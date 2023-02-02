@@ -25,12 +25,12 @@ export class EditCodeConversation extends Conversation {
   static inputs = [];
 
   static async createConversation({
-    generateChatId,
+    conversationId,
     openAIClient,
     updateChatPanel,
     diffEditorManager,
   }: {
-    generateChatId: () => string;
+    conversationId: string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
     diffEditorManager: DiffEditorManager;
@@ -48,7 +48,7 @@ export class EditCodeConversation extends Conversation {
       result: "success",
       conversation: new EditCodeConversation(
         {
-          id: generateChatId(),
+          id: conversationId,
           data: result.data,
         },
         {

@@ -46,11 +46,11 @@ export class DiagnoseErrorsConversation extends Conversation {
   static inputs = [];
 
   static async createConversation({
-    generateChatId,
+    conversationId,
     openAIClient,
     updateChatPanel,
   }: {
-    generateChatId: () => string;
+    conversationId: string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
   }): Promise<CreateConversationResult> {
@@ -71,7 +71,7 @@ export class DiagnoseErrorsConversation extends Conversation {
       result: "success",
       conversation: new DiagnoseErrorsConversation(
         {
-          id: generateChatId(),
+          id: conversationId,
           filename,
           range,
           selectedText: rangeText,

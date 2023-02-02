@@ -24,13 +24,13 @@ export type ConversationType = {
   readonly inputs: Array<string>;
 
   createConversation({
-    generateChatId,
+    conversationId,
     openAIClient,
     updateChatPanel,
     diffEditorManager,
     initData,
   }: {
-    generateChatId(): string;
+    conversationId: string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
     diffEditorManager: DiffEditorManager;

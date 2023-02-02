@@ -15,11 +15,11 @@ export class ExplainCodeConversation extends Conversation {
   static inputs = [];
 
   static async createConversation({
-    generateChatId,
+    conversationId,
     openAIClient,
     updateChatPanel,
   }: {
-    generateChatId: () => string;
+    conversationId: string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
   }): Promise<CreateConversationResult> {
@@ -40,7 +40,7 @@ export class ExplainCodeConversation extends Conversation {
       result: "success",
       conversation: new ExplainCodeConversation(
         {
-          id: generateChatId(),
+          id: conversationId,
           filename,
           range,
           selectedText,
