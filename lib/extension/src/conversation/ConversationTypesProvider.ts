@@ -34,8 +34,8 @@ export class ConversationTypesProvider {
 
     this.conversationTypes.clear();
 
-    for (const factory of builtInConversationTypes) {
-      this.conversationTypes.set(factory.id, factory);
+    for (const conversationType of builtInConversationTypes) {
+      this.conversationTypes.set(conversationType.id, conversationType);
     }
 
     const workspaceTemplateLoadingResults =
@@ -49,11 +49,11 @@ export class ConversationTypesProvider {
         continue;
       }
 
-      const factory = new TemplateConversationType({
+      const type = new TemplateConversationType({
         template: loadingResult.template,
         source: "local-workspace",
       });
-      this.conversationTypes.set(factory.id, factory);
+      this.conversationTypes.set(type.id, type);
     }
   }
 }
