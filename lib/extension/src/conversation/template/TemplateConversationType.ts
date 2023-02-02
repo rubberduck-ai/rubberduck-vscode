@@ -109,6 +109,10 @@ class TemplateConversation extends Conversation {
       messages,
     };
 
+    if (this.template.type !== "basic-chat") {
+      throw new Error("unsupported template type");
+    }
+
     const prompt = this.template.prompt;
 
     const completion = await this.openAIClient.generateCompletion({

@@ -3,13 +3,13 @@ import { CodeSection } from "../../prompt/CodeSection";
 import { ConversationSection, Message } from "../../prompt/ConversationSection";
 import { LinesSection } from "../../prompt/LinesSection";
 import { Section } from "../../prompt/Section";
-import { ConversationTemplate } from "./ConversationTemplate";
+import { Prompt } from "./ConversationTemplate";
 
 export function createPromptForConversationTemplate({
   sections,
   variables,
 }: {
-  sections: ConversationTemplate["prompt"]["sections"];
+  sections: Prompt["sections"];
   variables: {
     selectedText: string | undefined;
     lastMessage: string | undefined;
