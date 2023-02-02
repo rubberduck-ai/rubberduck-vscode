@@ -106,7 +106,13 @@ export const activate = async (context: vscode.ExtensionContext) => {
       await vscode.commands.executeCommand("workbench.action.openWalkthrough", {
         category: `rubberduck.rubberduck-vscode#rubberduck`,
       });
-    })
+    }),
+    vscode.commands.registerCommand(
+      "rubberduck.reloadConversationTypes",
+      async () => {
+        await conversationTypesProvider.loadConversationTypes();
+      }
+    )
   );
 };
 

@@ -105,6 +105,12 @@
         "title": "Get Started",
         "category": "Rubberduck",
         "icon": "$(question)"
+      },
+      {
+        "command": "rubberduck.reloadConversationTypes",
+        "title": "Reload Conversation Types",
+        "category": "Rubberduck",
+        "icon": "$(sync)"
       }
     ],
     "keybindings": [
