@@ -12,6 +12,7 @@ import { generateExplainCodeCompletion } from "./generateExplainCodeCompletion";
 export class ExplainCodeConversation extends Conversation {
   static id = "explainCode";
   static label = "Explain Code";
+  static description = "Explain the selected code.";
   static source = "built-in" as const;
   static inputs = [];
 

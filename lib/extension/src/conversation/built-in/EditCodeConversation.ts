@@ -22,6 +22,8 @@ import {
 export class EditCodeConversation extends Conversation {
   static id = "editCode";
   static label = "Edit Code";
+  static description =
+    "Instruct Rubberduck to edit the code. Creates a diff that you can review.";
   static source = "built-in" as const;
   static inputs = [];
 

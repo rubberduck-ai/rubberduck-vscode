@@ -10,6 +10,7 @@ import { getFileInformation } from "../input/getFileInformation";
 export class GenerateTestConversation extends Conversation {
   static id = "generateTest";
   static label = "Generate Test";
+  static description = "Generate tests for the selected code.";
   static source = "built-in" as const;
   static inputs = [];
 

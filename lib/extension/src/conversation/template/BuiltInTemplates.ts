@@ -7,6 +7,7 @@ export const basicChatTemplate: ConversationTemplate = {
   engineVersion: 0,
   type: "basic-chat",
   label: "Start Chat",
+  description: "Start a basic chat.",
   codicon: "comment-discussion",
   prompt: {
     sections: [

@@ -77,6 +77,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
         id: conversationType.id,
         label: conversationType.label,
         description: conversationType.source,
+        detail: conversationType.description,
       }));
 
       const result = await vscode.window.showQuickPick(items, {

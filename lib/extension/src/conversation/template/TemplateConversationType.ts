@@ -14,6 +14,7 @@ import { ConversationTemplate } from "./ConversationTemplate";
 export class TemplateConversationType implements ConversationType {
   readonly id: string;
   readonly label: string;
+  readonly description: string;
   readonly source: ConversationType["source"];
   readonly inputs = ["optionalSelectedText"];
 
@@ -30,6 +31,7 @@ export class TemplateConversationType implements ConversationType {
 
     this.id = template.id;
     this.label = template.label;
+    this.description = template.description;
     this.source = source;
   }
 

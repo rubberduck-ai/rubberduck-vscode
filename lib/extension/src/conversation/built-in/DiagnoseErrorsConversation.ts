@@ -43,6 +43,7 @@ ${lineErrors
 export class DiagnoseErrorsConversation extends Conversation {
   static id = "diagnoseErrors";
   static label = "Diagnose Errors";
+  static description = "Diagnose errors in the selected code.";
   static source = "built-in" as const;
   static inputs = [];
 

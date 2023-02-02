@@ -21,6 +21,7 @@ export type CreateConversationResult =
 export type ConversationType = {
   readonly id: string;
   readonly label: string;
+  readonly description: string;
   readonly source: "built-in" | "local-workspace";
   readonly inputs: Array<string>;
 
