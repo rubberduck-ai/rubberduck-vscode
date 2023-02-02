@@ -3,7 +3,7 @@ import { OpenAIClient } from "../../openai/OpenAIClient";
 import { BasicSection } from "../../prompt/BasicSection";
 import { CodeSection } from "../../prompt/CodeSection";
 import { LinesSection } from "../../prompt/LinesSection";
-import { assemblePrompt } from "../../prompt/Prompt";
+import { assemblePrompt } from "../../prompt/assemblePrompt";
 import { Conversation } from "../Conversation";
 import { CreateConversationResult } from "../ConversationType";
 import {

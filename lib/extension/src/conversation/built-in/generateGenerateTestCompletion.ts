@@ -1,7 +1,7 @@
 import { OpenAIClient } from "../../openai/OpenAIClient";
 import { CodeSection } from "../../prompt/CodeSection";
 import { LinesSection } from "../../prompt/LinesSection";
-import { assemblePrompt } from "../../prompt/Prompt";
+import { assemblePrompt } from "../../prompt/assemblePrompt";
 
 export async function generateGenerateTestCompletion({
   selectedText,
