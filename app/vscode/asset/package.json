@@ -277,6 +277,14 @@
             }
           },
           {
+            "id": "custom-conversation-templates",
+            "title": "Custom Chats",
+            "description": "Use your own chat templates!",
+            "media": {
+              "markdown": "walkthrough/custom-conversation-templates.md"
+            }
+          },
+          {
             "id": "project",
             "title": "Project",
             "description": "Learn more about Rubberduck.",
