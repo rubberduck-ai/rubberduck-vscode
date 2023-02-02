@@ -1,0 +1,100 @@
+{
+  "id": "find-bugs",
+  "engineVersion": 0,
+  "type": "selected-code-analysis-chat",
+  "label": "Find bugs (WIP)",
+  "description": "Find any potential bugs in the selected code.",
+  "codicon": "bug",
+  "initVariableConstraints": [
+    {
+      "type": "non-empty-text",
+      "variable": "selectedText"
+    }
+  ],
+  "analysisPlaceholder": "Searching for bugs",
+  "analysisPrompt": {
+    "sections": [
+      {
+        "type": "lines",
+        "title": "Instructions",
+        "lines": [
+          "Search for potential bugs and defects in the code below.",
+          "Pay special attention to logical expressions and make sure they are sound."
+        ]
+      },
+      {
+        "type": "optional-selected-code",
+        "title": "Selected Code"
+      },
+      {
+        "type": "lines",
+        "title": "Task",
+        "lines": [
+          "Describe any potential bugs or defects in the code.",
+          "Consider that there might not be any problems with the code."
+        ]
+      },
+      {
+        "type": "lines",
+        "title": "Analysis",
+        "lines": []
+      }
+    ],
+    "maxTokens": 512
+  },
+  "chatTitle": "Find bugs",
+  "chatPrompt": {
+    "sections": [
+      {
+        "type": "lines",
+        "title": "Instructions",
+        "lines": [
+          "Continue the conversation below.",
+          "Pay special attention to the current developer request."
+        ]
+      },
+      {
+        "type": "lines",
+        "title": "Current Request",
+        "lines": ["Developer: ${lastMessage}"]
+      },
+      {
+        "type": "optional-selected-code",
+        "title": "Selected Code"
+      },
+      {
+        "type": "lines",
+        "title": "Potential Bugs",
+        "lines": ["${firstMessage}"]
+      },
+      {
+        "type": "conversation",
+        "excludeFirstMessage": true,
+        "roles": {
+          "bot": "Bot",
+          "user": "Developer"
+        }
+      },
+      {
+        "type": "lines",
+        "title": "Task",
+        "lines": [
+          "Write a response that continues the conversation.",
+          "Stay focused on current developer request.",
+          "Consider the possibility that there might not be a solution.",
+          "Ask for clarification if the message does not make sense or more input is needed.",
+          "Use the style of a documentation article.",
+          "Omit any links.",
+          "Include code snippets (using Markdown) and examples where appropriate."
+        ]
+      },
+      {
+        "type": "lines",
+        "title": "Response",
+        "lines": ["Bot:"]
+      }
+    ],
+    "maxTokens": 1024,
+    "stop": ["Bot:", "Developer:"]
+  }
+}
