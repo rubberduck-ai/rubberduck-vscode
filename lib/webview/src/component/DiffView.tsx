@@ -9,7 +9,7 @@ interface DiffViewProps {
 }
 
 // specific to the diff view
-export const SquigglySeparator: React.FC = () => {
+const SquigglySeparator: React.FC = () => {
   return (
     <div
       style={{
