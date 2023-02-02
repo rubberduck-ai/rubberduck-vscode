@@ -14,6 +14,7 @@ const promptSchema = zod.object({
       }),
       zod.object({
         type: zod.literal("conversation"),
+        excludeFirstLine: zod.boolean().optional(),
         roles: zod.object({
           bot: zod.string(),
           user: zod.string(),
@@ -22,7 +23,7 @@ const promptSchema = zod.object({
     ])
   ),
   maxTokens: zod.number(),
-  stop: zod.array(zod.string()),
+  stop: zod.array(zod.string()).optional(),
 });
 
 export type Prompt = zod.infer<typeof promptSchema>;
