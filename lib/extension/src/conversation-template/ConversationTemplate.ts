@@ -2,8 +2,8 @@ import zod from "zod";
 
 export const ConversationTemplateSchema = zod.object({
   id: zod.string(),
-  engineVersion: zod.number(),
-  type: zod.string(),
+  engineVersion: zod.literal(0),
+  type: zod.literal("basic-chat"),
   codicon: zod.string(),
   prompt: zod.object({
     sections: zod.array(
