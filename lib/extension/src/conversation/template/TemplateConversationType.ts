@@ -1,3 +1,4 @@
+import { Message } from "@rubberduck/common/build/webview-api";
 import { OpenAIClient } from "../../openai/OpenAIClient";
 import { CodeSection } from "../../prompt/CodeSection";
 import { ConversationSection } from "../../prompt/ConversationSection";
@@ -107,10 +108,11 @@ class TemplateConversation extends Conversation {
     const messages = this.messages;
     const lastMessage = messages[messages.length - 1];
 
-    const variables = new Map<string, unknown>();
-    variables.set("selectedText", selectedText);
-    variables.set("lastMessage", lastMessage?.content);
-    variables.set("messages", this.messages);
+    const variables = {
+      selectedText,
+      lastMessage: lastMessage?.content,
+      messages,
+    };
 
     const prompt = this.template.prompt;
 
@@ -151,13 +153,13 @@ function createPrompt({
   variables,
 }: {
   sections: ConversationTemplate["prompt"]["sections"];
-  variables: Map<string, unknown>;
+  variables: {
+    selectedText: string | undefined;
+    lastMessage: string | undefined;
+    messages: Message[];
+  } & Record<string, unknown>;
 }): string {
-  const selectedText = variables.get("selectedText") as string | undefined;
-  const messages = variables.get("messages") as {
-    author: "bot" | "user";
-    content: string;
-  }[];
+  const { selectedText, messages } = variables;
 
   return assemblePrompt({
     sections: sections
@@ -167,13 +169,13 @@ function createPrompt({
           case "lines": {
             return new LinesSection({
               title: section.title,
-              lines: section.lines.map((line) => {
+              lines: section.lines.map((line) =>
                 // replace ${variable} with the value of the variable:
-                return line.replace(
+                line.replace(
                   /\$\{([^}]+)\}/g,
-                  (_, variable) => variables.get(variable)?.toString() ?? ""
-                );
-              }),
+                  (_, variable) => variables[variable]?.toString() ?? ""
+                )
+              ),
             });
           }
           case "conversation": {
