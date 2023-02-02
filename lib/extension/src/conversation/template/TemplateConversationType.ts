@@ -45,10 +45,10 @@ export class TemplateConversationType implements ConversationType {
   }): Promise<CreateConversationResult> {
     for (const constraint of this.template.initVariableConstraints ?? []) {
       if (
-        (constraint.type === "non-empty-text" &&
-          !initData.has(constraint.variable)) ||
-        typeof initData.get(constraint.variable) !== "string" ||
-        initData.get(constraint.variable) === ""
+        constraint.type === "non-empty-text" &&
+        (!initData.has(constraint.variable) ||
+          typeof initData.get(constraint.variable) !== "string" ||
+          initData.get(constraint.variable) === "")
       ) {
         return {
           result: "unavailable",
