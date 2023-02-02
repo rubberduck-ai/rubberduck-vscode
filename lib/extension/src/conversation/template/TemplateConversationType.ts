@@ -75,7 +75,13 @@ class TemplateConversation extends Conversation {
   }) {
     super({
       id,
-      initialState: { type: "userCanReply" },
+      initialState:
+        template.type === "basic-chat"
+          ? { type: "userCanReply" }
+          : {
+              type: "waitingForBotAnswer",
+              botAction: template.analysisPlaceholder ?? "Generating answer",
+            },
       openAIClient,
       updateChatPanel,
       initData,

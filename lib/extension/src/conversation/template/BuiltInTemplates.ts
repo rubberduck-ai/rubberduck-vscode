@@ -64,6 +64,7 @@ export const explainCodeTemplate: ConversationTemplate = {
   label: "Explain Code",
   description: "Explain the selected code.",
   codicon: "book",
+  analysisPlaceholder: "Generating explanation",
   analysisPrompt: {
     sections: [
       {
