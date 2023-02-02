@@ -104,57 +104,18 @@ class TemplateConversation extends Conversation {
       selectedText: string | undefined;
     };
 
-    const lastMessage = this.messages[this.messages.length - 1];
+    const messages = this.messages;
+    const lastMessage = messages[messages.length - 1];
 
-    const variables = new Map<string, string | undefined>();
+    const variables = new Map<string, unknown>();
     variables.set("selectedText", selectedText);
     variables.set("lastMessage", lastMessage?.content);
+    variables.set("messages", this.messages);
 
     const prompt = this.template.prompt;
 
     const completion = await this.openAIClient.generateCompletion({
-      prompt: assemblePrompt({
-        sections: prompt.sections
-          .map((section) => {
-            const type = section.type;
-            switch (type) {
-              case "lines": {
-                return new LinesSection({
-                  title: section.title,
-                  lines: section.lines.map((line) => {
-                    // replace ${variable} with the value of the variable:
-                    return line.replace(
-                      /\$\{([^}]+)\}/g,
-                      (_, variable) => variables.get(variable) ?? ""
-                    );
-                  }),
-                });
-              }
-              case "conversation": {
-                return new ConversationSection({
-                  messages: this.messages,
-                  roles: {
-                    bot: section.roles.bot,
-                    user: section.roles.user,
-                  },
-                });
-              }
-              case "optional-selected-code": {
-                return selectedText != null
-                  ? new CodeSection({
-                      title: "Selected Code",
-                      code: selectedText,
-                    })
-                  : undefined;
-              }
-              default: {
-                const exhaustiveCheck: never = type;
-                throw new Error(`unsupported type: ${exhaustiveCheck}`);
-              }
-            }
-          })
-          .filter((section) => section != undefined) as Array<Section>,
-      }),
+      prompt: createPrompt({ sections: prompt.sections, variables }),
       maxTokens: prompt.maxTokens,
       stop: prompt.stop,
     });
@@ -183,4 +144,61 @@ class TemplateConversation extends Conversation {
 
     await this.executeChat();
   }
+}
+
+function createPrompt({
+  sections,
+  variables,
+}: {
+  sections: ConversationTemplate["prompt"]["sections"];
+  variables: Map<string, unknown>;
+}): string {
+  const selectedText = variables.get("selectedText") as string | undefined;
+  const messages = variables.get("messages") as {
+    author: "bot" | "user";
+    content: string;
+  }[];
+
+  return assemblePrompt({
+    sections: sections
+      .map((section) => {
+        const type = section.type;
+        switch (type) {
+          case "lines": {
+            return new LinesSection({
+              title: section.title,
+              lines: section.lines.map((line) => {
+                // replace ${variable} with the value of the variable:
+                return line.replace(
+                  /\$\{([^}]+)\}/g,
+                  (_, variable) => variables.get(variable)?.toString() ?? ""
+                );
+              }),
+            });
+          }
+          case "conversation": {
+            return new ConversationSection({
+              messages,
+              roles: {
+                bot: section.roles.bot,
+                user: section.roles.user,
+              },
+            });
+          }
+          case "optional-selected-code": {
+            return selectedText != null
+              ? new CodeSection({
+                  title: "Selected Code",
+                  code: selectedText,
+                })
+              : undefined;
+          }
+          default: {
+            const exhaustiveCheck: never = type;
+            throw new Error(`unsupported type: ${exhaustiveCheck}`);
+          }
+        }
+      })
+      .filter((section) => section != undefined) as Array<Section>,
+  });
 }
