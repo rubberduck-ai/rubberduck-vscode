@@ -25,8 +25,6 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   const conversationTypes = await loadConversationTypes();
 
-  console.log(Array.of(conversationTypes.keys()));
-
   const chatController = new ChatController({
     chatPanel,
     chatModel,
@@ -71,6 +69,28 @@ export const activate = async (context: vscode.ExtensionContext) => {
     }),
     vscode.commands.registerCommand("rubberduck.editCode", () => {
       chatController.createConversation(EditCodeConversation.id);
+    }),
+    vscode.commands.registerCommand("rubberduck.startCustomChat", async () => {
+      const conversationTypeValues = [...conversationTypes.values()];
+
+      const items = conversationTypeValues.map((conversationType) => ({
+        id: conversationType.id,
+        label: conversationType.label,
+        description: conversationType.source,
+      }));
+
+      const result = await vscode.window.showQuickPick(items, {
+        title: `Start Custom Chat…`,
+        matchOnDescription: true,
+        matchOnDetail: true,
+        placeHolder: "Select conversation type…",
+      });
+
+      if (result == undefined) {
+        return; // user cancelled
+      }
+
+      await chatController.createConversation(result.id);
     }),
     vscode.commands.registerCommand("rubberduck.touchBar.startChat", () => {
       chatController.createConversation(BASIC_CHAT_ID);
