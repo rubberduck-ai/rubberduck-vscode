@@ -17,6 +17,8 @@ export const activate = async (context: vscode.ExtensionContext) => {
     secretStorage: context.secrets,
   });
 
+  const logger = vscode.window.createOutputChannel("Rubberduck");
+
   const chatPanel = new ChatPanel({
     extensionUri: context.extensionUri,
   });
@@ -31,6 +33,12 @@ export const activate = async (context: vscode.ExtensionContext) => {
     chatModel,
     openAIClient: new OpenAIClient({
       apiKeyManager,
+      log(message) {
+        logger.appendLine(message);
+      },
+      async isPromptLoggingEnabled() {
+        return true;
+      },
     }),
     diffEditorManager: new DiffEditorManager({
       extensionUri: context.extensionUri,

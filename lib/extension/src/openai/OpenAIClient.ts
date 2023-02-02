@@ -26,9 +26,21 @@ export const OpenAICompletionSchema = zod.object({
 
 export class OpenAIClient {
   private readonly apiKeyManager: ApiKeyManager;
+  private readonly isPromptLoggingEnabled: () => Promise<boolean>;
+  private readonly log: (message: string) => void;
 
-  constructor({ apiKeyManager }: { apiKeyManager: ApiKeyManager }) {
+  constructor({
+    apiKeyManager,
+    isPromptLoggingEnabled,
+    log,
+  }: {
+    apiKeyManager: ApiKeyManager;
+    isPromptLoggingEnabled: () => Promise<boolean>;
+    log: (message: string) => void;
+  }) {
     this.apiKeyManager = apiKeyManager;
+    this.isPromptLoggingEnabled = isPromptLoggingEnabled;
+    this.log = log;
   }
 
   private getApiKey() {
@@ -115,6 +127,12 @@ export class OpenAIClient {
         errorMessage: string;
       }
   > {
+    if (await this.isPromptLoggingEnabled()) {
+      this.log("--- Start OpenAI prompt ---");
+      this.log(prompt);
+      this.log("--- End OpenAI prompt   ---");
+    }
+
     const result = await this.postToApi({
       path: `/v1/completions`,
       content: {
