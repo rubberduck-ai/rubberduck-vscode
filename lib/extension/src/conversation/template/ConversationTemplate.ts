@@ -34,6 +34,14 @@ const baseTemplateSchema = zod.object({
   label: zod.string(),
   description: zod.string(),
   codicon: zod.string(),
+  initVariableConstraints: zod
+    .array(
+      zod.object({
+        type: zod.literal("required"),
+        variable: zod.string(),
+      })
+    )
+    .optional(),
 });
 
 export const conversationTemplateSchema = zod.discriminatedUnion("type", [

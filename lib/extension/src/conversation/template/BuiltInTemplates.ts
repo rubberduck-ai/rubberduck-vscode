@@ -64,6 +64,12 @@ export const explainCodeTemplate: ConversationTemplate = {
   label: "Explain Code",
   description: "Explain the selected code.",
   codicon: "book",
+  initVariableConstraints: [
+    {
+      type: "required",
+      variable: "selectedText",
+    },
+  ],
   analysisPlaceholder: "Generating explanation",
   analysisPrompt: {
     sections: [
