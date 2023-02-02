@@ -6,7 +6,7 @@ import { DiagnoseErrorsConversation } from "./conversation/built-in/DiagnoseErro
 import { EditCodeConversation } from "./conversation/built-in/EditCodeConversation";
 import { ExplainCodeConversation } from "./conversation/built-in/ExplainCodeConversation";
 import { GenerateTestConversation } from "./conversation/built-in/GenerateTestConversationModel";
-import { loadConversationTypes } from "./conversation/loadConversationTypes";
+import { ConversationTypesProvider } from "./conversation/ConversationTypesProvider";
 import { BASIC_CHAT_ID } from "./conversation/template/BuiltInTemplates";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
@@ -23,7 +23,8 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   const chatModel = new ChatModel();
 
-  const conversationTypes = await loadConversationTypes();
+  const conversationTypesProvider = new ConversationTypesProvider();
+  await conversationTypesProvider.loadConversationTypes();
 
   const chatController = new ChatController({
     chatPanel,
@@ -34,7 +35,9 @@ export const activate = async (context: vscode.ExtensionContext) => {
     diffEditorManager: new DiffEditorManager({
       extensionUri: context.extensionUri,
     }),
-    conversationTypes,
+    getConversationType(id: string) {
+      return conversationTypesProvider.getConversationType(id);
+    },
     basicChatTemplateId: BASIC_CHAT_ID,
   });
 
@@ -71,14 +74,14 @@ export const activate = async (context: vscode.ExtensionContext) => {
       chatController.createConversation(EditCodeConversation.id);
     }),
     vscode.commands.registerCommand("rubberduck.startCustomChat", async () => {
-      const conversationTypeValues = [...conversationTypes.values()];
-
-      const items = conversationTypeValues.map((conversationType) => ({
-        id: conversationType.id,
-        label: conversationType.label,
-        description: conversationType.source,
-        detail: conversationType.description,
-      }));
+      const items = conversationTypesProvider
+        .getConversationTypes()
+        .map((conversationType) => ({
+          id: conversationType.id,
+          label: conversationType.label,
+          description: conversationType.source,
+          detail: conversationType.description,
+        }));
 
       const result = await vscode.window.showQuickPick(items, {
         title: `Start Custom Chat…`,
