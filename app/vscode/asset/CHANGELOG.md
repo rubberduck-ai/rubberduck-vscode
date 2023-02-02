@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0 - 2023-02-02
+
+### Added
+
+- Add your own custom conversation templates by adding `.json` files to the `.rubberduck/template` folder in your workspace.
+- The "Rubberduck: Reload Conversation Types" command reloads the conversation types. You can use it after you modified or added custom conversations in your workspace.
+- Prompts are logged and can be inspected in the output tab. The "Rubberduck: Show Logs" shows the Rubberduck output tab.
+- The "Rubberduck: Start Custom Chat… 💬" command allows you to select a chat from a list of available options. It includes custom conversation types.
+
 ## 1.0.1 - 2023-02-01
 
 ### Fixed
