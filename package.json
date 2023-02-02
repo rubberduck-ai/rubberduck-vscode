@@ -5,7 +5,8 @@
   "scripts": {
     "prepare": "husky install",
     "test": "pnpm nx run extension:test",
-    "test-watch": "pnpm nx run extension:test-watch"
+    "test-watch": "pnpm nx run extension:test-watch",
+    "deploy:vscode": "vsce publish"
   },
   "private": true,
   "devDependencies": {
