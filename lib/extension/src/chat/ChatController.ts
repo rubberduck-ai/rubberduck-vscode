@@ -7,7 +7,9 @@ import { ChatPanel } from "./ChatPanel";
 import { Conversation } from "../conversation/Conversation";
 import { ConversationType } from "../conversation/ConversationType";
 import { getInput } from "../conversation/input/getInput";
-import { getOptionalSelectedText } from "../conversation/input/getOptionalSelectedText";
+import { getSelectedText } from "../conversation/input/getSelectedText";
+import { getFilename } from "../conversation/input/getFilename";
+import { getSelectedRange } from "../conversation/input/getSelectedRange";
 
 export class ChatController {
   private readonly chatPanel: ChatPanel;
@@ -117,7 +119,9 @@ export class ChatController {
     }
 
     const availableInputs: Record<string, getInput<unknown>> = {
-      optionalSelectedText: getOptionalSelectedText,
+      selectedText: getSelectedText,
+      filename: getFilename,
+      selectedRange: getSelectedRange,
     };
 
     const initData = new Map<string, unknown>();

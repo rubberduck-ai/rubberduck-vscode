@@ -92,12 +92,12 @@ class TemplateConversation extends Conversation {
   }
 
   getTitle(): string {
-    const filename = this.initData.get("filename");
-    const range = this.initData.get("range") as vscode.Range;
+    const filename = this.initData.get("filename") as string;
+    const selectedRange = this.initData.get("selectedRange") as vscode.Range;
 
     return this.template.type === "basic-chat"
       ? this.messages[0]?.content ?? "New Chat"
-      : `${this.template.chatTitle} (${filename} ${range.start.line}:${range.end.line})`;
+      : `${this.template.chatTitle} (${filename} ${selectedRange.start.line}:${selectedRange.end.line})`;
   }
 
   isTitleMessage(): boolean {
@@ -111,9 +111,9 @@ class TemplateConversation extends Conversation {
   }
 
   private async executeChat() {
-    const { selectedText } = this.initData.get("optionalSelectedText") as {
-      selectedText: string | undefined;
-    };
+    const selectedText = this.initData.get("optionalSelectedText") as
+      | string
+      | undefined;
 
     const messages = this.messages;
     const firstMessage = messages[0];
