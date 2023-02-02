@@ -6,6 +6,7 @@ export const basicChatTemplate: ConversationTemplate = {
   id: "chat",
   engineVersion: 0,
   type: BASIC_CHAT_ID,
+  label: "Start Chat",
   codicon: "comment-discussion",
   prompt: {
     sections: [

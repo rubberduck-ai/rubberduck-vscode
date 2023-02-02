@@ -4,6 +4,7 @@ export const conversationTemplateSchema = zod.object({
   id: zod.string(),
   engineVersion: zod.literal(0),
   type: zod.literal("basic-chat"),
+  label: zod.string(),
   codicon: zod.string(),
   prompt: zod.object({
     sections: zod.array(
