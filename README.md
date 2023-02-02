@@ -33,6 +33,10 @@
 
 ![Diagnose Errors](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-diagnose-errors.png)
 
+### Custom Conversation Templates
+
+You can define your own conversation templates. See the [marketplace page](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode) for more information.
+
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
