@@ -4,7 +4,7 @@
   "type": "selected-code-analysis-chat",
   "label": "Write a code sonnet",
   "description": "Describe the selected code, Shakespeare style.",
-  "codicon": "book",
+  "codicon": "feedback",
   "initVariableConstraints": [
     {
       "type": "non-empty-text",

@@ -4,7 +4,7 @@
   "type": "basic-chat",
   "label": "Starte eine Unterhaltung",
   "description": "Starte eine Unterhaltung mit Rubberduck.",
-  "codicon": "comment-discussion",
+  "codicon": "comment-unresolved",
   "prompt": {
     "sections": [
       {

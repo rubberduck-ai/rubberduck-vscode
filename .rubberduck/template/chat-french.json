@@ -4,7 +4,7 @@
   "type": "basic-chat",
   "label": "Commencer une discussion",
   "description": "Commencer une discussion avec Rubberduck.",
-  "codicon": "comment-discussion",
+  "codicon": "comment-unresolved",
   "prompt": {
     "sections": [
       {
