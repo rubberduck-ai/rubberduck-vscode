@@ -104,9 +104,9 @@ export class ChatController {
   }
 
   async createConversation(conversationTypeId: string) {
-    const factory = this.conversationTypes.get(conversationTypeId);
+    const conversationType = this.conversationTypes.get(conversationTypeId);
 
-    if (factory == undefined) {
+    if (conversationType == undefined) {
       await vscode.window.showErrorMessage(
         `No conversation type found for ${conversationTypeId}`
       );
@@ -120,7 +120,7 @@ export class ChatController {
 
     const initData = new Map<string, unknown>();
 
-    for (const inputKey of factory.inputs) {
+    for (const inputKey of conversationType.inputs) {
       const input = availableInputs[inputKey];
 
       if (input == undefined) {
@@ -146,7 +146,7 @@ export class ChatController {
       initData.set(inputKey, initResult.data);
     }
 
-    const result = await factory.createConversation({
+    const result = await conversationType.createConversation({
       generateChatId: this.generateConversationId,
       openAIClient: this.openAIClient,
       updateChatPanel: this.updateChatPanel.bind(this),
