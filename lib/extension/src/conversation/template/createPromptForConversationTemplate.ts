@@ -1,9 +1,9 @@
-import { ConversationTemplate } from "./ConversationTemplate";
 import { assemblePrompt } from "../../prompt/assemblePrompt";
 import { CodeSection } from "../../prompt/CodeSection";
 import { ConversationSection, Message } from "../../prompt/ConversationSection";
 import { LinesSection } from "../../prompt/LinesSection";
 import { Section } from "../../prompt/Section";
+import { ConversationTemplate } from "./ConversationTemplate";
 
 export function createPromptForConversationTemplate({
   sections,
@@ -45,7 +45,7 @@ export function createPromptForConversationTemplate({
             });
           }
           case "optional-selected-code": {
-            return selectedText != null
+            return selectedText != null && selectedText.trim().length > 0
               ? new CodeSection({
                   title: "Selected Code",
                   code: selectedText,

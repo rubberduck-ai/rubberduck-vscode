@@ -76,6 +76,42 @@ const test = "test";
 \`\`\``);
   });
 
+  it("should return an empty result if selected text is empty", () => {
+    const sections = [
+      {
+        type: "optional-selected-code" as const,
+        title: "Some title",
+      },
+    ];
+    const variables = {
+      selectedText: "",
+      lastMessage: undefined,
+      messages: [],
+    };
+
+    const result = createPromptForConversationTemplate({ sections, variables });
+
+    expect(result).toBe("");
+  });
+
+  it("should return an empty result if selected text is only whitespaces", () => {
+    const sections = [
+      {
+        type: "optional-selected-code" as const,
+        title: "Some title",
+      },
+    ];
+    const variables = {
+      selectedText: "    \n\r",
+      lastMessage: undefined,
+      messages: [],
+    };
+
+    const result = createPromptForConversationTemplate({ sections, variables });
+
+    expect(result).toBe("");
+  });
+
   it("should return an empty string if no sections are provided", () => {
     const variables = {
       selectedText: undefined,
