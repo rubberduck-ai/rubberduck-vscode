@@ -45,13 +45,15 @@ export class TemplateConversationType implements ConversationType {
   }): Promise<CreateConversationResult> {
     for (const constraint of this.template.initVariableConstraints ?? []) {
       if (
-        constraint.type === "required" &&
-        !initData.has(constraint.variable)
+        (constraint.type === "non-empty-text" &&
+          !initData.has(constraint.variable)) ||
+        typeof initData.get(constraint.variable) !== "string" ||
+        initData.get(constraint.variable) === ""
       ) {
         return {
           result: "unavailable",
           type: "info",
-          message: `Missing required variable ${constraint.variable}`,
+          message: `The ${constraint.variable} variable is not set.`,
         };
       }
     }

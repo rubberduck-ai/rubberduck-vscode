@@ -9,7 +9,7 @@ export const explainCodeTemplate: ConversationTemplate = {
   codicon: "book",
   initVariableConstraints: [
     {
-      type: "required",
+      type: "non-empty-text",
       variable: "selectedText",
     },
   ],

@@ -37,7 +37,7 @@ const baseTemplateSchema = zod.object({
   initVariableConstraints: zod
     .array(
       zod.object({
-        type: zod.literal("required"),
+        type: zod.literal("non-empty-text"),
         variable: zod.string(),
       })
     )
