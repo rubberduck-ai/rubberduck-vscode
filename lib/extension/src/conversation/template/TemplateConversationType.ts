@@ -1,16 +1,11 @@
-import { Message } from "@rubberduck/common/build/webview-api";
 import { OpenAIClient } from "../../openai/OpenAIClient";
-import { CodeSection } from "../../prompt/CodeSection";
-import { ConversationSection } from "../../prompt/ConversationSection";
-import { LinesSection } from "../../prompt/LinesSection";
-import { assemblePrompt } from "../../prompt/assemblePrompt";
-import { Section } from "../../prompt/Section";
 import { Conversation } from "../Conversation";
 import {
   ConversationType,
   CreateConversationResult,
 } from "../ConversationType";
 import { ConversationTemplate } from "./ConversationTemplate";
+import { createPromptForConversationTemplate } from "./createPromptForConversationTemplate";
 
 export class TemplateConversationType implements ConversationType {
   readonly id: string;
@@ -117,7 +112,10 @@ class TemplateConversation extends Conversation {
     const prompt = this.template.prompt;
 
     const completion = await this.openAIClient.generateCompletion({
-      prompt: createPrompt({ sections: prompt.sections, variables }),
+      prompt: createPromptForConversationTemplate({
+        sections: prompt.sections,
+        variables,
+      }),
       maxTokens: prompt.maxTokens,
       stop: prompt.stop,
     });
@@ -146,61 +144,4 @@ class TemplateConversation extends Conversation {
 
     await this.executeChat();
   }
-}
-
-function createPrompt({
-  sections,
-  variables,
-}: {
-  sections: ConversationTemplate["prompt"]["sections"];
-  variables: {
-    selectedText: string | undefined;
-    lastMessage: string | undefined;
-    messages: Message[];
-  } & Record<string, unknown>;
-}): string {
-  const { selectedText, messages } = variables;
-
-  return assemblePrompt({
-    sections: sections
-      .map((section) => {
-        const type = section.type;
-        switch (type) {
-          case "lines": {
-            return new LinesSection({
-              title: section.title,
-              lines: section.lines.map((line) =>
-                // replace ${variable} with the value of the variable:
-                line.replace(
-                  /\$\{([^}]+)\}/g,
-                  (_, variable) => variables[variable]?.toString() ?? ""
-                )
-              ),
-            });
-          }
-          case "conversation": {
-            return new ConversationSection({
-              messages,
-              roles: {
-                bot: section.roles.bot,
-                user: section.roles.user,
-              },
-            });
-          }
-          case "optional-selected-code": {
-            return selectedText != null
-              ? new CodeSection({
-                  title: "Selected Code",
-                  code: selectedText,
-                })
-              : undefined;
-          }
-          default: {
-            const exhaustiveCheck: never = type;
-            throw new Error(`unsupported type: ${exhaustiveCheck}`);
-          }
-        }
-      })
-      .filter((section) => section != undefined) as Array<Section>,
-  });
 }
