@@ -5,6 +5,7 @@
   "label": "Write a code sonnet",
   "description": "Describe the selected code, Shakespeare style.",
   "codicon": "feedback",
+  "isEnabled": false,
   "initVariableConstraints": [
     {
       "type": "non-empty-text",

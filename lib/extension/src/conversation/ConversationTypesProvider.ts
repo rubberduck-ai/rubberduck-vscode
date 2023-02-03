@@ -52,6 +52,10 @@ export class ConversationTypesProvider {
         continue;
       }
 
+      if (loadingResult.template.isEnabled === false) {
+        continue;
+      }
+
       const type = new TemplateConversationType({
         template: loadingResult.template,
         source: "local-workspace",
