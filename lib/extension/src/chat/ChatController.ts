@@ -147,6 +147,8 @@ export class ChatController {
             await vscode.window.showInformationMessage(initResult.message);
           } else if (initResult.display === "error") {
             await vscode.window.showErrorMessage(initResult.message);
+          } else {
+            await vscode.window.showErrorMessage("Required input unavailable");
           }
 
           return;
@@ -168,6 +170,8 @@ export class ChatController {
           await vscode.window.showInformationMessage(result.message);
         } else if (result.display === "error") {
           await vscode.window.showErrorMessage(result.message);
+        } else {
+          await vscode.window.showErrorMessage("Required input unavailable");
         }
 
         return;
