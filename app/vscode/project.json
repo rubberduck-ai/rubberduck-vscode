@@ -14,7 +14,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "app/vscode",
-        "command": "vsce publish"
+        "command": "pnpm vsce publish -i `ls dist/*.vsix`"
       }
     },
     "publish-ovsx": {
@@ -22,7 +22,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "app/vscode",
-        "command": "ovsx publish"
+        "command": "pnpm ovsx publish -i `ls dist/*.vsix`"
       }
     }
   }
