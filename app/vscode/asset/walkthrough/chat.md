@@ -1,4 +1,4 @@
-# Chat
+# AI Chat
 
 1. You can start a chat using one of the following options:
    1. Run the `Rubberduck: Start Chat 💬` command from the command palette.

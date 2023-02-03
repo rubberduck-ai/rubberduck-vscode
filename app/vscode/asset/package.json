@@ -238,7 +238,7 @@
           },
           {
             "id": "chat",
-            "title": "Chat",
+            "title": "AI Chat",
             "description": "Chat with Rubberduck about your code and software development topics.",
             "media": {
               "markdown": "walkthrough/chat.md"
