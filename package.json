@@ -6,8 +6,8 @@
     "prepare": "husky install",
     "test": "pnpm nx run extension:test",
     "test-watch": "pnpm nx run extension:test-watch",
-    "deploy:vscode": "vsce publish",
-    "deploy:ovsx": "ovsx publish"
+    "deploy:vscode": "pnpm nx run vscode:publish-vscode",
+    "deploy:ovsx": "pnpm nx run vscode:publish-ovsx"
   },
   "private": true,
   "devDependencies": {
