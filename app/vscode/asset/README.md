@@ -136,7 +136,7 @@ You custom conversations are available in the "Rubberduck: Start Custom Chat… 
 
 # Setup
 
-1. Get an OpenAI API key from [beta.openai.com/account/api-keys](https://beta.openai.com/account/api-keys) (you'll need to sign up for an account)
+1. Get an OpenAI API key from [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) (you'll need to sign up for an account)
 2. Enter the API key with the `Rubberduck: Enter OpenAI API key` command
 
 # Project
