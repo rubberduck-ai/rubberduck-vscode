@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky install",
+    "build-all": "pnpm nx run-many --target=build",
     "test": "pnpm nx run extension:test",
     "test-watch": "pnpm nx run extension:test-watch",
     "deploy:vscode": "pnpm nx run vscode:publish-vscode",

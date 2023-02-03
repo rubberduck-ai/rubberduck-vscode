@@ -17,7 +17,7 @@ First of all, thank you for taking some of your time to contribute to the projec
 1. Clone the repo: `git clone git@github.com:rubberduck-ai/rubberduck-vscode.git`
 1. Go into the cloned repository: `cd rubberduck-vscode`
 1. Install dependencies: `pnpm install`
-1. Build the extension: `pnpm nx run-many --target=build`
+1. Build the extension: `pnpm build-all`
 
 The project uses [TypeScript][typescript], [Vitest][vitest] for the tests and [Prettier][prettier] for the formatting.
 
