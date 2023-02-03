@@ -4,7 +4,10 @@
   "type": "selected-code-analysis-chat",
   "label": "Improve Readability",
   "description": "Improve the readability of the selected code.",
-  "codicon": "symbol-color",
+  "icon": {
+    "type": "codicon",
+    "value": "symbol-color"
+  },
   "initVariableRequirements": [
     {
       "type": "non-empty-text",

@@ -4,7 +4,10 @@
   "type": "selected-code-analysis-chat",
   "label": "Ask a drunken pirate",
   "description": "Ask a drunken pirate about the meaning of your code",
-  "codicon": "feedback",
+  "icon": {
+    "type": "codicon",
+    "value": "feedback"
+  },
   "initVariableRequirements": [
     {
       "type": "non-empty-text",

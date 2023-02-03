@@ -157,7 +157,7 @@ class TemplateConversation extends Conversation {
   }
 
   getCodicon(): string {
-    return this.template.codicon;
+    return this.template.icon.value;
   }
 
   private async executeChat() {

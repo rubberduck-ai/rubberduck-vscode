@@ -34,7 +34,10 @@ const baseTemplateSchema = zod.object({
   engineVersion: zod.literal(0),
   label: zod.string(),
   description: zod.string(),
-  codicon: zod.string(),
+  icon: zod.object({
+    type: zod.literal("codicon"),
+    value: zod.string(),
+  }),
   isEnabled: zod.boolean().optional(), // default: true
   initVariableRequirements: zod
     .array(

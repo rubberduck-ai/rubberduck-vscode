@@ -6,7 +6,10 @@ export const basicChatTemplate: ConversationTemplate = {
   type: "basic-chat",
   label: "Start Chat",
   description: "Start a basic chat.",
-  codicon: "comment-discussion",
+  icon: {
+    type: "codicon",
+    value: "comment-discussion",
+  },
   prompt: {
     sections: [
       {

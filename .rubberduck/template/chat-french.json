@@ -4,7 +4,10 @@
   "type": "basic-chat",
   "label": "Commencer une discussion",
   "description": "Commencer une discussion avec Rubberduck.",
-  "codicon": "comment-unresolved",
+  "icon": {
+    "type": "codicon",
+    "value": "comment-unresolved"
+  },
   "prompt": {
     "sections": [
       {

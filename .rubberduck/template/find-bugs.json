@@ -4,7 +4,10 @@
   "type": "selected-code-analysis-chat",
   "label": "Find bugs",
   "description": "Find any potential bugs in the selected code.",
-  "codicon": "bug",
+  "icon": {
+    "type": "codicon",
+    "value": "bug"
+  },
   "initVariableRequirements": [
     {
       "type": "non-empty-text",

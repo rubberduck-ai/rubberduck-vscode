@@ -4,7 +4,10 @@
   "type": "selected-code-analysis-chat",
   "label": "Write a code sonnet",
   "description": "Describe the selected code, Shakespeare style.",
-  "codicon": "feedback",
+  "icon": {
+    "type": "codicon",
+    "value": "feedback"
+  },
   "isEnabled": false,
   "initVariableRequirements": [
     {

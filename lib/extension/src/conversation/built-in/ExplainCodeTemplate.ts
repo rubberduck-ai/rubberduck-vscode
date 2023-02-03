@@ -6,7 +6,10 @@ export const explainCodeTemplate: ConversationTemplate = {
   type: "selected-code-analysis-chat",
   label: "Explain Code",
   description: "Explain the selected code.",
-  codicon: "book",
+  icon: {
+    type: "codicon",
+    value: "book",
+  },
   initVariableRequirements: [
     {
       type: "non-empty-text",
