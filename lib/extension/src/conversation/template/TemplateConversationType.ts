@@ -6,14 +6,17 @@ import {
   CreateConversationResult,
 } from "../ConversationType";
 import { ConversationTemplate } from "./ConversationTemplate";
-import { createPromptForConversationTemplate } from "./createPromptForConversationTemplate";
+import {
+  createPromptForConversationTemplate,
+  TemplateVariables,
+} from "./createPromptForConversationTemplate";
 
 export class TemplateConversationType implements ConversationType {
   readonly id: string;
   readonly label: string;
   readonly description: string;
   readonly source: ConversationType["source"];
-  readonly inputs = ["filename", "selectedText", "selectedRange"];
+  readonly inputs = ["filename", "selectedText", "selectedRange", "language"];
 
   private template: ConversationTemplate;
 
@@ -158,16 +161,13 @@ class TemplateConversation extends Conversation {
   }
 
   private async executeChat() {
-    const selectedText = this.initData.get("selectedText") as
-      | string
-      | undefined;
-
     const messages = this.messages;
     const firstMessage = messages[0];
     const lastMessage = messages[messages.length - 1];
 
-    const variables = {
-      selectedText,
+    const variables: TemplateVariables = {
+      selectedText: this.initData.get("selectedText") as string | undefined,
+      language: this.initData.get("language") as string | undefined,
       firstMessage: firstMessage?.content,
       lastMessage: lastMessage?.content,
       messages,

@@ -12,7 +12,9 @@ describe("createPromptForConversationTemplate", () => {
     ];
     const variables = {
       selectedText: undefined,
+      firstMessage: undefined,
       lastMessage: undefined,
+      language: undefined,
       messages: [],
       variable: "test",
     };
@@ -35,7 +37,9 @@ This is a test`);
     ];
     const variables = {
       selectedText: undefined,
+      firstMessage: "Hello",
       lastMessage: "Hi",
+      language: undefined,
       messages: [
         {
           author: "bot" as const,
@@ -68,7 +72,9 @@ Developer: Hi`);
     ];
     const variables = {
       selectedText: undefined,
+      firstMessage: "Hello",
       lastMessage: "Hi",
+      language: undefined,
       messages: [
         {
           author: "bot" as const,
@@ -96,7 +102,9 @@ Developer: Hi`);
     ];
     const variables = {
       selectedText: 'const test = "test";',
+      firstMessage: undefined,
       lastMessage: undefined,
+      language: undefined,
       messages: [],
     };
 
@@ -117,7 +125,9 @@ const test = "test";
     ];
     const variables = {
       selectedText: "",
+      firstMessage: undefined,
       lastMessage: undefined,
+      language: undefined,
       messages: [],
     };
 
@@ -126,7 +136,7 @@ const test = "test";
     expect(result).toBe("");
   });
 
-  it("should return an empty result if selected text is only whitespaces", () => {
+  it("should return an empty result if selected text is only whitespace", () => {
     const sections = [
       {
         type: "optional-selected-code" as const,
@@ -135,7 +145,9 @@ const test = "test";
     ];
     const variables = {
       selectedText: "    \n\r",
+      firstMessage: undefined,
       lastMessage: undefined,
+      language: undefined,
       messages: [],
     };
 
@@ -147,7 +159,9 @@ const test = "test";
   it("should return an empty string if no sections are provided", () => {
     const variables = {
       selectedText: undefined,
+      firstMessage: undefined,
       lastMessage: undefined,
+      language: undefined,
       messages: [],
     };
 

@@ -10,6 +10,7 @@ import { getInput } from "../conversation/input/getInput";
 import { getSelectedText } from "../conversation/input/getSelectedText";
 import { getFilename } from "../conversation/input/getFilename";
 import { getSelectedRange } from "../conversation/input/getSelectedRange";
+import { getLanguage } from "../conversation/input/getLanguage";
 
 export class ChatController {
   private readonly chatPanel: ChatPanel;
@@ -122,6 +123,7 @@ export class ChatController {
       selectedText: getSelectedText,
       filename: getFilename,
       selectedRange: getSelectedRange,
+      language: getLanguage,
     };
 
     const initData = new Map<string, unknown>();
@@ -170,10 +172,14 @@ export class ChatController {
       return;
     }
 
-    await this.addAndShowConversation(result.conversation);
+    try {
+      await this.addAndShowConversation(result.conversation);
 
-    if (result.shouldImmediatelyAnswer) {
-      await result.conversation.answer();
+      if (result.shouldImmediatelyAnswer) {
+        await result.conversation.answer();
+      }
+    } catch (error: any) {
+      await vscode.window.showInformationMessage(error?.message ?? error);
     }
   }
 }

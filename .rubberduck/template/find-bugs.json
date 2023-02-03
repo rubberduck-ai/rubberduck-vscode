@@ -9,6 +9,10 @@
     {
       "type": "non-empty-text",
       "variable": "selectedText"
+    },
+    {
+      "type": "non-empty-text",
+      "variable": "language"
     }
   ],
   "analysisPlaceholder": "Searching for bugs",
@@ -19,7 +23,8 @@
         "title": "Instructions",
         "lines": [
           "What could be wrong with the code below?",
-          "Pay special attention to logical expressions and make sure they are sound."
+          "Only consider defects that would lead to incorrect behavior.",
+          "The programming language is ${language}."
         ]
       },
       {
@@ -30,11 +35,10 @@
         "type": "lines",
         "title": "Task",
         "lines": [
-          "Describe what could be wrong with the code.",
-          "Include any potential bugs or defects in the code.",
-          "Pay special attention to logical expressions and their soundness.",
-          "Consider that there might not be any problems with the code.",
+          "Describe what could be wrong with the code?",
+          "Only consider defects that would lead to incorrect behavior.",
           "Provide potential fix suggestions where possible.",
+          "Consider that there might not be any problems with the code.",
           "Include code snippets (using Markdown) and examples where appropriate."
         ]
       },
@@ -54,7 +58,8 @@
         "title": "Instructions",
         "lines": [
           "Continue the conversation below.",
-          "Pay special attention to the current developer request."
+          "Pay special attention to the current developer request.",
+          "The programming language is ${language}."
         ]
       },
       {

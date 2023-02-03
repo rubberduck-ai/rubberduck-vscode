@@ -5,16 +5,20 @@ import { LinesSection } from "../../prompt/LinesSection";
 import { Section } from "../../prompt/Section";
 import { Prompt } from "./ConversationTemplate";
 
+export type TemplateVariables = {
+  selectedText: string | undefined;
+  language: string | undefined;
+  firstMessage: string | undefined;
+  lastMessage: string | undefined;
+  messages: Message[];
+} & Record<string, unknown>;
+
 export function createPromptForConversationTemplate({
   sections,
   variables,
 }: {
   sections: Prompt["sections"];
-  variables: {
-    selectedText: string | undefined;
-    lastMessage: string | undefined;
-    messages: Message[];
-  } & Record<string, unknown>;
+  variables: TemplateVariables;
 }): string {
   const { selectedText, messages } = variables;
 
