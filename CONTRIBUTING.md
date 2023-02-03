@@ -33,11 +33,17 @@ You can use [VS Code's built-in debugger][vscode-debug-extension] on the project
 
 To build the project, press `F5`. It should run the `run - app/vscode` task.
 
-This will open a new "Extension Development Host" VS Code window, with your local code overriding your "Rubberduck" extension. This is helpful to test your changes in integration with VS Code API.
+This will:
+
+1. Build the project
+2. Open a new "Extension Development Host" VS Code window, with your local code overriding your "Rubberduck" extension
+
+It's handy to test your changes in integration with VS Code API.
 
 ### Useful resources to start changing the code
 
 - [VS Code Extension API documentation][vscode-extension-docs] is a good start
+- [OpenAI API documentation][openai-docs] is also useful if you plan to change the prompts
 
 ### Code Style
 
@@ -67,5 +73,6 @@ Whether it's code, design, typo or documentation, every contribution is welcomed
 [vitest]: https://vitest.dev/
 [prettier]: https://prettier.io
 [vscode-extension-docs]: https://code.visualstudio.com/api
+[openai-docs]: https://platform.openai.com/docs/introduction
 [vscode-debug-extension]: https://code.visualstudio.com/api/get-started/your-first-extension#debugging-the-extension
 [all-contributors-bot-command]: https://allcontributors.org/docs/en/bot/usage#all-contributors-add
