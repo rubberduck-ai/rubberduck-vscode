@@ -32,6 +32,47 @@ export class TemplateConversationType implements ConversationType {
     this.source = source;
   }
 
+  private checkRequirements(initData: Map<string, unknown>):
+    | (CreateConversationResult & {
+        type: "unavailable";
+      })
+    | { type: "requirementsSatisfied" } {
+    const requirements = this.template.initVariableRequirements ?? [];
+
+    for (const { type, variable } of requirements) {
+      switch (type) {
+        case "non-empty-text": {
+          if (
+            !initData.has(variable) ||
+            typeof initData.get(variable) !== "string" ||
+            initData.get(variable) === ""
+          ) {
+            return {
+              type: "unavailable",
+              display: "error",
+              message: `The ${variable} variable is not set.`,
+            };
+          }
+          break;
+        }
+        default: {
+          const exhaustiveCheck: never = type;
+          throw new Error(`unsupported type: ${exhaustiveCheck}`);
+        }
+      }
+    }
+
+    return {
+      type: "requirementsSatisfied",
+    };
+  }
+
+  areInitVariableRequirementsSatisfied(
+    initData: Map<string, unknown>
+  ): boolean {
+    return this.checkRequirements(initData).type === "requirementsSatisfied";
+  }
+
   async createConversation({
     conversationId,
     openAIClient,
@@ -43,23 +84,14 @@ export class TemplateConversationType implements ConversationType {
     updateChatPanel: () => Promise<void>;
     initData: Map<string, unknown>;
   }): Promise<CreateConversationResult> {
-    for (const constraint of this.template.initVariableConstraints ?? []) {
-      if (
-        constraint.type === "non-empty-text" &&
-        (!initData.has(constraint.variable) ||
-          typeof initData.get(constraint.variable) !== "string" ||
-          initData.get(constraint.variable) === "")
-      ) {
-        return {
-          result: "unavailable",
-          type: "info",
-          message: `The ${constraint.variable} variable is not set.`,
-        };
-      }
+    const requirementsCheckResult = this.checkRequirements(initData);
+
+    if (requirementsCheckResult.type === "unavailable") {
+      return requirementsCheckResult;
     }
 
     return {
-      result: "success",
+      type: "success",
       conversation: new TemplateConversation({
         id: conversationId,
         initData,

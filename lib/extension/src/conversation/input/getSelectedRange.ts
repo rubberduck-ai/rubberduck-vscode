@@ -5,6 +5,6 @@ import { getInput } from "./getInput";
 export const getSelectedRange: getInput<
   vscode.Selection | undefined
 > = async () => ({
-  result: "success",
+  type: "success",
   data: getActiveEditor()?.selection,
 });

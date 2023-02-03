@@ -6,7 +6,7 @@
   "description": "Describe the selected code, Shakespeare style.",
   "codicon": "feedback",
   "isEnabled": false,
-  "initVariableConstraints": [
+  "initVariableRequirements": [
     {
       "type": "non-empty-text",
       "variable": "selectedText"

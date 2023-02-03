@@ -47,6 +47,10 @@ export class DiagnoseErrorsConversation extends Conversation {
   static source = "built-in" as const;
   static inputs = [];
 
+  static areInitVariableRequirementsSatisfied(): boolean {
+    return true; // implement when converting to template
+  }
+
   static async createConversation({
     conversationId,
     openAIClient,
@@ -59,10 +63,10 @@ export class DiagnoseErrorsConversation extends Conversation {
     const result = await getErrorsInSelectionRange();
     const result2 = await getFileInformation();
 
-    if (result.result === "unavailable") {
+    if (result.type === "unavailable") {
       return result;
     }
-    if (result2.result === "unavailable") {
+    if (result2.type === "unavailable") {
       return result2;
     }
 
@@ -70,7 +74,7 @@ export class DiagnoseErrorsConversation extends Conversation {
     const { filename } = result2.data;
 
     return {
-      result: "success",
+      type: "success",
       conversation: new DiagnoseErrorsConversation(
         {
           id: conversationId,

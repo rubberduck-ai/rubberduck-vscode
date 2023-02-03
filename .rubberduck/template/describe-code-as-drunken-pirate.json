@@ -5,7 +5,7 @@
   "label": "Ask a drunken pirate",
   "description": "Ask a drunken pirate about the meaning of your code",
   "codicon": "feedback",
-  "initVariableConstraints": [
+  "initVariableRequirements": [
     {
       "type": "non-empty-text",
       "variable": "selectedText"

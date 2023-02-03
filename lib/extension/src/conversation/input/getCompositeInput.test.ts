@@ -14,8 +14,8 @@ describe("getCompositeInput", () => {
 
     const input = await getInput();
     assert(
-      input.result === "success",
-      `Expected "success", received "${input.result}"`
+      input.type === "success",
+      `Expected "success", received "${input.type}"`
     );
     assert.equal(input.data.get("first"), firstInputData);
     assert.equal(input.data.get("second"), secondInputData);
@@ -31,8 +31,8 @@ describe("getCompositeInput", () => {
 
     const input = await getInput();
     assert(
-      input.result === "unavailable",
-      `Expected "unavailable", received "${input.result}"`
+      input.type === "unavailable",
+      `Expected "unavailable", received "${input.type}"`
     );
     assert.equal(input.message, errorMessage);
   });
@@ -40,15 +40,15 @@ describe("getCompositeInput", () => {
 
 function createGetInputThatReturns<DATA>(data: DATA): getInput<DATA> {
   return async () => ({
-    result: "success",
+    type: "success",
     data,
   });
 }
 
 function createGetInputThatFails(message: string): getInput<unknown> {
   return async () => ({
-    result: "unavailable",
-    type: "info",
+    type: "unavailable",
+    display: "info",
     message,
   });
 }

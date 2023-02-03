@@ -1,11 +1,11 @@
 export type getInput<DATA> = () => Promise<
   | {
-      result: "success";
+      type: "success";
       data: DATA;
     }
   | {
-      result: "unavailable";
-      type: "info";
+      type: "unavailable";
+      display: "info";
       message: string;
     }
 >;

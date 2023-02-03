@@ -13,8 +13,8 @@ export const getFileInformation: getInput<FileInformationData> = async () => {
 
   if (activeEditor == undefined) {
     return {
-      result: "unavailable",
-      type: "info",
+      type: "unavailable",
+      display: "info",
       message: "No active editor",
     };
   }
@@ -25,14 +25,14 @@ export const getFileInformation: getInput<FileInformationData> = async () => {
 
   if (filename == undefined) {
     return {
-      result: "unavailable",
-      type: "info",
+      type: "unavailable",
+      display: "info",
       message: "No filename found.",
     };
   }
 
   return {
-    result: "success",
+    type: "success",
     data: {
       activeEditor,
       language,

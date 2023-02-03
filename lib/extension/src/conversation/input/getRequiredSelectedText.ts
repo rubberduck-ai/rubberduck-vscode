@@ -14,8 +14,8 @@ export const getRequiredSelectedText: getInput<
 
   if (activeEditor == undefined) {
     return {
-      result: "unavailable",
-      type: "info",
+      type: "unavailable",
+      display: "info",
       message: "No active editor",
     };
   }
@@ -26,14 +26,14 @@ export const getRequiredSelectedText: getInput<
 
   if (selectedText.trim().length === 0) {
     return {
-      result: "unavailable",
-      type: "info",
+      type: "unavailable",
+      display: "info",
       message: "No selected text.",
     };
   }
 
   return {
-    result: "success",
+    type: "success",
     data: {
       selectedText,
       range,

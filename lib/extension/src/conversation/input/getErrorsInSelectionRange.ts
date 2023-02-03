@@ -18,8 +18,8 @@ export const getErrorsInSelectionRange: getInput<{
 
   if (activeEditor == undefined) {
     return {
-      result: "unavailable",
-      type: "info",
+      type: "unavailable",
+      display: "info",
       message: "No active editor",
     };
   }
@@ -50,8 +50,8 @@ export const getErrorsInSelectionRange: getInput<{
 
   if (errors.length === 0) {
     return {
-      result: "unavailable",
-      type: "info",
+      type: "unavailable",
+      display: "info",
       message: "No errors found.",
     };
   }
@@ -59,7 +59,7 @@ export const getErrorsInSelectionRange: getInput<{
   const rangeText = document.getText(range);
 
   return {
-    result: "success",
+    type: "success",
     data: {
       errors,
       rangeText,

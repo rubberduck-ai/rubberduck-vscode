@@ -7,7 +7,7 @@ export const explainCodeTemplate: ConversationTemplate = {
   label: "Explain Code",
   description: "Explain the selected code.",
   codicon: "book",
-  initVariableConstraints: [
+  initVariableRequirements: [
     {
       type: "non-empty-text",
       variable: "selectedText",

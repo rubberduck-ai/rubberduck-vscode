@@ -5,7 +5,7 @@
   "label": "Find bugs",
   "description": "Find any potential bugs in the selected code.",
   "codicon": "bug",
-  "initVariableConstraints": [
+  "initVariableRequirements": [
     {
       "type": "non-empty-text",
       "variable": "selectedText"

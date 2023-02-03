@@ -36,7 +36,7 @@ const baseTemplateSchema = zod.object({
   description: zod.string(),
   codicon: zod.string(),
   isEnabled: zod.boolean().optional(), // default: true
-  initVariableConstraints: zod
+  initVariableRequirements: zod
     .array(
       zod.object({
         type: zod.literal("non-empty-text"),

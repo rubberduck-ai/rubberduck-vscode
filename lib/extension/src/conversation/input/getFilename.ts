@@ -9,6 +9,6 @@ export type FileInformationData = {
 };
 
 export const getFilename: getInput<string | undefined> = async () => ({
-  result: "success",
+  type: "success",
   data: getActiveEditor()?.document?.fileName.split("/").pop(),
 });

@@ -10,7 +10,7 @@ export const getCompositeInput =
     for (const [key, input] of Object.entries(inputs)) {
       const inputResult = await input();
 
-      if (inputResult.result === "unavailable") {
+      if (inputResult.type === "unavailable") {
         return inputResult;
       }
 
@@ -18,7 +18,7 @@ export const getCompositeInput =
     }
 
     return {
-      result: "success",
+      type: "success",
       data: result,
     };
   };

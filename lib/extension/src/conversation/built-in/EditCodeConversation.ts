@@ -27,6 +27,10 @@ export class EditCodeConversation extends Conversation {
   static source = "built-in" as const;
   static inputs = [];
 
+  static areInitVariableRequirementsSatisfied(): boolean {
+    return true; // implement when converting to template
+  }
+
   static async createConversation({
     conversationId,
     openAIClient,
@@ -43,12 +47,12 @@ export class EditCodeConversation extends Conversation {
       fileInformation: getFileInformation,
     })();
 
-    if (result.result === "unavailable") {
+    if (result.type === "unavailable") {
       return result;
     }
 
     return {
-      result: "success",
+      type: "success",
       conversation: new EditCodeConversation(
         {
           id: conversationId,

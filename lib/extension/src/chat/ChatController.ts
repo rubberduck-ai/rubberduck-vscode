@@ -139,10 +139,10 @@ export class ChatController {
 
       const initResult = await input();
 
-      if (initResult.result === "unavailable") {
-        if (initResult.type === "info") {
+      if (initResult.type === "unavailable") {
+        if (initResult.display === "info") {
           await vscode.window.showInformationMessage(initResult.message);
-        } else if (initResult.type === "error") {
+        } else if (initResult.display === "error") {
           await vscode.window.showErrorMessage(initResult.message);
         }
 
@@ -160,10 +160,10 @@ export class ChatController {
       initData,
     });
 
-    if (result.result === "unavailable") {
-      if (result.type === "info") {
+    if (result.type === "unavailable") {
+      if (result.display === "info") {
         await vscode.window.showInformationMessage(result.message);
-      } else if (result.type === "error") {
+      } else if (result.display === "error") {
         await vscode.window.showErrorMessage(result.message);
       }
 

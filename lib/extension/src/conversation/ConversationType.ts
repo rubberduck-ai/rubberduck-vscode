@@ -4,17 +4,17 @@ import { Conversation } from "./Conversation";
 
 export type CreateConversationResult =
   | {
-      result: "success";
+      type: "success";
       conversation: Conversation;
       shouldImmediatelyAnswer: boolean;
     }
   | {
-      result: "unavailable";
-      type?: undefined;
+      type: "unavailable";
+      display?: undefined;
     }
   | {
-      result: "unavailable";
-      type: "info" | "error";
+      type: "unavailable";
+      display: "info" | "error";
       message: string;
     };
 
@@ -24,6 +24,8 @@ export type ConversationType = {
   readonly description: string;
   readonly source: "built-in" | "local-workspace";
   readonly inputs: Array<string>;
+
+  areInitVariableRequirementsSatisfied(initData: Map<string, unknown>): boolean;
 
   createConversation({
     conversationId,

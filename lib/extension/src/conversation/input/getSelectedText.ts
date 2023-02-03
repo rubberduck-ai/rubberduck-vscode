@@ -4,7 +4,7 @@ import { getInput } from "./getInput";
 export const getSelectedText: getInput<string | undefined> = async () => {
   const activeEditor = getActiveEditor();
   return {
-    result: "success",
+    type: "success",
     data: activeEditor?.document?.getText(activeEditor?.selection),
   };
 };
