@@ -11,4 +11,4 @@ Here is an example of a [drunken pirate describing your code](https://github.com
 
 ![Describe code as a drunken pirate](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/drunken-pirate.png)
 
-Learn how to craft your own [with the docs](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/doc/CUSTOM_CONVERSATION.md)!
+Learn how to craft your own [with the docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/CUSTOM_CONVERSATIONS.md)!

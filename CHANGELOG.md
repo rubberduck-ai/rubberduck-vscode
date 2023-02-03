@@ -4,7 +4,7 @@
 
 ### Changed
 
-- **Breaking**. The `codicon` attribute is now an `icon` property. [Check the updated docs](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/doc/CUSTOM_CONVERSATION.md) for Custom Conversation Templates.
+- **Breaking**. The `codicon` attribute is now an `icon` property. [Check the updated docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/CUSTOM_CONVERSATIONS.md) for Custom Conversation Templates.
 
 ### Added
 
