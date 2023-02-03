@@ -137,7 +137,7 @@ Want to craft your own? Let's dig into how these JSON are structured.
 
 ## Basic Configuration
 
-Properties
+Properties:
 
 - `id`: Id of the conversation type. It needs to be unique.
 - `engineVersion`: Must be 0 for now. Warning: we might make breaking changes to the template format while we are on version 0.
