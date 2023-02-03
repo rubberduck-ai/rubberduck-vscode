@@ -179,7 +179,7 @@ Properties:
 - `sections`: The final prompt is broke down into smaller [section types](#section-types) that you compose together. This allows you to insert user selected code in the middle of your prompt.
 - `maxTokens`: Upper bound on how many [OpenAI tokens](https://platform.openai.com/tokenizer) the API will return. [Comes from OpenAI](https://platform.openai.com/docs/api-reference/completions/create#completions/create-max_tokens).
 - `stop`: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence. [Comes from OpenAI](https://platform.openai.com/docs/api-reference/completions/create#completions/create-stop).
-- `temperature`: A number between 0 and 1. 1 means the model will take more risks and be more creative. [Comes from OpenAI](https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature)
+- `temperature`: A number between 0 and 1. 1 means the model will take more risks and be more creative. Defaults to 0. [Comes from OpenAI](https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature)
 
 ### Section Types
 
@@ -229,9 +229,3 @@ The available variables are:
 - `${language}` - the language id of the document in the active editor
 - `${firstMessage}` - the first message of the conversation (text only) or `undefined` if there are no messages
 - `${lastMessage}` - the last message of the conversation (text only) or `undefined` if there are no messages
-
-### Settings
-
-- `maxTokens`: The maximum number of tokens that can be generated from the prompt.
-- `stop`: An array of tokens that will stop the conversation. Optional.
-- `temperature`: The temperature of the prompt. Optional. Defaults to 0. Set to e.g. 0.5 to get more creative responses.
