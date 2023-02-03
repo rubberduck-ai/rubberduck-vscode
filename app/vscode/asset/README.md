@@ -69,70 +69,18 @@ Let Rubberduck identify error causes and suggest fixes to fix compiler and linte
 
 # Your Own Conversation Templates
 
-You can define your own conversation templates for basic conversations by adding `.json` files to the `.rubberduck/template` folder in your workspace.
+What if you want to craft an AI Chat that knows _specifically_ about your conventions?
+How cool would it be to have the answers in your own language?
 
-Here is an example:
+You can craft your own conversation templates by adding `.json` files to the `.rubberduck/template` folder in your workspace. See the [custom templates in the Rubberduck repository for examples](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/.rubberduck/template).
 
-```
-{
-  "id": "my-conversation-template",
-  "engineVersion": 0,
-  "type": "basic-chat",
-  "label": "Start Clown Chat",
-  "description": "Clown chat",
-  "codicon": "squirrel",
-  "prompt": {
-    "sections": [
-      {
-        "type": "lines",
-        "title": "Instructions",
-        "lines": [
-          "Continue the conversation below in a funny way.",
-          "Ignore the current developer request."
-        ]
-      },
-      {
-        "type": "lines",
-        "title": "Current Request",
-        "lines": ["Developer: ${lastMessage}"]
-      },
-      {
-        "type": "optional-selected-code",
-        "title": "Selected Code"
-      },
-      {
-        "type": "conversation",
-        "roles": {
-          "bot": "Clown",
-          "user": "Developer"
-        }
-      },
-      {
-        "type": "lines",
-        "title": "Task",
-        "lines": [
-          "Say something that is related to the topic, but that makes no sense."
-        ]
-      },
-      {
-        "type": "lines",
-        "title": "Response",
-        "lines": ["Clown:"]
-      }
-    ],
-    "maxTokens": 1024,
-    "stop": ["Clown:", "Developer:"]
-  }
-}
-```
+To use custom conversations, run the "Rubberduck: Start Custom Chat… 💬" command.
 
-The available placeholders are: `${lastMessage}`, `${selectedCode}`.
+Here is an example of a [drunken pirate describing your code](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/.rubberduck/template/describe-code-as-drunken-pirate.json):
 
-[Codicons](https://microsoft.github.io/vscode-codicons/dist/codicon.html) are used to display icons in the conversation list. You can find the list of available icons [here](https://microsoft.github.io/vscode-codicons/dist/codicon.html).
+![Describe code as a drunken pirate](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/drunken-pirate.png)
 
-You can reload the available conversations with the "Rubberduck: Reload Conversation Types" command. You can see the prompt output in the Output panel. The "Rubberduck: Show logs" command will open the Output panel.
-
-You custom conversations are available in the "Rubberduck: Start Custom Chat… 💬" command.
+Learn how to craft your own [with the docs](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/doc/CUSTOM_CONVERSATION.md)!
 
 # Setup
 
