@@ -43,7 +43,8 @@
           "Consider overall readability and idiomatic constructs.",
           "Provide potential improvements suggestions where possible.",
           "Consider that the code might be perfect and no improvements are possible.",
-          "Include code snippets (using Markdown) and examples where appropriate."
+          "Include code snippets (using Markdown) and examples where appropriate.",
+          "The code snippets must contain valid ${language} code."
         ]
       },
       {
@@ -98,7 +99,8 @@
           "Ask for clarification if the message does not make sense or more input is needed.",
           "Use the style of a documentation article.",
           "Omit any links.",
-          "Include code snippets (using Markdown) and examples where appropriate."
+          "Include code snippets (using Markdown) and examples where appropriate.",
+          "The code snippets must contain valid ${language} code."
         ]
       },
       {
