@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.0 - 2023-02-03
+
+### Changed
+
+- **Breaking**. The `codicon` attribute is now an `icon` property. [Check the updated docs](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/doc/CUSTOM_CONVERSATION.md) for Custom Conversation Templates.
+
+### Added
+
+- New `selected-code-analysis-chat` template format. It analyzes a code selection, then starts a conversation. Use-case example:
+  - [Improve readability](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/.rubberduck/template/improve-readability.json)
+  - [Find bugs](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/.rubberduck/template/find-bugs.json)
+- New optional `isEnabled` flag, so you can disable a conversation template you are still working on.
+
 ## 1.1.0 - 2023-02-02
 
 ### Added
