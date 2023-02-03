@@ -14,6 +14,7 @@ importers:
       husky: ^8.0.0
       lint-staged: 13.1.0
       nx: 15.4.1
+      ovsx: 0.8.0
       prettier: 2.8.3
       typescript: 4.9.4
       vitest: 0.28.3
@@ -28,6 +29,7 @@ importers:
       husky: 8.0.3
       lint-staged: 13.1.0
       nx: 15.4.1
+      ovsx: 0.8.0
       prettier: 2.8.3
       typescript: 4.9.4
       vitest: 0.28.3
@@ -1003,6 +1005,10 @@ packages:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
     dev: true
     optional: true
+
+  /ci-info/2.0.0:
+    resolution: {integrity: sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==}
+    dev: true
 
   /classnames/2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
@@ -2025,6 +2031,13 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
+  /is-ci/2.0.0:
+    resolution: {integrity: sha512-YfJT7rkpQB0updsdHLGWrvhBJfcfzNNawYDNIyQXJz0IViGf75O8EBPKSdvw2rF+LGCsX4FZ8tcr3b19LcZq4w==}
+    hasBin: true
+    dependencies:
+      ci-info: 2.0.0
+    dev: true
+
   /is-core-module/2.11.0:
     resolution: {integrity: sha512-RRjxlvLDkD1YJwDbroBHMb+cukurkDWNyHx7D3oNB5x9rb5ogcksMC5wHCadcXoo67gVr/+3GFySh3134zi6rw==}
     dependencies:
@@ -2879,6 +2892,21 @@ packages:
       prelude-ls: 1.2.1
       type-check: 0.4.0
       word-wrap: 1.2.3
+    dev: true
+
+  /ovsx/0.8.0:
+    resolution: {integrity: sha512-W1U7lgBIbhSB1DcqyGKeenKzmwWYY78SkWd+BUKKyLyqN6w39Uekdr0PKAM7dyBGb0JLtLE7d86A1jJVn8bEng==}
+    engines: {node: '>= 14'}
+    hasBin: true
+    dependencies:
+      '@vscode/vsce': 2.16.0
+      commander: 6.2.1
+      follow-redirects: 1.15.2
+      is-ci: 2.0.0
+      leven: 3.1.0
+      tmp: 0.2.1
+    transitivePeerDependencies:
+      - debug
     dev: true
 
   /p-limit/3.1.0:

@@ -5,7 +5,9 @@
   "scripts": {
     "prepare": "husky install",
     "test": "pnpm nx run extension:test",
-    "test-watch": "pnpm nx run extension:test-watch"
+    "test-watch": "pnpm nx run extension:test-watch",
+    "deploy:vscode": "pnpm nx run vscode:publish-vscode",
+    "deploy:ovsx": "pnpm nx run vscode:publish-ovsx"
   },
   "private": true,
   "devDependencies": {
@@ -19,6 +21,7 @@
     "husky": "^8.0.0",
     "lint-staged": "13.1.0",
     "nx": "15.4.1",
+    "ovsx": "0.8.0",
     "prettier": "2.8.3",
     "typescript": "4.9.4",
     "vitest": "0.28.3"
