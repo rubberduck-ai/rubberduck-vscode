@@ -1,4 +1,4 @@
-import { assert, describe, it } from "vitest";
+import { assert, describe, expect, it } from "vitest";
 import { getCompositeInput } from "./getCompositeInput";
 import { getInput } from "./getInput";
 
@@ -17,8 +17,8 @@ describe("getCompositeInput", () => {
       input.type === "success",
       `Expected "success", received "${input.type}"`
     );
-    assert.equal(input.data.get("first"), firstInputData);
-    assert.equal(input.data.get("second"), secondInputData);
+    expect(input.data.get("first")).toEqual(firstInputData);
+    expect(input.data.get("second")).toEqual(secondInputData);
   });
 
   it("should return an error if one composed function fails", async () => {
@@ -34,7 +34,7 @@ describe("getCompositeInput", () => {
       input.type === "unavailable",
       `Expected "unavailable", received "${input.type}"`
     );
-    assert.equal(input.message, errorMessage);
+    expect(input.message).toEqual(errorMessage);
   });
 });
 
