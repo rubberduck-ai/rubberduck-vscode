@@ -109,70 +109,70 @@ export class ChatController {
   }
 
   async createConversation(conversationTypeId: string) {
-    const conversationType = this.getConversationType(conversationTypeId);
+    try {
+      const conversationType = this.getConversationType(conversationTypeId);
 
-    if (conversationType == undefined) {
-      await vscode.window.showErrorMessage(
-        `No conversation type found for ${conversationTypeId}`
-      );
-
-      return;
-    }
-
-    const availableInputs: Record<string, getInput<unknown>> = {
-      selectedText: getSelectedText,
-      filename: getFilename,
-      selectedRange: getSelectedRange,
-      language: getLanguage,
-    };
-
-    const initData = new Map<string, unknown>();
-
-    for (const inputKey of conversationType.inputs) {
-      const input = availableInputs[inputKey];
-
-      if (input == undefined) {
+      if (conversationType == undefined) {
         await vscode.window.showErrorMessage(
-          `No input found for input '${inputKey}'`
+          `No conversation type found for ${conversationTypeId}`
         );
 
         return;
       }
 
-      const initResult = await input();
+      const availableInputs: Record<string, getInput<unknown>> = {
+        selectedText: getSelectedText,
+        filename: getFilename,
+        selectedRange: getSelectedRange,
+        language: getLanguage,
+      };
 
-      if (initResult.type === "unavailable") {
-        if (initResult.display === "info") {
-          await vscode.window.showInformationMessage(initResult.message);
-        } else if (initResult.display === "error") {
-          await vscode.window.showErrorMessage(initResult.message);
+      const initData = new Map<string, unknown>();
+
+      for (const inputKey of conversationType.inputs) {
+        const input = availableInputs[inputKey];
+
+        if (input == undefined) {
+          await vscode.window.showErrorMessage(
+            `No input found for input '${inputKey}'`
+          );
+
+          return;
+        }
+
+        const initResult = await input();
+
+        if (initResult.type === "unavailable") {
+          if (initResult.display === "info") {
+            await vscode.window.showInformationMessage(initResult.message);
+          } else if (initResult.display === "error") {
+            await vscode.window.showErrorMessage(initResult.message);
+          }
+
+          return;
+        }
+
+        initData.set(inputKey, initResult.data);
+      }
+
+      const result = await conversationType.createConversation({
+        conversationId: this.generateConversationId(),
+        openAIClient: this.openAIClient,
+        updateChatPanel: this.updateChatPanel.bind(this),
+        diffEditorManager: this.diffEditorManager,
+        initData,
+      });
+
+      if (result.type === "unavailable") {
+        if (result.display === "info") {
+          await vscode.window.showInformationMessage(result.message);
+        } else if (result.display === "error") {
+          await vscode.window.showErrorMessage(result.message);
         }
 
         return;
       }
 
-      initData.set(inputKey, initResult.data);
-    }
-
-    const result = await conversationType.createConversation({
-      conversationId: this.generateConversationId(),
-      openAIClient: this.openAIClient,
-      updateChatPanel: this.updateChatPanel.bind(this),
-      diffEditorManager: this.diffEditorManager,
-      initData,
-    });
-
-    if (result.type === "unavailable") {
-      if (result.display === "info") {
-        await vscode.window.showInformationMessage(result.message);
-      } else if (result.display === "error") {
-        await vscode.window.showErrorMessage(result.message);
-      }
-
-      return;
-    }
-
-    try {
       await this.addAndShowConversation(result.conversation);
 
       if (result.shouldImmediatelyAnswer) {
