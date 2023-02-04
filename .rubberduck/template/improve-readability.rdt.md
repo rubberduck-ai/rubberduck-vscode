@@ -31,7 +31,7 @@ The improve readability analysis suggests ways to make the selected code easier 
   "analysisPrompt": {
     "template": {
       "type": "handlebars",
-      "promptTemplate": "analyze-readability"
+      "promptTemplate": "analysis"
     },
     "maxTokens": 1024
   },
@@ -39,7 +39,7 @@ The improve readability analysis suggests ways to make the selected code easier 
   "chatPrompt": {
     "template": {
       "type": "handlebars",
-      "promptTemplate": "conversation"
+      "promptTemplate": "chat"
     },
     "maxTokens": 1024,
     "stop": ["Bot:", "Developer:"]
@@ -49,7 +49,7 @@ The improve readability analysis suggests ways to make the selected code easier 
 
 ### Analysis Prompt Template
 
-```handlebars-analyze-readability
+```handlebars-analysis
 ## Instructions
 How could the readability of the code below be improved?
 The programming language is {{language}}.
@@ -75,7 +75,7 @@ The code snippets must contain valid {{language}} code.
 
 ### Chat Prompt Template
 
-```handlebars-conversation
+```handlebars-chat
 ## Instructions
 Continue the conversation below.
 Pay special attention to the current developer request.
