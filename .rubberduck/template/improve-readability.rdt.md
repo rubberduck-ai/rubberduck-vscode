@@ -2,7 +2,9 @@
 
 The improve readability analysis suggests ways to make the selected code easier to read.
 
-## Template Configuration
+## Conversation Template
+
+### Configuration
 
 ```json conversation-template
 {
@@ -45,6 +47,8 @@ The improve readability analysis suggests ways to make the selected code easier 
 }
 ```
 
+### Analysis Template
+
 ```handlebars-analyze-readability
 ## Instructions
 How could the readability of the code below be improved?
@@ -68,6 +72,8 @@ The code snippets must contain valid {{language}} code.
 ## Readability Improvements
 
 ```
+
+### Conversation Template
 
 ```handlebars-conversation
 ## Instructions
