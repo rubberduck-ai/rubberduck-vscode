@@ -180,9 +180,13 @@ class TemplateConversation extends Conversation {
         ? this.template.analysisPrompt
         : this.template.chatPrompt;
 
+    if (prompt.template.type !== "sections") {
+      throw new Error("unsupported template type");
+    }
+
     const completion = await this.openAIClient.generateCompletion({
       prompt: createPromptForConversationTemplate({
-        sections: prompt.sections,
+        sections: prompt.template.sections,
         variables,
       }),
       maxTokens: prompt.maxTokens,

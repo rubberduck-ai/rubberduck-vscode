@@ -3,7 +3,7 @@ import { CodeSection } from "../../prompt/CodeSection";
 import { ConversationSection, Message } from "../../prompt/ConversationSection";
 import { LinesSection } from "../../prompt/LinesSection";
 import { Section } from "../../prompt/Section";
-import { Prompt } from "./ConversationTemplate";
+import { Sections } from "./ConversationTemplate";
 
 export type TemplateVariables = {
   selectedText: string | undefined;
@@ -17,7 +17,7 @@ export function createPromptForConversationTemplate({
   sections,
   variables,
 }: {
-  sections: Prompt["sections"];
+  sections: Sections;
   variables: TemplateVariables;
 }): string {
   const { selectedText, messages } = variables;
