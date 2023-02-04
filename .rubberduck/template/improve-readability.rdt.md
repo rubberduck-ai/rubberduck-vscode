@@ -1,3 +1,9 @@
+# Improve Readability
+
+The improve readability analysis suggests ways to make the selected code easier to read.
+
+## Template Configuration
+
 ```json conversation-template
 {
   "id": "improve-readability",
@@ -22,102 +28,82 @@
   "analysisPlaceholder": "Looking for readability improvements",
   "analysisPrompt": {
     "template": {
-      "type": "sections",
-      "sections": [
-        {
-          "type": "lines",
-          "title": "Instructions",
-          "lines": [
-            "How could the readability of the code below be improved?",
-            "The programming language is ${language}.",
-            "Consider overall readability and idiomatic constructs."
-          ]
-        },
-        {
-          "type": "optional-selected-code",
-          "title": "Selected Code"
-        },
-        {
-          "type": "lines",
-          "title": "Task",
-          "lines": [
-            "How could the readability of the code be improved?",
-            "The programming language is ${language}.",
-            "Consider overall readability and idiomatic constructs.",
-            "Provide potential improvements suggestions where possible.",
-            "Consider that the code might be perfect and no improvements are possible.",
-            "Include code snippets (using Markdown) and examples where appropriate.",
-            "The code snippets must contain valid ${language} code."
-          ]
-        },
-        {
-          "type": "lines",
-          "title": "Readability Improvements",
-          "lines": []
-        }
-      ]
+      "type": "handlebars",
+      "promptTemplate": "analyze-readability"
     },
     "maxTokens": 1024
   },
   "chatTitle": "Improve Readability",
   "chatPrompt": {
     "template": {
-      "type": "sections",
-      "sections": [
-        {
-          "type": "lines",
-          "title": "Instructions",
-          "lines": [
-            "Continue the conversation below.",
-            "Pay special attention to the current developer request.",
-            "The programming language is ${language}."
-          ]
-        },
-        {
-          "type": "lines",
-          "title": "Current Request",
-          "lines": ["Developer: ${lastMessage}"]
-        },
-        {
-          "type": "optional-selected-code",
-          "title": "Selected Code"
-        },
-        {
-          "type": "lines",
-          "title": "Potential Readability Improvements",
-          "lines": ["${firstMessage}"]
-        },
-        {
-          "type": "conversation",
-          "excludeFirstMessage": true,
-          "roles": {
-            "bot": "Bot",
-            "user": "Developer"
-          }
-        },
-        {
-          "type": "lines",
-          "title": "Task",
-          "lines": [
-            "Write a response that continues the conversation.",
-            "Stay focused on current developer request.",
-            "Consider the possibility that there might not be a solution.",
-            "Ask for clarification if the message does not make sense or more input is needed.",
-            "Use the style of a documentation article.",
-            "Omit any links.",
-            "Include code snippets (using Markdown) and examples where appropriate.",
-            "The code snippets must contain valid ${language} code."
-          ]
-        },
-        {
-          "type": "lines",
-          "title": "Response",
-          "lines": ["Bot:"]
-        }
-      ]
+      "type": "handlebars",
+      "promptTemplate": "conversation"
     },
     "maxTokens": 1024,
     "stop": ["Bot:", "Developer:"]
   }
 }
+```
+
+```handlebars-analyze-readability
+## Instructions
+How could the readability of the code below be improved?
+The programming language is {{language}}.
+Consider overall readability and idiomatic constructs.
+
+## Selected Code
+\`\`\`
+{{selectedText}}
+\`\`\`
+
+## Task
+How could the readability of the code be improved?
+The programming language is {{language}}.
+Consider overall readability and idiomatic constructs.
+Provide potential improvements suggestions where possible.
+Consider that the code might be perfect and no improvements are possible.
+Include code snippets (using Markdown) and examples where appropriate.
+The code snippets must contain valid {{language}} code.
+
+## Readability Improvements
+
+```
+
+```handlebars-conversation
+## Instructions
+Continue the conversation below.
+Pay special attention to the current developer request.
+The programming language is {{language}}.
+
+## Current Request
+Developer: {{lastMessage}}
+
+{{#if selectedText}}
+## Selected Code
+\`\`\`
+{{selectedText}}
+\`\`\`
+{{/if}}
+
+## Conversation
+{{#each messages}}
+{{#if (eq author "bot")}}
+Bot: {{content}}
+{{else}}
+developer: {{content}}
+{{/if}}
+{{/each}}
+
+## Task
+Write a response that continues the conversation.
+Stay focused on current developer request.
+Consider the possibility that there might not be a solution.
+Ask for clarification if the message does not make sense or more input is needed.
+Use the style of a documentation article.
+Omit any links.
+Include code snippets (using Markdown) and examples where appropriate.
+The code snippets must contain valid {{language}} code.
+
+## Response
+Bot:
 ```
