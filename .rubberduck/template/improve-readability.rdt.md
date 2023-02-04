@@ -96,7 +96,7 @@ Developer: {{lastMessage}}
 {{#if (eq author "bot")}}
 Bot: {{content}}
 {{else}}
-developer: {{content}}
+Developer: {{content}}
 {{/if}}
 {{/each}}
 
