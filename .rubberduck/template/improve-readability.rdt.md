@@ -47,7 +47,7 @@ The improve readability analysis suggests ways to make the selected code easier 
 }
 ```
 
-### Analysis Template
+### Analysis Prompt Template
 
 ```handlebars-analyze-readability
 ## Instructions
@@ -73,7 +73,7 @@ The code snippets must contain valid {{language}} code.
 
 ```
 
-### Conversation Template
+### Chat Prompt Template
 
 ```handlebars-conversation
 ## Instructions

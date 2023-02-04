@@ -1,3 +1,11 @@
+# AI Chat in German
+
+This templates lets you chat with Rubberduck in German.
+
+## Conversation Template
+
+### Configuration
+
 ```json conversation-template
 {
   "id": "chat-german",
@@ -19,6 +27,8 @@
   }
 }
 ```
+
+### Chat Prompt Template
 
 ```handlebars-chat-german
 ## Anweisungen
