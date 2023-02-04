@@ -3,6 +3,7 @@ import secureJSON from "secure-json-parse";
 import {
   ConversationTemplate,
   conversationTemplateSchema,
+  Prompt,
 } from "./ConversationTemplate";
 
 export type ConversationTemplateParseResult =
@@ -32,7 +33,16 @@ class NamedCodeSnippetMap {
     return content;
   }
 
-  getHandlebarsTemplate(templateName: string): string {
+  resolveTemplate(prompt: Prompt) {
+    const promptTemplate = prompt.template;
+    if (promptTemplate.type === "handlebars") {
+      promptTemplate.promptTemplate = this.getHandlebarsTemplate(
+        promptTemplate.promptTemplate
+      );
+    }
+  }
+
+  private getHandlebarsTemplate(templateName: string): string {
     return this.get(`handlebars-${templateName}`).replace(/\\`\\`\\`/g, "```");
   }
 }
@@ -81,21 +91,16 @@ export function parseConversationTemplate(
       secureJSON.parse(conversationTemplateText)
     );
 
-    // resolve any handlebars prompt templates:
+    // resolve prompt templates:
     const conversationType = conversationTemplate.type;
     switch (conversationType) {
       case "basic-chat": {
-        const promptTemplate = conversationTemplate.prompt.template;
-        if (promptTemplate.type === "handlebars") {
-          promptTemplate.promptTemplate =
-            namedCodeSnippets.getHandlebarsTemplate(
-              promptTemplate.promptTemplate
-            );
-        }
+        namedCodeSnippets.resolveTemplate(conversationTemplate.prompt);
         break;
       }
       case "selected-code-analysis-chat": {
-        // TODO implement
+        namedCodeSnippets.resolveTemplate(conversationTemplate.analysisPrompt);
+        namedCodeSnippets.resolveTemplate(conversationTemplate.chatPrompt);
         break;
       }
       default: {
