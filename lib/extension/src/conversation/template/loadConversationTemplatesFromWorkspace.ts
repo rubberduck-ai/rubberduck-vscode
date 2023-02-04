@@ -14,7 +14,7 @@ export type ConversationTemplateLoadingResult =
       error: unknown;
     };
 
-const TEMPLATE_GLOB = ".rubberduck/template/*.rdt.md";
+const TEMPLATE_GLOB = ".rubberduck/template/**/*.rdt.md";
 
 export async function loadConversationTemplatesFromWorkspace(): Promise<
   Array<ConversationTemplateLoadingResult>
