@@ -30,6 +30,10 @@ const promptSchema = zod.object({
       type: zod.literal("sections"),
       sections: sectionsSchema,
     }),
+    zod.object({
+      type: zod.literal("handlebars"),
+      promptTemplate: zod.string(),
+    }),
   ]),
   maxTokens: zod.number(),
   stop: zod.array(zod.string()).optional(),

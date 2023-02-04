@@ -11,53 +11,41 @@
   },
   "prompt": {
     "template": {
-      "type": "sections",
-      "sections": [
-        {
-          "type": "lines",
-          "title": "Anweisungen",
-          "lines": [
-            "Setze die folgende Unterhaltung fort.",
-            "Achte besonders auf die aktuelle Entwickler-Nachricht."
-          ]
-        },
-        {
-          "type": "lines",
-          "title": "Aktuelle Nachricht",
-          "lines": ["Entwickler: ${lastMessage}"]
-        },
-        {
-          "type": "optional-selected-code",
-          "title": "Selektierter Quelltext"
-        },
-        {
-          "type": "conversation",
-          "roles": {
-            "bot": "Roboter",
-            "user": "Entwickler"
-          }
-        },
-        {
-          "type": "lines",
-          "title": "Aufgabe",
-          "lines": [
-            "Schreibe eine Antwort, welche die Unterhaltung fortsetzt.",
-            "Achte besonders auf die aktuelle Entwickler-Nachricht.",
-            "Ziehe die Möglichkeit in Betracht, dass es keine Lösung geben könnte.",
-            "Frage nach, wenn die Nachricht keinen Sinn ergibt oder mehr Informationen benötigt werden.",
-            "Benutze den Stil eines Dokumentationsartikels.",
-            "Binde Code-Schnipsel (mit Markdown) und Beispiele ein, wo es angebracht ist."
-          ]
-        },
-        {
-          "type": "lines",
-          "title": "Antwort",
-          "lines": ["Roboter:"]
-        }
-      ]
+      "type": "handlebars",
+      "promptTemplate": "chat-german"
     },
     "maxTokens": 1024,
     "stop": ["Roboter:", "Entwickler:"]
   }
 }
+```
+
+```handlebars chat-german
+## Anweisungen Setze die folgende Unterhaltung fort. Achte besonders auf die
+aktuelle Entwickler-Nachricht. ## Aktuelle Nachricht Entwickler:
+{{lastMessage}}
+
+{{#if selectedText}}
+  ## Selektierter Quelltext \`\`\`
+  {{selectedText}}
+  \`\`\`
+{{/if}}
+
+## Unterhaltung
+{{#each messages}}
+  {{#if (eq author "bot")}}
+    Roboter:
+    {{content}}
+  {{else}}
+    Entwickler:
+    {{content}}
+  {{/if}}
+{{/each}}
+
+## Aufgabe Schreibe eine Antwort, welche die Unterhaltung fortsetzt. Achte
+besonders auf die aktuelle Entwickler-Nachricht. Ziehe die Möglichkeit in
+Betracht, dass es keine Lösung geben könnte. Frage nach, wenn die Nachricht
+keinen Sinn ergibt oder mehr Informationen benötigt werden. Benutze den Stil
+eines Dokumentationsartikels. Binde Code-Schnipsel (mit Markdown) und Beispiele
+ein, wo es angebracht ist. ## Antwort Roboter:
 ```

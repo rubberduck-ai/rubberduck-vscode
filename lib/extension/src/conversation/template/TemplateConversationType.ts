@@ -10,6 +10,16 @@ import {
   createPromptForConversationTemplate,
   TemplateVariables,
 } from "./createPromptForConversationTemplate";
+import Handlebars from "handlebars";
+
+Handlebars.registerHelper({
+  eq: (v1, v2) => v1 === v2,
+  ne: (v1, v2) => v1 !== v2,
+  lt: (v1, v2) => v1 < v2,
+  gt: (v1, v2) => v1 > v2,
+  lte: (v1, v2) => v1 <= v2,
+  gte: (v1, v2) => v1 >= v2,
+});
 
 export class TemplateConversationType implements ConversationType {
   readonly id: string;
@@ -161,47 +171,72 @@ class TemplateConversation extends Conversation {
   }
 
   private async executeChat() {
-    const messages = this.messages;
-    const firstMessage = messages[0];
-    const lastMessage = messages[messages.length - 1];
+    try {
+      const messages = this.messages;
+      const firstMessage = messages[0];
+      const lastMessage = messages[messages.length - 1];
 
-    const variables: TemplateVariables = {
-      selectedText: this.initData.get("selectedText") as string | undefined,
-      language: this.initData.get("language") as string | undefined,
-      firstMessage: firstMessage?.content,
-      lastMessage: lastMessage?.content,
-      messages,
-    };
+      const variables: TemplateVariables = {
+        selectedText: this.initData.get("selectedText") as string | undefined,
+        language: this.initData.get("language") as string | undefined,
+        firstMessage: firstMessage?.content,
+        lastMessage: lastMessage?.content,
+        messages,
+      };
 
-    const prompt =
-      this.template.type === "basic-chat"
-        ? this.template.prompt
-        : firstMessage == null
-        ? this.template.analysisPrompt
-        : this.template.chatPrompt;
+      const prompt =
+        this.template.type === "basic-chat"
+          ? this.template.prompt
+          : firstMessage == null
+          ? this.template.analysisPrompt
+          : this.template.chatPrompt;
 
-    if (prompt.template.type !== "sections") {
-      throw new Error("unsupported template type");
-    }
+      const promptTemplate = prompt.template;
+      const promptTemplateType = promptTemplate.type;
 
-    const completion = await this.openAIClient.generateCompletion({
-      prompt: createPromptForConversationTemplate({
-        sections: prompt.template.sections,
-        variables,
-      }),
-      maxTokens: prompt.maxTokens,
-      stop: prompt.stop,
-      temperature: prompt.temperature,
-    });
+      let promptText: string;
+      switch (promptTemplateType) {
+        case "sections": {
+          promptText = createPromptForConversationTemplate({
+            sections: promptTemplate.sections,
+            variables,
+          });
+          break;
+        }
+        case "handlebars": {
+          promptText = Handlebars.compile(promptTemplate.promptTemplate, {
+            noEscape: true,
+          })(variables);
+          break;
+        }
+        default: {
+          const exhaustiveCheck: never = promptTemplateType;
+          throw new Error(`unsupported type: ${exhaustiveCheck}`);
+        }
+      }
 
-    if (completion.type === "error") {
-      await this.setErrorStatus({ errorMessage: completion.errorMessage });
+      const completion = await this.openAIClient.generateCompletion({
+        prompt: promptText,
+        maxTokens: prompt.maxTokens,
+        stop: prompt.stop,
+        temperature: prompt.temperature,
+      });
+
+      if (completion.type === "error") {
+        await this.setErrorStatus({ errorMessage: completion.errorMessage });
+        return;
+      }
+
+      await this.addBotMessage({
+        content: completion.content.trim(),
+      });
+    } catch (error: any) {
+      console.log(error);
+      await this.setErrorStatus({
+        errorMessage: error?.message ?? "Unknown error",
+      });
       return;
     }
-
-    await this.addBotMessage({
-      content: completion.content.trim(),
-    });
   }
 
   async retry() {

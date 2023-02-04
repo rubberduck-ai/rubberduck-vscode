@@ -54,22 +54,52 @@ export function parseConversationTemplate(
   try {
     const namedCodeSnippets = extractNamedCodeSnippets(templateAsRdtMarkdown);
 
+    const conversationTemplateKey = "json conversation-template";
     const conversationTemplateText = namedCodeSnippets.get(
-      "json conversation-template"
+      conversationTemplateKey
     );
 
     if (conversationTemplateText == null) {
-      return {
-        type: "error",
-        error: new Error("Code snippet 'json conversation-template' not found"),
-      };
+      throw new Error(`Code snippet '${conversationTemplateKey}' not found.`);
+    }
+
+    const conversationTemplate = conversationTemplateSchema.parse(
+      secureJSON.parse(conversationTemplateText)
+    );
+
+    // resolve any handlebars prompt templates:
+    const conversationType = conversationTemplate.type;
+    switch (conversationType) {
+      case "basic-chat": {
+        const promptTemplate = conversationTemplate.prompt.template;
+        if (promptTemplate.type === "handlebars") {
+          const key = `handlebars ${promptTemplate.promptTemplate}`;
+          const handlebarsContent = namedCodeSnippets.get(key);
+
+          if (handlebarsContent == null) {
+            throw new Error(`Code snippet '${key}' not found.`);
+          }
+
+          promptTemplate.promptTemplate = handlebarsContent.replace(
+            /\\`\\`\\`/g,
+            "```"
+          );
+        }
+        break;
+      }
+      case "selected-code-analysis-chat": {
+        // TODO implement
+        break;
+      }
+      default: {
+        const exhaustiveCheck: never = conversationType;
+        throw new Error(`unsupported type: ${exhaustiveCheck}`);
+      }
     }
 
     return {
       type: "success",
-      template: conversationTemplateSchema.parse(
-        secureJSON.parse(conversationTemplateText)
-      ),
+      template: conversationTemplate,
     };
   } catch (error) {
     return {
