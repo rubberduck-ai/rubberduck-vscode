@@ -1,6 +1,14 @@
+# Code Sonnet
+
+Describe the selected code in a Shakespeare sonnet.
+
+## Conversation Template
+
+### Configuration
+
 ```json conversation-template
 {
-  "id": "explain-code-with-sonnet",
+  "id": "code-sonnet",
   "engineVersion": 0,
   "type": "selected-code-analysis-chat",
   "label": "Write a code sonnet",
@@ -9,7 +17,6 @@
     "type": "codicon",
     "value": "feedback"
   },
-  "isEnabled": false,
   "initVariableRequirements": [
     {
       "type": "non-empty-text",
@@ -19,30 +26,8 @@
   "analysisPlaceholder": "Composing poetry",
   "analysisPrompt": {
     "template": {
-      "type": "sections",
-      "sections": [
-        {
-          "type": "lines",
-          "title": "Instructions",
-          "lines": [
-            "Describe the code below in the style of a Shakespeare sonnet."
-          ]
-        },
-        {
-          "type": "optional-selected-code",
-          "title": "Selected Code"
-        },
-        {
-          "type": "lines",
-          "title": "Task",
-          "lines": ["Describe the code in the style of a Shakespeare sonnet."]
-        },
-        {
-          "type": "lines",
-          "title": "Sonnet",
-          "lines": []
-        }
-      ]
+      "type": "handlebars",
+      "promptTemplate": "analysis"
     },
     "maxTokens": 1024,
     "temperature": 0.5
@@ -50,55 +35,65 @@
   "chatTitle": "Code Sonnet",
   "chatPrompt": {
     "template": {
-      "type": "sections",
-      "sections": [
-        {
-          "type": "lines",
-          "title": "Instructions",
-          "lines": ["Continue the conversation.", "Use 16th century English."]
-        },
-        {
-          "type": "lines",
-          "title": "Current Request",
-          "lines": ["Developer: ${lastMessage}"]
-        },
-        {
-          "type": "optional-selected-code",
-          "title": "Selected Code"
-        },
-        {
-          "type": "lines",
-          "title": "Code Summary",
-          "lines": ["${firstMessage}"]
-        },
-        {
-          "type": "conversation",
-          "excludeFirstMessage": true,
-          "roles": {
-            "bot": "Shakespeare",
-            "user": "Developer"
-          }
-        },
-        {
-          "type": "lines",
-          "title": "Task",
-          "lines": [
-            "Write a response that continues the conversation.",
-            "Use 16th century English.",
-            "Reference events from the 16th century when possible.",
-            "Try making it a sonnet."
-          ]
-        },
-        {
-          "type": "lines",
-          "title": "Response",
-          "lines": ["Shakespeare:"]
-        }
-      ]
+      "type": "handlebars",
+      "promptTemplate": "chat"
     },
     "maxTokens": 1024,
     "stop": ["Shakespeare:", "Developer:"],
     "temperature": 0.5
   }
 }
+```
+
+### Analysis Template
+
+```template-analysis
+## Instructions
+You are Shakespeare.
+Write a sonnet about the code below.
+
+## Code
+\`\`\`
+{{selectedText}}
+\`\`\`
+
+## Task
+Write a sonnet about the code.
+
+## Sonnet
+
+```
+
+### Conversation Template
+
+```template-chat
+## Instructions
+You are Shakespeare.
+Continue the conversation.
+Use 16th century English.
+
+{{#if selectedText}}
+## Code
+\`\`\`
+{{selectedText}}
+\`\`\`
+{{/if}}
+
+## Conversation
+{{#each messages}}
+{{#if (eq author "bot")}}
+Shakespeare: {{content}}
+{{else}}
+Developer: {{content}}
+{{/if}}
+{{/each}}
+
+## Task
+Write a response that continues the conversation.
+Use 16th century English.
+Reference events from the 16th century when possible.
+Try making it a sonnet when possible.
+
+## Response
+Shakespeare:
 ```

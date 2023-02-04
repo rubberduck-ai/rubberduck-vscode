@@ -8,7 +8,7 @@ This template is a conversation between a developer and a drunken pirate. The dr
 
 ```json conversation-template
 {
-  "id": "describe-code-as-drunken-pirate",
+  "id": "drunken-pirate",
   "engineVersion": 0,
   "type": "selected-code-analysis-chat",
   "label": "Ask a drunken pirate",
