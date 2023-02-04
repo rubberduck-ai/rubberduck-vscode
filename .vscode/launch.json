@@ -8,7 +8,7 @@
       "runtimeExecutable": "${execPath}",
       "args": ["--extensionDevelopmentPath=${workspaceFolder}/app/vscode/dev"],
       "outFiles": ["${workspaceFolder}/app/vscode/dev/extension/dist/**/*.js"],
-      "preLaunchTask": "npm: build"
+      "preLaunchTask": "build-extension"
     }
   ]
 }

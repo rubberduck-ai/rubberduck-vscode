@@ -4,11 +4,11 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "type": "npm",
-      "script": "build-extension",
+      "type": "shell",
+      "command": "pnpm build-extension",
       "group": "build",
       "problemMatcher": [],
-      "label": "npm: build"
+      "label": "build-extension"
     }
   ]
 }
