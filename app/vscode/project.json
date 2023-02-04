@@ -1,8 +1,12 @@
 {
   "root": "app/vscode",
   "targets": {
-    "package": {
+    "build": {
       "dependsOn": ["^build"],
+      "executor": "nx:noop"
+    },
+    "package": {
+      "dependsOn": ["build"],
       "executor": "nx:run-commands",
       "options": {
         "cwd": "app/vscode",
