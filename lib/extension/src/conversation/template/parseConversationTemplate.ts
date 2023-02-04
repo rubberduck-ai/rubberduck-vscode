@@ -15,25 +15,44 @@ export type ConversationTemplateParseResult =
       error: unknown;
     };
 
+class NamedCodeSnippetMap {
+  private readonly contentByLangInfo = new Map<string, string>();
+
+  set(langInfo: string, content: string): void {
+    this.contentByLangInfo.set(langInfo, content);
+  }
+
+  get(langInfo: string): string {
+    const content = this.contentByLangInfo.get(langInfo);
+
+    if (content == null) {
+      throw new Error(`Code snippet for lang info '${langInfo}' not found.`);
+    }
+
+    return content;
+  }
+
+  getHandlebarsTemplate(templateName: string): string {
+    return this.get(`handlebars-${templateName}`).replace(/\\`\\`\\`/g, "```");
+  }
+}
+
 export const extractNamedCodeSnippets = (
   content: string
-): Map<string, string> => {
-  const sectionContents = new Map<string, string>();
+): NamedCodeSnippetMap => {
+  const codeSnippets = new NamedCodeSnippetMap();
 
   marked
     .lexer(content)
     .filter((token) => token.type === "code")
     .forEach((token) => {
       const codeToken = token as marked.Tokens.Code;
-
-      if (codeToken.lang == null) {
-        return; // ignore unlabeled sections
+      if (codeToken.lang != null) {
+        codeSnippets.set(codeToken.lang, codeToken.text);
       }
-
-      sectionContents.set(codeToken.lang, codeToken.text);
     });
 
-  return sectionContents;
+  return codeSnippets;
 };
 
 export function parseConversationTemplateOrThrow(
@@ -54,14 +73,9 @@ export function parseConversationTemplate(
   try {
     const namedCodeSnippets = extractNamedCodeSnippets(templateAsRdtMarkdown);
 
-    const conversationTemplateKey = "json conversation-template";
     const conversationTemplateText = namedCodeSnippets.get(
-      conversationTemplateKey
+      "json conversation-template"
     );
-
-    if (conversationTemplateText == null) {
-      throw new Error(`Code snippet '${conversationTemplateKey}' not found.`);
-    }
 
     const conversationTemplate = conversationTemplateSchema.parse(
       secureJSON.parse(conversationTemplateText)
@@ -73,17 +87,10 @@ export function parseConversationTemplate(
       case "basic-chat": {
         const promptTemplate = conversationTemplate.prompt.template;
         if (promptTemplate.type === "handlebars") {
-          const key = `handlebars-${promptTemplate.promptTemplate}`;
-          const handlebarsContent = namedCodeSnippets.get(key);
-
-          if (handlebarsContent == null) {
-            throw new Error(`Code snippet '${key}' not found.`);
-          }
-
-          promptTemplate.promptTemplate = handlebarsContent.replace(
-            /\\`\\`\\`/g,
-            "```"
-          );
+          promptTemplate.promptTemplate =
+            namedCodeSnippets.getHandlebarsTemplate(
+              promptTemplate.promptTemplate
+            );
         }
         break;
       }
