@@ -1,8 +1,5 @@
 {
   "editor.formatOnSave": true,
-  "[markdown]": {
-    "editor.formatOnSave": false
-  },
   "cSpell.words": [
     "chatgpt",
     "codicon",

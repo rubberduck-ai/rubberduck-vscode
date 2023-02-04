@@ -73,7 +73,7 @@ export function parseConversationTemplate(
       case "basic-chat": {
         const promptTemplate = conversationTemplate.prompt.template;
         if (promptTemplate.type === "handlebars") {
-          const key = `handlebars ${promptTemplate.promptTemplate}`;
+          const key = `handlebars-${promptTemplate.promptTemplate}`;
           const handlebarsContent = namedCodeSnippets.get(key);
 
           if (handlebarsContent == null) {
