@@ -1,3 +1,4 @@
+```json conversation-template
 {
   "id": "explain-code-with-sonnet",
   "engineVersion": 0,
@@ -94,3 +95,4 @@
     "temperature": 0.5
   }
 }
+```

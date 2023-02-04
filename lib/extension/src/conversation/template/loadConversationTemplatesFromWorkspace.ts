@@ -1,9 +1,6 @@
 import * as vscode from "vscode";
-import {
-  ConversationTemplate,
-  conversationTemplateSchema,
-} from "./ConversationTemplate";
-import secureJSON from "secure-json-parse";
+import { ConversationTemplate } from "./ConversationTemplate";
+import { parseConversationTemplate } from "./parseConversationTemplate";
 
 export type ConversationTemplateLoadingResult =
   | {
@@ -17,7 +14,7 @@ export type ConversationTemplateLoadingResult =
       error: unknown;
     };
 
-const TEMPLATE_GLOB = ".rubberduck/template/*.json";
+const TEMPLATE_GLOB = ".rubberduck/template/*.rdt.md";
 
 export async function loadConversationTemplatesFromWorkspace(): Promise<
   Array<ConversationTemplateLoadingResult>
@@ -29,13 +26,21 @@ export async function loadConversationTemplatesFromWorkspace(): Promise<
       try {
         const data = await vscode.workspace.fs.readFile(file);
         const content = Buffer.from(data).toString("utf8");
-        const contentJson = secureJSON.parse(content);
-        const template = conversationTemplateSchema.parse(contentJson);
+
+        const parseResult = parseConversationTemplate(content);
+
+        if (parseResult.type === "error") {
+          return {
+            type: "error" as const,
+            file,
+            error: parseResult.error,
+          };
+        }
 
         return {
           type: "success" as const,
           file,
-          template,
+          template: parseResult.template,
         };
       } catch (error) {
         return {

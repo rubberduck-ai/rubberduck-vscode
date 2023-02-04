@@ -1,3 +1,4 @@
+```json conversation-template
 {
   "id": "find-bugs",
   "engineVersion": 0,
@@ -110,3 +111,4 @@
     "stop": ["Bot:", "Developer:"]
   }
 }
+```

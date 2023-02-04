@@ -1,3 +1,4 @@
+```json conversation-template
 {
   "id": "chat-french",
   "engineVersion": 0,
@@ -56,3 +57,4 @@
     "stop": ["Robot:", "Développeur:"]
   }
 }
+```

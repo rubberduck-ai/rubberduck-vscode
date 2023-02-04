@@ -1,3 +1,4 @@
+```json conversation-template
 {
   "id": "improve-readability",
   "engineVersion": 0,
@@ -113,3 +114,4 @@
     "stop": ["Bot:", "Developer:"]
   }
 }
+```

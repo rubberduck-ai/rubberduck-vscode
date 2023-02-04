@@ -1,3 +1,4 @@
+```json conversation-template
 {
   "id": "describe-code-as-drunken-pirate",
   "engineVersion": 0,
@@ -94,3 +95,4 @@
     "temperature": 0.7
   }
 }
+```

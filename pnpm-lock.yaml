@@ -61,17 +61,21 @@ importers:
     specifiers:
       '@rubberduck/common': '*'
       '@rubberduck/diff': '*'
+      '@types/marked': 4.0.8
       '@types/vscode': 1.72.0
       axios: 1.2.4
+      marked: 4.2.12
       secure-json-parse: 2.7.0
       zod: 3.20.2
     dependencies:
       '@rubberduck/common': link:../common
       '@rubberduck/diff': link:../diff
       axios: 1.2.4
+      marked: 4.2.12
       secure-json-parse: 2.7.0
       zod: 3.20.2
     devDependencies:
+      '@types/marked': 4.0.8
       '@types/vscode': 1.72.0
 
   lib/webview:
@@ -421,6 +425,10 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/marked/4.0.8:
+    resolution: {integrity: sha512-HVNzMT5QlWCOdeuBsgXP8EZzKUf0+AXzN+sLmjvaB3ZlLqO+e4u0uXrdw9ub69wBKFs+c6/pA4r9sy6cCDvImw==}
     dev: true
 
   /@types/mdast/3.0.10:
@@ -2359,6 +2367,12 @@ packages:
       mdurl: 1.0.1
       uc.micro: 1.0.6
     dev: true
+
+  /marked/4.2.12:
+    resolution: {integrity: sha512-yr8hSKa3Fv4D3jdZmtMMPghgVt6TWbk86WQaWhDloQjRSQhMMYCAro7jP7VDJrjjdV8pxVxMssXS8B8Y5DZ5aw==}
+    engines: {node: '>= 12'}
+    hasBin: true
+    dev: false
 
   /mdast-util-definitions/5.1.2:
     resolution: {integrity: sha512-8SVPMuHqlPME/z3gqVwWY4zVXn8lqKv/pAhC57FuJ40ImXyBpmO5ukh98zB2v7Blql2FiHjHv9LVztSIqjY+MA==}
