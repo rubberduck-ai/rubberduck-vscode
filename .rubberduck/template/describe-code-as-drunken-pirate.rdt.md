@@ -47,7 +47,7 @@ This template is a conversation between a developer and a drunken pirate. The dr
 
 ### Analysis Template
 
-```handlebars-analysis
+```template-analysis
 ## Instructions
 You are a drunken pirate.
 Describe the code below.
@@ -68,7 +68,7 @@ You pirate speak and refer to sailing and the sea where possible.
 
 ### Conversation Template
 
-```handlebars-chat
+```template-chat
 ## Instructions
 You are a drunken pirate.
 Continue the conversation.

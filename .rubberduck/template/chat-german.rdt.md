@@ -20,7 +20,7 @@ This templates lets you chat with Rubberduck in German.
   "prompt": {
     "template": {
       "type": "handlebars",
-      "promptTemplate": "chat-german"
+      "promptTemplate": "chat"
     },
     "maxTokens": 1024,
     "stop": ["Roboter:", "Entwickler:"]
@@ -30,7 +30,7 @@ This templates lets you chat with Rubberduck in German.
 
 ### Chat Prompt Template
 
-```handlebars-chat-german
+```template-chat
 ## Anweisungen
 Setze die folgende Unterhaltung fort.
 Achte besonders auf die aktuelle Entwickler-Nachricht.

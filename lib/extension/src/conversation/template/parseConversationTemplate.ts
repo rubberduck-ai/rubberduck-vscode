@@ -43,7 +43,7 @@ class NamedCodeSnippetMap {
   }
 
   private getHandlebarsTemplate(templateName: string): string {
-    return this.get(`handlebars-${templateName}`).replace(/\\`\\`\\`/g, "```");
+    return this.get(`template-${templateName}`).replace(/\\`\\`\\`/g, "```");
   }
 }
 
