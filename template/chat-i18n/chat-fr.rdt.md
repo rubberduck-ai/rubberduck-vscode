@@ -17,10 +17,12 @@ This templates lets you chat with Rubberduck in French.
     "type": "codicon",
     "value": "comment-discussion"
   },
-  "prompt": {
-    "template": "chat",
-    "maxTokens": 1024,
-    "stop": ["Robot:", "Développeur:"]
+  "chat": {
+    "prompt": {
+      "template": "chat",
+      "maxTokens": 1024,
+      "stop": ["Robot:", "Développeur:"]
+    }
   }
 }
 ```

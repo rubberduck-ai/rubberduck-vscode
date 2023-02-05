@@ -17,22 +17,26 @@ Explain the selected code.
     "type": "codicon",
     "value": "book"
   },
+  "chatTitle": "Explain Code",
   "initVariableRequirements": [
     {
       "type": "non-empty-text",
       "variable": "selectedText"
     }
   ],
-  "analysisPlaceholder": "Generating explanation",
-  "analysisPrompt": {
-    "template": "analysis",
-    "maxTokens": 512
+  "analysis": {
+    "placeholder": "Generating explanation",
+    "prompt": {
+      "template": "analysis",
+      "maxTokens": 512
+    }
   },
-  "chatTitle": "Explain Code",
-  "chatPrompt": {
-    "template": "chat",
-    "maxTokens": 1024,
-    "stop": ["Bot:", "Developer:"]
+  "chat": {
+    "prompt": {
+      "template": "chat",
+      "maxTokens": 1024,
+      "stop": ["Bot:", "Developer:"]
+    }
   }
 }
 ```

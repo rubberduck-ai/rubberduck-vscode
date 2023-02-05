@@ -33,6 +33,11 @@ const promptSchema = zod.object({
 
 export type Prompt = zod.infer<typeof promptSchema>;
 
+const responseSchema = zod.object({
+  placeholder: zod.string().optional(),
+  prompt: promptSchema,
+});
+
 const baseTemplateSchema = zod.object({
   id: zod.string(),
   engineVersion: zod.literal(0),
@@ -56,14 +61,13 @@ const baseTemplateSchema = zod.object({
 export const conversationTemplateSchema = zod.discriminatedUnion("type", [
   baseTemplateSchema.extend({
     type: zod.literal("basic-chat"),
-    prompt: promptSchema,
+    chat: responseSchema,
   }),
   baseTemplateSchema.extend({
     type: zod.literal("selected-code-analysis-chat"),
-    analysisPlaceholder: zod.string().optional(),
-    analysisPrompt: promptSchema,
     chatTitle: zod.string(),
-    chatPrompt: promptSchema,
+    analysis: responseSchema,
+    chat: responseSchema,
   }),
 ]);
 

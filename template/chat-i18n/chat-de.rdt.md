@@ -17,10 +17,13 @@ This templates lets you chat with Rubberduck in German.
     "type": "codicon",
     "value": "comment-discussion"
   },
-  "prompt": {
-    "template": "chat",
-    "maxTokens": 1024,
-    "stop": ["Roboter:", "Entwickler:"]
+  "chat": {
+    "placeholder": "Antworte",
+    "prompt": {
+      "template": "chat",
+      "maxTokens": 1024,
+      "stop": ["Roboter:", "Entwickler:"]
+    }
   }
 }
 ```

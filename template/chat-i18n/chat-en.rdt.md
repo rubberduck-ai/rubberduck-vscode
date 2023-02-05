@@ -17,10 +17,12 @@ This templates lets you chat with Rubberduck in English.
     "type": "codicon",
     "value": "comment-discussion"
   },
-  "prompt": {
-    "template": "chat",
-    "maxTokens": 1024,
-    "stop": ["Bot:", "Developer:"]
+  "chat": {
+    "prompt": {
+      "template": "chat",
+      "maxTokens": 1024,
+      "stop": ["Bot:", "Developer:"]
+    }
   }
 }
 ```

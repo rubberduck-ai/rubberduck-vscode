@@ -90,12 +90,12 @@ export function parseConversationTemplate(
     const conversationType = conversationTemplate.type;
     switch (conversationType) {
       case "basic-chat": {
-        namedCodeSnippets.resolveTemplate(conversationTemplate.prompt);
+        namedCodeSnippets.resolveTemplate(conversationTemplate.chat.prompt);
         break;
       }
       case "selected-code-analysis-chat": {
-        namedCodeSnippets.resolveTemplate(conversationTemplate.analysisPrompt);
-        namedCodeSnippets.resolveTemplate(conversationTemplate.chatPrompt);
+        namedCodeSnippets.resolveTemplate(conversationTemplate.analysis.prompt);
+        namedCodeSnippets.resolveTemplate(conversationTemplate.chat.prompt);
         break;
       }
       default: {

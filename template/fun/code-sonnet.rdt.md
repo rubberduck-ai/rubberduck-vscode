@@ -17,24 +17,28 @@ Describe the selected code in a Shakespeare sonnet.
     "type": "codicon",
     "value": "feedback"
   },
+  "chatTitle": "Code Sonnet",
   "initVariableRequirements": [
     {
       "type": "non-empty-text",
       "variable": "selectedText"
     }
   ],
-  "analysisPlaceholder": "Composing poetry",
-  "analysisPrompt": {
-    "template": "analysis",
-    "maxTokens": 1024,
-    "temperature": 0.5
+  "analysis": {
+    "placeholder": "Composing poetry",
+    "prompt": {
+      "template": "analysis",
+      "maxTokens": 1024,
+      "temperature": 0.6
+    }
   },
-  "chatTitle": "Code Sonnet",
-  "chatPrompt": {
-    "template": "chat",
-    "maxTokens": 1024,
-    "stop": ["Shakespeare:", "Developer:"],
-    "temperature": 0.5
+  "chat": {
+    "prompt": {
+      "template": "chat",
+      "maxTokens": 512,
+      "stop": ["Shakespeare:", "Developer:"],
+      "temperature": 0.4
+    }
   }
 }
 ```
@@ -73,12 +77,17 @@ Use 16th century English.
 \`\`\`
 {{/if}}
 
+## Sonnet
+{{firstMessage}}
+
 ## Conversation
 {{#each messages}}
+{{#if (neq @index 0)}}
 {{#if (eq author "bot")}}
 Shakespeare: {{content}}
 {{else}}
 Developer: {{content}}
+{{/if}}
 {{/if}}
 {{/each}}
 
@@ -86,7 +95,6 @@ Developer: {{content}}
 Write a response that continues the conversation.
 Use 16th century English.
 Reference events from the 16th century when possible.
-Try making it a sonnet when possible.
 
 ## Response
 Shakespeare:

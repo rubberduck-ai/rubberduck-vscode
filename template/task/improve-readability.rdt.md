@@ -17,6 +17,7 @@ The improve readability analysis suggests ways to make the selected code easier 
     "type": "codicon",
     "value": "symbol-color"
   },
+  "chatTitle": "Improve Readability",
   "initVariableRequirements": [
     {
       "type": "non-empty-text",
@@ -27,16 +28,19 @@ The improve readability analysis suggests ways to make the selected code easier 
       "variable": "language"
     }
   ],
-  "analysisPlaceholder": "Looking for readability improvements",
-  "analysisPrompt": {
-    "template": "analysis",
-    "maxTokens": 1024
+  "analysis": {
+    "placeholder": "Looking for readability improvements",
+    "prompt": {
+      "template": "analysis",
+      "maxTokens": 1024
+    }
   },
-  "chatTitle": "Improve Readability",
-  "chatPrompt": {
-    "template": "chat",
-    "maxTokens": 1024,
-    "stop": ["Bot:", "Developer:"]
+  "chat": {
+    "prompt": {
+      "template": "chat",
+      "maxTokens": 1024,
+      "stop": ["Bot:", "Developer:"]
+    }
   }
 }
 ```

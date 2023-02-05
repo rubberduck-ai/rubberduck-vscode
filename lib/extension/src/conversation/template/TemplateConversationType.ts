@@ -146,7 +146,7 @@ class TemplateConversation extends Conversation {
           ? { type: "userCanReply" }
           : {
               type: "waitingForBotAnswer",
-              botAction: template.analysisPlaceholder ?? "Generating answer",
+              botAction: template.analysis.placeholder ?? "Answering",
             },
       openAIClient,
       updateChatPanel,
@@ -191,10 +191,10 @@ class TemplateConversation extends Conversation {
 
       const prompt =
         this.template.type === "basic-chat"
-          ? this.template.prompt
+          ? this.template.chat.prompt
           : firstMessage == null
-          ? this.template.analysisPrompt
-          : this.template.chatPrompt;
+          ? this.template.analysis.prompt
+          : this.template.chat.prompt;
 
       const promptText = Handlebars.compile(prompt.template, {
         noEscape: true,

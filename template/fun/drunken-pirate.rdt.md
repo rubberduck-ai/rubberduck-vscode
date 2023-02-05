@@ -17,24 +17,28 @@ This template is a conversation between a developer and a drunken pirate. The dr
     "type": "codicon",
     "value": "feedback"
   },
+  "chatTitle": "Drunken pirate",
   "initVariableRequirements": [
     {
       "type": "non-empty-text",
       "variable": "selectedText"
     }
   ],
-  "analysisPlaceholder": "Thinking",
-  "analysisPrompt": {
-    "template": "analysis",
-    "maxTokens": 512,
-    "temperature": 0.8
+  "analysis": {
+    "placeholder": "Thinking",
+    "prompt": {
+      "template": "analysis",
+      "maxTokens": 512,
+      "temperature": 0.8
+    }
   },
-  "chatTitle": "Drunken pirate",
-  "chatPrompt": {
-    "template": "chat",
-    "maxTokens": 1024,
-    "stop": ["Drunken Pirate:", "Developer:"],
-    "temperature": 0.7
+  "chat": {
+    "prompt": {
+      "template": "chat",
+      "maxTokens": 1024,
+      "stop": ["Drunken Pirate:", "Developer:"],
+      "temperature": 0.7
+    }
   }
 }
 ```
