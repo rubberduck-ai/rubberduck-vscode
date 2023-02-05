@@ -3,11 +3,9 @@ import { DiagnoseErrorsConversation } from "./built-in/DiagnoseErrorsConversatio
 import { EditCodeConversation } from "./built-in/EditCodeConversation";
 import { GenerateTestConversation } from "./built-in/GenerateTestConversationModel";
 import { ConversationType } from "./ConversationType";
-import { explainCodeTemplate } from "./built-in/ExplainCodeTemplate";
-import { conversationTemplateSchema } from "./template/ConversationTemplate";
+import { loadConversationFromFile } from "./template/loadConversationTemplateFromFile";
 import { loadConversationTemplatesFromWorkspace } from "./template/loadConversationTemplatesFromWorkspace";
 import { TemplateConversationType } from "./template/TemplateConversationType";
-import { loadConversationFromFile } from "./template/loadConversationTemplateFromFile";
 
 export class ConversationTypesProvider {
   private readonly extensionUri: vscode.Uri;
@@ -25,29 +23,26 @@ export class ConversationTypesProvider {
     return [...this.conversationTypes.values()];
   }
 
-  async loadConversationTypes() {
-    const basicTemplateLoadResult = await loadConversationFromFile(
-      vscode.Uri.joinPath(
-        this.extensionUri,
-        "template",
-        "chat-i18n",
-        "chat-en.rdt.md"
-      )
+  private async loadTemplate(...path: string[]) {
+    const result = await loadConversationFromFile(
+      vscode.Uri.joinPath(this.extensionUri, "template", ...path)
     );
 
-    if (basicTemplateLoadResult.type === "error") {
-      throw new Error(
-        `Failed to load basic chat template: ${basicTemplateLoadResult.error}`
-      );
+    if (result.type === "error") {
+      throw new Error(`Failed to load basic chat template: ${result.error}`);
     }
 
+    return result.template;
+  }
+
+  async loadConversationTypes() {
     const builtInConversationTypes = [
       new TemplateConversationType({
-        template: basicTemplateLoadResult.template,
+        template: await this.loadTemplate("chat-i18n", "chat-en.rdt.md"),
         source: "built-in",
       }),
       new TemplateConversationType({
-        template: conversationTemplateSchema.parse(explainCodeTemplate),
+        template: await this.loadTemplate("task", "explain-code.rdt.md"),
         source: "built-in",
       }),
       EditCodeConversation,

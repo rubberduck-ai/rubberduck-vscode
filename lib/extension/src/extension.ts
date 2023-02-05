@@ -4,7 +4,6 @@ import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
 import { DiagnoseErrorsConversation } from "./conversation/built-in/DiagnoseErrorsConversation";
 import { EditCodeConversation } from "./conversation/built-in/EditCodeConversation";
-import { explainCodeTemplate } from "./conversation/built-in/ExplainCodeTemplate";
 import { GenerateTestConversation } from "./conversation/built-in/GenerateTestConversationModel";
 import { ConversationTypesProvider } from "./conversation/ConversationTypesProvider";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
@@ -33,7 +32,14 @@ export const activate = async (context: vscode.ExtensionContext) => {
     conversationTypesProvider.getConversationType("chat-en");
 
   if (basicChatTemplate == null) {
-    throw new Error("Failed to load basic chat template.");
+    throw new Error("Failed to load 'chat-en' chat template.");
+  }
+
+  const explainCodeTemplate =
+    conversationTypesProvider.getConversationType("explain-code");
+
+  if (explainCodeTemplate == null) {
+    throw new Error(`Failed to load 'explain-code' chat template.`);
   }
 
   const chatController = new ChatController({
