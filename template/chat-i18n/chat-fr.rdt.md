@@ -8,14 +8,14 @@ This templates lets you chat with Rubberduck in French.
 
 ```json conversation-template
 {
-  "id": "chat-french",
+  "id": "chat-fr",
   "engineVersion": 0,
   "type": "basic-chat",
   "label": "Commencer une discussion",
   "description": "Commencer une discussion avec Rubberduck.",
   "icon": {
     "type": "codicon",
-    "value": "comment-unresolved"
+    "value": "comment-discussion"
   },
   "prompt": {
     "template": {

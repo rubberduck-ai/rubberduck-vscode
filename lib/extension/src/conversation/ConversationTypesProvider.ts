@@ -7,10 +7,15 @@ import { explainCodeTemplate } from "./built-in/ExplainCodeTemplate";
 import { conversationTemplateSchema } from "./template/ConversationTemplate";
 import { loadConversationTemplatesFromWorkspace } from "./template/loadConversationTemplatesFromWorkspace";
 import { TemplateConversationType } from "./template/TemplateConversationType";
-import { basicChatTemplate } from "./built-in/BasicChatTemplate";
+import { loadConversationFromFile } from "./template/loadConversationTemplateFromFile";
 
 export class ConversationTypesProvider {
+  private readonly extensionUri: vscode.Uri;
   private readonly conversationTypes = new Map<string, ConversationType>();
+
+  constructor({ extensionUri }: { extensionUri: vscode.Uri }) {
+    this.extensionUri = extensionUri;
+  }
 
   getConversationType(id: string) {
     return this.conversationTypes.get(id);
@@ -21,9 +26,24 @@ export class ConversationTypesProvider {
   }
 
   async loadConversationTypes() {
+    const basicTemplateLoadResult = await loadConversationFromFile(
+      vscode.Uri.joinPath(
+        this.extensionUri,
+        "template",
+        "chat-i18n",
+        "chat-en.rdt.md"
+      )
+    );
+
+    if (basicTemplateLoadResult.type === "error") {
+      throw new Error(
+        `Failed to load basic chat template: ${basicTemplateLoadResult.error}`
+      );
+    }
+
     const builtInConversationTypes = [
       new TemplateConversationType({
-        template: conversationTemplateSchema.parse(basicChatTemplate),
+        template: basicTemplateLoadResult.template,
         source: "built-in",
       }),
       new TemplateConversationType({

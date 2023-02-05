@@ -8,14 +8,14 @@ This templates lets you chat with Rubberduck in German.
 
 ```json conversation-template
 {
-  "id": "chat-german",
+  "id": "chat-de",
   "engineVersion": 0,
   "type": "basic-chat",
   "label": "Starte eine Unterhaltung",
   "description": "Starte eine Unterhaltung mit Rubberduck.",
   "icon": {
     "type": "codicon",
-    "value": "comment-unresolved"
+    "value": "comment-discussion"
   },
   "prompt": {
     "template": {

@@ -2,7 +2,6 @@ import * as vscode from "vscode";
 import { ChatController } from "./chat/ChatController";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
-import { basicChatTemplate } from "./conversation/built-in/BasicChatTemplate";
 import { DiagnoseErrorsConversation } from "./conversation/built-in/DiagnoseErrorsConversation";
 import { EditCodeConversation } from "./conversation/built-in/EditCodeConversation";
 import { explainCodeTemplate } from "./conversation/built-in/ExplainCodeTemplate";
@@ -25,8 +24,17 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   const chatModel = new ChatModel();
 
-  const conversationTypesProvider = new ConversationTypesProvider();
+  const conversationTypesProvider = new ConversationTypesProvider({
+    extensionUri: context.extensionUri,
+  });
   await conversationTypesProvider.loadConversationTypes();
+
+  const basicChatTemplate =
+    conversationTypesProvider.getConversationType("chat-en");
+
+  if (basicChatTemplate == null) {
+    throw new Error("Failed to load basic chat template.");
+  }
 
   const chatController = new ChatController({
     chatPanel,
