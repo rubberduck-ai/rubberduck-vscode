@@ -1,0 +1,1 @@
+../../template/fun/drunken-pirate.rdt.md
