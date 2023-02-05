@@ -92,10 +92,12 @@ Developer: {{lastMessage}}
 
 ## Conversation
 {{#each messages}}
+{{#if (neq @index 0)}}
 {{#if (eq author "bot")}}
 Bot: {{content}}
 {{else}}
 Developer: {{content}}
+{{/if}}
 {{/if}}
 {{/each}}
 
