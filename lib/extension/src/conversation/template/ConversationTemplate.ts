@@ -25,16 +25,7 @@ const sectionsSchema = zod.array(
 export type Sections = zod.infer<typeof sectionsSchema>;
 
 const promptSchema = zod.object({
-  template: zod.discriminatedUnion("type", [
-    zod.object({
-      type: zod.literal("sections"),
-      sections: sectionsSchema,
-    }),
-    zod.object({
-      type: zod.literal("handlebars"),
-      promptTemplate: zod.string(),
-    }),
-  ]),
+  template: zod.string(),
   maxTokens: zod.number(),
   stop: zod.array(zod.string()).optional(),
   temperature: zod.number().optional(),

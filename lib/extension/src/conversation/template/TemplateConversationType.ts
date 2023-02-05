@@ -1,3 +1,5 @@
+import { Message } from "@rubberduck/common/build/webview-api/Conversation";
+import Handlebars from "handlebars";
 import * as vscode from "vscode";
 import { OpenAIClient } from "../../openai/OpenAIClient";
 import { Conversation } from "../Conversation";
@@ -6,11 +8,6 @@ import {
   CreateConversationResult,
 } from "../ConversationType";
 import { ConversationTemplate } from "./ConversationTemplate";
-import {
-  createPromptForConversationTemplate,
-  TemplateVariables,
-} from "./createPromptForConversationTemplate";
-import Handlebars from "handlebars";
 
 Handlebars.registerHelper({
   eq: (v1, v2) => v1 === v2,
@@ -20,6 +17,14 @@ Handlebars.registerHelper({
   lte: (v1, v2) => v1 <= v2,
   gte: (v1, v2) => v1 >= v2,
 });
+
+type TemplateVariables = {
+  selectedText: string | undefined;
+  language: string | undefined;
+  firstMessage: string | undefined;
+  lastMessage: string | undefined;
+  messages: Message[];
+} & Record<string, unknown>;
 
 export class TemplateConversationType implements ConversationType {
   readonly id: string;
@@ -191,29 +196,9 @@ class TemplateConversation extends Conversation {
           ? this.template.analysisPrompt
           : this.template.chatPrompt;
 
-      const promptTemplate = prompt.template;
-      const promptTemplateType = promptTemplate.type;
-
-      let promptText: string;
-      switch (promptTemplateType) {
-        case "sections": {
-          promptText = createPromptForConversationTemplate({
-            sections: promptTemplate.sections,
-            variables,
-          });
-          break;
-        }
-        case "handlebars": {
-          promptText = Handlebars.compile(promptTemplate.promptTemplate, {
-            noEscape: true,
-          })(variables);
-          break;
-        }
-        default: {
-          const exhaustiveCheck: never = promptTemplateType;
-          throw new Error(`unsupported type: ${exhaustiveCheck}`);
-        }
-      }
+      const promptText = Handlebars.compile(prompt.template, {
+        noEscape: true,
+      })(variables);
 
       const completion = await this.openAIClient.generateCompletion({
         prompt: promptText,

@@ -34,12 +34,7 @@ class NamedCodeSnippetMap {
   }
 
   resolveTemplate(prompt: Prompt) {
-    const promptTemplate = prompt.template;
-    if (promptTemplate.type === "handlebars") {
-      promptTemplate.promptTemplate = this.getHandlebarsTemplate(
-        promptTemplate.promptTemplate
-      );
-    }
+    prompt.template = this.getHandlebarsTemplate(prompt.template);
   }
 
   private getHandlebarsTemplate(templateName: string): string {
