@@ -1,4 +1,4 @@
-![Rubberduck AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/asset/header.png)
+![Rubberduck AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/asset/rubberduck-header.png)
 
 # Rubberduck: AI chat for Visual Studio Code
 
