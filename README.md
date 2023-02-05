@@ -12,6 +12,13 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 <!-- prettier-ignore-end -->
 
+## Quick Install
+
+You can install Rubberduck from the
+
+- [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
+- [Open VSX Registry](https://open-vsx.org/extension/Rubberduck/rubberduck-vscode)
+
 ## What it can do for you
 
 ### AI Chat
