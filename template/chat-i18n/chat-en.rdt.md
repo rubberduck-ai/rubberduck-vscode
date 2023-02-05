@@ -13,10 +13,27 @@ This templates lets you chat with Rubberduck in English.
   "type": "basic-chat",
   "label": "Start chat",
   "description": "Start a basic chat with Rubberduck.",
-  "icon": {
-    "type": "codicon",
-    "value": "comment-discussion"
+  "header": {
+    "title": "New chat",
+    "useFirstMessageAsTitle": true,
+    "icon": {
+      "type": "codicon",
+      "value": "comment-discussion"
+    }
   },
+  "variables": [
+    {
+      "name": "selectedText",
+      "type": "active-editor",
+      "property": "selected-text"
+    },
+    {
+      "name": "lastMessage",
+      "type": "message",
+      "property": "content",
+      "index": -1
+    }
+  ],
   "chat": {
     "prompt": {
       "template": "chat",

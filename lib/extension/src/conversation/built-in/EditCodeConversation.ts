@@ -25,11 +25,7 @@ export class EditCodeConversation extends Conversation {
   static description =
     "Instruct Rubberduck to edit the code. Creates a diff that you can review.";
   static source = "built-in" as const;
-  static inputs = [];
-
-  static areInitVariableRequirementsSatisfied(): boolean {
-    return true; // implement when converting to template
-  }
+  static variables = [];
 
   static async createConversation({
     conversationId,
@@ -105,7 +101,7 @@ export class EditCodeConversation extends Conversation {
       },
       openAIClient,
       updateChatPanel,
-      initData: new Map(),
+      initVariables: {},
     });
 
     const { selectedText, range } = data.get(
@@ -124,7 +120,7 @@ export class EditCodeConversation extends Conversation {
     this.editor = activeEditor;
   }
 
-  getTitle(): string {
+  async getTitle() {
     return `${this.messages[0]?.content ?? "Edit Code"} (${this.filename} ${
       this.range.start.line
     }:${this.range.end.line})`;

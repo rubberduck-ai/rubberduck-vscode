@@ -13,19 +13,42 @@ The improve readability analysis suggests ways to make the selected code easier 
   "type": "selected-code-analysis-chat",
   "label": "Improve Readability",
   "description": "Improve the readability of the selected code.",
-  "icon": {
-    "type": "codicon",
-    "value": "symbol-color"
+  "header": {
+    "title": "Improve readability ({{location}})",
+    "icon": {
+      "type": "codicon",
+      "value": "symbol-color"
+    }
   },
-  "chatTitle": "Improve Readability",
-  "initVariableRequirements": [
+  "variables": [
     {
-      "type": "non-empty-text",
-      "variable": "selectedText"
+      "name": "selectedText",
+      "type": "active-editor",
+      "property": "selected-text",
+      "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
-      "type": "non-empty-text",
-      "variable": "language"
+      "name": "language",
+      "type": "active-editor",
+      "property": "language-id",
+      "constraints": [{ "type": "text-length", "min": 1 }]
+    },
+    {
+      "name": "location",
+      "type": "active-editor",
+      "property": "selected-location-text"
+    },
+    {
+      "name": "firstMessage",
+      "type": "message",
+      "property": "content",
+      "index": 0
+    },
+    {
+      "name": "lastMessage",
+      "type": "message",
+      "property": "content",
+      "index": -1
     }
   ],
   "analysis": {

@@ -1,16 +1,12 @@
 import { util, webviewApi } from "@rubberduck/common";
 import * as vscode from "vscode";
+import { Conversation } from "../conversation/Conversation";
+import { ConversationType } from "../conversation/ConversationType";
+import { resolveVariables } from "../conversation/input/resolveVariables";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { ChatModel } from "./ChatModel";
 import { ChatPanel } from "./ChatPanel";
-import { Conversation } from "../conversation/Conversation";
-import { ConversationType } from "../conversation/ConversationType";
-import { getInput } from "../conversation/input/getInput";
-import { getSelectedText } from "../conversation/input/getSelectedText";
-import { getFilename } from "../conversation/input/getFilename";
-import { getSelectedRange } from "../conversation/input/getSelectedRange";
-import { getLanguage } from "../conversation/input/getLanguage";
 
 export class ChatController {
   private readonly chatPanel: ChatPanel;
@@ -113,56 +109,17 @@ export class ChatController {
       const conversationType = this.getConversationType(conversationTypeId);
 
       if (conversationType == undefined) {
-        await vscode.window.showErrorMessage(
-          `No conversation type found for ${conversationTypeId}`
-        );
-
-        return;
+        throw new Error(`No conversation type found for ${conversationTypeId}`);
       }
 
-      const availableInputs: Record<string, getInput<unknown>> = {
-        selectedText: getSelectedText,
-        filename: getFilename,
-        selectedRange: getSelectedRange,
-        language: getLanguage,
-      };
-
-      const initData = new Map<string, unknown>();
-
-      for (const inputKey of conversationType.inputs) {
-        const input = availableInputs[inputKey];
-
-        if (input == undefined) {
-          await vscode.window.showErrorMessage(
-            `No input found for input '${inputKey}'`
-          );
-
-          return;
-        }
-
-        const initResult = await input();
-
-        if (initResult.type === "unavailable") {
-          if (initResult.display === "info") {
-            await vscode.window.showInformationMessage(initResult.message);
-          } else if (initResult.display === "error") {
-            await vscode.window.showErrorMessage(initResult.message);
-          } else {
-            await vscode.window.showErrorMessage("Required input unavailable");
-          }
-
-          return;
-        }
-
-        initData.set(inputKey, initResult.data);
-      }
+      const variableValues = await resolveVariables(conversationType.variables);
 
       const result = await conversationType.createConversation({
         conversationId: this.generateConversationId(),
         openAIClient: this.openAIClient,
         updateChatPanel: this.updateChatPanel.bind(this),
         diffEditorManager: this.diffEditorManager,
-        initData,
+        initVariables: variableValues,
       });
 
       if (result.type === "unavailable") {
@@ -183,7 +140,8 @@ export class ChatController {
         await result.conversation.answer();
       }
     } catch (error: any) {
-      await vscode.window.showInformationMessage(error?.message ?? error);
+      console.log(error);
+      await vscode.window.showErrorMessage(error?.message ?? error);
     }
   }
 }

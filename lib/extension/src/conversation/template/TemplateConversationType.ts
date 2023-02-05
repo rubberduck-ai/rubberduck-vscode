@@ -1,12 +1,11 @@
-import { Message } from "@rubberduck/common/build/webview-api/Conversation";
 import Handlebars from "handlebars";
-import * as vscode from "vscode";
 import { OpenAIClient } from "../../openai/OpenAIClient";
 import { Conversation } from "../Conversation";
 import {
   ConversationType,
   CreateConversationResult,
 } from "../ConversationType";
+import { resolveVariables } from "../input/resolveVariables";
 import { ConversationTemplate } from "./ConversationTemplate";
 
 Handlebars.registerHelper({
@@ -18,20 +17,12 @@ Handlebars.registerHelper({
   gte: (v1, v2) => v1 >= v2,
 });
 
-type TemplateVariables = {
-  selectedText: string | undefined;
-  language: string | undefined;
-  firstMessage: string | undefined;
-  lastMessage: string | undefined;
-  messages: Message[];
-} & Record<string, unknown>;
-
 export class TemplateConversationType implements ConversationType {
   readonly id: string;
   readonly label: string;
   readonly description: string;
   readonly source: ConversationType["source"];
-  readonly inputs = ["filename", "selectedText", "selectedRange", "language"];
+  readonly variables: ConversationTemplate["variables"];
 
   private template: ConversationTemplate;
 
@@ -48,71 +39,25 @@ export class TemplateConversationType implements ConversationType {
     this.label = template.label;
     this.description = template.description;
     this.source = source;
-  }
-
-  private checkRequirements(initData: Map<string, unknown>):
-    | (CreateConversationResult & {
-        type: "unavailable";
-      })
-    | { type: "requirementsSatisfied" } {
-    const requirements = this.template.initVariableRequirements ?? [];
-
-    for (const { type, variable } of requirements) {
-      switch (type) {
-        case "non-empty-text": {
-          if (
-            !initData.has(variable) ||
-            typeof initData.get(variable) !== "string" ||
-            initData.get(variable) === ""
-          ) {
-            return {
-              type: "unavailable",
-              display: "error",
-              message: `The ${variable} variable is not set.`,
-            };
-          }
-          break;
-        }
-        default: {
-          const exhaustiveCheck: never = type;
-          throw new Error(`unsupported type: ${exhaustiveCheck}`);
-        }
-      }
-    }
-
-    return {
-      type: "requirementsSatisfied",
-    };
-  }
-
-  areInitVariableRequirementsSatisfied(
-    initData: Map<string, unknown>
-  ): boolean {
-    return this.checkRequirements(initData).type === "requirementsSatisfied";
+    this.variables = template.variables;
   }
 
   async createConversation({
     conversationId,
     openAIClient,
     updateChatPanel,
-    initData,
+    initVariables,
   }: {
     conversationId: string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
-    initData: Map<string, unknown>;
+    initVariables: Record<string, unknown>;
   }): Promise<CreateConversationResult> {
-    const requirementsCheckResult = this.checkRequirements(initData);
-
-    if (requirementsCheckResult.type === "unavailable") {
-      return requirementsCheckResult;
-    }
-
     return {
       type: "success",
       conversation: new TemplateConversation({
         id: conversationId,
-        initData,
+        initVariables,
         openAIClient,
         updateChatPanel,
         template: this.template,
@@ -128,13 +73,13 @@ class TemplateConversation extends Conversation {
 
   constructor({
     id,
-    initData,
+    initVariables,
     openAIClient,
     updateChatPanel,
     template,
   }: {
     id: string;
-    initData: Map<string, unknown>;
+    initVariables: Record<string, unknown>;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
     template: ConversationTemplate;
@@ -150,58 +95,54 @@ class TemplateConversation extends Conversation {
             },
       openAIClient,
       updateChatPanel,
-      initData,
+      initVariables,
     });
 
     this.template = template;
   }
 
-  getTitle(): string {
-    const filename = this.initData.get("filename") as string;
-    const selectedRange = this.initData.get("selectedRange") as vscode.Range;
+  async getTitle() {
+    const header = this.template.header;
+    const firstMessageContent = this.messages[0]?.content;
 
-    return this.template.type === "basic-chat"
-      ? this.messages[0]?.content ?? "New Chat"
-      : `${this.template.chatTitle} (${filename} ${selectedRange.start.line}:${selectedRange.end.line})`;
+    if (header.useFirstMessageAsTitle === true && firstMessageContent != null) {
+      return firstMessageContent;
+    }
+
+    return await this.evaluateTemplate(header.title);
   }
 
   isTitleMessage(): boolean {
-    return this.template.type === "basic-chat"
+    return this.template.header.useFirstMessageAsTitle ?? false
       ? this.messages.length > 0
       : false;
   }
 
   getCodicon(): string {
-    return this.template.icon.value;
+    return this.template.header.icon.value;
+  }
+
+  private async evaluateTemplate(template: string): Promise<string> {
+    const variables = await resolveVariables(this.template.variables, {
+      messages: this.messages,
+    });
+
+    return Handlebars.compile(template, {
+      noEscape: true,
+    })(variables);
   }
 
   private async executeChat() {
     try {
-      const messages = this.messages;
-      const firstMessage = messages[0];
-      const lastMessage = messages[messages.length - 1];
-
-      const variables: TemplateVariables = {
-        selectedText: this.initData.get("selectedText") as string | undefined,
-        language: this.initData.get("language") as string | undefined,
-        firstMessage: firstMessage?.content,
-        lastMessage: lastMessage?.content,
-        messages,
-      };
-
       const prompt =
         this.template.type === "basic-chat"
           ? this.template.chat.prompt
-          : firstMessage == null
+          : this.messages[0] == null
           ? this.template.analysis.prompt
           : this.template.chat.prompt;
 
-      const promptText = Handlebars.compile(prompt.template, {
-        noEscape: true,
-      })(variables);
-
       const completion = await this.openAIClient.generateCompletion({
-        prompt: promptText,
+        prompt: await this.evaluateTemplate(prompt.template),
         maxTokens: prompt.maxTokens,
         stop: prompt.stop,
         temperature: prompt.temperature,
@@ -220,7 +161,6 @@ class TemplateConversation extends Conversation {
       await this.setErrorStatus({
         errorMessage: error?.message ?? "Unknown error",
       });
-      return;
     }
   }
 

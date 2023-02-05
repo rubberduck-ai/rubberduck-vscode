@@ -8,34 +8,34 @@ export abstract class Conversation {
   protected readonly messages: webviewApi.Message[];
   protected readonly updateChatPanel: () => Promise<void>;
 
-  protected readonly initData: Map<string, unknown>;
+  protected readonly initVariables: Record<string, unknown>;
 
   constructor({
     id,
     openAIClient,
     initialState,
     updateChatPanel,
-    initData,
+    initVariables,
   }: {
     id: string;
     openAIClient: OpenAIClient;
     initialState: webviewApi.Conversation["state"];
     updateChatPanel: () => Promise<void>;
-    initData: Map<string, unknown>;
+    initVariables: Record<string, unknown>;
   }) {
     this.id = id;
     this.openAIClient = openAIClient;
     this.state = initialState;
     this.updateChatPanel = updateChatPanel;
     this.messages = [];
-    this.initData = initData;
+    this.initVariables = initVariables;
   }
 
   abstract retry(): Promise<void>;
 
   abstract answer(userMessage?: string): Promise<void>;
 
-  abstract getTitle(): string;
+  abstract getTitle(): Promise<string>;
 
   abstract isTitleMessage(): boolean;
 
@@ -70,11 +70,11 @@ export abstract class Conversation {
     await this.updateChatPanel();
   }
 
-  toWebviewConversation(): webviewApi.Conversation {
+  async toWebviewConversation(): Promise<webviewApi.Conversation> {
     return {
       id: this.id,
       header: {
-        title: this.getTitle(),
+        title: await this.getTitle(),
         isTitleMessage: this.isTitleMessage(),
         codicon: this.getCodicon(),
       },

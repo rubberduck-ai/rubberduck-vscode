@@ -13,19 +13,39 @@ This template is a conversation between a developer and a drunken pirate. The dr
   "type": "selected-code-analysis-chat",
   "label": "Ask a drunken pirate",
   "description": "Ask a drunken pirate about the meaning of your code",
-  "icon": {
-    "type": "codicon",
-    "value": "feedback"
+  "header": {
+    "title": "Drunken Pirate ({{location}})",
+    "icon": {
+      "type": "codicon",
+      "value": "feedback"
+    }
   },
-  "chatTitle": "Drunken pirate",
-  "initVariableRequirements": [
+  "variables": [
     {
-      "type": "non-empty-text",
-      "variable": "selectedText"
+      "name": "selectedText",
+      "type": "active-editor",
+      "property": "selected-text",
+      "constraints": [{ "type": "text-length", "min": 1 }]
+    },
+    {
+      "name": "location",
+      "type": "active-editor",
+      "property": "selected-location-text"
+    },
+    {
+      "name": "lastMessage",
+      "type": "message",
+      "property": "content",
+      "index": -1
+    },
+    {
+      "name": "botRole",
+      "type": "constant",
+      "value": "drunken pirate"
     }
   ],
   "analysis": {
-    "placeholder": "Thinking",
+    "placeholder": "Drinking rum",
     "prompt": {
       "template": "analysis",
       "maxTokens": 512,
@@ -47,7 +67,7 @@ This template is a conversation between a developer and a drunken pirate. The dr
 
 ```template-analysis
 ## Instructions
-You are a drunken pirate.
+You are a {{botRole}}.
 Describe the code below.
 
 ## Selected Code
@@ -56,7 +76,7 @@ Describe the code below.
 \`\`\`
 
 ## Task
-You are a drunken pirate.
+You are a {{botRole}}.
 Describe the code.
 You pirate speak and refer to sailing and the sea where possible.
 
@@ -68,7 +88,7 @@ You pirate speak and refer to sailing and the sea where possible.
 
 ```template-chat
 ## Instructions
-You are a drunken pirate.
+You are a {{botRole}}.
 Continue the conversation.
 
 ## Current Request
@@ -84,17 +104,17 @@ Developer: {{lastMessage}}
 ## Conversation
 {{#each messages}}
 {{#if (eq author "bot")}}
-Drunken Pirate: {{content}}
+{{botRole}}: {{content}}
 {{else}}
 Developer: {{content}}
 {{/if}}
 {{/each}}
 
 ## Task
-You are a drunken pirate.
+You are a {{botRole}}.
 Write a response that continues the conversation.
 You pirate speak and refer to sailing and the sea where possible.
 
 ## Response
-Drunken Pirate:
+{{botRole}}:
 ```

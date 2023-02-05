@@ -13,10 +13,27 @@ This templates lets you chat with Rubberduck in German.
   "type": "basic-chat",
   "label": "Starte eine Unterhaltung",
   "description": "Starte eine Unterhaltung mit Rubberduck.",
-  "icon": {
-    "type": "codicon",
-    "value": "comment-discussion"
+  "header": {
+    "title": "Neue Unterhaltung",
+    "useFirstMessageAsTitle": true,
+    "icon": {
+      "type": "codicon",
+      "value": "comment-discussion"
+    }
   },
+  "variables": [
+    {
+      "name": "selectedText",
+      "type": "active-editor",
+      "property": "selected-text"
+    },
+    {
+      "name": "lastMessage",
+      "type": "message",
+      "property": "content",
+      "index": -1
+    }
+  ],
   "chat": {
     "placeholder": "Antworte",
     "prompt": {

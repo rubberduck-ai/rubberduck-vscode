@@ -13,15 +13,24 @@ Describe the selected code in a Shakespeare sonnet.
   "type": "selected-code-analysis-chat",
   "label": "Write a code sonnet",
   "description": "Describe the selected code, Shakespeare style.",
-  "icon": {
-    "type": "codicon",
-    "value": "feedback"
+  "header": {
+    "title": "Code Sonnet ({{location}})",
+    "icon": {
+      "type": "codicon",
+      "value": "feedback"
+    }
   },
-  "chatTitle": "Code Sonnet",
-  "initVariableRequirements": [
+  "variables": [
     {
-      "type": "non-empty-text",
-      "variable": "selectedText"
+      "name": "selectedText",
+      "type": "active-editor",
+      "property": "selected-text",
+      "constraints": [{ "type": "text-length", "min": 1 }]
+    },
+    {
+      "name": "location",
+      "type": "active-editor",
+      "property": "selected-location-text"
     }
   ],
   "analysis": {

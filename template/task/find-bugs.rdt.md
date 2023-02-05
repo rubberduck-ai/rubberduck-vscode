@@ -11,19 +11,42 @@
   "type": "selected-code-analysis-chat",
   "label": "Find bugs",
   "description": "Find any potential bugs in the selected code.",
-  "icon": {
-    "type": "codicon",
-    "value": "bug"
+  "header": {
+    "title": "Find bugs ({{location}})",
+    "icon": {
+      "type": "codicon",
+      "value": "bug"
+    }
   },
-  "chatTitle": "Find bugs",
-  "initVariableRequirements": [
+  "variables": [
     {
-      "type": "non-empty-text",
-      "variable": "selectedText"
+      "name": "selectedText",
+      "type": "active-editor",
+      "property": "selected-text",
+      "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
-      "type": "non-empty-text",
-      "variable": "language"
+      "name": "language",
+      "type": "active-editor",
+      "property": "language-id",
+      "constraints": [{ "type": "text-length", "min": 1 }]
+    },
+    {
+      "name": "location",
+      "type": "active-editor",
+      "property": "selected-location-text"
+    },
+    {
+      "name": "firstMessage",
+      "type": "message",
+      "property": "content",
+      "index": 0
+    },
+    {
+      "name": "lastMessage",
+      "type": "message",
+      "property": "content",
+      "index": -1
     }
   ],
   "analysis": {

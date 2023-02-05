@@ -13,10 +13,27 @@ This templates lets you chat with Rubberduck in French.
   "type": "basic-chat",
   "label": "Commencer une discussion",
   "description": "Commencer une discussion avec Rubberduck.",
-  "icon": {
-    "type": "codicon",
-    "value": "comment-discussion"
+  "header": {
+    "title": "Nouvelle discussion",
+    "useFirstMessageAsTitle": true,
+    "icon": {
+      "type": "codicon",
+      "value": "comment-discussion"
+    }
   },
+  "variables": [
+    {
+      "name": "selectedText",
+      "type": "active-editor",
+      "property": "selected-text"
+    },
+    {
+      "name": "lastMessage",
+      "type": "message",
+      "property": "content",
+      "index": -1
+    }
+  ],
   "chat": {
     "prompt": {
       "template": "chat",

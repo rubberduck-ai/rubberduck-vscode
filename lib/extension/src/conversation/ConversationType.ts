@@ -1,6 +1,7 @@
 import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { Conversation } from "./Conversation";
+import { ConversationTemplate } from "./template/ConversationTemplate";
 
 export type CreateConversationResult =
   | {
@@ -23,21 +24,19 @@ export type ConversationType = {
   readonly label: string;
   readonly description: string;
   readonly source: "built-in" | "local-workspace";
-  readonly inputs: Array<string>;
-
-  areInitVariableRequirementsSatisfied(initData: Map<string, unknown>): boolean;
+  readonly variables: ConversationTemplate["variables"];
 
   createConversation({
     conversationId,
     openAIClient,
     updateChatPanel,
     diffEditorManager,
-    initData,
+    initVariables,
   }: {
     conversationId: string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
     diffEditorManager: DiffEditorManager;
-    initData: Map<string, unknown>;
+    initVariables: Record<string, unknown>;
   }): Promise<CreateConversationResult>;
 };

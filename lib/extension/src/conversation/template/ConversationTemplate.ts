@@ -38,24 +38,58 @@ const responseSchema = zod.object({
   prompt: promptSchema,
 });
 
+const variableBaseSchema = zod.object({
+  name: zod.string(),
+  constraints: zod
+    .array(
+      zod.discriminatedUnion("type", [
+        zod.object({
+          type: zod.literal("text-length"),
+          min: zod.number(),
+        }),
+      ])
+    )
+    .optional(),
+});
+
+const variableSchema = zod.discriminatedUnion("type", [
+  variableBaseSchema.extend({
+    type: zod.literal("constant"),
+    value: zod.string(),
+  }),
+  variableBaseSchema.extend({
+    type: zod.literal("message"),
+    index: zod.number(),
+    property: zod.enum(["content"]),
+  }),
+  variableBaseSchema.extend({
+    type: zod.literal("active-editor"),
+    property: zod.enum([
+      "language-id",
+      "selected-text",
+      "selected-location-text",
+      "filename",
+    ]),
+  }),
+]);
+
+export type Variable = zod.infer<typeof variableSchema>;
+
 const baseTemplateSchema = zod.object({
   id: zod.string(),
   engineVersion: zod.literal(0),
   label: zod.string(),
   description: zod.string(),
-  icon: zod.object({
-    type: zod.literal("codicon"),
-    value: zod.string(),
+  header: zod.object({
+    title: zod.string(),
+    useFirstMessageAsTitle: zod.boolean().optional(), // default: false
+    icon: zod.object({
+      type: zod.literal("codicon"),
+      value: zod.string(),
+    }),
   }),
   isEnabled: zod.boolean().optional(), // default: true
-  initVariableRequirements: zod
-    .array(
-      zod.object({
-        type: zod.literal("non-empty-text"),
-        variable: zod.string(),
-      })
-    )
-    .optional(),
+  variables: zod.array(variableSchema).optional(),
 });
 
 export const conversationTemplateSchema = zod.discriminatedUnion("type", [
@@ -65,7 +99,6 @@ export const conversationTemplateSchema = zod.discriminatedUnion("type", [
   }),
   baseTemplateSchema.extend({
     type: zod.literal("selected-code-analysis-chat"),
-    chatTitle: zod.string(),
     analysis: responseSchema,
     chat: responseSchema,
   }),

@@ -24,12 +24,13 @@ export class ConversationTypesProvider {
   }
 
   private async loadTemplate(...path: string[]) {
-    const result = await loadConversationFromFile(
-      vscode.Uri.joinPath(this.extensionUri, "template", ...path)
-    );
+    const fileUri = vscode.Uri.joinPath(this.extensionUri, "template", ...path);
+    const result = await loadConversationFromFile(fileUri);
 
     if (result.type === "error") {
-      throw new Error(`Failed to load basic chat template: ${result.error}`);
+      throw new Error(
+        `Failed to load chat template '${fileUri.toString()}': ${result.error}`
+      );
     }
 
     return result.template;

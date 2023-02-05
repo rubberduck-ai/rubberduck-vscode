@@ -13,15 +13,36 @@ Explain the selected code.
   "type": "selected-code-analysis-chat",
   "label": "Explain Code",
   "description": "Explain the selected code.",
-  "icon": {
-    "type": "codicon",
-    "value": "book"
+  "header": {
+    "title": "Explain Code ({{location}})",
+    "icon": {
+      "type": "codicon",
+      "value": "book"
+    }
   },
-  "chatTitle": "Explain Code",
-  "initVariableRequirements": [
+  "variables": [
     {
-      "type": "non-empty-text",
-      "variable": "selectedText"
+      "name": "selectedText",
+      "type": "active-editor",
+      "property": "selected-text",
+      "constraints": [{ "type": "text-length", "min": 1 }]
+    },
+    {
+      "name": "location",
+      "type": "active-editor",
+      "property": "selected-location-text"
+    },
+    {
+      "name": "firstMessage",
+      "type": "message",
+      "property": "content",
+      "index": 0
+    },
+    {
+      "name": "lastMessage",
+      "type": "message",
+      "property": "content",
+      "index": -1
     }
   ],
   "analysis": {

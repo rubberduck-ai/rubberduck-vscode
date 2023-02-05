@@ -45,11 +45,8 @@ export class DiagnoseErrorsConversation extends Conversation {
   static label = "Diagnose Errors";
   static description = "Diagnose errors in the selected code.";
   static source = "built-in" as const;
-  static inputs = [];
 
-  static areInitVariableRequirementsSatisfied(): boolean {
-    return true; // implement when converting to template
-  }
+  static variables = [];
 
   static async createConversation({
     conversationId,
@@ -127,7 +124,7 @@ export class DiagnoseErrorsConversation extends Conversation {
       },
       openAIClient,
       updateChatPanel,
-      initData: new Map(),
+      initVariables: {},
     });
 
     this.filename = filename;
@@ -136,7 +133,7 @@ export class DiagnoseErrorsConversation extends Conversation {
     this.errors = errors;
   }
 
-  getTitle(): string {
+  async getTitle() {
     return `Diagnose Errors (${this.filename} ${this.range.start.line}:${this.range.end.line})`;
   }
 
