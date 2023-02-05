@@ -83,10 +83,6 @@ Read our [contributing guide][contributing] to learn about our development proce
 
 To help you get your feet wet and become familiar with our contribution process, we have a list of [good first issues][good-first-issues] that contains things with a relatively limited scope. This is a great place to get started!
 
-## Resources
-
-- [Rubberduck Discord](https://discord.gg/8KN2HmyZmn)
-
 <!-- Links -->
 
 [contributing]: https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/CONTRIBUTING.md
