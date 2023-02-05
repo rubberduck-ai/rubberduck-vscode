@@ -1,15 +1,17 @@
 # Rubberduck Conversation Templates
 
-Rubberduck comes with handy built-in commands, such as:
-
-- Explain Code
-- Edit Code
-- Generate Tests
-- etc.
+Rubberduck comes with handy built-in commands, such as Explain Code, Edit Code, Generate Tests,etc.
 
 But what if you have a specific need that isn't quite covered? What if you want to craft an AI Chat that knows specifically about your project, or your conventions? How cool would it be to have the answers in your own language?
 
 That's what you can get with Rubberduck Conversation Templates! 🌈
+
+Here are some ideas of what you can do with them:
+
+- Have conversations in a different language, e.g. [in French](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/chat-i18n/chat-fr.rdt.md)
+- Let [Shakespeare write a sonnet about your code](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/fun/code-sonnet.rdt.md)
+- Define dedicated tasks, e.g. [improving code readability](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/task/improve-readability.rdt.md)
+- Create project, language or framework-specific conversation templates
 
 The best part of it: you can share them around with your colleagues, your friends, or your enemies.
 
