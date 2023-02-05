@@ -1,15 +1,14 @@
-# Rubberduck - GPT-3 powered chat inside Visual Studio Code
+# Rubberduck: AI chat for Visual Studio Code
 
 <!-- prettier-ignore-start -->
+[![Marketplace](https://vsmarketplacebadges.dev/version-short/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
+[![Marketplace Downloads](https://vsmarketplacebadges.dev/downloads-short/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
+[![Marketplace Rating](https://vsmarketplacebadges.dev/rating/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 <!-- prettier-ignore-end -->
-
-## Resources
-
-- [Extension - Visual Studio Code marketplace](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
-- [Rubberduck Discord](https://discord.gg/8KN2HmyZmn)
 
 ## What it can do for you
 
@@ -66,6 +65,10 @@ Read our [contributing guide][contributing] to learn about our development proce
 ### [Good First Issues][good-first-issues]
 
 To help you get your feet wet and become familiar with our contribution process, we have a list of [good first issues][good-first-issues] that contains things with a relatively limited scope. This is a great place to get started!
+
+## Resources
+
+- [Rubberduck Discord](https://discord.gg/8KN2HmyZmn)
 
 <!-- Links -->
 
