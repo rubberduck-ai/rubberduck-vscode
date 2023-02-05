@@ -49,19 +49,88 @@ There are two types of fenced code sections:
 
 ## Configuration Section
 
-WARNING: OUTDATED
+The configuration section is a JSON object that defines the template. It is a fenced code block with the language `json conversation-template`:
 
-Properties:
+<pre>
+```json conversation-template
+{
+    "id": "drunken-pirate",
+    "engineVersion": 0,
+    "label": "Ask a drunken pirate",
+    "description": "Ask a drunken pirate about the meaning of your code",
+    "header": {
+      "title": "Drunken Pirate ({{location}})",
+      "icon": {
+        "type": "codicon",
+        "value": "feedback"
+      }
+    },
+    …
+}
+
+```
+</pre>
+
+### Basic Properties
+
+Configuration sections have the basic following properties:
 
 - `id`: Id of the conversation type. It needs to be unique.
 - `engineVersion`: Must be 0 for now. Warning: we might make breaking changes to the template format while we are on version 0.
 - `label`: Short description of the conversation type. It will be displayed when you run the "Rubberduck: Start Custom Chat… 💬" command.
 - `description`: Longer description of the conversation type. It will be displayed when you run the "Rubberduck: Start Custom Chat… 💬" command.
-- `icon`: The icon that is shown in the Rubberduck side panel for conversations of this type. Only the [Codicon](https://microsoft.github.io/vscode-codicons/dist/codicon.html) type is supported at the moment.
+- `header`: The header that is shown in the Rubberduck side panel for conversations of this type. It has 3 properties:
+  - `title`: The title of the conversation. It will be shown in the Rubberduck side panel. You can use [template variables](#variables) here with `{{variableName}}`.
+  - `useFirstMessageAsTitle`: An optional boolean value. Defaults to `false`. If it is `true`, the first message of the conversation will be used as the title once there is a message.
+  - `icon`: The icon that is shown in the Rubberduck side panel for conversations of this type. Only the [Codicon](https://microsoft.github.io/vscode-codicons/dist/codicon.html) `type` is supported at the moment. You can set the `value` property to the codicon that you want to show.
 - `isEnabled`: Whether the conversation type is enabled. If it is disabled, it will not be shown in the "Rubberduck: Start Custom Chat… 💬" command. Defaults to `true`.
-- `initVariableRequirements`: An array of variable requirements that need to be fulfilled before the conversation can be started. Use it to e.g. require a selection in the active editor.
+
+### Variables
+
+Variables are values that you can expand in the header title and in the prompt templates using the `{{variableName}}` syntax. Here is an example:
+
+<pre>
+  "variables": [
+    {
+      "name": "selectedText",
+      "type": "active-editor",
+      "property": "selected-text",
+      "constraints": [{ "type": "text-length", "min": 1 }]
+    },
+    {
+      "name": "location",
+      "type": "active-editor",
+      "property": "selected-location-text"
+    },
+    {
+      "name": "lastMessage",
+      "type": "message",
+      "property": "content",
+      "index": -1
+    },
+    {
+      "name": "botRole",
+      "type": "constant",
+      "value": "drunken pirate"
+    }
+  ],
+</pre>
+
+They are defined in the `variables` property of the configuration section. The property contains an array of variable definitions. There are 3 kinds of variables:
+
+- **Active Editor** (`type: active-editor`): The active editor in the current workspace. You can specify which property you want to access:
+  - `property: filename`: The name of the file.
+  - `property: language-id`: The VS Code language id of the file.
+  - `property: selected-text`: The currently selected text in the file.
+  - `property: selected-location-text`: The filename and the start/end lines of the selection. This is useful for including in the header title.
+- **Constants** (`type: constant`): A constant value that is always the same. You can use it to extract common parts from your templates, e.g. the bot role, and tweak it quickly to explore different responses while you are developing the template.
+- **Messages**: (`type: message`): Get properties of a message at an index. Only the message content (`property: content`) is supported at the moment. You can e.g. use it to access the first (index 0) or the last (index -1) message of the conversation.
+
+You can add constraints to the `active-editor` variables. Right now only a minimal text length constraint is available (`type: text-length`). It is useful to make sure that the user has selected some text before starting the conversation. If the constraint is not met, an error popup is shown and the conversation will not be started.
 
 ## Conversation Template Types
+
+**WARNING: CONTENT BELOW IS OUTDATED**
 
 ### Basic Chat
 
