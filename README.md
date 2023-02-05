@@ -6,7 +6,7 @@
 [![Marketplace](https://vsmarketplacebadges.dev/version-short/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
 [![Marketplace Downloads](https://vsmarketplacebadges.dev/downloads-short/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
 [![Marketplace Rating](https://vsmarketplacebadges.dev/rating/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [![Discord](https://discordapp.com/api/guilds/1061938502327091271/widget.png?style=shield)](https://discord.gg/8KN2HmyZmn)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
@@ -16,7 +16,7 @@
 
 > &nbsp;
 >
-> #### Threaded AI chats in the Visual Studio Code sidebar. You can explain code, edit code, generate tests, diagnose errors, and even [create your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md).
+> #### Threaded AI chats in the Visual Studio Code side bar. You can explain code, edit code, generate tests, diagnose errors, and even [create your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md).
 >
 > &nbsp;
 
@@ -31,21 +31,31 @@ You can install Rubberduck from the
 
 ### AI Chat
 
+Chat with Rubberduck about your code and software development topics. Rubberduck knows the editor selection at the time of conversation start.
+
 ![Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-start-chat.png)
 
 ## Edit Code
+
+Change the selected code by instructing Rubberduck to create an edit.
 
 ![Edit Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-edit-code.png)
 
 ### Explain Code
 
+Ask Rubberduck to explain the selected code.
+
 ![Explain Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-code-explanation.png)
 
 ### Generate Tests
 
+Generate test cases with Rubberduck.
+
 ![Generate Tests](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-test.gif)
 
 ### Diagnose Errors
+
+Let Rubberduck identify error causes and suggest fixes to fix compiler and linter errors faster.
 
 ![Diagnose Errors](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-diagnose-errors.png)
 

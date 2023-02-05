@@ -1,6 +1,26 @@
-# Usage
+![Rubberduck AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/asset/rubberduck-header.png)
 
-## Chat
+# Rubberduck: AI chat for Visual Studio Code
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](https://github.com/rubberduck-ai/rubberduck-vscode#contributors)
+[![Discord](https://discordapp.com/api/guilds/1061938502327091271/widget.png?style=shield)](https://discord.gg/8KN2HmyZmn)
+[![GitHub stars](https://img.shields.io/github/stars/rubberduck-ai/rubberduck-vscode.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/rubberduck-ai/rubberduck-vscode/stargazers/)
+
+> &nbsp;
+>
+> #### Threaded AI chats in the Visual Studio Code side bar. You can explain code, edit code, generate tests, diagnose errors, and even [create your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md).
+>
+> &nbsp;
+
+# Setup
+
+1. Get an OpenAI API key from [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) (you'll need to sign up for an account)
+2. Enter the API key with the `Rubberduck: Enter OpenAI API key` command
+
+# Features
+
+## AI Chat
 
 Chat with Rubberduck about your code and software development topics. Rubberduck knows the editor selection at the time of conversation start.
 
@@ -67,30 +87,17 @@ Let Rubberduck identify error causes and suggest fixes to fix compiler and linte
 
 ![Diagnose Errors](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-diagnose-errors.png)
 
-# Your Own Conversation Templates
+# Rubberduck Conversation Templates
 
 What if you want to craft an AI Chat that knows _specifically_ about your conventions?
 How cool would it be to have the answers in your own language?
 
-You can craft your own conversation templates by adding `.json` files to the `.rubberduck/template` folder in your workspace. See the [custom templates in the Rubberduck repository for examples](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/.rubberduck/template).
+You can craft your own conversation templates by adding `.rdt.md` files to the `.rubberduck/template` folder in your workspace. See the [Rubberduck Conversation Template docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md) for more information.
 
 To use custom conversations, run the "Rubberduck: Start Custom Chat… 💬" command.
 
-Here is an example of a [drunken pirate describing your code](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/.rubberduck/template/describe-code-as-drunken-pirate.json):
+Here is an example of a [drunken pirate describing your code](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/fun/drunken-pirate.rdt.md):
 
 ![Describe code as a drunken pirate](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/drunken-pirate.png)
 
-Learn how to craft your own [with the docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/CUSTOM_CONVERSATIONS.md)!
-
-# Setup
-
-1. Get an OpenAI API key from [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) (you'll need to sign up for an account)
-2. Enter the API key with the `Rubberduck: Enter OpenAI API key` command
-
-# Project
-
-**Rubberduck is open source!**
-
-- Repository: [github.com/rubberduck-ai/rubberduck-vscode](https://github.com/rubberduck-ai/rubberduck-vscode)
-- Discord: [discord.gg/8KN2HmyZmn](https://discord.gg/8KN2HmyZmn)
-- Twitter: Follow [@lgrammel](https://twitter.com/lgrammel) for updates.
+[Learn how to craft your own conversation template](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md)!
