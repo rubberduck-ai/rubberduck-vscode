@@ -1,7 +1,7 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "displayName": "Rubberduck - GPT-3 powered AI chat",
   "description": "Threaded AI chats in the side bar. Explain code, edit code, generate tests, diagnose errors, and even create your own conversation templates.",
   "keywords": [
@@ -277,19 +277,11 @@
             }
           },
           {
-            "id": "custom-conversation-templates",
-            "title": "Custom Chats",
-            "description": "Use your own chat templates!",
+            "id": "rubberduck-conversation-templates",
+            "title": "Conversation Templates",
+            "description": "Craft your own chat templates!",
             "media": {
-              "markdown": "walkthrough/custom-conversation-templates.md"
-            }
-          },
-          {
-            "id": "project",
-            "title": "Project",
-            "description": "Learn more about Rubberduck.",
-            "media": {
-              "markdown": "walkthrough/project.md"
+              "markdown": "walkthrough/rubberduck-conversation-templates.md"
             }
           }
         ]

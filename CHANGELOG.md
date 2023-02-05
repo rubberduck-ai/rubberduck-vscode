@@ -1,10 +1,16 @@
 # Changelog
 
+## 1.3.0 - 2023-02-05
+
+### Changed
+
+- **Breaking**. The Rubberduck Conversation Template format has changed in large parts. [Check the updated docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md) for Rubberduck Conversation Templates.
+
 ## 1.2.0 - 2023-02-03
 
 ### Changed
 
-- **Breaking**. The `codicon` attribute is now an `icon` property. [Check the updated docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/CUSTOM_CONVERSATIONS.md) for Custom Conversation Templates.
+- **Breaking**. The `codicon` attribute is now an `icon` property. [Check the updated docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md) for Rubberduck Conversation Templates.
 
 ### Added
 
