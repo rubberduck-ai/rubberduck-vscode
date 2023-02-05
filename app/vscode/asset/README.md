@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](https://github.com/rubberduck-ai/rubberduck-vscode#contributors)
 [![Discord](https://discordapp.com/api/guilds/1061938502327091271/widget.png?style=shield)](https://discord.gg/8KN2HmyZmn)
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/rubberduckai.svg?style=social&label=%20%40rubberduckai)](https://twitter.com/rubberduckai)
 [![GitHub stars](https://img.shields.io/github/stars/rubberduck-ai/rubberduck-vscode.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/rubberduck-ai/rubberduck-vscode/stargazers/)
 
 > &nbsp;
