@@ -1,4 +1,4 @@
-# Your Own Conversation Templates
+# Rubberduck Conversation Templates
 
 Rubberduck comes with handy built-in commands, such as:
 
@@ -9,133 +9,47 @@ Rubberduck comes with handy built-in commands, such as:
 
 But what if you have a specific need that isn't quite covered? What if you want to craft an AI Chat that knows specifically about your project, or your conventions? How cool would it be to have the answers in your own language?
 
-That's what you can get with Custom Conversation Templates! 🌈
+That's what you can get with Rubberduck Conversation Templates! 🌈
 
 The best part of it: you can share them around with your colleagues, your friends, or your enemies.
 
 ## How to define your own templates?
 
-By adding `.json` files to the `.rubberduck/template` folder in your workspace. See the [custom templates in the Rubberduck repository for examples](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/.rubberduck/template).
+By adding Rubberduck Template File (`.rdt.md`) files to the `.rubberduck/template` folder in your workspace. See the [templates in the Rubberduck repository for examples](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/template).
 
-To use custom conversations, run the "Rubberduck: Start Custom Chat… 💬" command.
+To use your custom conversations, run the "Rubberduck: Start Custom Chat… 💬" command.
 
 After you have changed a conversation template, use the "Rubberduck: Reload Conversation Types" command to see your updates.
 
 To help you debug, use the "Rubberduck: Show logs" command to open the Output panel and see the prompt that is sent to OpenAI.
 
-## Example
+## Example: Drunken Pirate
 
-This template will expose a new custom conversation: **Ask a drunken pirate**.
+The ["Drunken Pirate" template](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/fun/drunken-pirate.rdt.md) will expose a new custom conversation: **Ask a drunken pirate to describe your code**.
 
 To see it in action:
 
-1. Save it in `.rubberduck/template/describe-code-as-drunken-pirate.json` in your project
+1. Save the template as `.rubberduck/template/drunken-pirate.rdt.md` in your workspace
 2. Use "Rubberduck: Reload Conversation Types"
 3. Use "Rubberduck: Start Custom Chat… 💬"
 4. Pick "Ask a drunken pirate"
 
-```json
-{
-  "id": "describe-code-as-drunken-pirate",
-  "engineVersion": 0,
-  "type": "selected-code-analysis-chat",
-  "label": "Ask a drunken pirate",
-  "description": "Ask a drunken pirate about the meaning of your code",
-  "icon": {
-    "type": "codicon",
-    "value": "feedback"
-  },
-  "initVariableRequirements": [
-    {
-      "type": "non-empty-text",
-      "variable": "selectedText"
-    }
-  ],
-  "analysisPlaceholder": "Thinking",
-  "analysisPrompt": {
-    "sections": [
-      {
-        "type": "lines",
-        "title": "Instructions",
-        "lines": [
-          "Pretend that you are a drunken pirate.",
-          "Describe the code below."
-        ]
-      },
-      {
-        "type": "optional-selected-code",
-        "title": "Selected Code"
-      },
-      {
-        "type": "lines",
-        "title": "Task",
-        "lines": [
-          "Pretend that you are a drunken pirate.",
-          "Describe the code.",
-          "You pirate speak and refer to sailing and the sea where possible."
-        ]
-      },
-      {
-        "type": "lines",
-        "title": "Description",
-        "lines": []
-      }
-    ],
-    "maxTokens": 512,
-    "temperature": 0.8
-  },
-  "chatTitle": "Drunken pirate",
-  "chatPrompt": {
-    "sections": [
-      {
-        "type": "lines",
-        "title": "Instructions",
-        "lines": [
-          "Continue the conversation.",
-          "Pretend that you are a drunken pirate."
-        ]
-      },
-      {
-        "type": "lines",
-        "title": "Current Request",
-        "lines": ["Developer: ${lastMessage}"]
-      },
-      {
-        "type": "optional-selected-code",
-        "title": "Selected Code"
-      },
-      {
-        "type": "conversation",
-        "roles": {
-          "bot": "Drunken Pirate",
-          "user": "Developer"
-        }
-      },
-      {
-        "type": "lines",
-        "title": "Task",
-        "lines": [
-          "Write a response that continues the conversation.",
-          "Pretend that you are a drunken pirate.",
-          "You pirate speak and refer to sailing and the sea where possible."
-        ]
-      },
-      {
-        "type": "lines",
-        "title": "Answer",
-        "lines": ["Drunken Pirate:"]
-      }
-    ],
-    "maxTokens": 1024,
-    "stop": ["Drunken Pirate:", "Developer:"],
-    "temperature": 0.7
-  }
-}
-```
+This template is a conversation between a developer and a drunken pirate. The drunken pirate starts by describing the selected code.
 
-Want to craft your own? Let's dig into how these JSON are structured.
+Want to craft your own? Let's dig into how Rubberduck Conversation Templates are structured.
 
-## Basic Configuration
+## Rubberduck Conversation Template Structure
+
+Rubberduck Conversation Templates are [GitHub-flavored Markdown](https://github.github.com/gfm/) files with special fenced code sections. You can use regular markdown to document your template, and use the fenced code sections to define the template itself.
+
+There are two types of fenced code sections:
+
+- the `json conversation-template` configuration section
+- the `template-*` prompt template sections
+
+## Configuration Section
+
+WARNING: OUTDATED
 
 Properties:
 
@@ -229,3 +143,7 @@ The available variables are:
 - `${language}` - the language id of the document in the active editor
 - `${firstMessage}` - the first message of the conversation (text only) or `undefined` if there are no messages
 - `${lastMessage}` - the last message of the conversation (text only) or `undefined` if there are no messages
+
+```
+
+```
