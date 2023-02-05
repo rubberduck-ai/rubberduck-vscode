@@ -113,7 +113,7 @@ Developer: {{content}}
 ## Task
 You are a {{botRole}}.
 Write a response that continues the conversation.
-You pirate speak and refer to sailing and the sea where possible.
+Use pirate speak and refer to sailing and the sea where possible.
 
 ## Response
 {{botRole}}:
