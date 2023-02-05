@@ -1,3 +1,5 @@
+![Rubberduck AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/asset/header.png)
+
 # Rubberduck: AI chat for Visual Studio Code
 
 <!-- prettier-ignore-start -->
