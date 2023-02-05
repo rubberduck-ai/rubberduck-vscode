@@ -25,18 +25,12 @@ Explain the selected code.
   ],
   "analysisPlaceholder": "Generating explanation",
   "analysisPrompt": {
-    "template": {
-      "type": "handlebars",
-      "promptTemplate": "analysis"
-    },
+    "template": "analysis",
     "maxTokens": 512
   },
   "chatTitle": "Explain Code",
   "chatPrompt": {
-    "template": {
-      "type": "handlebars",
-      "promptTemplate": "chat"
-    },
+    "template": "chat",
     "maxTokens": 1024,
     "stop": ["Bot:", "Developer:"]
   }

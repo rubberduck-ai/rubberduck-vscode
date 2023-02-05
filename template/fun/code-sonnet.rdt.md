@@ -25,19 +25,13 @@ Describe the selected code in a Shakespeare sonnet.
   ],
   "analysisPlaceholder": "Composing poetry",
   "analysisPrompt": {
-    "template": {
-      "type": "handlebars",
-      "promptTemplate": "analysis"
-    },
+    "template": "analysis",
     "maxTokens": 1024,
     "temperature": 0.5
   },
   "chatTitle": "Code Sonnet",
   "chatPrompt": {
-    "template": {
-      "type": "handlebars",
-      "promptTemplate": "chat"
-    },
+    "template": "chat",
     "maxTokens": 1024,
     "stop": ["Shakespeare:", "Developer:"],
     "temperature": 0.5

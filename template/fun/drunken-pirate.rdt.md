@@ -25,19 +25,13 @@ This template is a conversation between a developer and a drunken pirate. The dr
   ],
   "analysisPlaceholder": "Thinking",
   "analysisPrompt": {
-    "template": {
-      "type": "handlebars",
-      "promptTemplate": "analysis"
-    },
+    "template": "analysis",
     "maxTokens": 512,
     "temperature": 0.8
   },
   "chatTitle": "Drunken pirate",
   "chatPrompt": {
-    "template": {
-      "type": "handlebars",
-      "promptTemplate": "chat"
-    },
+    "template": "chat",
     "maxTokens": 1024,
     "stop": ["Drunken Pirate:", "Developer:"],
     "temperature": 0.7

@@ -18,10 +18,7 @@ This templates lets you chat with Rubberduck in German.
     "value": "comment-discussion"
   },
   "prompt": {
-    "template": {
-      "type": "handlebars",
-      "promptTemplate": "chat"
-    },
+    "template": "chat",
     "maxTokens": 1024,
     "stop": ["Roboter:", "Entwickler:"]
   }
