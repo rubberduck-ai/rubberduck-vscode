@@ -23,7 +23,7 @@ export class ConversationTypesProvider {
     return [...this.conversationTypes.values()];
   }
 
-  private async loadTemplate(...path: string[]) {
+  private async loadBuiltinTemplate(...path: string[]) {
     const fileUri = vscode.Uri.joinPath(this.extensionUri, "template", ...path);
     const result = await loadConversationFromFile(fileUri);
 
@@ -33,19 +33,17 @@ export class ConversationTypesProvider {
       );
     }
 
-    return result.template;
+    return new TemplateConversationType({
+      template: result.template,
+      source: "built-in",
+    });
   }
 
   async loadConversationTypes() {
     const builtInConversationTypes = [
-      new TemplateConversationType({
-        template: await this.loadTemplate("chat-i18n", "chat-en.rdt.md"),
-        source: "built-in",
-      }),
-      new TemplateConversationType({
-        template: await this.loadTemplate("task", "explain-code.rdt.md"),
-        source: "built-in",
-      }),
+      await this.loadBuiltinTemplate("chat-i18n", "chat-en.rdt.md"),
+      await this.loadBuiltinTemplate("task", "explain-code.rdt.md"),
+      await this.loadBuiltinTemplate("task", "find-bugs.rdt.md"),
       EditCodeConversation,
       GenerateTestConversation,
       DiagnoseErrorsConversation,

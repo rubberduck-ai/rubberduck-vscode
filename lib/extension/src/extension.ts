@@ -28,20 +28,6 @@ export const activate = async (context: vscode.ExtensionContext) => {
   });
   await conversationTypesProvider.loadConversationTypes();
 
-  const basicChatTemplate =
-    conversationTypesProvider.getConversationType("chat-en");
-
-  if (basicChatTemplate == null) {
-    throw new Error("Failed to load 'chat-en' chat template.");
-  }
-
-  const explainCodeTemplate =
-    conversationTypesProvider.getConversationType("explain-code");
-
-  if (explainCodeTemplate == null) {
-    throw new Error(`Failed to load 'explain-code' chat template.`);
-  }
-
   const chatController = new ChatController({
     chatPanel,
     chatModel,
@@ -60,7 +46,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
     getConversationType(id: string) {
       return conversationTypesProvider.getConversationType(id);
     },
-    basicChatTemplateId: basicChatTemplate.id,
+    basicChatTemplateId: "chat-en",
   });
 
   chatPanel.onDidReceiveMessage(
@@ -84,13 +70,16 @@ export const activate = async (context: vscode.ExtensionContext) => {
       chatController.createConversation(DiagnoseErrorsConversation.id);
     }),
     vscode.commands.registerCommand("rubberduck.explainCode", () => {
-      chatController.createConversation(explainCodeTemplate.id);
+      chatController.createConversation("explain-code");
+    }),
+    vscode.commands.registerCommand("rubberduck.findBugs", () => {
+      chatController.createConversation("find-bugs");
     }),
     vscode.commands.registerCommand("rubberduck.generateTest", () => {
       chatController.createConversation(GenerateTestConversation.id);
     }),
     vscode.commands.registerCommand("rubberduck.startChat", () => {
-      chatController.createConversation(basicChatTemplate.id);
+      chatController.createConversation("chat-en");
     }),
     vscode.commands.registerCommand("rubberduck.editCode", () => {
       chatController.createConversation(EditCodeConversation.id);
@@ -119,7 +108,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
       await chatController.createConversation(result.id);
     }),
     vscode.commands.registerCommand("rubberduck.touchBar.startChat", () => {
-      chatController.createConversation(basicChatTemplate.id);
+      chatController.createConversation("chat-en");
     }),
     vscode.commands.registerCommand("rubberduck.showChatPanel", async () => {
       await chatController.showChatPanel();

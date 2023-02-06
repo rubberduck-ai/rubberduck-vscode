@@ -84,6 +84,12 @@
         "icon": "$(search-fuzzy)"
       },
       {
+        "command": "rubberduck.findBugs",
+        "title": "Find Bugs 💬",
+        "category": "Rubberduck",
+        "icon": "$(bug)"
+      },
+      {
         "command": "rubberduck.startCustomChat",
         "title": "Start Custom Chat… 💬",
         "category": "Rubberduck",
@@ -184,6 +190,11 @@
         },
         {
           "command": "rubberduck.explainCode",
+          "group": "rubberduck",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "rubberduck.findBugs",
           "group": "rubberduck",
           "when": "editorHasSelection"
         },
