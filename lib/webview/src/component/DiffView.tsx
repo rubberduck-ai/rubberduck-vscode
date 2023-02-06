@@ -8,9 +8,15 @@ const ReactDiffViewer = DiffViewer.default;
 interface DiffViewProps {
   oldCode: string;
   newCode: string;
+  languageId?: string;
 }
 
-export const DiffView: React.FC<DiffViewProps> = ({ oldCode, newCode }) => {
+export const DiffView: React.FC<DiffViewProps> = ({
+  oldCode,
+  newCode,
+  languageId,
+}) => {
+  const { grammar, language } = toPrismHighlightOptions(languageId);
   return (
     <ReactDiffViewer
       oldValue={oldCode}
@@ -24,7 +30,7 @@ export const DiffView: React.FC<DiffViewProps> = ({ oldCode, newCode }) => {
           <pre
             style={{ display: "inline" }}
             dangerouslySetInnerHTML={{
-              __html: highlight(str ?? "", languages.javascript, "javascript"),
+              __html: highlight(str ?? "", grammar, language),
             }}
           />
         );
@@ -79,3 +85,84 @@ export const DiffView: React.FC<DiffViewProps> = ({ oldCode, newCode }) => {
     />
   );
 };
+
+type PrismHighlightOptions = {
+  grammar: Prism.Grammar;
+  language: string;
+};
+
+const DEFAULT_PRISM_OPTIONS: PrismHighlightOptions = {
+  grammar: languages.text,
+  language: "text",
+};
+
+function toPrismHighlightOptions(
+  languageId: string | undefined
+): PrismHighlightOptions {
+  if (!languageId) {
+    return DEFAULT_PRISM_OPTIONS;
+  }
+
+  /**
+   * VS Code known language IDs:
+   * https://code.visualstudio.com/docs/languages/identifiers#_known-language-identifiers
+   */
+
+  /**
+   * Prism supports the following languages by default:
+   * - plain, plaintext, text, txt
+   * - html, markup
+   * - svg
+   * - xml
+   * - ssml, atom, rss
+   * - css
+   * - javascript, js
+   *
+   * If we want more, we need to load the relevant scripts:
+   * https://cdnjs.com/libraries/prism/1.29.0
+   */
+
+  switch (languageId) {
+    case "javascript":
+    case "javascriptreact":
+    case "typescript":
+    case "typescriptreact":
+    case "vue":
+    case "svelte":
+    case "coffeescript":
+      return {
+        grammar: languages.javascript,
+        language: "javascript",
+      };
+
+    case "html":
+    case "vue-html":
+      return {
+        grammar: languages.html,
+        language: "html",
+      };
+
+    case "xml":
+      return {
+        grammar: languages.xml,
+        language: "xml",
+      };
+
+    case "css":
+    case "scss":
+      return {
+        grammar: languages.css,
+        language: "css",
+      };
+
+    case "plaintext":
+    case "diff":
+      return DEFAULT_PRISM_OPTIONS;
+
+    default:
+      console.warn(
+        `Can't find Prism grammar for language ${languageId}, use default one`
+      );
+      return DEFAULT_PRISM_OPTIONS;
+  }
+}

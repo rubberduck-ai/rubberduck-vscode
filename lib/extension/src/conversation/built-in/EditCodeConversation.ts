@@ -230,6 +230,7 @@ export class EditCodeConversation extends Conversation {
     await this.diffEditor.updateDiff({
       oldCode: originalContent,
       newCode: editedFileContent,
+      languageId: document.languageId,
     });
   }
 

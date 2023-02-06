@@ -12,6 +12,7 @@ export const panelStateSchema = zod
       type: zod.literal("diff"),
       oldCode: zod.string(),
       newCode: zod.string(),
+      languageId: zod.string().optional(),
     }),
   ])
   .optional();

@@ -19,7 +19,11 @@ export const DiffPanelView: React.FC<{
 
   return (
     <>
-      <DiffView oldCode={panelState.oldCode} newCode={panelState.newCode} />
+      <DiffView
+        oldCode={panelState.oldCode}
+        newCode={panelState.newCode}
+        languageId={panelState.languageId}
+      />
       <div style={{ margin: "var(--container-padding" }}>
         <button
           onClick={() => {
