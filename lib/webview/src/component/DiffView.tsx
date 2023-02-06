@@ -1,3 +1,4 @@
+import { highlight, languages } from "prismjs";
 import React from "react";
 import DiffViewer, { DiffMethod } from "react-diff-viewer-continued";
 
@@ -18,6 +19,16 @@ export const DiffView: React.FC<DiffViewProps> = ({ oldCode, newCode }) => {
       showDiffOnly
       extraLinesSurroundingDiff={3}
       compareMethod={DiffMethod.WORDS}
+      renderContent={(str: string | undefined) => {
+        return (
+          <pre
+            style={{ display: "inline" }}
+            dangerouslySetInnerHTML={{
+              __html: highlight(str ?? "", languages.javascript, "javascript"),
+            }}
+          />
+        );
+      }}
       styles={{
         variables: {
           light: {

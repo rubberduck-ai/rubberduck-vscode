@@ -56,6 +56,7 @@ export class WebviewContainer {
 
     // Use a nonce to only allow a specific script to be run.
     const nonce = generateNonce();
+    const prismNonce = generateNonce();
 
     const cspSource = this.webview?.cspSource;
 
@@ -64,7 +65,7 @@ export class WebviewContainer {
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Security-Policy"
-          content="default-src 'none'; font-src ${cspSource}; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}';" />
+          content="default-src 'none'; font-src ${cspSource}; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' 'nonce-${prismNonce}';" />
     <link href="${baseCssUri}" rel="stylesheet" />
     <link href="${codiconsCssUri}" rel="stylesheet" />
     <link href="${webviewCssUri}" rel="stylesheet" />
@@ -76,6 +77,8 @@ export class WebviewContainer {
             src="${scriptUri}"
             data-panel-id="${this.panelId}"
             data-state-reloading-enabled="${this.isStateReloadingEnabled}" />
+    <script nonce="${prismNonce}"
+            src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" />
   </body>
 </html>`;
   }
