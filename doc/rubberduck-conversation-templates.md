@@ -188,8 +188,48 @@ You can set the following parameters:
 - `template`: A reference to the prompt template. The prompt is defined in a fenced code section with the language info `template-*`, where `*` is the value that you provide in the prompt property.
 - `maxTokens`: Upper bound on how many tokens will be returned.
 - `stop`: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence. Optional.
-- `temperature`: The randomness of the model. Higher values will make the model more random, lower values will make it more predictable. Optional, default to 0.
+- `temperature`: The randomness of the model. Higher values will make the model more random, lower values will make it more predictable. Optional, defaults to 0.
 
 ## Prompt Templates
 
-TODO
+The prompt templates are defined in fenced code sections with the language info `template-*`, where `*` is the value that you provide in the `template` property of the prompt definition.
+
+They use the [Handlebars templating language](https://handlebarsjs.com/guide/). Variables that you have defined can be expanded using the `{{variableName}}` syntax.
+
+There are a few additional extensions to Handlebars:
+
+- \\\`\\\`\\\` is replaced with \`\`\` in the template. This is useful to create markdown code snippets section in the template.
+- `eq`, `neq`, `lt`, `gt`, `lte`, `gte` are added as comparison operators. They can be used to create if statements in the template.
+
+Example:
+
+<pre>
+```template-analysis
+## Instructions
+You are a {{botRole}}.
+Describe the code below.
+
+## Selected Code
+\`\`\`
+{{selectedText}}
+\`\`\`
+
+## Task
+You are a {{botRole}}.
+Describe the code.
+You pirate speak and refer to sailing and the sea where possible.
+
+## Description
+
+```
+</pre>
+
+## Get started with templates
+
+The easiest way to get started with templates is to copy some of the [example templates](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/template) and to start modifying them.
+
+To use your custom conversations, run the "Rubberduck: Start Custom Chat… 💬" command.
+
+After you have changed a conversation template, use the "Rubberduck: Reload Conversation Types" command to see your updates.
+
+To help you debug, use the "Rubberduck: Show logs" command to open the Output panel and see the prompt that is sent to OpenAI.
