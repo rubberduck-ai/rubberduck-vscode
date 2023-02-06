@@ -11,7 +11,9 @@ export async function resolveVariables(
     messages?: Array<Message>;
   } = {}
 ) {
-  const variableValues: Record<string, unknown> = {};
+  const variableValues: Record<string, unknown> = {
+    messages,
+  };
 
   for (const variable of variables ?? []) {
     if (variableValues[variable.name] != undefined) {
