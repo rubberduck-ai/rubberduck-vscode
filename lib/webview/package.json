@@ -14,7 +14,6 @@
     "@rubberduck/common": "*",
     "prop-types": "15.8.1",
     "react": "18.2.0",
-    "react-diff-view": "2.5.0",
     "react-diff-viewer-continued": "3.2.5",
     "react-dom": "18.2.0",
     "react-markdown": "8.0.5"

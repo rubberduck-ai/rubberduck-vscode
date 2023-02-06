@@ -92,7 +92,6 @@ importers:
       eslint-plugin-react: ^7.32.1
       prop-types: 15.8.1
       react: 18.2.0
-      react-diff-view: 2.5.0
       react-diff-viewer-continued: 3.2.5
       react-dom: 18.2.0
       react-markdown: 8.0.5
@@ -100,7 +99,6 @@ importers:
       '@rubberduck/common': link:../common
       prop-types: 15.8.1
       react: 18.2.0
-      react-diff-view: 2.5.0_sh5qlbywuemxd2y3xkrw2y2kr4
       react-diff-viewer-continued: 3.2.5_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-markdown: 8.0.5_kzbn2opkn2327fwg5yzwzya5o4
@@ -3350,20 +3348,6 @@ packages:
     dev: true
     optional: true
 
-  /react-diff-view/2.5.0_sh5qlbywuemxd2y3xkrw2y2kr4:
-    resolution: {integrity: sha512-iGmuo4VwGf0Nxji9bZFD6/IGm2ri50lf2+11ls1zONgNgVxQxR5X1hLl6QSNzkdGT9shYWlJma2JirkQ0UYl1Q==}
-    peerDependencies:
-      prop-types: '>=15.6'
-      react: '>=16.8'
-    dependencies:
-      classnames: 2.3.2
-      diff-match-patch: 1.0.5
-      prop-types: 15.8.1
-      react: 18.2.0
-      shallow-equal: 1.2.1
-      warning: 4.0.3
-    dev: false
-
   /react-diff-viewer-continued/3.2.5_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-oqRzPl37ixHQNhARUCX782DT1Ae1Di4oNN2csq4WyFZLWGRR+sw7A5jcuhDEh6IyIEIRtWyd5BBfubSjur98tQ==}
     engines: {node: '>= 8'}
@@ -3623,10 +3607,6 @@ packages:
     dependencies:
       lru-cache: 6.0.0
     dev: true
-
-  /shallow-equal/1.2.1:
-    resolution: {integrity: sha512-S4vJDjHHMBaiZuT9NPb616CSmLf618jawtv3sufLl6ivK8WocjAo58cXwbRV1cgqxH0Qbv+iUt6m05eqEa2IRA==}
-    dev: false
 
   /shebang-command/2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}
@@ -4265,12 +4245,6 @@ packages:
       - supports-color
       - terser
     dev: true
-
-  /warning/4.0.3:
-    resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
-    dependencies:
-      loose-envify: 1.4.0
-    dev: false
 
   /which-boxed-primitive/1.0.2:
     resolution: {integrity: sha512-bwZdv0AKLpplFY2KZRX6TvyuN7ojjr7lwkg6ml0roIy9YeuSr7JS372qlNW18UQYzgYK9ziGcerWqZOmEn9VNg==}
