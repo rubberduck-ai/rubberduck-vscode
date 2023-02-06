@@ -30,6 +30,8 @@ You can install Rubberduck from the
 
 ## Features
 
+[AI Chat](#ai-chat) | [Edit Code](#edit-code) | [Explain Code](#explain-code) | [Generate Tests](#generate-tests) | [Find Bugs](#find-bugs) | [Diagnose Errors](#diagnose-errors) | [Custom Conversations](#custom-conversations)
+
 ### AI Chat
 
 Chat with Rubberduck about your code and software development topics. Rubberduck knows the editor selection at the time of conversation start.
@@ -66,7 +68,7 @@ Let Rubberduck identify error causes and suggest fixes to fix compiler and linte
 
 ![Diagnose Errors](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-diagnose-errors.png)
 
-### Rubberduck Conversation Templates
+### Custom Conversations
 
 You can define your own conversation templates. See the [Rubberduck Conversation Template docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md) for more information.
 

@@ -21,6 +21,8 @@
 
 # Features
 
+[AI Chat](#ai-chat) | [Edit Code](#edit-code) | [Explain Code](#explain-code) | [Generate Tests](#generate-tests) | [Find Bugs](#find-bugs) | [Diagnose Errors](#diagnose-errors) | [Custom Conversations](#custom-conversations)
+
 ## AI Chat
 
 Chat with Rubberduck about your code and software development topics. Rubberduck knows the editor selection at the time of conversation start.
@@ -100,7 +102,7 @@ Let Rubberduck identify error causes and suggest fixes to fix compiler and linte
 
 ![Diagnose Errors](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-diagnose-errors.png)
 
-# Rubberduck Conversation Templates
+# Custom Conversations
 
 What if you want to craft an AI Chat that knows _specifically_ about your conventions?
 How cool would it be to have the answers in your own language?
