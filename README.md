@@ -50,9 +50,15 @@ Ask Rubberduck to explain the selected code.
 
 ### Generate Tests
 
-Generate test cases with Rubberduck.
+Generate test cases for the selected code.
 
 ![Generate Tests](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-test.gif)
+
+## Find Bugs
+
+Find potential defects in your code.
+
+![Find Bugs](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-find-bugs.png)
 
 ### Diagnose Errors
 

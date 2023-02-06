@@ -280,6 +280,14 @@
             }
           },
           {
+            "id": "find-bugs",
+            "title": "Find Bugs",
+            "description": "Identify potential defects in your code.",
+            "media": {
+              "markdown": "walkthrough/find-bugs.md"
+            }
+          },
+          {
             "id": "diagnose-errors",
             "title": "Diagnose Errors",
             "description": "Let Rubberduck identify error causes and suggest fixes to fix compiler and linter errors faster.",
