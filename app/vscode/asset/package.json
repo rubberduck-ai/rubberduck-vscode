@@ -283,6 +283,14 @@
             "media": {
               "markdown": "walkthrough/rubberduck-conversation-templates.md"
             }
+          },
+          {
+            "id": "tips-and-tricks",
+            "title": "Tips and Tricks",
+            "description": "How to get the most out of Rubberduck.",
+            "media": {
+              "markdown": "walkthrough/tips-and-tricks.md"
+            }
           }
         ]
       }
