@@ -66,7 +66,7 @@ export const ExpandedConversationView: React.FC<{
       </div>
 
       <div className="footer">
-        <span>
+        <span className="action-panel">
           <i
             className="codicon codicon-trash inline action-delete"
             onClick={onClickDelete}

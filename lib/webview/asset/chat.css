@@ -198,3 +198,7 @@ body {
 .action-delete:hover {
   color: var(--vscode-charts-red);
 }
+
+.action-panel {
+  margin-left: auto;
+}
