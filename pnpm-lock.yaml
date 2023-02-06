@@ -48,19 +48,9 @@ importers:
     dependencies:
       zod: 3.20.2
 
-  lib/diff:
-    specifiers:
-      '@types/diff-match-patch': 1.0.32
-      diff-match-patch: 1.0.5
-    dependencies:
-      diff-match-patch: 1.0.5
-    devDependencies:
-      '@types/diff-match-patch': 1.0.32
-
   lib/extension:
     specifiers:
       '@rubberduck/common': '*'
-      '@rubberduck/diff': '*'
       '@types/handlebars': 4.1.0
       '@types/marked': 4.0.8
       '@types/vscode': 1.72.0
@@ -71,7 +61,6 @@ importers:
       zod: 3.20.2
     dependencies:
       '@rubberduck/common': link:../common
-      '@rubberduck/diff': link:../diff
       axios: 1.2.4
       handlebars: 4.7.7
       marked: 4.2.12
@@ -508,10 +497,6 @@ packages:
     dependencies:
       '@types/ms': 0.7.31
     dev: false
-
-  /@types/diff-match-patch/1.0.32:
-    resolution: {integrity: sha512-bPYT5ECFiblzsVzyURaNhljBH2Gh1t9LowgUwciMrNAhFewLkHT2H0Mto07Y4/3KCOGZHRQll3CTtQZ0X11D/A==}
-    dev: true
 
   /@types/handlebars/4.1.0:
     resolution: {integrity: sha512-gq9YweFKNNB1uFK71eRqsd4niVkXrxHugqWFQkeLRJvGjnxsLr16bYtcsG4tOFwmYi0Bax+wCkbf1reUfdl4kA==}
@@ -1378,10 +1363,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
     optional: true
-
-  /diff-match-patch/1.0.5:
-    resolution: {integrity: sha512-IayShXAgj/QMXgB0IWmKx+rOPuGMhqm5w6jvFxmVenXKIzRqTAAsbBPT3kWQeGANj3jGgvcvv4yK6SxqYmikgw==}
-    dev: false
 
   /diff/5.1.0:
     resolution: {integrity: sha512-D+mk+qE8VC/PAUrlAU34N+VfXev0ghe5ywmpqrawphmVZc1bEfn56uo9qpyGp1p4xpzOHkSW4ztBd6L7Xx4ACw==}
