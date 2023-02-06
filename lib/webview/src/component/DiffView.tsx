@@ -11,6 +11,12 @@ interface DiffViewProps {
 
 export const DiffView: React.FC<DiffViewProps> = ({ oldCode, newCode }) => {
   return (
-    <ReactDiffViewer oldValue={oldCode} newValue={newCode} splitView={true} />
+    <ReactDiffViewer
+      oldValue={oldCode}
+      newValue={newCode}
+      splitView
+      showDiffOnly
+      extraLinesSurroundingDiff={3}
+    />
   );
 };
