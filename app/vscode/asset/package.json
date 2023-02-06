@@ -2,7 +2,7 @@
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
   "version": "1.3.1",
-  "displayName": "Rubberduck - GPT-3 powered AI chat",
+  "displayName": "Rubberduck - GPT Chat for Visual Studio Code",
   "description": "Threaded AI chats in the side bar. Explain code, edit code, generate tests, diagnose errors, and even create your own conversation templates.",
   "keywords": [
     "ai",

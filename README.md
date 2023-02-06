@@ -1,6 +1,6 @@
 ![Rubberduck AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/asset/rubberduck-header.png)
 
-# Rubberduck: AI chat for Visual Studio Code
+# Rubberduck: GPT Chat for Visual Studio Code
 
 <!-- prettier-ignore-start -->
 [![Marketplace](https://vsmarketplacebadges.dev/version-short/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
