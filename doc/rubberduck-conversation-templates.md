@@ -130,91 +130,40 @@ They are defined in the `variables` property of the configuration section. The p
 
 You can add constraints to the `active-editor` variables. Right now only a minimal text length constraint is available (`type: text-length`). It is useful to make sure that the user has selected some text before starting the conversation. If the constraint is not met, an error popup is shown and the conversation will not be started.
 
-## Conversation Template Types
+### Conversation Template Types
 
-**WARNING: CONTENT BELOW IS OUTDATED**
+There are two conversation types. You can chose the conversation type in the `type` property of the configuration section.
 
-### Basic Chat
+#### Basic Chat
 
 A conversation without an initial action. It starts with a user message.
 
 Properties:
 
 - `type: basic-chat`
-- `prompt`: The prompt template](#prompt-templates) for the conversation.
+- `chat`: The prompt definition for the conversation.
 
-### Selected Code Analysis Chat
+#### Selected Code Analysis Chat
 
 Analyze a code selection with an special analysis prompt. Then use a different prompt template for the conversation. The conversation starts with the analysis.
 
 Properties:
 
 - `type: selected-code-analysis-chat`
-- `analysisPlaceholder`: The placeholder text that is shown while the analysis is in progress.
-- `analysisPrompt`: The [prompt template](#prompt-templates) for the analysis.
-- `chatTitle`: The title of the conversation. It will be shown in the Rubberduck side panel.
-- `chatPrompt`: The prompt template](#prompt-templates) for the conversation.
+- `analysis`: The prompt definition for the initial analysis.
+- `chat`: The prompt definition for the conversation.
+
+### Prompt Definitions
+
+The prompt definitions contain parameters for a call to the OpenAI API. Rubberduck calls the [OpenAI Completion API](https://platform.openai.com/docs/api-reference/completions) with the `text-davinci-003` model.
+
+You can set the following parameters:
+
+- `template`: A reference to the prompt template. The prompt is defined in a fenced code section with the language info `template-*`, where `*` is the value that you provide in the prompt property.
+- `maxTokens`: Upper bound on how many tokens will be returned.
+- `stop`: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence. Optional.
+- `temperature`: The randomness of the model. Higher values will make the model more random, lower values will make it more predictable. Optional, default to 0.
 
 ## Prompt Templates
 
-Build a prompt to send to OpenAI. This is how you can craft useful commands under the hood, so the user doesn't have to craft the perfect prompt themselves!
-
-Properties:
-
-- `sections`: The final prompt is broke down into smaller [section types](#section-types) that you compose together. This allows you to insert user selected code in the middle of your prompt.
-- `maxTokens`: Upper bound on how many [OpenAI tokens](https://platform.openai.com/tokenizer) the API will return. [Comes from OpenAI](https://platform.openai.com/docs/api-reference/completions/create#completions/create-max_tokens).
-- `stop`: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence. [Comes from OpenAI](https://platform.openai.com/docs/api-reference/completions/create#completions/create-stop).
-- `temperature`: A number between 0 and 1. 1 means the model will take more risks and be more creative. Defaults to 0. [Comes from OpenAI](https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature)
-
-### Section Types
-
-Sections are composed together to form a prompt.
-
-There are different types of sections that you can build.
-
-#### Lines Section
-
-This section allows you to provide text content for the prompt. Add as many lines as you want. You can include user inputs from [variables](#variables).
-
-Properties:
-
-- `type: lines`
-- `title`: Title of this section. It gives context for the model to answer.
-- `lines`: List of strings that represent the lines of text you want to send to the model. You can use [the available variables](#variables)
-
-#### Optionally Selected Code
-
-This section will include the code that is currently selected by the user, if it exists.
-
-Properties:
-
-- `type: optional-selected-code`
-- `title`: Title of this section. It gives context for the model to answer.
-
-#### Conversation
-
-This section creates a role-play conversation between the model and the user. This is handy to ask the model to continue the conversation, so it provides an answer to the user.
-
-Properties:
-
-- `type: conversation`
-- `excludeFirstMessage`: Optional. If `true`, then it will omit the first user message in the prompt.
-- `roles`: A [role object](#roles)
-
-##### Roles
-
-- `bot`: Name of the model in the conversation
-- `user`: Name of the user in the conversation
-
-### Variables
-
-The available variables are:
-
-- `${selectedCode}` - the selected code from the active editor
-- `${language}` - the language id of the document in the active editor
-- `${firstMessage}` - the first message of the conversation (text only) or `undefined` if there are no messages
-- `${lastMessage}` - the last message of the conversation (text only) or `undefined` if there are no messages
-
-```
-
-```
+TODO
