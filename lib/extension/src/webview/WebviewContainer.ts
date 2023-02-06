@@ -51,7 +51,6 @@ export class WebviewContainer {
   private createHtml() {
     const baseCssUri = this.getUri("asset", "base.css");
     const codiconsCssUri = this.getUri("asset", "codicons.css");
-    const diffCssUri = this.getUri("asset", "diff.css");
     const webviewCssUri = this.getUri("asset", `${this.panelId}.css`);
     const scriptUri = this.getUri("dist", "webview.js");
 
@@ -64,19 +63,18 @@ export class WebviewContainer {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'none'; font-src ${cspSource}; style-src ${cspSource}; script-src 'nonce-${nonce}';" />
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; font-src ${cspSource}; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}';" />
     <link href="${baseCssUri}" rel="stylesheet" />
     <link href="${codiconsCssUri}" rel="stylesheet" />
-    <link href="${diffCssUri}" rel="stylesheet" />
     <link href="${webviewCssUri}" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
     <div id="root" />
-    <script nonce="${nonce}" 
-            src="${scriptUri}" 
-            data-panel-id="${this.panelId}" 
+    <script nonce="${nonce}"
+            src="${scriptUri}"
+            data-panel-id="${this.panelId}"
             data-state-reloading-enabled="${this.isStateReloadingEnabled}" />
   </body>
 </html>`;
