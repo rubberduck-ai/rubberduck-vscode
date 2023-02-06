@@ -56,18 +56,18 @@ The configuration section is a JSON object that defines the template. It is a fe
 <pre>
 ```json conversation-template
 {
-    "id": "drunken-pirate",
-    "engineVersion": 0,
-    "label": "Ask a drunken pirate",
-    "description": "Ask a drunken pirate about the meaning of your code",
-    "header": {
-      "title": "Drunken Pirate ({{location}})",
-      "icon": {
-        "type": "codicon",
-        "value": "feedback"
-      }
-    },
-    …
+  "id": "drunken-pirate",
+  "engineVersion": 0,
+  "label": "Ask a drunken pirate",
+  "description": "Ask a drunken pirate about the meaning of your code",
+  "header": {
+    "title": "Drunken Pirate ({{location}})",
+    "icon": {
+      "type": "codicon",
+      "value": "feedback"
+    }
+  },
+  …
 }
 
 ```
@@ -92,6 +92,7 @@ Configuration sections have the basic following properties:
 Variables are values that you can expand in the header title and in the prompt templates using the `{{variableName}}` syntax. Here is an example:
 
 <pre>
+  …
   "variables": [
     {
       "name": "selectedText",
@@ -116,6 +117,7 @@ Variables are values that you can expand in the header title and in the prompt t
       "value": "drunken pirate"
     }
   ],
+  …
 </pre>
 
 They are defined in the `variables` property of the configuration section. The property contains an array of variable definitions. There are 3 kinds of variables:
@@ -133,6 +135,30 @@ You can add constraints to the `active-editor` variables. Right now only a minim
 ### Conversation Template Types
 
 There are two conversation types. You can chose the conversation type in the `type` property of the configuration section.
+
+Example:
+
+<pre>
+  …
+  "type": "selected-code-analysis-chat",
+  …
+  "analysis": {
+    "placeholder": "Drinking rum",
+    "prompt": {
+      "template": "analysis",
+      "maxTokens": 512,
+      "temperature": 0.8
+    }
+  },
+  "chat": {
+    "prompt": {
+      "template": "chat",
+      "maxTokens": 1024,
+      "stop": ["Drunken Pirate:", "Developer:"],
+      "temperature": 0.7
+    }
+  }
+</pre>
 
 #### Basic Chat
 
