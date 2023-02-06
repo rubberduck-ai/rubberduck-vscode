@@ -37,10 +37,11 @@ export class DiffEditor {
     });
   }
 
-  async updateDiff(diff: string) {
+  async updateDiff({ oldCode, newCode }: { oldCode: string; newCode: string }) {
     await this.container.updateState({
       type: "diff",
-      diff,
+      oldCode,
+      newCode,
     });
   }
 }

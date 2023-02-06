@@ -19,7 +19,7 @@ export const DiffPanelView: React.FC<{
 
   return (
     <>
-      <DiffView oldCode="TODO: fill" newCode="TODO: fill it too" />
+      <DiffView oldCode={panelState.oldCode} newCode={panelState.newCode} />
       <div style={{ margin: "var(--container-padding" }}>
         <button
           onClick={() => {
