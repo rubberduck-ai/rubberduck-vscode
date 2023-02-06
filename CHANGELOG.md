@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.4.0 - 2023-02-06
+
+### Added
+
+- "Find bugs" conversation.
+
+### Fixed
+
+- Conversation prompts were not including messages.
+
 ## 1.3.0 - 2023-02-05
 
 ### Changed
