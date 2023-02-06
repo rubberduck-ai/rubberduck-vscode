@@ -48,7 +48,7 @@ This templates lets you chat with Rubberduck in English.
 
 ```template-chat
 ## Instructions
-Continue the conversation below."
+Continue the conversation below.
 Pay special attention to the current developer request.
 
 ## Current Request
