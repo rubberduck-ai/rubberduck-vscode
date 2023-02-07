@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.5.0 - 2023-02-07
+
+### Changed
+
+- New diff viewer with side-by-side diffs.
+
+### Fixed
+
+- Past messages were not resolved included in the prompt.
+
 ## 1.4.1 - 2023-02-07
 
 ### Fixed
