@@ -1,5 +1,4 @@
 import { webviewApi } from "@rubberduck/common";
-import { createDiff } from "@rubberduck/diff";
 import * as vscode from "vscode";
 import { DiffEditor } from "../../diff/DiffEditor";
 import { DiffEditorManager } from "../../diff/DiffEditorManager";
@@ -181,12 +180,6 @@ export class EditCodeConversation extends Conversation {
 
     // diff the original file content with the edited file content:
     const editedFileContent = `${prefix}${editContentWithAdjustedWhitespace}${suffix}`;
-    const diff = createDiff({
-      filename: this.filename,
-      originalContent,
-      newContent: editedFileContent,
-      contextLines: 3,
-    });
 
     if (this.diffEditor == undefined) {
       const targetColumn =
@@ -234,7 +227,11 @@ export class EditCodeConversation extends Conversation {
       });
     }
 
-    await this.diffEditor.updateDiff(diff);
+    await this.diffEditor.updateDiff({
+      oldCode: originalContent,
+      newCode: editedFileContent,
+      languageId: document.languageId,
+    });
   }
 
   private async executeEditCode() {
