@@ -140,8 +140,8 @@ class TemplateConversation extends Conversation {
     return Handlebars.compile(template, {
       noEscape: true,
     })({
-      ...variables,
       ...this.initVariables,
+      ...variables,
     });
   }
 

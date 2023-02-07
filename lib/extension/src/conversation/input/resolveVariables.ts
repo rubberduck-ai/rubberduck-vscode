@@ -17,6 +17,11 @@ export async function resolveVariables(
     messages,
   };
 
+  // messages is a special variable that is always available:
+  if (messages != null) {
+    variableValues.messages = messages;
+  }
+
   for (const variable of variables ?? []) {
     if (variable.time !== time) {
       continue;
