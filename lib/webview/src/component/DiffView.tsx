@@ -70,7 +70,7 @@ export const DiffView: React.FC<DiffViewProps> = ({
             removedGutterColor: "var(--vscode-editorLineNumber-foreground)",
             addedGutterBackground: "var(--vscode-editorGutter-addedBackground)",
             removedGutterBackground:
-              "var(--vscode-editorGutter-removedBackground)",
+              "var(--vscode-editorGutter-deletedBackground)",
             gutterBackground: "var(--vscode-editorGutter-background)",
             gutterBackgroundDark: "var(--vscode-editorGutter-background)",
 
@@ -90,6 +90,13 @@ export const DiffView: React.FC<DiffViewProps> = ({
           borderRight: "1px solid var(--vscode-panel-border)",
           "> pre": {
             opacity: 1,
+          },
+        },
+        marker: {
+          paddingLeft: "5px",
+          paddingRight: "0px",
+          "> pre": {
+            display: "none",
           },
         },
         codeFoldGutter: {
