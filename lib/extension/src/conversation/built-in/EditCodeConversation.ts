@@ -182,14 +182,9 @@ export class EditCodeConversation extends Conversation {
     const editedFileContent = `${prefix}${editContentWithAdjustedWhitespace}${suffix}`;
 
     if (this.diffEditor == undefined) {
-      const targetColumn =
-        this.editor.viewColumn === vscode.ViewColumn.One
-          ? vscode.ViewColumn.Two
-          : vscode.ViewColumn.One;
-
       this.diffEditor = this.diffEditorManager.createDiffEditor({
         filename: this.filename,
-        editorColumn: targetColumn,
+        editorColumn: this.editor.viewColumn ?? vscode.ViewColumn.One,
         conversationId: this.id,
       });
 
