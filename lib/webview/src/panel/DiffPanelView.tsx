@@ -24,7 +24,13 @@ export const DiffPanelView: React.FC<{
         newCode={panelState.newCode}
         languageId={panelState.languageId}
       />
-      <div style={{ margin: "var(--container-padding" }}>
+      <div
+        style={{
+          padding: "var(--container-padding)",
+          background: "var(--vscode-panel-background)",
+          borderTop: "1px solid var(--vscode-panel-border)",
+        }}
+      >
         <button
           onClick={() => {
             sendMessage({

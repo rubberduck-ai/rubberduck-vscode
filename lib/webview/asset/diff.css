@@ -1,50 +1,55 @@
-/* Comes from https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css */
+pre {
+  line-height: 1.5 !important;
+  font-family: var(--vscode-editor-font-family) !important;
+  font-size: var(--vscode-editor-font-size) !important;
+  font-weight: var(--vscode-editor-font-weight) !important;
+}
+
+body {
+  background-color: var(--vscode-panel-background);
+}
+
+/* Comes from https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.css */
 code[class*="language-"],
 pre[class*="language-"] {
-  color: #000;
+  color: var(--vscode-editor-foreground);
   background: 0 0;
-  text-shadow: 0 1px #fff;
-  /* font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace; */
-  font-size: 1em;
+  font-family: var(--vscode-editor-font-family);
+  font-size: var(--vscode-editor-font-size);
+  font-weight: var(--vscode-editor-font-weight);
   text-align: left;
   white-space: pre;
   word-spacing: normal;
   word-break: normal;
   word-wrap: normal;
   line-height: 1.5;
-  -moz-tab-size: 4;
+  /* -moz-tab-size: 4;
   -o-tab-size: 4;
-  tab-size: 4;
+  tab-size: 4; */
   -webkit-hyphens: none;
   -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
+  padding: 1em;
+  margin: 0.5em 0;
+  overflow: auto;
 }
-code[class*="language-"] ::-moz-selection,
-code[class*="language-"]::-moz-selection,
-pre[class*="language-"] ::-moz-selection,
-pre[class*="language-"]::-moz-selection {
-  text-shadow: none;
-  background: #b3d4fc;
-}
+
 code[class*="language-"] ::selection,
 code[class*="language-"]::selection,
 pre[class*="language-"] ::selection,
 pre[class*="language-"]::selection {
   text-shadow: none;
-  background: #b3d4fc;
+  background: var(--vscode-editor-selectionBackground);
 }
+
 @media print {
   code[class*="language-"],
   pre[class*="language-"] {
     text-shadow: none;
   }
 }
-pre[class*="language-"] {
-  padding: 1em;
-  margin: 0.5em 0;
-  overflow: auto;
-}
+
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
   background: #f5f2f0;
@@ -54,26 +59,33 @@ pre[class*="language-"] {
   border-radius: 0.3em;
   white-space: normal;
 }
+
 .token.cdata,
 .token.comment,
 .token.doctype,
 .token.prolog {
-  color: #708090;
+  color: var(--vscode-editor-foreground);
 }
 .token.punctuation {
-  color: #999;
+  color: var(--vscode-editor-foreground);
 }
 .token.namespace {
   opacity: 0.7;
 }
-.token.boolean,
-.token.constant,
+
+.token.boolean {
+  color: var(--vscode-symbolIcon-booleanForeground);
+}
+
+.token.constant {
+  color: var(--vscode-symbolIcon-constantForeground);
+}
+
 .token.deleted,
-.token.number,
 .token.property,
 .token.symbol,
 .token.tag {
-  color: #905;
+  color: var(--vscode-symbolIcon-propertyForeground);
 }
 .token.attr-name,
 .token.builtin,
@@ -81,30 +93,36 @@ pre[class*="language-"] {
 .token.inserted,
 .token.selector,
 .token.string {
-  color: #690;
+  color: var(--vscode-symbolIcon-textForeground);
 }
 .language-css .token.string,
 .style .token.string,
+.token.number, /* even tho there is a number style, numbers are colored like strings in vscode */
 .token.entity,
-.token.operator,
 .token.url {
-  color: #9a6e3a;
-  background: hsla(0, 0%, 100%, 0.5);
+  color: var(--vscode-symbolIcon-stringForeground);
 }
 .token.atrule,
 .token.attr-value,
+.token.operator,
 .token.keyword {
-  color: #07a;
+  color: var(--vscode-symbolIcon-keywordForeground);
 }
-.token.class-name,
+
+.token.class-name {
+  color: var(--vscode-symbolIcon-classForeground);
+}
+
 .token.function {
-  color: #dd4a68;
+  color: var(--vscode-symbolIcon-functionForeground);
 }
+
 .token.important,
 .token.regex,
 .token.variable {
-  color: #e90;
+  color: var(--vscode-symbolIcon-variableForeground);
 }
+
 .token.bold,
 .token.important {
   font-weight: 700;

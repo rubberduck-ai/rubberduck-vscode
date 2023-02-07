@@ -44,32 +44,36 @@ export const DiffView: React.FC<DiffViewProps> = ({
             // Documented properties: https://github.com/praneshr/react-diff-viewer/tree/v3.0.0#overriding-styles
             diffViewerBackground: "var(--vscode-editor-background)",
             diffViewerColor: "var(--vscode-editor-foreground)",
+
             addedBackground: "var(--vscode-diffEditor-insertedLineBackground)",
-            addedColor: "var(--vscode-gitDecoration-addedResourceForeground)",
-            removedBackground: "var(--vscode-diffEditor-removedLineBackground)",
-            removedColor:
-              "var(--vscode-gitDecoration-deletedResourceForeground)",
+            addedColor: "var(--vscode-editor-foreground)",
             wordAddedBackground:
               "var(--vscode-diffEditor-insertedLineBackground)",
+
+            removedBackground: "var(--vscode-diffEditor-removedLineBackground)",
+            removedColor: "var(--vscode-editor-foreground)",
             wordRemovedBackground:
               "var(--vscode-diffEditor-removedLineBackground)",
-            addedGutterBackground:
-              "var(--vscode-gitlens-gutterBackgroundColor)",
-            removedGutterBackground:
-              "var(--vscode-gitlens-gutterBackgroundColor)",
-            gutterBackground: "var(--vscode-gitlens-gutterBackgroundColor)",
-            gutterBackgroundDark: "var(--vscode-gitlens-gutterBackgroundColor)",
+
             highlightBackground:
-              "var(--vscode-gitlens-lineHighlightBackgroundColor)",
+              "var(--vscode-editor-rangeHighlightBackground)",
             highlightGutterBackground:
-              "var(--vscode-gitlens-lineHighlightOverviewRulerColor)",
-            codeFoldGutterBackground:
-              "var(--vscode-gitlens-gutterBackgroundColor)",
+              "var(--vscode-editor-rangeHighlightBackground)",
+
+            codeFoldGutterBackground: "var(--vscode-editorGutter-background)",
             codeFoldBackground: "var(--vscode-diffEditor-diagonalFill)",
+
             emptyLineBackground: "var(--vscode-editor-background)",
-            gutterColor: "var(--vscode-editorGutter-foldingControlForeground)",
-            addedGutterColor: "var(--vscode-editorGutter-addedBackground)",
-            removedGutterColor: "var(--vscode-editorGutter-deletedBackground)",
+
+            gutterColor: "var(--vscode-editorLineNumber-foreground)",
+            addedGutterColor: "var(--vscode-editorLineNumber-foreground)",
+            removedGutterColor: "var(--vscode-editorLineNumber-foreground)",
+            addedGutterBackground: "var(--vscode-editorGutter-addedBackground)",
+            removedGutterBackground:
+              "var(--vscode-editorGutter-removedBackground)",
+            gutterBackground: "var(--vscode-editorGutter-background)",
+            gutterBackgroundDark: "var(--vscode-editorGutter-background)",
+
             codeFoldContentColor:
               "var(--vscode-editorGutter-foldingControlForeground)",
             diffViewerTitleBackground: "var(--vscode-editor-background)",
@@ -78,8 +82,32 @@ export const DiffView: React.FC<DiffViewProps> = ({
               "var(--vscode-sideBySideEditor-horizontalBorder)",
           },
         },
+        contentText: {
+          fontFamily: "var(--vscode-editor-font-family) !important",
+        },
+        gutter: {
+          borderLeft: "1px solid var(--vscode-panel-border)",
+          borderRight: "1px solid var(--vscode-panel-border)",
+          "> pre": {
+            opacity: 1,
+          },
+        },
         codeFoldGutter: {
-          opacity: 0.6,
+          background: "var(--vscode-panel-background)",
+        },
+        codeFold: {
+          borderTop: "1px solid var(--vscode-panel-border)",
+          borderBottom: "1px solid var(--vscode-panel-border)",
+          background: "var(--vscode-panel-background)",
+          "&:last-child": {
+            borderBottom: "none",
+          },
+          "&:first-child": {
+            borderTop: "none",
+          },
+          "> td > a": {
+            textDecoration: "none !important",
+          },
         },
       }}
     />
