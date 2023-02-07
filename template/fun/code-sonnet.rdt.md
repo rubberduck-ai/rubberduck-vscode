@@ -23,12 +23,14 @@ Describe the selected code in a Shakespeare sonnet.
   "variables": [
     {
       "name": "selectedText",
+      "time": "conversation-start",
       "type": "active-editor",
       "property": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "location",
+      "time": "conversation-start",
       "type": "active-editor",
       "property": "selected-location-text"
     }

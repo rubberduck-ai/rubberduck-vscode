@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.4.1 - 2023-02-07
+
+### Fixed
+
+- Template variables were not resolved correctly, leading to abandoned conversations.
+
+### Changed
+
+- **Breaking**. Add "time" property to variable definitions.
+
 ## 1.4.0 - 2023-02-06
 
 ### Added

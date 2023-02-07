@@ -6,16 +6,22 @@ import { validateVariable } from "./validateVariable";
 export async function resolveVariables(
   variables: Array<Variable> | undefined,
   {
+    time,
     messages,
   }: {
+    time: Variable["time"];
     messages?: Array<Message>;
-  } = {}
+  }
 ) {
   const variableValues: Record<string, unknown> = {
     messages,
   };
 
   for (const variable of variables ?? []) {
+    if (variable.time !== time) {
+      continue;
+    }
+
     if (variableValues[variable.name] != undefined) {
       throw new Error(`Variable '${variable.name}' is already defined`);
     }

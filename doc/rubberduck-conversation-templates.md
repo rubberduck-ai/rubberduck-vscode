@@ -122,13 +122,13 @@ Variables are values that you can expand in the header title and in the prompt t
 
 They are defined in the `variables` property of the configuration section. The property contains an array of variable definitions. There are 3 kinds of variables:
 
-- **Active Editor** (`type: active-editor`): The active editor in the current workspace. You can specify which property you want to access:
+- **Active Editor** (`type: active-editor`): The active editor in the current workspace. The resolution `time` can be `conversation-start` or `message`. You can specify which property you want to access:
   - `property: filename`: The name of the file.
   - `property: language-id`: The VS Code language id of the file.
   - `property: selected-text`: The currently selected text in the file.
   - `property: selected-location-text`: The filename and the start/end lines of the selection. This is useful for including in the header title.
-- **Constants** (`type: constant`): A constant value that is always the same. You can use it to extract common parts from your templates, e.g. the bot role, and tweak it quickly to explore different responses while you are developing the template.
-- **Messages**: (`type: message`): Get properties of a message at an index. Only the message content (`property: content`) is supported at the moment. You can e.g. use it to access the first (index 0) or the last (index -1) message of the conversation.
+- **Constants** (`type: constant`): A constant value that is always the same. You can use it to extract common parts from your templates, e.g. the bot role, and tweak it quickly to explore different responses while you are developing the template. The `time` property needs to be set to `conversation-start`.
+- **Messages**: (`type: message`): Get properties of a message at an index. Only the message content (`property: content`) is supported at the moment. You can e.g. use it to access the first (index 0) or the last (index -1) message of the conversation. The `time` property needs to be set to `message`.
 
 You can add constraints to the `active-editor` variables. Right now only a minimal text length constraint is available (`type: text-length`). It is useful to make sure that the user has selected some text before starting the conversation. If the constraint is not met, an error popup is shown and the conversation will not be started.
 

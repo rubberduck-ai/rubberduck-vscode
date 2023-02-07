@@ -23,23 +23,27 @@ This template is a conversation between a developer and a drunken pirate. The dr
   "variables": [
     {
       "name": "selectedText",
+      "time": "conversation-start",
       "type": "active-editor",
       "property": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "location",
+      "time": "conversation-start",
       "type": "active-editor",
       "property": "selected-location-text"
     },
     {
       "name": "lastMessage",
+      "time": "message",
       "type": "message",
       "property": "content",
       "index": -1
     },
     {
       "name": "botRole",
+      "time": "conversation-start",
       "type": "constant",
       "value": "drunken pirate"
     }

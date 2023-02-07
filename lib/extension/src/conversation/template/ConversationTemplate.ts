@@ -55,15 +55,18 @@ const variableBaseSchema = zod.object({
 const variableSchema = zod.discriminatedUnion("type", [
   variableBaseSchema.extend({
     type: zod.literal("constant"),
+    time: zod.literal("conversation-start"),
     value: zod.string(),
   }),
   variableBaseSchema.extend({
     type: zod.literal("message"),
+    time: zod.literal("message"),
     index: zod.number(),
     property: zod.enum(["content"]),
   }),
   variableBaseSchema.extend({
     type: zod.literal("active-editor"),
+    time: zod.enum(["conversation-start", "message"]),
     property: zod.enum([
       "language-id",
       "selected-text",

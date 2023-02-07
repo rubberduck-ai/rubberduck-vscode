@@ -23,23 +23,27 @@ Explain the selected code.
   "variables": [
     {
       "name": "selectedText",
+      "time": "conversation-start",
       "type": "active-editor",
       "property": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "location",
+      "time": "conversation-start",
       "type": "active-editor",
       "property": "selected-location-text"
     },
     {
       "name": "firstMessage",
+      "time": "message",
       "type": "message",
       "property": "content",
       "index": 0
     },
     {
       "name": "lastMessage",
+      "time": "message",
       "type": "message",
       "property": "content",
       "index": -1

@@ -103,13 +103,22 @@ class TemplateConversation extends Conversation {
 
   async getTitle() {
     const header = this.template.header;
-    const firstMessageContent = this.messages[0]?.content;
 
-    if (header.useFirstMessageAsTitle === true && firstMessageContent != null) {
-      return firstMessageContent;
+    try {
+      const firstMessageContent = this.messages[0]?.content;
+
+      if (
+        header.useFirstMessageAsTitle === true &&
+        firstMessageContent != null
+      ) {
+        return firstMessageContent;
+      }
+
+      return await this.evaluateTemplate(header.title);
+    } catch (error: unknown) {
+      console.error(error);
+      return header.title; // not evaluated
     }
-
-    return await this.evaluateTemplate(header.title);
   }
 
   isTitleMessage(): boolean {
@@ -124,12 +133,16 @@ class TemplateConversation extends Conversation {
 
   private async evaluateTemplate(template: string): Promise<string> {
     const variables = await resolveVariables(this.template.variables, {
+      time: "message",
       messages: this.messages,
     });
 
     return Handlebars.compile(template, {
       noEscape: true,
-    })(variables);
+    })({
+      ...variables,
+      ...this.initVariables,
+    });
   }
 
   private async executeChat() {

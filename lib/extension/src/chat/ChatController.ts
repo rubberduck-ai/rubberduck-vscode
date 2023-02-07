@@ -112,7 +112,12 @@ export class ChatController {
         throw new Error(`No conversation type found for ${conversationTypeId}`);
       }
 
-      const variableValues = await resolveVariables(conversationType.variables);
+      const variableValues = await resolveVariables(
+        conversationType.variables,
+        {
+          time: "conversation-start",
+        }
+      );
 
       const result = await conversationType.createConversation({
         conversationId: this.generateConversationId(),
