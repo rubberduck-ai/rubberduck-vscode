@@ -2,9 +2,9 @@ import * as vscode from "vscode";
 import { getActiveEditor } from "../../vscode/getActiveEditor";
 
 export const getSelectedTextWithDiagnostics = async ({
-  diagnosticLevels,
+  diagnosticSeverities,
 }: {
-  diagnosticLevels: Array<"error" | "warning" | "information" | "hint">;
+  diagnosticSeverities: Array<"error" | "warning" | "information" | "hint">;
 }): Promise<string | undefined> => {
   const activeEditor = getActiveEditor();
 
@@ -21,18 +21,20 @@ export const getSelectedTextWithDiagnostics = async ({
     new vscode.Position(selection.end.line + 1, 0)
   );
 
-  const includedDiagnosticSeverities = diagnosticLevels.map((diagnostic) => {
-    switch (diagnostic) {
-      case "error":
-        return vscode.DiagnosticSeverity.Error;
-      case "warning":
-        return vscode.DiagnosticSeverity.Warning;
-      case "information":
-        return vscode.DiagnosticSeverity.Information;
-      case "hint":
-        return vscode.DiagnosticSeverity.Hint;
+  const includedDiagnosticSeverities = diagnosticSeverities.map(
+    (diagnostic) => {
+      switch (diagnostic) {
+        case "error":
+          return vscode.DiagnosticSeverity.Error;
+        case "warning":
+          return vscode.DiagnosticSeverity.Warning;
+        case "information":
+          return vscode.DiagnosticSeverity.Information;
+        case "hint":
+          return vscode.DiagnosticSeverity.Hint;
+      }
     }
-  });
+  );
 
   const diagnostics = vscode.languages
     .getDiagnostics(document.uri)

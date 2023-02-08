@@ -33,7 +33,7 @@ export async function resolveVariable(
     }
     case "selected-text-with-diagnostics": {
       return getSelectedTextWithDiagnostics({
-        diagnosticLevels: variable.diagnostics,
+        diagnosticSeverities: variable.severities,
       });
     }
     case "message":

@@ -25,7 +25,7 @@ Diagnoses any errors or warnings the selected code.
       "name": "selectedTextWithDiagnostics",
       "time": "conversation-start",
       "type": "selected-text-with-diagnostics",
-      "diagnostics": ["error", "warning"],
+      "severities": ["error", "warning"],
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {

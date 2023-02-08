@@ -53,7 +53,7 @@ const variableSchema = zod.discriminatedUnion("type", [
   variableBaseSchema.extend({
     type: zod.literal("selected-text-with-diagnostics"),
     time: zod.literal("conversation-start"),
-    diagnostics: zod.array(
+    severities: zod.array(
       zod.enum(["error", "warning", "information", "hint"])
     ),
   }),
