@@ -10,7 +10,7 @@
 
 > &nbsp;
 >
-> #### Threaded AI chats in the Visual Studio Code side bar. You can explain code, edit code, generate tests, diagnose errors, and even [create your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md).
+> #### Threaded AI chats in the Visual Studio Code side bar. Rubberduck can [explain code](#explain-code), [edit code](#edit-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md).
 >
 > &nbsp;
 
