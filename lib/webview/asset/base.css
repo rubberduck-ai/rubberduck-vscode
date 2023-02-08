@@ -113,7 +113,10 @@ a:active {
 }
 
 code {
-  font-size: var(--vscode-editor-font-size);
+  /* Use --vscode-font-size instead of --vscode-editor-font-size
+   * so it's visually consistent with the rest of the text.
+   */
+  font-size: var(--vscode-font-size);
   font-family: var(--vscode-editor-font-family);
 }
 
@@ -151,7 +154,7 @@ button.secondary:hover {
   background: var(--vscode-button-secondaryHoverBackground);
 }
 
-input:not([type='checkbox']),
+input:not([type="checkbox"]),
 textarea {
   display: block;
   width: 100%;
