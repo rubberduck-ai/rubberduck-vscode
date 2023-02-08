@@ -1,29 +1,5 @@
 import zod from "zod";
 
-const sectionsSchema = zod.array(
-  zod.discriminatedUnion("type", [
-    zod.object({
-      type: zod.literal("lines"),
-      title: zod.string(),
-      lines: zod.array(zod.string()),
-    }),
-    zod.object({
-      type: zod.literal("optional-selected-code"),
-      title: zod.string(),
-    }),
-    zod.object({
-      type: zod.literal("conversation"),
-      excludeFirstMessage: zod.boolean().optional(),
-      roles: zod.object({
-        bot: zod.string(),
-        user: zod.string(),
-      }),
-    }),
-  ])
-);
-
-export type Sections = zod.infer<typeof sectionsSchema>;
-
 const promptSchema = zod.object({
   template: zod.string(),
   maxTokens: zod.number(),
