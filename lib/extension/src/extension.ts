@@ -2,7 +2,6 @@ import * as vscode from "vscode";
 import { ChatController } from "./chat/ChatController";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
-import { DiagnoseErrorsConversation } from "./conversation/built-in/DiagnoseErrorsConversation";
 import { EditCodeConversation } from "./conversation/built-in/EditCodeConversation";
 import { GenerateTestConversation } from "./conversation/built-in/GenerateTestConversationModel";
 import { ConversationTypesProvider } from "./conversation/ConversationTypesProvider";
@@ -67,7 +66,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
       }
     ),
     vscode.commands.registerCommand("rubberduck.diagnoseErrors", () => {
-      chatController.createConversation(DiagnoseErrorsConversation.id);
+      chatController.createConversation("diagnose-errors");
     }),
     vscode.commands.registerCommand("rubberduck.explainCode", () => {
       chatController.createConversation("explain-code");

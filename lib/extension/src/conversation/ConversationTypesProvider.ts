@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import { DiagnoseErrorsConversation } from "./built-in/DiagnoseErrorsConversation";
 import { EditCodeConversation } from "./built-in/EditCodeConversation";
 import { GenerateTestConversation } from "./built-in/GenerateTestConversationModel";
 import { ConversationType } from "./ConversationType";
@@ -42,11 +41,11 @@ export class ConversationTypesProvider {
   async loadConversationTypes() {
     const builtInConversationTypes = [
       await this.loadBuiltinTemplate("chat-i18n", "chat-en.rdt.md"),
+      await this.loadBuiltinTemplate("task", "diagnose-errors.rdt.md"),
       await this.loadBuiltinTemplate("task", "explain-code.rdt.md"),
       await this.loadBuiltinTemplate("task", "find-bugs.rdt.md"),
       EditCodeConversation,
       GenerateTestConversation,
-      DiagnoseErrorsConversation,
     ];
 
     this.conversationTypes.clear();
