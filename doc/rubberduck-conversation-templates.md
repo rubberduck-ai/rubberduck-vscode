@@ -120,13 +120,14 @@ Variables are values that you can expand in the header title and in the prompt t
   …
 </pre>
 
-They are defined in the `variables` property of the configuration section. The property contains an array of variable definitions. There are 3 kinds of variables:
+They are defined in the `variables` property of the configuration section. The property contains an array of variable definitions. There are 4 kinds of variables:
 
 - **Active Editor** (`type: active-editor`): The active editor in the current workspace. The resolution `time` can be `conversation-start` or `message`. You can specify which property you want to access:
   - `property: filename`: The name of the file.
   - `property: language-id`: The VS Code language id of the file.
   - `property: selected-text`: The currently selected text in the file.
   - `property: selected-location-text`: The filename and the start/end lines of the selection. This is useful for including in the header title.
+- **Selected text with diagnostics** (`type: selected-text-with-diagnostics`): The currently selected text in the active editor, with diagnostics. The resolution `time` is `conversation-start`. The `severities` property contains an array of the included severities (possible values: `error`, `warning`, `information`, `hint`).
 - **Constants** (`type: constant`): A constant value that is always the same. You can use it to extract common parts from your templates, e.g. the bot role, and tweak it quickly to explore different responses while you are developing the template. The `time` property needs to be set to `conversation-start`.
 - **Messages**: (`type: message`): Get properties of a message at an index. Only the message content (`property: content`) is supported at the moment. You can e.g. use it to access the first (index 0) or the last (index -1) message of the conversation. The `time` property needs to be set to `message`.
 
