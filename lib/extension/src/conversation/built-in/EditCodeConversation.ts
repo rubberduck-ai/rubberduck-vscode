@@ -3,9 +3,9 @@ import * as vscode from "vscode";
 import { DiffEditor } from "../../diff/DiffEditor";
 import { DiffEditorManager } from "../../diff/DiffEditorManager";
 import { OpenAIClient } from "../../openai/OpenAIClient";
+import { assemblePrompt } from "../../prompt/assemblePrompt";
 import { CodeSection } from "../../prompt/CodeSection";
 import { LinesSection } from "../../prompt/LinesSection";
-import { assemblePrompt } from "../../prompt/assemblePrompt";
 import { Conversation } from "../Conversation";
 import { CreateConversationResult } from "../ConversationType";
 import { getCompositeInput } from "../input/getCompositeInput";
@@ -187,40 +187,36 @@ export class EditCodeConversation extends Conversation {
         editorColumn: this.editor.viewColumn ?? vscode.ViewColumn.One,
         conversationId: this.id,
       });
-
-      this.diffEditor.onDidReceiveMessage(async (rawMessage) => {
-        const message = webviewApi.outgoingMessageSchema.parse(rawMessage);
-        if (message.type !== "applyDiff") {
-          return;
-        }
-
-        const edit = new vscode.WorkspaceEdit();
-        edit.replace(
-          document.uri,
-          this.range,
-          editContentWithAdjustedWhitespace
-        );
-        await vscode.workspace.applyEdit(edit);
-
-        const tabGroups = vscode.window.tabGroups;
-        const allTabs: vscode.Tab[] = tabGroups.all
-          .map((tabGroup) => tabGroup.tabs)
-          .flat();
-
-        const tab = allTabs.find((tab) => {
-          return (
-            (tab.input as any).viewType ===
-            `mainThreadWebview-rubberduck.diff.${this.id}`
-          );
-        });
-
-        if (tab != undefined) {
-          await tabGroups.close(tab);
-        }
-
-        this.diffEditor = undefined;
-      });
     }
+
+    this.diffEditor.onDidReceiveMessage(async (rawMessage) => {
+      const message = webviewApi.outgoingMessageSchema.parse(rawMessage);
+      if (message.type !== "applyDiff") {
+        return;
+      }
+
+      const edit = new vscode.WorkspaceEdit();
+      edit.replace(document.uri, this.range, editContentWithAdjustedWhitespace);
+      await vscode.workspace.applyEdit(edit);
+
+      const tabGroups = vscode.window.tabGroups;
+      const allTabs: vscode.Tab[] = tabGroups.all
+        .map((tabGroup) => tabGroup.tabs)
+        .flat();
+
+      const tab = allTabs.find((tab) => {
+        return (
+          (tab.input as any).viewType ===
+          `mainThreadWebview-rubberduck.diff.${this.id}`
+        );
+      });
+
+      if (tab != undefined) {
+        await tabGroups.close(tab);
+      }
+
+      this.diffEditor = undefined;
+    });
 
     await this.diffEditor.updateDiff({
       oldCode: originalContent,
