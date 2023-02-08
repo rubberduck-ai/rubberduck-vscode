@@ -32,3 +32,16 @@ B --API calls--> D
 
 A --request completion----> C
 ```
+
+## Project Structure
+
+Rubberduck for Visual Studio Code is written in [TypeScript](https://www.typescriptlang.org/). It uses [pnpm](https://pnpm.io/) as package manager and [Nx](https://nx.dev/) for monorepo tooling.
+
+The project is structured as follows:
+
+- [`app/vscode`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/app/vscode): Extension assets (e.g. icons, `package.json`, `README.md`, walkthrough pages) and packaging scripts
+- [`doc`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/doc): documentation (e.g. architecture)
+- [`lib/common`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/lib/common): API definitions for the message and state protocol between the extension and the webview. Also contains shared types and utilities.
+- [`lib/extension`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/lib/extension): The main extension logic.
+- [`lib/webview`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/lib/webview): The webview. It is written using [React](https://reactjs.org/).
+- [`template`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/template): Rubberduck Conversation Templates. Some are used in the extension, others are meant as examples for users.
