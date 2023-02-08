@@ -39,7 +39,7 @@ Rubberduck for Visual Studio Code is written in [TypeScript](https://www.typescr
 
 The project is structured as follows:
 
-- [`app/vscode`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/app/vscode): Extension assets (e.g. icons, `package.json`, `README.md`, walkthrough pages) and packaging scripts
+- [`app/vscode`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/app/vscode): Extension assets (e.g. icons, `package.json`, `README.md`, walkthrough pages) and packaging scripts.
 - [`doc`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/doc): documentation (e.g. architecture)
 - [`lib/common`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/lib/common): API definitions for the message and state protocol between the extension and the webview. Also contains shared types and utilities.
 - [`lib/extension`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/lib/extension): The main extension logic.
