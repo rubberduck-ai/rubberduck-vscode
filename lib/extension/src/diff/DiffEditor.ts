@@ -5,8 +5,7 @@ export class DiffEditor {
   private container: WebviewContainer;
 
   private messageEmitter = new vscode.EventEmitter<unknown>();
-
-  readonly onDidReceiveMessage = this.messageEmitter.event;
+  private messageHandler: vscode.Disposable | undefined;
 
   constructor({
     filename,
@@ -36,6 +35,21 @@ export class DiffEditor {
       this.messageEmitter.fire(message);
     });
   }
+
+  onDidReceiveMessage: vscode.Event<unknown> = (
+    listener,
+    thisArg,
+    disposables
+  ) => {
+    // We only want to execute the last listener to apply the latest change.
+    this.messageHandler?.dispose();
+    this.messageHandler = this.messageEmitter.event(
+      listener,
+      thisArg,
+      disposables
+    );
+    return this.messageHandler;
+  };
 
   async updateDiff({
     oldCode,
