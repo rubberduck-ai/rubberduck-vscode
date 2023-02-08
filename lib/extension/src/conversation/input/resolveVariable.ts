@@ -4,6 +4,7 @@ import { getSelectedText } from "./getSelectedText";
 import { Variable } from "../template/ConversationTemplate";
 import { Message } from "../../prompt/ConversationSection";
 import { getSelectedLocationText } from "./getSelectedLocationText";
+import { getSelectedTextWithDiagnostics } from "./getSelectionWithDiagnostics";
 
 export async function resolveVariable(
   variable: Variable,
@@ -29,6 +30,11 @@ export async function resolveVariable(
           throw new Error(`unsupported property: ${exhaustiveCheck}`);
         }
       }
+    }
+    case "selected-text-with-diagnostics": {
+      return getSelectedTextWithDiagnostics({
+        diagnosticLevels: variable.diagnostics,
+      });
     }
     case "message":
       return messages?.at(variable.index)?.[variable.property];

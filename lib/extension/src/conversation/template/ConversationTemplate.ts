@@ -50,6 +50,13 @@ const variableSchema = zod.discriminatedUnion("type", [
       "filename",
     ]),
   }),
+  variableBaseSchema.extend({
+    type: zod.literal("selected-text-with-diagnostics"),
+    time: zod.literal("conversation-start"),
+    diagnostics: zod.array(
+      zod.enum(["error", "warning", "information", "hint"])
+    ),
+  }),
 ]);
 
 export type Variable = zod.infer<typeof variableSchema>;
