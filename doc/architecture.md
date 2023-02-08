@@ -45,3 +45,11 @@ The project is structured as follows:
 - [`lib/extension`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/lib/extension): The main extension logic.
 - [`lib/webview`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/lib/webview): The webview. It is written using [React](https://reactjs.org/).
 - [`template`](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/template): Rubberduck Conversation Templates. Some are used in the extension, others are meant as examples for users.
+
+## Extension Module: `lib/extension`
+
+The entrypoint for the extension is [`extension.ts`](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/lib/extension/src/extension.ts). It registers the commands and the webview panel. It also creates the chat model, panel and controller, which execute the main logic of the extension:
+
+- [`ChatModel.ts`](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/lib/extension/src/chat/ChatModel.ts): The chat model contains the different conversations and the currently active conversation.
+- [`ChatPanel.ts`](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/lib/extension/src/chat/ChatPanel.ts): The chat panel adds an abstraction layout over the webview panel o make it easier to use.
+- [`ChatController.ts`](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/lib/extension/src/chat/ChatController.ts): The chat controller handlers the different user actions, both from commands and from the webview. It executes logic, including chat creation, OpenAI API calls and updating the chat panel.
