@@ -4,7 +4,7 @@
 
 <!-- prettier-ignore-start -->
 [![Marketplace](https://vsmarketplacebadges.dev/version-short/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
-[![Marketplace Downloads](https://vsmarketplacebadges.dev/downloads-short/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
+[![Marketplace Installs](https://vsmarketplacebadges.dev/installs-short/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
 [![Marketplace Rating](https://vsmarketplacebadges.dev/rating/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
