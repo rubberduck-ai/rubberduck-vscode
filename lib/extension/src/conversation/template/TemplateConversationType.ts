@@ -237,7 +237,6 @@ class TemplateConversation extends Conversation {
     const temporaryEditorDocument =
       this.temporaryEditorDocument ??
       (await vscode.workspace.openTextDocument({
-        language: "javascript", // this.language, // TODO: use language from template
         content: temporaryEditorContent,
       }));
 
