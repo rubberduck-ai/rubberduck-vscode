@@ -1,4 +1,4 @@
-import { Variable } from "../ConversationTemplate";
+import { Variable } from "../template/ConversationTemplate";
 
 export function validateVariable({
   value,

@@ -1,7 +1,7 @@
 import { getFilename } from "./getFilename";
 import { getLanguage } from "./getLanguage";
 import { getSelectedText } from "./getSelectedText";
-import { Variable } from "../ConversationTemplate";
+import { Variable } from "../template/ConversationTemplate";
 import { Message } from "../../prompt/ConversationSection";
 import { getSelectedLocationText } from "./getSelectedLocationText";
 import { getSelectedTextWithDiagnostics } from "./getSelectionWithDiagnostics";

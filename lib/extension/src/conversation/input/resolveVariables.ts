@@ -1,5 +1,5 @@
 import { Message } from "@rubberduck/common/build/webview-api";
-import { Variable } from "../ConversationTemplate";
+import { Variable } from "../template/ConversationTemplate";
 import { resolveVariable } from "./resolveVariable";
 import { validateVariable } from "./validateVariable";
 

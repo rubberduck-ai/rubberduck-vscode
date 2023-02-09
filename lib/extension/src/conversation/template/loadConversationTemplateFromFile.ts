@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { ConversationTemplateLoadingResult } from "./ConversationTemplateLoadingResult";
-import { parseConversationTemplate } from "../parseConversationTemplate";
+import { parseConversationTemplate } from "./parseConversationTemplate";
 
 export const loadConversationFromFile = async (
   file: vscode.Uri

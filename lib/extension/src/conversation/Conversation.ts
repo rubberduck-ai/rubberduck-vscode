@@ -31,13 +31,13 @@ export class Conversation {
 
   private readonly template: ConversationTemplate;
 
-  temporaryEditorContent: string | undefined;
-  temporaryEditorDocument: vscode.TextDocument | undefined;
-  temporaryEditor: vscode.TextEditor | undefined;
+  private temporaryEditorContent: string | undefined;
+  private temporaryEditorDocument: vscode.TextDocument | undefined;
+  private temporaryEditor: vscode.TextEditor | undefined;
 
-  diffContent: string | undefined;
-  diffEditor: DiffEditor | undefined;
-  diffData: DiffData | undefined;
+  private diffContent: string | undefined;
+  private diffEditor: DiffEditor | undefined;
+  private readonly diffData: DiffData | undefined;
   private readonly diffEditorManager: DiffEditorManager;
 
   constructor({
