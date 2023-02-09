@@ -1,8 +1,7 @@
 import * as vscode from "vscode";
 import { ConversationType } from "./ConversationType";
-import { loadConversationFromFile } from "./template/loadConversationTemplateFromFile";
-import { loadConversationTemplatesFromWorkspace } from "./template/loadConversationTemplatesFromWorkspace";
-import { TemplateConversationType } from "./template/TemplateConversationType";
+import { loadConversationFromFile } from "./template/loadRubberduckTemplateFromFile";
+import { loadRubberduckTemplatesFromWorkspace } from "./template/loadRubberduckTemplatesFromWorkspace";
 
 export class ConversationTypesProvider {
   private readonly extensionUri: vscode.Uri;
@@ -30,7 +29,7 @@ export class ConversationTypesProvider {
       );
     }
 
-    return new TemplateConversationType({
+    return new ConversationType({
       template: result.template,
       source: "built-in",
     });
@@ -53,7 +52,7 @@ export class ConversationTypesProvider {
     }
 
     const workspaceTemplateLoadingResults =
-      await loadConversationTemplatesFromWorkspace();
+      await loadRubberduckTemplatesFromWorkspace();
     for (const loadingResult of workspaceTemplateLoadingResults) {
       if (loadingResult.type === "error") {
         vscode.window.showErrorMessage(
@@ -67,7 +66,7 @@ export class ConversationTypesProvider {
         continue;
       }
 
-      const type = new TemplateConversationType({
+      const type = new ConversationType({
         template: loadingResult.template,
         source: "local-workspace",
       });

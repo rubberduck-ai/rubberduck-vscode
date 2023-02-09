@@ -1,27 +1,15 @@
 import * as vscode from "vscode";
-import { ConversationTemplate } from "./ConversationTemplate";
-import { parseConversationTemplate } from "./parseConversationTemplate";
-
-export type ConversationTemplateLoadingResult =
-  | {
-      type: "success";
-      file: vscode.Uri;
-      template: ConversationTemplate;
-    }
-  | {
-      type: "error";
-      file: vscode.Uri;
-      error: unknown;
-    };
+import { RubberduckTemplateLoadResult } from "./RubberduckTemplateLoadResult";
+import { parseRubberduckTemplate } from "./parseRubberduckTemplate";
 
 export const loadConversationFromFile = async (
   file: vscode.Uri
-): Promise<ConversationTemplateLoadingResult> => {
+): Promise<RubberduckTemplateLoadResult> => {
   try {
     const data = await vscode.workspace.fs.readFile(file);
     const content = Buffer.from(data).toString("utf8");
 
-    const parseResult = parseConversationTemplate(content);
+    const parseResult = parseRubberduckTemplate(content);
 
     if (parseResult.type === "error") {
       return {
