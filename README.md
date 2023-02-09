@@ -17,7 +17,7 @@
 
 > &nbsp;
 >
-> #### Threaded AI chats in the Visual Studio Code side bar. Rubberduck can [explain code](#explain-code), [edit code](#edit-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](#custom-conversations).
+> #### Threaded AI chats in the Visual Studio Code side bar. Rubberduck can [generate code](#generate-code), [edit code](#edit-code), [explain code](#explain-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](#custom-conversations).
 >
 > &nbsp;
 
@@ -30,13 +30,17 @@ You can install Rubberduck from the
 
 ## Features
 
-[AI Chat](#ai-chat) | [Edit Code](#edit-code) | [Explain Code](#explain-code) | [Generate Tests](#generate-tests) | [Find Bugs](#find-bugs) | [Diagnose Errors](#diagnose-errors) | [Custom Conversations](#custom-conversations)
+[AI Chat](#ai-chat) | [Generate Code](#generate-code) | [Edit Code](#edit-code) | [Explain Code](#explain-code) | [Generate Tests](#generate-tests) | [Find Bugs](#find-bugs) | [Diagnose Errors](#diagnose-errors) | [Custom Conversations](#custom-conversations)
 
 ### AI Chat
 
 Chat with Rubberduck about your code and software development topics. Rubberduck knows the editor selection at the time of conversation start.
 
 ![Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-start-chat.png)
+
+# Generate Code
+
+![Generate Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-code.gif)
 
 ## Edit Code
 

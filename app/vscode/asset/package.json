@@ -267,7 +267,23 @@
             }
           },
           {
-            "id": "code-edit",
+            "id": "generate-code",
+            "title": "Generate Code",
+            "description": "Generate code by instructing Rubberduck.",
+            "media": {
+              "markdown": "walkthrough/generate-code.md"
+            }
+          },
+          {
+            "id": "generate-unit-test",
+            "title": "Generate Unit Tests",
+            "description": "Generate unit tests with Rubberduck.",
+            "media": {
+              "markdown": "walkthrough/generate-unit-test.md"
+            }
+          },
+          {
+            "id": "edit-code",
             "title": "Edit Code",
             "description": "Change the selected code by instructing Rubberduck to create an edit.",
             "media": {
@@ -275,27 +291,11 @@
             }
           },
           {
-            "id": "code-generation",
-            "title": "Generate Code",
-            "description": "Generate code by instructing Rubberduck.",
-            "media": {
-              "markdown": "walkthrough/code-generation.md"
-            }
-          },
-          {
-            "id": "test-generation",
-            "title": "Generate Unit Tests",
-            "description": "Generate unit tests with Rubberduck.",
-            "media": {
-              "markdown": "walkthrough/test-generation.md"
-            }
-          },
-          {
-            "id": "ai-code-explanation",
+            "id": "explain-code",
             "title": "Explain Code",
             "description": "Ask Rubberduck to explain the selected code.",
             "media": {
-              "markdown": "walkthrough/code-explanation.md"
+              "markdown": "walkthrough/explain-code.md"
             }
           },
           {
