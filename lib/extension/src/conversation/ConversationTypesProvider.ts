@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 import { EditCodeConversation } from "./built-in/EditCodeConversation";
-import { GenerateTestConversation } from "./built-in/GenerateTestConversationModel";
 import { ConversationType } from "./ConversationType";
 import { loadConversationFromFile } from "./template/loadConversationTemplateFromFile";
 import { loadConversationTemplatesFromWorkspace } from "./template/loadConversationTemplatesFromWorkspace";
@@ -44,8 +43,9 @@ export class ConversationTypesProvider {
       await this.loadBuiltinTemplate("task", "diagnose-errors.rdt.md"),
       await this.loadBuiltinTemplate("task", "explain-code.rdt.md"),
       await this.loadBuiltinTemplate("task", "find-bugs.rdt.md"),
+      await this.loadBuiltinTemplate("task", "generate-code.rdt.md"),
+      await this.loadBuiltinTemplate("task", "generate-unit-test.rdt.md"),
       EditCodeConversation,
-      GenerateTestConversation,
     ];
 
     this.conversationTypes.clear();

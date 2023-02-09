@@ -72,8 +72,14 @@
         "icon": "$(comment-discussion)"
       },
       {
-        "command": "rubberduck.generateTest",
-        "title": "Generate Test 💬",
+        "command": "rubberduck.generateCode",
+        "title": "Generate Code 💬",
+        "category": "Rubberduck",
+        "icon": "$(wand)"
+      },
+      {
+        "command": "rubberduck.generateUnitTest",
+        "title": "Generate Unit Test 💬",
         "category": "Rubberduck",
         "icon": "$(beaker)"
       },
@@ -155,9 +161,14 @@
           "group": "navigation@1"
         },
         {
-          "command": "rubberduck.startCustomChat",
+          "command": "rubberduck.generateCode",
           "when": "view == rubberduck.chat",
           "group": "navigation@2"
+        },
+        {
+          "command": "rubberduck.startCustomChat",
+          "when": "view == rubberduck.chat",
+          "group": "navigation@3"
         },
         {
           "command": "rubberduck.getStarted",
@@ -199,7 +210,7 @@
           "when": "editorHasSelection"
         },
         {
-          "command": "rubberduck.generateTest",
+          "command": "rubberduck.generateUnitTest",
           "group": "rubberduck",
           "when": "editorHasSelection"
         },
@@ -256,7 +267,23 @@
             }
           },
           {
-            "id": "code-edit",
+            "id": "generate-code",
+            "title": "Generate Code",
+            "description": "Generate code by instructing Rubberduck.",
+            "media": {
+              "markdown": "walkthrough/generate-code.md"
+            }
+          },
+          {
+            "id": "generate-unit-test",
+            "title": "Generate Unit Tests",
+            "description": "Generate unit tests with Rubberduck.",
+            "media": {
+              "markdown": "walkthrough/generate-unit-test.md"
+            }
+          },
+          {
+            "id": "edit-code",
             "title": "Edit Code",
             "description": "Change the selected code by instructing Rubberduck to create an edit.",
             "media": {
@@ -264,19 +291,11 @@
             }
           },
           {
-            "id": "ai-code-explanation",
+            "id": "explain-code",
             "title": "Explain Code",
             "description": "Ask Rubberduck to explain the selected code.",
             "media": {
-              "markdown": "walkthrough/code-explanation.md"
-            }
-          },
-          {
-            "id": "test-generation",
-            "title": "Generate Tests",
-            "description": "Generate test cases with Rubberduck.",
-            "media": {
-              "markdown": "walkthrough/test-generation.md"
+              "markdown": "walkthrough/explain-code.md"
             }
           },
           {

@@ -168,7 +168,7 @@ A conversation without an initial action. It starts with a user message.
 Properties:
 
 - `type: basic-chat`
-- `chat`: The prompt definition for the conversation.
+- `chat`: The message processor for the conversation.
 
 #### Selected Code Analysis Chat
 
@@ -177,8 +177,18 @@ Analyze a code selection with an special analysis prompt. Then use a different p
 Properties:
 
 - `type: selected-code-analysis-chat`
-- `analysis`: The prompt definition for the initial analysis.
-- `chat`: The prompt definition for the conversation.
+- `analysis`: The message processor for the initial analysis.
+- `chat`: The message processor for the conversation.
+
+### Message Processors
+
+Message processors describe how a user message in a chat (or the initial analysis) is processed. They contain the following properties:
+
+- `prompt`: The prompt definition for the message processor.
+- `placeholder`: The placeholder text that is shown in the chat while the message is being processed.
+- `completionHandler`: Defines how the completion result is handled. There are currently 2 handlers: "message" (default) and "update-temporary-editor".
+  - `message`: The completion result is added as a new message to the chat. `"completionHandler": { "type": "message" }`
+  - `update-temporary-editor`: The completion result is shown in a temporary editor. The handle has a `botMessage` property for the message that is shown in the chat. `"completionHandler": { "type": "update-temporary-editor", "botMessage": "Test generated." }`
 
 ### Prompt Definitions
 

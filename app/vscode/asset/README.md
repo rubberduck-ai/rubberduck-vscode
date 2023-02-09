@@ -10,7 +10,7 @@
 
 > &nbsp;
 >
-> #### Threaded AI chats in the Visual Studio Code side bar. Rubberduck can [explain code](#explain-code), [edit code](#edit-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md).
+> #### Threaded AI chats in the Visual Studio Code side bar. Rubberduck can [generate code](#generate-code), [edit code](#edit-code), [explain code](#explain-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md).
 >
 > &nbsp;
 
@@ -21,7 +21,7 @@
 
 # Features
 
-[AI Chat](#ai-chat) | [Edit Code](#edit-code) | [Explain Code](#explain-code) | [Generate Tests](#generate-tests) | [Find Bugs](#find-bugs) | [Diagnose Errors](#diagnose-errors) | [Custom Conversations](#custom-conversations)
+[AI Chat](#ai-chat) | [Generate Code](#generate-code) | [Edit Code](#edit-code) | [Explain Code](#explain-code) | [Generate Tests](#generate-tests) | [Find Bugs](#find-bugs) | [Diagnose Errors](#diagnose-errors) | [Custom Conversations](#custom-conversations)
 
 ## AI Chat
 
@@ -36,6 +36,17 @@ Chat with Rubberduck about your code and software development topics. Rubberduck
 1. Ask a question in the new conversation thread in the Rubberduck sidebar panel.
 
 ![AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-start-chat.png)
+
+# Generate Code
+
+Instruct Rubberduck to generate code for you.
+
+1. You can start generating code using one of the following options:
+   1. Run the `Rubberduck: Generate Code 💬` command from the command palette.
+   1. Use the "Generate Code" toolbar button in the side panel.
+2. Describe what you want to generate in the new conversation thread in the Rubberduck sidebar panel. Rubberduck will generate code for you based on your description. Further messages can be used to refine the generated code.
+
+![Generate Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-code.gif)
 
 ## Edit Code
 
@@ -66,14 +77,14 @@ Ask Rubberduck to explain the selected code.
 
 ![Explain Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-code-explanation.png)
 
-## Generate Tests
+## Generate Unit Test
 
-Generate test cases for the selected code.
+Generate a unit test for the selected code.
 
 1. Select a piece of code in the editor for which you want to generate a test case.
-2. Invoke the "Generate Test" command using one of the following options:
-   1. Run the `Rubberduck: Generate Test 💬` command from the command palette.
-   1. Select the `Generate Test 💬` entry in the editor context menu (right-click).
+2. Invoke the "Generate Unit Test" command using one of the following options:
+   1. Run the `Rubberduck: Generate Unit Test 💬` command from the command palette.
+   1. Select the `Generate Unit Test 💬` entry in the editor context menu (right-click).
 3. The test case shows up in a new editor tab. You can refine it in the conversation panel.
 
 ![Generate Test](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-test.gif)

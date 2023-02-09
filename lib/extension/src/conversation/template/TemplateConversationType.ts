@@ -1,4 +1,5 @@
 import Handlebars from "handlebars";
+import * as vscode from "vscode";
 import { OpenAIClient } from "../../openai/OpenAIClient";
 import { Conversation } from "../Conversation";
 import {
@@ -6,7 +7,7 @@ import {
   CreateConversationResult,
 } from "../ConversationType";
 import { resolveVariables } from "../input/resolveVariables";
-import { ConversationTemplate } from "./ConversationTemplate";
+import { ConversationTemplate, MessageProcessor } from "./ConversationTemplate";
 
 Handlebars.registerHelper({
   eq: (v1, v2) => v1 === v2,
@@ -70,6 +71,10 @@ export class TemplateConversationType implements ConversationType {
 
 class TemplateConversation extends Conversation {
   private readonly template: ConversationTemplate;
+
+  temporaryEditorContent: string | undefined;
+  temporaryEditorDocument: vscode.TextDocument | undefined;
+  temporaryEditor: vscode.TextEditor | undefined;
 
   constructor({
     id,
@@ -137,6 +142,11 @@ class TemplateConversation extends Conversation {
       messages: this.messages,
     });
 
+    // special variable: temporaryEditorContent
+    if (this.temporaryEditorContent != undefined) {
+      variables.temporaryEditorContent = this.temporaryEditorContent;
+    }
+
     return Handlebars.compile(template, {
       noEscape: true,
     })({
@@ -147,12 +157,14 @@ class TemplateConversation extends Conversation {
 
   private async executeChat() {
     try {
-      const prompt =
+      const messageProcessor =
         this.template.type === "basic-chat"
-          ? this.template.chat.prompt
+          ? this.template.chat
           : this.messages[0] == null
-          ? this.template.analysis.prompt
-          : this.template.chat.prompt;
+          ? this.template.analysis
+          : this.template.chat;
+
+      const prompt = messageProcessor.prompt;
 
       const completion = await this.openAIClient.generateCompletion({
         prompt: await this.evaluateTemplate(prompt.template),
@@ -166,13 +178,85 @@ class TemplateConversation extends Conversation {
         return;
       }
 
-      await this.addBotMessage({
-        content: completion.content.trim(),
-      });
+      await this.handleCompletion(completion.content, messageProcessor);
     } catch (error: any) {
       console.log(error);
       await this.setErrorStatus({
         errorMessage: error?.message ?? "Unknown error",
+      });
+    }
+  }
+
+  private async handleCompletion(
+    completionContent: string,
+    messageProcessor: MessageProcessor
+  ) {
+    const completionHandler = messageProcessor.completionHandler;
+
+    if (completionHandler == undefined) {
+      await this.addBotMessage({
+        content: completionContent.trim(),
+      });
+      return;
+    }
+
+    const completionHandlerType = completionHandler.type;
+
+    switch (completionHandlerType) {
+      case "update-temporary-editor": {
+        this.temporaryEditorContent = completionContent.trim();
+
+        await this.addBotMessage({
+          content: completionHandler.botMessage,
+        });
+
+        await this.updateTemporaryEditor();
+        break;
+      }
+      case "message": {
+        await this.addBotMessage({
+          content: completionContent.trim(),
+        });
+        break;
+      }
+      default: {
+        const exhaustiveCheck: never = completionHandlerType;
+        throw new Error(`unsupported property: ${exhaustiveCheck}`);
+      }
+    }
+  }
+
+  private async updateTemporaryEditor() {
+    const temporaryEditorContent = this.temporaryEditorContent;
+
+    if (temporaryEditorContent == undefined) {
+      return;
+    }
+
+    // introduce local variable to ensure that testDocument is defined:
+    const temporaryEditorDocument =
+      this.temporaryEditorDocument ??
+      (await vscode.workspace.openTextDocument({
+        content: temporaryEditorContent,
+      }));
+
+    this.temporaryEditorDocument = temporaryEditorDocument;
+
+    if (this.temporaryEditor == undefined) {
+      this.temporaryEditor = await vscode.window.showTextDocument(
+        temporaryEditorDocument
+      );
+    } else {
+      this.temporaryEditor.edit((edit: vscode.TextEditorEdit) => {
+        edit.replace(
+          new vscode.Range(
+            temporaryEditorDocument.positionAt(0),
+            temporaryEditorDocument.positionAt(
+              temporaryEditorDocument.getText().length - 1
+            )
+          ),
+          temporaryEditorContent
+        );
       });
     }
   }
