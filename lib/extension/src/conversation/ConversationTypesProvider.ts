@@ -2,7 +2,6 @@ import * as vscode from "vscode";
 import { ConversationType } from "./ConversationType";
 import { loadConversationFromFile } from "./loadConversationTemplateFromFile";
 import { loadConversationTemplatesFromWorkspace } from "./loadConversationTemplatesFromWorkspace";
-import { TemplateConversationType } from "./TemplateConversationType";
 
 export class ConversationTypesProvider {
   private readonly extensionUri: vscode.Uri;
@@ -30,7 +29,7 @@ export class ConversationTypesProvider {
       );
     }
 
-    return new TemplateConversationType({
+    return new ConversationType({
       template: result.template,
       source: "built-in",
     });
@@ -67,7 +66,7 @@ export class ConversationTypesProvider {
         continue;
       }
 
-      const type = new TemplateConversationType({
+      const type = new ConversationType({
         template: loadingResult.template,
         source: "local-workspace",
       });
