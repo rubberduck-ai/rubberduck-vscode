@@ -275,19 +275,11 @@
             }
           },
           {
-            "id": "generate-unit-test",
-            "title": "Generate Unit Tests",
-            "description": "Generate unit tests with Rubberduck.",
-            "media": {
-              "markdown": "walkthrough/generate-unit-test.md"
-            }
-          },
-          {
             "id": "edit-code",
             "title": "Edit Code",
             "description": "Change the selected code by instructing Rubberduck to create an edit.",
             "media": {
-              "markdown": "walkthrough/code-edit.md"
+              "markdown": "walkthrough/edit-code.md"
             }
           },
           {
@@ -296,6 +288,14 @@
             "description": "Ask Rubberduck to explain the selected code.",
             "media": {
               "markdown": "walkthrough/explain-code.md"
+            }
+          },
+          {
+            "id": "generate-unit-test",
+            "title": "Generate Unit Tests",
+            "description": "Generate unit tests with Rubberduck.",
+            "media": {
+              "markdown": "walkthrough/generate-unit-test.md"
             }
           },
           {
