@@ -132,7 +132,7 @@ export class OpenAIClient {
     if (await this.isPromptLoggingEnabled()) {
       this.log("--- Start OpenAI prompt ---");
       this.log(prompt);
-      this.log("--- End OpenAI prompt   ---");
+      this.log("--- End OpenAI prompt ---");
     }
 
     const result = await this.postToApi({

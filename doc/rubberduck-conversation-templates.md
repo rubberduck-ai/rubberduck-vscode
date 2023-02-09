@@ -188,7 +188,7 @@ Message processors describe how a user message in a chat (or the initial analysi
 - `placeholder`: The placeholder text that is shown in the chat while the message is being processed.
 - `completionHandler`: Defines how the completion result is handled. There are currently 2 handlers: "message" (default) and "update-temporary-editor".
   - `message`: The completion result is added as a new message to the chat. `"completionHandler": { "type": "message" }`
-  - `update-temporary-editor`: The completion result is shown in a temporary editor. The handle has a `botMessage` property for the message that is shown in the chat. `"completionHandler": { "type": "update-temporary-editor", "botMessage": "Test generated." }`
+  - `update-temporary-editor`: The completion result is shown in a temporary editor. The handle has a `botMessage` property for the message that is shown in the chat, and an optional 'language' template property that can be used to the the VS Code language id of the temporary editor. `"completionHandler": { "type": "update-temporary-editor", "botMessage": "Test generated.", "language": "typescript" }`
 
 ### Prompt Definitions
 

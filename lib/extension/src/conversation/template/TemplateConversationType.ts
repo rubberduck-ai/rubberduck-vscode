@@ -210,7 +210,11 @@ class TemplateConversation extends Conversation {
           content: completionHandler.botMessage,
         });
 
-        await this.updateTemporaryEditor();
+        const language = completionHandler.language;
+
+        await this.updateTemporaryEditor(
+          language != null ? await this.evaluateTemplate(language) : undefined
+        );
         break;
       }
       case "message": {
@@ -226,7 +230,7 @@ class TemplateConversation extends Conversation {
     }
   }
 
-  private async updateTemporaryEditor() {
+  private async updateTemporaryEditor(language: string | undefined) {
     const temporaryEditorContent = this.temporaryEditorContent;
 
     if (temporaryEditorContent == undefined) {
@@ -237,6 +241,7 @@ class TemplateConversation extends Conversation {
     const temporaryEditorDocument =
       this.temporaryEditorDocument ??
       (await vscode.workspace.openTextDocument({
+        language,
         content: temporaryEditorContent,
       }));
 

@@ -16,6 +16,7 @@ const completionHandlerSchema = zod.discriminatedUnion("type", [
   zod.object({
     type: zod.literal("update-temporary-editor"),
     botMessage: zod.string(),
+    language: zod.string().optional(),
   }),
 ]);
 

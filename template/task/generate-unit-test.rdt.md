@@ -58,7 +58,8 @@ Generate unit test cases for the selected code.
     },
     "completionHandler": {
       "type": "update-temporary-editor",
-      "botMessage": "Generated unit test."
+      "botMessage": "Generated unit test.",
+      "language": "{{language}}"
     }
   },
   "chat": {
@@ -70,7 +71,8 @@ Generate unit test cases for the selected code.
     },
     "completionHandler": {
       "type": "update-temporary-editor",
-      "botMessage": "Updated unit test."
+      "botMessage": "Updated unit test.",
+      "language": "{{language}}"
     }
   }
 }
@@ -93,6 +95,7 @@ The programming language is {{language}}.
 
 ## Unit Test
 \`\`\`
+
 ```
 
 ### Chat Prompt Template
@@ -111,4 +114,5 @@ Rewrite the code below as follows: "{{lastMessage}}"
 
 ## Answer
 \`\`\`
+
 ```
