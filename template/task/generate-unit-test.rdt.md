@@ -56,7 +56,10 @@ Generate unit test cases for the selected code.
       "maxTokens": 1536,
       "stop": ["```"]
     },
-    "completionHandler": "update-temporary-editor"
+    "completionHandler": {
+      "type": "update-temporary-editor",
+      "botMessage": "Generated unit test."
+    }
   },
   "chat": {
     "placeholder": "Updating Test",
@@ -65,7 +68,10 @@ Generate unit test cases for the selected code.
       "maxTokens": 1536,
       "stop": ["```"]
     },
-    "completionHandler": "update-temporary-editor"
+    "completionHandler": {
+      "type": "update-temporary-editor",
+      "botMessage": "Updated unit test."
+    }
   }
 }
 ````

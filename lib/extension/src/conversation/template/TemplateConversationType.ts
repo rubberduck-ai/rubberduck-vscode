@@ -72,9 +72,9 @@ export class TemplateConversationType implements ConversationType {
 class TemplateConversation extends Conversation {
   private readonly template: ConversationTemplate;
 
-  testContent: string | undefined;
-  testDocument: vscode.TextDocument | undefined;
-  testEditor: vscode.TextEditor | undefined;
+  temporaryEditorContent: string | undefined;
+  temporaryEditorDocument: vscode.TextDocument | undefined;
+  temporaryEditor: vscode.TextEditor | undefined;
 
   constructor({
     id,
@@ -143,8 +143,8 @@ class TemplateConversation extends Conversation {
     });
 
     // special variable: temporaryEditorContent
-    if (this.testContent != undefined) {
-      variables.temporaryEditorContent = this.testContent;
+    if (this.temporaryEditorContent != undefined) {
+      variables.temporaryEditorContent = this.temporaryEditorContent;
     }
 
     return Handlebars.compile(template, {
@@ -193,63 +193,70 @@ class TemplateConversation extends Conversation {
   ) {
     const completionHandler = messageProcessor.completionHandler;
 
-    switch (completionHandler) {
+    if (completionHandler == undefined) {
+      await this.addBotMessage({
+        content: completionContent.trim(),
+      });
+      return;
+    }
+
+    const completionHandlerType = completionHandler.type;
+
+    switch (completionHandlerType) {
       case "update-temporary-editor": {
-        this.testContent = completionContent.trim();
+        this.temporaryEditorContent = completionContent.trim();
 
         await this.addBotMessage({
-          content:
-            this.messages.length > 0 ? "Test updated." : "Test generated.",
-          responsePlaceholder: "Instruct how to refine the test…",
+          content: completionHandler.botMessage,
         });
 
-        await this.updateEditor();
+        await this.updateTemporaryEditor();
         break;
       }
-      case "message":
-      case undefined: {
+      case "message": {
         await this.addBotMessage({
           content: completionContent.trim(),
         });
         break;
       }
       default: {
-        const exhaustiveCheck: never = completionHandler;
+        const exhaustiveCheck: never = completionHandlerType;
         throw new Error(`unsupported property: ${exhaustiveCheck}`);
       }
     }
   }
 
-  private async updateEditor() {
-    const testContent = this.testContent;
+  private async updateTemporaryEditor() {
+    const temporaryEditorContent = this.temporaryEditorContent;
 
-    if (testContent == undefined) {
+    if (temporaryEditorContent == undefined) {
       return;
     }
 
     // introduce local variable to ensure that testDocument is defined:
-    const testDocument =
-      this.testDocument ??
+    const temporaryEditorDocument =
+      this.temporaryEditorDocument ??
       (await vscode.workspace.openTextDocument({
         language: "javascript", // this.language, // TODO: use language from template
-        content: testContent,
+        content: temporaryEditorContent,
       }));
 
-    this.testDocument = testDocument;
+    this.temporaryEditorDocument = temporaryEditorDocument;
 
-    if (this.testEditor == undefined) {
-      this.testEditor = await vscode.window.showTextDocument(
-        testDocument,
-        vscode.ViewColumn.Beside
+    if (this.temporaryEditor == undefined) {
+      this.temporaryEditor = await vscode.window.showTextDocument(
+        temporaryEditorDocument
       );
     } else {
-      this.testEditor.edit((edit: vscode.TextEditorEdit) => {
+      this.temporaryEditor.edit((edit: vscode.TextEditorEdit) => {
         edit.replace(
           new vscode.Range(
-            testDocument.positionAt(0),
-            testDocument.positionAt(testDocument.getText().length - 1)
+            temporaryEditorDocument.positionAt(0),
+            temporaryEditorDocument.positionAt(
+              temporaryEditorDocument.getText().length - 1
+            )
           ),
-          testContent
+          temporaryEditorContent
         );
       });
     }

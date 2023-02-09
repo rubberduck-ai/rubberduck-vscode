@@ -9,11 +9,19 @@ const promptSchema = zod.object({
 
 export type Prompt = zod.infer<typeof promptSchema>;
 
+const completionHandlerSchema = zod.discriminatedUnion("type", [
+  zod.object({
+    type: zod.literal("message"),
+  }),
+  zod.object({
+    type: zod.literal("update-temporary-editor"),
+    botMessage: zod.string(),
+  }),
+]);
+
 const messageProcessorSchema = zod.object({
   placeholder: zod.string().optional(),
-  completionHandler: zod
-    .enum(["message", "update-temporary-editor"])
-    .optional(), // default: message
+  completionHandler: completionHandlerSchema.optional(), // default: message
   prompt: promptSchema,
 });
 
