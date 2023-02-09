@@ -2,8 +2,8 @@
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
   "version": "1.6.0",
-  "displayName": "Rubberduck - GPT Chat for Visual Studio Code",
-  "description": "Threaded AI chats in the side bar. Generate, edit and explain code. Generate tests, find bugs, diagnose errors, and even create your own conversation templates.",
+  "displayName": "Rubberduck - ChatGPT for Visual Studio Code",
+  "description": "Generate code, edit code, explain code, generate tests, find bugs, diagnose errors, and even create your own conversation templates.",
   "keywords": [
     "ai",
     "chatgpt",
