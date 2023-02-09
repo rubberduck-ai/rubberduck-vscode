@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.6.0 - 2023-02-09
+
+### Added
+
+- "Generate code" action
+- Rubberduck Templates: "completionHandler" configuration
+
+### Fixed
+
+- Inconsistent font size for embedded code (Issue #8)
+- "Edit Code" follow-up suggestions aren't applied to code (Issue #14)
+
 ## 1.5.0 - 2023-02-07
 
 ### Changed
