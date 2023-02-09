@@ -53,6 +53,7 @@ export class WebviewContainer {
     const codiconsCssUri = this.getUri("asset", "codicons.css");
     const webviewCssUri = this.getUri("asset", `${this.panelId}.css`);
     const scriptUri = this.getUri("dist", "webview.js");
+    const prismScriptUri = this.getUri("asset", "prism.js");
 
     // Use a nonce to only allow a specific script to be run.
     const nonce = generateNonce();
@@ -73,12 +74,11 @@ export class WebviewContainer {
   </head>
   <body>
     <div id="root" />
+    <script nonce="${prismNonce}" src="${prismScriptUri}" />
     <script nonce="${nonce}"
             src="${scriptUri}"
             data-panel-id="${this.panelId}"
             data-state-reloading-enabled="${this.isStateReloadingEnabled}" />
-    <script nonce="${prismNonce}"
-            src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" />
   </body>
 </html>`;
   }
