@@ -9,10 +9,15 @@ const promptSchema = zod.object({
 
 export type Prompt = zod.infer<typeof promptSchema>;
 
-const responseSchema = zod.object({
+const messageProcessorSchema = zod.object({
   placeholder: zod.string().optional(),
+  completionHandler: zod
+    .enum(["message", "update-temporary-editor"])
+    .optional(), // default: message
   prompt: promptSchema,
 });
+
+export type MessageProcessor = zod.infer<typeof messageProcessorSchema>;
 
 const variableBaseSchema = zod.object({
   name: zod.string(),
@@ -81,12 +86,12 @@ const baseTemplateSchema = zod.object({
 export const conversationTemplateSchema = zod.discriminatedUnion("type", [
   baseTemplateSchema.extend({
     type: zod.literal("basic-chat"),
-    chat: responseSchema,
+    chat: messageProcessorSchema,
   }),
   baseTemplateSchema.extend({
     type: zod.literal("selected-code-analysis-chat"),
-    analysis: responseSchema,
-    chat: responseSchema,
+    analysis: messageProcessorSchema,
+    chat: messageProcessorSchema,
   }),
 ]);
 

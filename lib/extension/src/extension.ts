@@ -3,7 +3,6 @@ import { ChatController } from "./chat/ChatController";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
 import { EditCodeConversation } from "./conversation/built-in/EditCodeConversation";
-import { GenerateTestConversation } from "./conversation/built-in/GenerateTestConversationModel";
 import { ConversationTypesProvider } from "./conversation/ConversationTypesProvider";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
@@ -75,7 +74,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
       chatController.createConversation("find-bugs");
     }),
     vscode.commands.registerCommand("rubberduck.generateTest", () => {
-      chatController.createConversation(GenerateTestConversation.id);
+      chatController.createConversation("generate-unit-test");
     }),
     vscode.commands.registerCommand("rubberduck.startChat", () => {
       chatController.createConversation("chat-en");
