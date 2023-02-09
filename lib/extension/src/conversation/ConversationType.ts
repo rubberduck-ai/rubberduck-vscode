@@ -1,7 +1,7 @@
 import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { Conversation } from "./Conversation";
-import { ConversationTemplate } from "./template/ConversationTemplate";
+import { ConversationTemplate } from "./ConversationTemplate";
 
 export type CreateConversationResult =
   | {

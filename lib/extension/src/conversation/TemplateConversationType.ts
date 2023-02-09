@@ -1,15 +1,12 @@
 import { webviewApi } from "@rubberduck/common";
 import Handlebars from "handlebars";
 import * as vscode from "vscode";
-import { DiffEditor } from "../../diff/DiffEditor";
-import { DiffEditorManager } from "../../diff/DiffEditorManager";
-import { OpenAIClient } from "../../openai/OpenAIClient";
-import { Conversation } from "../Conversation";
-import {
-  ConversationType,
-  CreateConversationResult,
-} from "../ConversationType";
-import { resolveVariables } from "../input/resolveVariables";
+import { DiffEditor } from "../diff/DiffEditor";
+import { DiffEditorManager } from "../diff/DiffEditorManager";
+import { OpenAIClient } from "../openai/OpenAIClient";
+import { Conversation } from "./Conversation";
+import { ConversationType, CreateConversationResult } from "./ConversationType";
+import { resolveVariables } from "./input/resolveVariables";
 import { ConversationTemplate, MessageProcessor } from "./ConversationTemplate";
 
 Handlebars.registerHelper({

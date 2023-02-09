@@ -1,8 +1,8 @@
 import * as vscode from "vscode";
 import { ConversationType } from "./ConversationType";
-import { loadConversationFromFile } from "./template/loadConversationTemplateFromFile";
-import { loadConversationTemplatesFromWorkspace } from "./template/loadConversationTemplatesFromWorkspace";
-import { TemplateConversationType } from "./template/TemplateConversationType";
+import { loadConversationFromFile } from "./loadConversationTemplateFromFile";
+import { loadConversationTemplatesFromWorkspace } from "./loadConversationTemplatesFromWorkspace";
+import { TemplateConversationType } from "./TemplateConversationType";
 
 export class ConversationTypesProvider {
   private readonly extensionUri: vscode.Uri;
