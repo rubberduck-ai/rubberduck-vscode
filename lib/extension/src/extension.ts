@@ -73,6 +73,9 @@ export const activate = async (context: vscode.ExtensionContext) => {
     vscode.commands.registerCommand("rubberduck.findBugs", () => {
       chatController.createConversation("find-bugs");
     }),
+    vscode.commands.registerCommand("rubberduck.generateCode", () => {
+      chatController.createConversation("generate-code");
+    }),
     vscode.commands.registerCommand("rubberduck.generateTest", () => {
       chatController.createConversation("generate-unit-test");
     }),

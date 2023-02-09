@@ -43,6 +43,7 @@ export class ConversationTypesProvider {
       await this.loadBuiltinTemplate("task", "diagnose-errors.rdt.md"),
       await this.loadBuiltinTemplate("task", "explain-code.rdt.md"),
       await this.loadBuiltinTemplate("task", "find-bugs.rdt.md"),
+      await this.loadBuiltinTemplate("task", "generate-code.rdt.md"),
       await this.loadBuiltinTemplate("task", "generate-unit-test.rdt.md"),
       EditCodeConversation,
     ];
