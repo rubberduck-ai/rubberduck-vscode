@@ -119,8 +119,8 @@
         "icon": "$(question)"
       },
       {
-        "command": "rubberduck.reloadConversationTypes",
-        "title": "Reload Conversation Types",
+        "command": "rubberduck.reloadTemplates",
+        "title": "Reload Templates",
         "category": "Rubberduck",
         "icon": "$(sync)"
       },
@@ -315,11 +315,11 @@
             }
           },
           {
-            "id": "rubberduck-conversation-templates",
-            "title": "Conversation Templates",
+            "id": "rubberduck-templates",
+            "title": "Rubberduck Templates",
             "description": "Craft your own chat templates!",
             "media": {
-              "markdown": "walkthrough/rubberduck-conversation-templates.md"
+              "markdown": "walkthrough/rubberduck-templates.md"
             }
           },
           {

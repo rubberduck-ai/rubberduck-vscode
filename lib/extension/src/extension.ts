@@ -119,12 +119,9 @@ export const activate = async (context: vscode.ExtensionContext) => {
         category: `rubberduck.rubberduck-vscode#rubberduck`,
       });
     }),
-    vscode.commands.registerCommand(
-      "rubberduck.reloadConversationTypes",
-      async () => {
-        await conversationTypesProvider.loadConversationTypes();
-      }
-    ),
+    vscode.commands.registerCommand("rubberduck.reloadTemplates", async () => {
+      await conversationTypesProvider.loadConversationTypes();
+    }),
     vscode.commands.registerCommand("rubberduck.showLogs", () => {
       outputChannel.show(true);
     })

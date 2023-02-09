@@ -10,7 +10,7 @@
 
 > &nbsp;
 >
-> #### Threaded AI chats in the Visual Studio Code side bar. Rubberduck can [generate code](#generate-code), [edit code](#edit-code), [explain code](#explain-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md).
+> #### Threaded AI chats in the Visual Studio Code side bar. Rubberduck can [generate code](#generate-code), [edit code](#edit-code), [explain code](#explain-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-templates.md).
 >
 > &nbsp;
 
@@ -118,7 +118,7 @@ Let Rubberduck identify error causes and suggest fixes to fix compiler and linte
 What if you want to craft an AI Chat that knows _specifically_ about your conventions?
 How cool would it be to have the answers in your own language?
 
-You can craft your own conversation templates by adding `.rdt.md` files to the `.rubberduck/template` folder in your workspace. See the [Rubberduck Conversation Template docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md) for more information.
+You can craft your own conversation templates by adding `.rdt.md` files to the `.rubberduck/template` folder in your workspace. See the [Rubberduck Template docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-templates.md) for more information.
 
 To use custom conversations, run the "Rubberduck: Start Custom Chat… 💬" command.
 
@@ -126,7 +126,7 @@ Here is an example of a [drunken pirate describing your code](https://github.com
 
 ![Describe code as a drunken pirate](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/drunken-pirate.png)
 
-[Learn how to craft your own conversation template](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md)!
+[Learn how to craft your own Rubberduck template](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-templates.md)!
 
 # Tips and Tricks
 

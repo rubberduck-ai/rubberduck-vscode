@@ -1,17 +1,17 @@
-# Rubberduck Conversation Templates
+# Rubberduck Templates
 
 Rubberduck comes with handy built-in commands, such as Explain Code, Edit Code, Generate Tests,etc.
 
 But what if you have a specific need that isn't quite covered? What if you want to craft an AI Chat that knows specifically about your project, or your conventions? How cool would it be to have the answers in your own language?
 
-That's what you can get with Rubberduck Conversation Templates! 🌈
+That's what you can get with Rubberduck Templates! 🌈
 
 Here are some ideas of what you can do with them:
 
 - Have conversations in a different language, e.g. [in French](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/chat-i18n/chat-fr.rdt.md)
 - Let [Shakespeare write a sonnet about your code](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/fun/code-sonnet.rdt.md)
 - Define dedicated tasks, e.g. [improving code readability](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/task/improve-readability.rdt.md)
-- Create project, language or framework-specific conversation templates
+- Create project, language or framework-specific templates
 
 The best part of it: you can share them around with your colleagues, your friends, or your enemies.
 
@@ -21,7 +21,7 @@ By adding Rubberduck Template File (`.rdt.md`) files to the `.rubberduck/templat
 
 To use your custom conversations, run the "Rubberduck: Start Custom Chat… 💬" command.
 
-After you have changed a conversation template, use the "Rubberduck: Reload Conversation Types" command to see your updates.
+After you have changed a template, use the "Rubberduck: Reload Templates" command to see your updates.
 
 To help you debug, use the "Rubberduck: Show logs" command to open the Output panel and see the prompt that is sent to OpenAI.
 
@@ -32,17 +32,17 @@ The ["Drunken Pirate" template](https://github.com/rubberduck-ai/rubberduck-vsco
 To see it in action:
 
 1. Save the template as `.rubberduck/template/drunken-pirate.rdt.md` in your workspace
-2. Use "Rubberduck: Reload Conversation Types"
+2. Use "Rubberduck: Reload Templates"
 3. Use "Rubberduck: Start Custom Chat… 💬"
 4. Pick "Ask a drunken pirate"
 
 This template is a conversation between a developer and a drunken pirate. The drunken pirate starts by describing the selected code.
 
-Want to craft your own? Let's dig into how Rubberduck Conversation Templates are structured.
+Want to craft your own? Let's dig into how Rubberduck Templates are structured.
 
-## Rubberduck Conversation Template Structure
+## Rubberduck Template Structure
 
-Rubberduck Conversation Templates are [GitHub-flavored Markdown](https://github.github.com/gfm/) files with special fenced code sections. You can use regular markdown to document your template, and use the fenced code sections to define the template itself.
+Rubberduck Templates are [GitHub-flavored Markdown](https://github.github.com/gfm/) files with special fenced code sections. You can use regular markdown to document your template, and use the fenced code sections to define the template itself.
 
 There are two types of fenced code sections:
 
@@ -241,6 +241,6 @@ The easiest way to get started with templates is to copy some of the [example te
 
 To use your custom conversations, run the "Rubberduck: Start Custom Chat… 💬" command.
 
-After you have changed a conversation template, use the "Rubberduck: Reload Conversation Types" command to see your updates.
+After you have changed a Rubberduck template, use the "Rubberduck: Reload Templates" command to see your updates.
 
 To help you debug, use the "Rubberduck: Show logs" command to open the Output panel and see the prompt that is sent to OpenAI.

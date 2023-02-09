@@ -34,27 +34,27 @@
 
 ### Changed
 
-- **Breaking**. The Rubberduck Conversation Template format has changed in large parts. [Check the updated docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md) for Rubberduck Conversation Templates.
+- **Breaking**. The Rubberduck Conversation format has changed in large parts. [Check the updated docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-templates.md) for Rubberduck Templates.
 
 ## 1.2.0 - 2023-02-03
 
 ### Changed
 
-- **Breaking**. The `codicon` attribute is now an `icon` property. [Check the updated docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-conversation-templates.md) for Rubberduck Conversation Templates.
+- **Breaking**. The `codicon` attribute is now an `icon` property. [Check the updated docs](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-templates.md) for Rubberduck Templates.
 
 ### Added
 
 - New `selected-code-analysis-chat` template format. It analyzes a code selection, then starts a conversation. Use-case example:
   - [Improve readability](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/.rubberduck/template/improve-readability.json)
   - [Find bugs](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/.rubberduck/template/find-bugs.json)
-- New optional `isEnabled` flag, so you can disable a conversation template you are still working on.
+- New optional `isEnabled` flag, so you can disable a Rubberduck Template you are still working on.
 
 ## 1.1.0 - 2023-02-02
 
 ### Added
 
-- Add your own custom conversation templates by adding `.json` files to the `.rubberduck/template` folder in your workspace.
-- The "Rubberduck: Reload Conversation Types" command reloads the conversation types. You can use it after you modified or added custom conversations in your workspace.
+- Add your own custom Rubberduck Templates by adding `.json` files to the `.rubberduck/template` folder in your workspace.
+- The "Rubberduck: Reload Templates" command reloads the conversation types. You can use it after you modified or added custom conversations in your workspace.
 - Prompts are logged and can be inspected in the output tab. The "Rubberduck: Show Logs" shows the Rubberduck output tab.
 - The "Rubberduck: Start Custom Chat… 💬" command allows you to select a chat from a list of available options. It includes custom conversation types.
 

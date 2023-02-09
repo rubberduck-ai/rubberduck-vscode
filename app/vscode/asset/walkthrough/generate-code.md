@@ -6,3 +6,5 @@
 2. Describe what you want to generate in the new conversation thread in the Rubberduck sidebar panel. Rubberduck will generate code for you based on your description. Further messages can be used to refine the generated code.
 
 ![Generate Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-code.gif)
+
+> 💡&nbsp;&nbsp;You can create your own customized code generators with [Rubberduck Templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-templates.md).
