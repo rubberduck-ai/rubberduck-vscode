@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.6.1 - 2023-02-09
+
+### Added
+
+- Notification when you reload your workspace templates.
+- Rubberduck Templates: "active-editor-diff" completion handler.
+
 ## 1.6.0 - 2023-02-09
 
 ### Added
