@@ -1,6 +1,6 @@
 # Find Bugs
 
-## Conversation Template
+## Template
 
 ### Configuration
 
@@ -71,7 +71,7 @@
 }
 ```
 
-### Analysis Prompt Template
+### Analysis Prompt
 
 ```template-analysis
 ## Instructions
@@ -95,7 +95,7 @@ Include code snippets (using Markdown) and examples where appropriate.
 
 ```
 
-### Chat Prompt Template
+### Chat Prompt
 
 ```template-chat
 ## Instructions

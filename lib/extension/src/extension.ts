@@ -2,7 +2,6 @@ import * as vscode from "vscode";
 import { ChatController } from "./chat/ChatController";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
-import { EditCodeConversation } from "./conversation/built-in/EditCodeConversation";
 import { ConversationTypesProvider } from "./conversation/ConversationTypesProvider";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
@@ -83,7 +82,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
       chatController.createConversation("chat-en");
     }),
     vscode.commands.registerCommand("rubberduck.editCode", () => {
-      chatController.createConversation(EditCodeConversation.id);
+      chatController.createConversation("edit-code");
     }),
     vscode.commands.registerCommand("rubberduck.startCustomChat", async () => {
       const items = conversationTypesProvider
@@ -121,6 +120,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
     }),
     vscode.commands.registerCommand("rubberduck.reloadTemplates", async () => {
       await conversationTypesProvider.loadConversationTypes();
+      vscode.window.showInformationMessage("Rubberduck templates reloaded.");
     }),
     vscode.commands.registerCommand("rubberduck.showLogs", () => {
       outputChannel.show(true);

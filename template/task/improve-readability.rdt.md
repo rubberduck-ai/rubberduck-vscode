@@ -2,7 +2,7 @@
 
 The improve readability analysis suggests ways to make the selected code easier to read.
 
-## Conversation Template
+## Template
 
 ### Configuration
 
@@ -73,7 +73,7 @@ The improve readability analysis suggests ways to make the selected code easier 
 }
 ```
 
-### Analysis Prompt Template
+### Analysis Prompt
 
 ```template-analysis
 ## Instructions
@@ -99,7 +99,7 @@ The code snippets must contain valid {{language}} code.
 
 ```
 
-### Chat Prompt Template
+### Chat Prompt
 
 ```template-chat
 ## Instructions

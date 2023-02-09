@@ -2,7 +2,7 @@
 
 Diagnoses any errors or warnings the selected code.
 
-## Conversation Template
+## Template
 
 ### Configuration
 
@@ -66,7 +66,7 @@ Diagnoses any errors or warnings the selected code.
 }
 ```
 
-### Analysis Prompt Template
+### Analysis Prompt
 
 ```template-analysis
 ## Instructions
@@ -85,7 +85,7 @@ Include code snippets where appropriate.
 
 ```
 
-### Chat Prompt Template
+### Chat Prompt
 
 ```template-chat
 ## Instructions

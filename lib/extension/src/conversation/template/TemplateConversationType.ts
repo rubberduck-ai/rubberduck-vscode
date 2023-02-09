@@ -1,5 +1,8 @@
+import { webviewApi } from "@rubberduck/common";
 import Handlebars from "handlebars";
 import * as vscode from "vscode";
+import { DiffEditor } from "../../diff/DiffEditor";
+import { DiffEditorManager } from "../../diff/DiffEditorManager";
 import { OpenAIClient } from "../../openai/OpenAIClient";
 import { Conversation } from "../Conversation";
 import {
@@ -48,11 +51,13 @@ export class TemplateConversationType implements ConversationType {
     openAIClient,
     updateChatPanel,
     initVariables,
+    diffEditorManager,
   }: {
     conversationId: string;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
     initVariables: Record<string, unknown>;
+    diffEditorManager: DiffEditorManager;
   }): Promise<CreateConversationResult> {
     return {
       type: "success",
@@ -62,12 +67,67 @@ export class TemplateConversationType implements ConversationType {
         openAIClient,
         updateChatPanel,
         template: this.template,
+        diffEditorManager,
+        diffData: await this.getDiffData(),
       }),
       shouldImmediatelyAnswer:
         this.template.type === "selected-code-analysis-chat",
     };
   }
+
+  hasDiffCompletionHandler(): boolean {
+    const template = this.template;
+    return (
+      (template.type === "basic-chat" &&
+        template.chat.completionHandler?.type === "active-editor-diff") ||
+      (template.type === "selected-code-analysis-chat" &&
+        (template.analysis.completionHandler?.type === "active-editor-diff" ||
+          template.chat.completionHandler?.type === "active-editor-diff"))
+    );
+  }
+
+  async getDiffData(): Promise<undefined | DiffData> {
+    if (!this.hasDiffCompletionHandler()) {
+      return undefined;
+    }
+
+    const activeEditor = vscode.window.activeTextEditor;
+
+    if (activeEditor == null) {
+      throw new Error("active editor required");
+    }
+
+    const document = activeEditor.document;
+    const range = activeEditor.selection;
+    const selectedText = document.getText(range);
+
+    if (selectedText.trim().length === 0) {
+      throw new Error("no selection");
+    }
+
+    const filename = document.fileName.split("/").pop();
+
+    if (filename == undefined) {
+      throw new Error("no filename");
+    }
+
+    return {
+      filename,
+      language: document.languageId,
+      selectedText,
+      range,
+      editor: activeEditor,
+    };
+  }
 }
+
+type DiffData = {
+  readonly filename: string;
+  readonly range: vscode.Range;
+  readonly selectedText: string;
+  readonly language: string | undefined;
+  readonly editor: vscode.TextEditor;
+};
 
 class TemplateConversation extends Conversation {
   private readonly template: ConversationTemplate;
@@ -76,18 +136,27 @@ class TemplateConversation extends Conversation {
   temporaryEditorDocument: vscode.TextDocument | undefined;
   temporaryEditor: vscode.TextEditor | undefined;
 
+  diffContent: string | undefined;
+  diffEditor: DiffEditor | undefined;
+  diffData: DiffData | undefined;
+  private readonly diffEditorManager: DiffEditorManager;
+
   constructor({
     id,
     initVariables,
     openAIClient,
     updateChatPanel,
     template,
+    diffEditorManager,
+    diffData,
   }: {
     id: string;
     initVariables: Record<string, unknown>;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
     template: ConversationTemplate;
+    diffEditorManager: DiffEditorManager;
+    diffData: DiffData | undefined;
   }) {
     super({
       id,
@@ -104,6 +173,8 @@ class TemplateConversation extends Conversation {
     });
 
     this.template = template;
+    this.diffEditorManager = diffEditorManager;
+    this.diffData = diffData;
   }
 
   async getTitle() {
@@ -217,6 +288,18 @@ class TemplateConversation extends Conversation {
         );
         break;
       }
+      case "active-editor-diff": {
+        this.diffContent = completionContent.trim();
+
+        await this.addBotMessage({
+          content: "Edit generated",
+          responsePlaceholder: "Describe how you want to change the code…",
+        });
+
+        await this.updateDiff();
+
+        break;
+      }
       case "message": {
         await this.addBotMessage({
           content: completionContent.trim(),
@@ -264,6 +347,105 @@ class TemplateConversation extends Conversation {
         );
       });
     }
+  }
+
+  private async updateDiff() {
+    const editContent = this.diffContent;
+    const diffData = this.diffData;
+
+    if (editContent == undefined || diffData == undefined) {
+      return;
+    }
+
+    // edit the file content with the editContent:
+    const document = diffData.editor.document;
+    const originalContent = document.getText();
+    const prefix = originalContent.substring(
+      0,
+      document.offsetAt(diffData.range.start)
+    );
+    const suffix = originalContent.substring(
+      document.offsetAt(diffData.range.end)
+    );
+
+    // calculate the minimum number of leading whitespace characters per line in the selected text:
+    const minLeadingWhitespace = diffData.selectedText
+      .split("\n")
+      .map((line) => line.match(/^\s*/)?.[0] ?? "")
+      .filter((line) => line.length > 0)
+      .reduce((min, line) => Math.min(min, line.length), Infinity);
+
+    // calculate the minimum number of leading whitespace characters per line in the new text:
+    const minLeadingWhitespaceNew = editContent
+      .split("\n")
+      .map((line) => line.match(/^\s*/)?.[0] ?? "")
+      .filter((line) => line.length > 0)
+      .reduce((min, line) => Math.min(min, line.length), Infinity);
+
+    // add leading whitespace to each line in the new text to match the original text:
+    const editContentWithAdjustedWhitespace = editContent
+      .split("\n")
+      .map((line) => {
+        const leadingWhitespace = line.match(/^\s*/)?.[0] ?? "";
+        const relativeIndent =
+          leadingWhitespace.length - minLeadingWhitespaceNew;
+        const newIndent = Math.max(0, minLeadingWhitespace + relativeIndent);
+        return (
+          (newIndent < Infinity ? " ".repeat(newIndent) : "") +
+          line.substring(leadingWhitespace.length)
+        );
+      })
+      .join("\n");
+
+    // diff the original file content with the edited file content:
+    const editedFileContent = `${prefix}${editContentWithAdjustedWhitespace}${suffix}`;
+
+    if (this.diffEditor == undefined) {
+      this.diffEditor = this.diffEditorManager.createDiffEditor({
+        filename: diffData.filename,
+        editorColumn: diffData.editor.viewColumn ?? vscode.ViewColumn.One,
+        conversationId: this.id,
+      });
+    }
+
+    this.diffEditor.onDidReceiveMessage(async (rawMessage) => {
+      const message = webviewApi.outgoingMessageSchema.parse(rawMessage);
+      if (message.type !== "applyDiff") {
+        return;
+      }
+
+      const edit = new vscode.WorkspaceEdit();
+      edit.replace(
+        document.uri,
+        diffData.range,
+        editContentWithAdjustedWhitespace
+      );
+      await vscode.workspace.applyEdit(edit);
+
+      const tabGroups = vscode.window.tabGroups;
+      const allTabs: vscode.Tab[] = tabGroups.all
+        .map((tabGroup) => tabGroup.tabs)
+        .flat();
+
+      const tab = allTabs.find((tab) => {
+        return (
+          (tab.input as any).viewType ===
+          `mainThreadWebview-rubberduck.diff.${this.id}`
+        );
+      });
+
+      if (tab != undefined) {
+        await tabGroups.close(tab);
+      }
+
+      this.diffEditor = undefined;
+    });
+
+    await this.diffEditor.updateDiff({
+      oldCode: originalContent,
+      newCode: editedFileContent,
+      languageId: document.languageId,
+    });
   }
 
   async retry() {

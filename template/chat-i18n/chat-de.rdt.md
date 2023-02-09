@@ -2,7 +2,7 @@
 
 This templates lets you chat with Rubberduck in German.
 
-## Conversation Template
+## Template
 
 ### Configuration
 
@@ -47,7 +47,7 @@ This templates lets you chat with Rubberduck in German.
 }
 ```
 
-### Chat Prompt Template
+### Chat Prompt
 
 ```template-chat
 ## Anweisungen
