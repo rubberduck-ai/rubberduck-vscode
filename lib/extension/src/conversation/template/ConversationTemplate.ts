@@ -18,6 +18,9 @@ const completionHandlerSchema = zod.discriminatedUnion("type", [
     botMessage: zod.string(),
     language: zod.string().optional(),
   }),
+  zod.object({
+    type: zod.literal("active-editor-diff"),
+  }),
 ]);
 
 const messageProcessorSchema = zod.object({
