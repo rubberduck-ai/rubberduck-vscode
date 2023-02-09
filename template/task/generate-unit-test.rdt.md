@@ -2,7 +2,7 @@
 
 Generate unit test cases for the selected code.
 
-## Conversation Template
+## Template
 
 ### Configuration
 
@@ -78,7 +78,7 @@ Generate unit test cases for the selected code.
 }
 ````
 
-### Analysis Prompt Template
+### Analysis Prompt
 
 ```template-analysis
 ## Instructions
@@ -98,7 +98,7 @@ The programming language is {{language}}.
 
 ```
 
-### Chat Prompt Template
+### Chat Prompt
 
 ```template-chat
 ## Instructions

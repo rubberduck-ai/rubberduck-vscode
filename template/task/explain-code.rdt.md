@@ -2,7 +2,7 @@
 
 Explain the selected code.
 
-## Conversation Template
+## Template
 
 ### Configuration
 
@@ -66,7 +66,7 @@ Explain the selected code.
 }
 ```
 
-### Analysis Prompt Template
+### Analysis Prompt
 
 ```template-analysis
 ## Instructions
@@ -84,7 +84,7 @@ Summarize the code at a high level (including goal and purpose) with an emphasis
 
 ```
 
-### Chat Prompt Template
+### Chat Prompt
 
 ```template-chat
 ## Instructions

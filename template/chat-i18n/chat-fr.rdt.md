@@ -2,7 +2,7 @@
 
 This templates lets you chat with Rubberduck in French.
 
-## Conversation Template
+## Template
 
 ### Configuration
 
@@ -46,7 +46,7 @@ This templates lets you chat with Rubberduck in French.
 }
 ```
 
-### Chat Prompt Template
+### Chat Prompt
 
 ```template-chat
 ## Instructions

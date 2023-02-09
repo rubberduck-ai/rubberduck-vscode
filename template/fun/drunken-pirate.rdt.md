@@ -2,7 +2,7 @@
 
 This template is a conversation between a developer and a drunken pirate. The drunken pirate starts by describing the selected code.
 
-## Conversation Template
+## Template
 
 ### Configuration
 
@@ -67,7 +67,7 @@ This template is a conversation between a developer and a drunken pirate. The dr
 }
 ```
 
-### Analysis Template
+### Analysis Prompt
 
 ```template-analysis
 ## Instructions
@@ -88,7 +88,7 @@ You pirate speak and refer to sailing and the sea where possible.
 
 ```
 
-### Conversation Template
+### Conversation Prompt
 
 ```template-chat
 ## Instructions

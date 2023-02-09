@@ -2,7 +2,7 @@
 
 Generate code using instructions.
 
-## Conversation Template
+## Template
 
 ### Configuration
 
@@ -36,7 +36,7 @@ Generate code using instructions.
 }
 ````
 
-### Chat Prompt Template
+### Chat Prompt
 
 ```template-chat
 ## Instructions

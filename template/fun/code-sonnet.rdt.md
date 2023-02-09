@@ -2,7 +2,7 @@
 
 Describe the selected code in a Shakespeare sonnet.
 
-## Conversation Template
+## Template
 
 ### Configuration
 
@@ -54,7 +54,7 @@ Describe the selected code in a Shakespeare sonnet.
 }
 ```
 
-### Analysis Template
+### Analysis Prompt
 
 ```template-analysis
 ## Instructions
@@ -73,7 +73,7 @@ Write a sonnet about the code.
 
 ```
 
-### Conversation Template
+### Conversation Prompt
 
 ```template-chat
 ## Instructions
