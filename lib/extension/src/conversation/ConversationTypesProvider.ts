@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { ConversationType } from "./ConversationType";
-import { loadConversationFromFile } from "./template/loadConversationTemplateFromFile";
-import { loadConversationTemplatesFromWorkspace } from "./template/loadConversationTemplatesFromWorkspace";
+import { loadConversationFromFile } from "./template/loadRubberduckTemplateFromFile";
+import { loadRubberduckTemplatesFromWorkspace } from "./template/loadRubberduckTemplatesFromWorkspace";
 
 export class ConversationTypesProvider {
   private readonly extensionUri: vscode.Uri;
@@ -52,7 +52,7 @@ export class ConversationTypesProvider {
     }
 
     const workspaceTemplateLoadingResults =
-      await loadConversationTemplatesFromWorkspace();
+      await loadRubberduckTemplatesFromWorkspace();
     for (const loadingResult of workspaceTemplateLoadingResults) {
       if (loadingResult.type === "error") {
         vscode.window.showErrorMessage(

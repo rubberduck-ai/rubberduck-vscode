@@ -1,11 +1,11 @@
 import * as vscode from "vscode";
-import { ConversationTemplate } from "./ConversationTemplate";
+import { RubberduckTemplate } from "./RubberduckTemplate";
 
-export type ConversationTemplateLoadingResult =
+export type RubberduckTemplateLoadResult =
   | {
       type: "success";
       file: vscode.Uri;
-      template: ConversationTemplate;
+      template: RubberduckTemplate;
     }
   | {
       type: "error";

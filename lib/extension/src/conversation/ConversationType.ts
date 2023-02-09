@@ -3,7 +3,7 @@ import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { Conversation } from "./Conversation";
 import { DiffData } from "./DiffData";
-import { ConversationTemplate } from "./template/ConversationTemplate";
+import { RubberduckTemplate } from "./template/RubberduckTemplate";
 
 export type CreateConversationResult =
   | {
@@ -26,15 +26,15 @@ export class ConversationType {
   readonly label: string;
   readonly description: string;
   readonly source: "built-in" | "local-workspace";
-  readonly variables: ConversationTemplate["variables"];
+  readonly variables: RubberduckTemplate["variables"];
 
-  private template: ConversationTemplate;
+  private template: RubberduckTemplate;
 
   constructor({
     template,
     source,
   }: {
-    template: ConversationTemplate;
+    template: RubberduckTemplate;
     source: ConversationType["source"];
   }) {
     this.template = template;

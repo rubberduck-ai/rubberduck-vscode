@@ -95,7 +95,7 @@ const baseTemplateSchema = zod.object({
   variables: zod.array(variableSchema).optional(),
 });
 
-export const conversationTemplateSchema = zod.discriminatedUnion("type", [
+export const rubberduckTemplateSchema = zod.discriminatedUnion("type", [
   baseTemplateSchema.extend({
     type: zod.literal("basic-chat"),
     chat: messageProcessorSchema,
@@ -107,4 +107,4 @@ export const conversationTemplateSchema = zod.discriminatedUnion("type", [
   }),
 ]);
 
-export type ConversationTemplate = zod.infer<typeof conversationTemplateSchema>;
+export type RubberduckTemplate = zod.infer<typeof rubberduckTemplateSchema>;

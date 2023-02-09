@@ -7,9 +7,9 @@ import { OpenAIClient } from "../openai/OpenAIClient";
 import { DiffData } from "./DiffData";
 import { resolveVariables } from "./input/resolveVariables";
 import {
-  ConversationTemplate,
+  RubberduckTemplate,
   MessageProcessor,
-} from "./template/ConversationTemplate";
+} from "./template/RubberduckTemplate";
 
 Handlebars.registerHelper({
   eq: (v1, v2) => v1 === v2,
@@ -29,7 +29,7 @@ export class Conversation {
 
   protected readonly initVariables: Record<string, unknown>;
 
-  private readonly template: ConversationTemplate;
+  private readonly template: RubberduckTemplate;
 
   private temporaryEditorContent: string | undefined;
   private temporaryEditorDocument: vscode.TextDocument | undefined;
@@ -53,7 +53,7 @@ export class Conversation {
     initVariables: Record<string, unknown>;
     openAIClient: OpenAIClient;
     updateChatPanel: () => Promise<void>;
-    template: ConversationTemplate;
+    template: RubberduckTemplate;
     diffEditorManager: DiffEditorManager;
     diffData: DiffData | undefined;
   }) {

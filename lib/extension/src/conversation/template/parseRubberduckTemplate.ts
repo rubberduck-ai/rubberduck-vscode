@@ -1,15 +1,15 @@
 import { marked } from "marked";
 import secureJSON from "secure-json-parse";
 import {
-  ConversationTemplate,
-  conversationTemplateSchema,
+  RubberduckTemplate,
+  rubberduckTemplateSchema,
   Prompt,
-} from "./ConversationTemplate";
+} from "./RubberduckTemplate";
 
-export type ConversationTemplateParseResult =
+export type RubberduckTemplateParseResult =
   | {
       type: "success";
-      template: ConversationTemplate;
+      template: RubberduckTemplate;
     }
   | {
       type: "error";
@@ -60,10 +60,10 @@ export const extractNamedCodeSnippets = (
   return codeSnippets;
 };
 
-export function parseConversationTemplateOrThrow(
+export function parseRubberduckTemplateOrThrow(
   templateAsRdtMarkdown: string
-): ConversationTemplate {
-  const parseResult = parseConversationTemplate(templateAsRdtMarkdown);
+): RubberduckTemplate {
+  const parseResult = parseRubberduckTemplate(templateAsRdtMarkdown);
 
   if (parseResult.type === "error") {
     throw parseResult.error;
@@ -72,30 +72,28 @@ export function parseConversationTemplateOrThrow(
   return parseResult.template;
 }
 
-export function parseConversationTemplate(
+export function parseRubberduckTemplate(
   templateAsRdtMarkdown: string
-): ConversationTemplateParseResult {
+): RubberduckTemplateParseResult {
   try {
     const namedCodeSnippets = extractNamedCodeSnippets(templateAsRdtMarkdown);
 
-    const conversationTemplateText = namedCodeSnippets.get(
-      "json conversation-template"
-    );
+    const templateText = namedCodeSnippets.get("json conversation-template");
 
-    const conversationTemplate = conversationTemplateSchema.parse(
-      secureJSON.parse(conversationTemplateText)
+    const template = rubberduckTemplateSchema.parse(
+      secureJSON.parse(templateText)
     );
 
     // resolve prompt templates:
-    const conversationType = conversationTemplate.type;
+    const conversationType = template.type;
     switch (conversationType) {
       case "basic-chat": {
-        namedCodeSnippets.resolveTemplate(conversationTemplate.chat.prompt);
+        namedCodeSnippets.resolveTemplate(template.chat.prompt);
         break;
       }
       case "selected-code-analysis-chat": {
-        namedCodeSnippets.resolveTemplate(conversationTemplate.analysis.prompt);
-        namedCodeSnippets.resolveTemplate(conversationTemplate.chat.prompt);
+        namedCodeSnippets.resolveTemplate(template.analysis.prompt);
+        namedCodeSnippets.resolveTemplate(template.chat.prompt);
         break;
       }
       default: {
@@ -106,7 +104,7 @@ export function parseConversationTemplate(
 
     return {
       type: "success",
-      template: conversationTemplate,
+      template: template,
     };
   } catch (error) {
     return {
