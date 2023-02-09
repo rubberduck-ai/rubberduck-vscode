@@ -4,9 +4,12 @@ import * as vscode from "vscode";
 import { DiffEditor } from "../diff/DiffEditor";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
-import { ConversationTemplate, MessageProcessor } from "./ConversationTemplate";
-import { resolveVariables } from "./input/resolveVariables";
 import { DiffData } from "./DiffData";
+import { resolveVariables } from "./input/resolveVariables";
+import {
+  ConversationTemplate,
+  MessageProcessor,
+} from "./template/ConversationTemplate";
 
 Handlebars.registerHelper({
   eq: (v1, v2) => v1 === v2,

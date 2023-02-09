@@ -1,8 +1,6 @@
 import * as vscode from "vscode";
-import {
-  ConversationTemplateLoadingResult,
-  loadConversationFromFile,
-} from "./loadConversationTemplateFromFile";
+import { loadConversationFromFile } from "./loadConversationTemplateFromFile";
+import { ConversationTemplateLoadingResult } from "./ConversationTemplateLoadingResult";
 
 const TEMPLATE_GLOB = ".rubberduck/template/**/*.rdt.md";
 

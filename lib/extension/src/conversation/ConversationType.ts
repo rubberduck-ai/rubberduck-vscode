@@ -2,8 +2,8 @@ import * as vscode from "vscode";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { Conversation } from "./Conversation";
-import { ConversationTemplate } from "./ConversationTemplate";
 import { DiffData } from "./DiffData";
+import { ConversationTemplate } from "./template/ConversationTemplate";
 
 export type CreateConversationResult =
   | {
