@@ -74,7 +74,9 @@ export class WebviewContainer {
   </head>
   <body>
     <div id="root" />
-    <script nonce="${prismNonce}" src="${prismScriptUri}" />
+
+    <!-- Without the closing /script tag, the second script doesn't load -->
+    <script nonce="${prismNonce}" src="${prismScriptUri}"></script>
     <script nonce="${nonce}"
             src="${scriptUri}"
             data-panel-id="${this.panelId}"
