@@ -1,4 +1,3 @@
-import { highlight, languages } from "prismjs";
 import React from "react";
 import DiffViewer, { DiffMethod } from "react-diff-viewer-continued";
 
@@ -17,6 +16,8 @@ export const DiffView: React.FC<DiffViewProps> = ({
   languageId,
 }) => {
   const { grammar, language } = toPrismHighlightOptions(languageId);
+  const { highlight } = getPrism();
+
   return (
     <ReactDiffViewer
       oldValue={oldCode}
@@ -121,16 +122,6 @@ export const DiffView: React.FC<DiffViewProps> = ({
   );
 };
 
-type PrismHighlightOptions = {
-  grammar: Prism.Grammar;
-  language: string;
-};
-
-const DEFAULT_PRISM_OPTIONS: PrismHighlightOptions = {
-  grammar: languages.text,
-  language: "text",
-};
-
 /**
  * Source: https://code.visualstudio.com/docs/languages/identifiers#_known-language-identifiers
  */
@@ -201,17 +192,25 @@ type VSCodeLanguage = (typeof VSCODE_SUPPORTED_LANGUAGES)[number];
 // eslint-disable-next-line @typescript-eslint/ban-types
 type VSCodeLanguageOrAnyString = VSCodeLanguage | (string & {});
 
-/**
- * Check out the asset/prism.js file to see what languages we support
- */
+type PrismHighlightOptions = {
+  grammar: Prism.Grammar;
+  language: string;
+};
+
 function toPrismHighlightOptions(
   languageId: VSCodeLanguageOrAnyString | undefined
 ): PrismHighlightOptions {
+  // Check out the asset/prism.js file to see what languages we support
+  const { languages } = getPrism();
+
+  const DEFAULT_PRISM_OPTIONS: PrismHighlightOptions = {
+    grammar: languages.text,
+    language: "text",
+  };
+
   if (!languageId) {
     return DEFAULT_PRISM_OPTIONS;
   }
-
-  console.log(languages, Object.keys(languages));
 
   switch (languageId) {
     case "javascript":
@@ -324,4 +323,12 @@ function toPrismHighlightOptions(
       );
       return DEFAULT_PRISM_OPTIONS;
   }
+}
+
+function getPrism() {
+  if (!globalThis) {
+    throw new Error("Prism should be loaded for DiffView to work");
+  }
+
+  return globalThis.Prism;
 }
