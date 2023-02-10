@@ -33,8 +33,20 @@ body {
   margin-right: 5px;
 }
 
-.conversation > .detail {
+.conversation > .message-exchange {
   min-height: 25px;
+}
+
+.conversation > .instruction-refinement {
+  margin: var(--rubberduck-container-padding);
+}
+.conversation > .instruction-refinement > .chat-input {
+  margin: 0;
+}
+
+.instruction-refinement button:disabled {
+  background-color: var(--vscode-disabledForeground);
+  cursor: default;
 }
 
 .conversation > .footer {
@@ -150,6 +162,10 @@ body {
 
 .chat-input > textarea:focus {
   outline: none;
+}
+
+.chat-input > textarea:disabled {
+  color: var(--vscode-disabledForeground);
 }
 
 .message {

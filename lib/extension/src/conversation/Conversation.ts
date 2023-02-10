@@ -7,8 +7,8 @@ import { OpenAIClient } from "../openai/OpenAIClient";
 import { DiffData } from "./DiffData";
 import { resolveVariables } from "./input/resolveVariables";
 import {
-  RubberduckTemplate,
   MessageProcessor,
+  RubberduckTemplate,
 } from "./template/RubberduckTemplate";
 
 Handlebars.registerHelper({
@@ -442,6 +442,8 @@ export class Conversation {
   }
 
   async toWebviewConversation(): Promise<webviewApi.Conversation> {
+    const chatInterface = this.template.chatInterface ?? "message-exchange";
+
     return {
       id: this.id,
       header: {
@@ -449,13 +451,44 @@ export class Conversation {
         isTitleMessage: this.isTitleMessage(),
         codicon: this.getCodicon(),
       },
-      content: {
-        type: "messageExchange",
-        messages: this.isTitleMessage()
-          ? this.messages.slice(1)
-          : this.messages,
-        state: this.state,
-      },
+      content:
+        chatInterface === "message-exchange"
+          ? {
+              type: "messageExchange",
+              messages: this.isTitleMessage()
+                ? this.messages.slice(1)
+                : this.messages,
+              state: this.state,
+            }
+          : {
+              type: "instructionRefinement",
+              instruction: "", // TODO last user message?
+              state: this.refinementInstructionState(),
+            },
     };
+  }
+
+  private refinementInstructionState(): webviewApi.InstructionRefinementContent["state"] {
+    const { type } = this.state;
+    switch (type) {
+      case "botAnswerStreaming":
+      case "waitingForBotAnswer":
+        return {
+          type: "waitingForBotAnswer",
+        };
+
+      case "error":
+        return this.state;
+
+      case "userCanReply":
+        return {
+          type: "userCanRefineInstruction",
+        };
+
+      default: {
+        const exhaustiveCheck: never = type;
+        throw new Error(`unsupported type: ${exhaustiveCheck}`);
+      }
+    }
   }
 }

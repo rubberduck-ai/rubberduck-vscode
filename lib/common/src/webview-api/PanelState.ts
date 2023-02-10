@@ -1,5 +1,5 @@
 import zod from "zod";
-import { conversationSchema } from "./Conversation";
+import { conversationSchema } from "./ConversationSchema";
 
 export const panelStateSchema = zod
   .discriminatedUnion("type", [
