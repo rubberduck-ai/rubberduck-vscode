@@ -36,7 +36,9 @@ export const ExpandedConversationView: React.FC<{
             case "botAnswerStreaming":
               return (
                 <div className="message bot">
-                  {conversation.state.partialAnswer ?? ""}
+                  <ReactMarkdown>
+                    {conversation.state.partialAnswer ?? ""}
+                  </ReactMarkdown>
                   <span className={"in-progress"} />
                 </div>
               );
