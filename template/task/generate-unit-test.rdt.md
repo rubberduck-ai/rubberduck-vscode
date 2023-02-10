@@ -20,6 +20,7 @@ Generate unit test cases for the selected code.
       "value": "beaker"
     }
   },
+  "chatInterface": "instruction-refinement",
   "variables": [
     {
       "name": "selectedText",
