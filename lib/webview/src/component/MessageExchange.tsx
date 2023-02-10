@@ -1,4 +1,4 @@
-import { MessageExchangeContent } from "@rubberduck/common/build/webview-api";
+import { webviewApi } from "@rubberduck/common";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import { ChatInput } from "./ChatInput";
@@ -8,7 +8,7 @@ export function MessageExchange({
   onClickRetry,
   onSendMessage,
 }: {
-  content: MessageExchangeContent;
+  content: webviewApi.MessageExchangeContent;
   onSendMessage: (message: string) => void;
   onClickRetry: () => void;
 }) {

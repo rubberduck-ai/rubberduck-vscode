@@ -1,4 +1,4 @@
-import { Message } from "@rubberduck/common/build/webview-api";
+import { webviewApi } from "@rubberduck/common";
 import { Variable } from "../template/RubberduckTemplate";
 import { resolveVariable } from "./resolveVariable";
 import { validateVariable } from "./validateVariable";
@@ -10,7 +10,7 @@ export async function resolveVariables(
     messages,
   }: {
     time: Variable["time"];
-    messages?: Array<Message>;
+    messages?: Array<webviewApi.Message>;
   }
 ) {
   const variableValues: Record<string, unknown> = {
