@@ -101,6 +101,7 @@ body {
 }
 
 .chat-input {
+  display: grid;
   margin-top: 20px;
   margin: var(--rubberduck-container-padding);
 
@@ -111,11 +112,40 @@ body {
   background-color: var(--vscode-sideBar-background);
 }
 
-.chat-input > textarea {
-  background-color: var(--vscode-sideBar-background);
+/* Inspired from https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas */
+.chat-input::after {
+  /* Note the weird space! Needed to preventy jumpy behavior */
+  content: attr(data-replicated-value) " ";
 
-  font-style: italic;
+  /* This is how textarea text behaves */
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  /* Hidden from view, clicks, and screen readers */
+  visibility: hidden;
+}
+
+.chat-input > textarea {
   resize: none;
+  overflow: hidden;
+}
+
+/* Use same visual style */
+.chat-input > textarea,
+.chat-input::after {
+  display: block;
+  width: 100%;
+  border: none;
+  background-color: var(--vscode-sideBar-background);
+  color: var(--vscode-input-foreground);
+
+  padding: var(--input-padding-vertical) var(--input-padding-horizontal);
+
+  font: inherit;
+  font-style: italic;
+
+  /* Place on top of each other */
+  grid-area: 1 / 1 / 2 / 2;
 }
 
 .chat-input > textarea:focus {

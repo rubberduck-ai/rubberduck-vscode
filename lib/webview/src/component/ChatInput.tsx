@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 
 export const ChatInput: React.FC<{
   placeholder?: string;
@@ -14,12 +14,21 @@ export const ChatInput: React.FC<{
     }
   }, []);
 
+  const textareaWrapperRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="chat-input">
+    <div className="chat-input" ref={textareaWrapperRef}>
       <textarea
         ref={callbackRef}
         placeholder={placeholder}
-        rows={1 /* TODO auto-expand */}
+        rows={1}
+        onInput={(event) => {
+          if (!textareaWrapperRef.current) return;
+
+          // `replicatedValue` is used in the CSS to expand the input
+          textareaWrapperRef.current.dataset.replicatedValue =
+            event.currentTarget.value;
+        }}
         onKeyUp={(event) => {
           // ignore shift+enter to allow the user to enter multiple lines
           if (
