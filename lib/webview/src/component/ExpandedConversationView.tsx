@@ -2,7 +2,7 @@ import { webviewApi } from "@rubberduck/common";
 import React from "react";
 import { ConversationHeader } from "./ConversationHeader";
 import { InstructionRefinementView } from "./InstructionRefinementView";
-import { MessageExchange } from "./MessageExchange";
+import { MessageExchangeView } from "./MessageExchangeView";
 
 export const ExpandedConversationView: React.FC<{
   conversation: webviewApi.Conversation;
@@ -21,7 +21,7 @@ export const ExpandedConversationView: React.FC<{
         switch (type) {
           case "messageExchange":
             return (
-              <MessageExchange
+              <MessageExchangeView
                 content={content}
                 onClickRetry={onClickRetry}
                 onSendMessage={onSendMessage}

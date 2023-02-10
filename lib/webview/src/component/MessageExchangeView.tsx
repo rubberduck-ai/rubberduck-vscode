@@ -3,7 +3,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import { ChatInput } from "./ChatInput";
 
-export function MessageExchange({
+export function MessageExchangeView({
   content,
   onClickRetry,
   onSendMessage,
