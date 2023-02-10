@@ -1,10 +1,19 @@
 # Changelog
 
-## UNRELEASED
+## 1.8.0
 
 ### Added
 
 - Shortcut `Ctrl + Cmd + G` (Mac) or `Ctrl + Alt + G` (Windows / Linux) to generate code.
+- Rubberduck Templates:: "chatInterface" property for conversation templates.
+
+### Changed
+
+- Generate code, generate unit test and edit code now use an instruction refinement chat interface.
+
+### Fixed
+
+- Streaming sometimes led to errors. Fixed.
 
 ## 1.7.2 - 2023-02-10
 
