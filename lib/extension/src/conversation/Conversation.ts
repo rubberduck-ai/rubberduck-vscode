@@ -172,6 +172,13 @@ export class Conversation {
 
     switch (completionHandlerType) {
       case "update-temporary-editor": {
+        this.temporaryEditorContent = partialCompletion.trim();
+
+        const language = completionHandler.language;
+
+        await this.updateTemporaryEditor(
+          language != null ? await this.evaluateTemplate(language) : undefined
+        );
         break;
       }
       case "active-editor-diff": {
