@@ -137,24 +137,36 @@ export class OpenAIClient {
 
             response.data.on("data", (chunk: Buffer) => {
               const chunkText = chunk.toString();
+
               try {
-                if (chunkText.trim() === "data: [DONE]") {
-                  if (!resolved) {
-                    resolved = true;
-                    resolve(responseUntilNow);
+                // sometimes chunks contain multiple data: lines
+                const lines = chunkText
+                  .split("\n")
+                  .map((line) => line.trim())
+                  .filter((line) => line.length > 0);
+
+                for (const line of lines) {
+                  if (line.trim() === "data: [DONE]") {
+                    if (!resolved) {
+                      resolved = true;
+                      resolve(responseUntilNow);
+                    }
+                    return;
                   }
-                  return;
+
+                  const result = streamSchema.parse(
+                    secureJSON.parse(line.substring("data: ".length))
+                  );
+
+                  responseUntilNow += result.choices[0]?.text ?? "";
+
+                  streamHandler(responseUntilNow);
                 }
-
-                const result = streamSchema.parse(
-                  secureJSON.parse(chunkText.substring("data: ".length))
-                );
-
-                responseUntilNow += result.choices[0]?.text ?? "";
-
-                streamHandler(responseUntilNow);
               } catch (error) {
-                console.log(error);
+                console.log({
+                  chunkText,
+                  error,
+                });
                 reject(error);
               }
             });
