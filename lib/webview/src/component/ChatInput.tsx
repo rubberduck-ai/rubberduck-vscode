@@ -34,7 +34,8 @@ export const ChatInput: React.FC<{
             event.currentTarget.value;
           setContentState(event.currentTarget.value);
         }}
-        onKeyUp={(event) => {
+        // capture onKeyDown to prevent the user from adding enter to the input
+        onKeyDown={(event) => {
           // ignore shift+enter to allow the user to enter multiple lines
           if (
             event.key === "Enter" &&
