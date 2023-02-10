@@ -12,25 +12,35 @@ export const ExpandedConversationView: React.FC<{
 }> = ({ conversation, onSendMessage, onClickRetry, onClickDelete }) => {
   const content = conversation.content;
 
-  if (content.type === "instructionRefinement") {
-    return (
-      <ChatInput
-        content={content.instruction}
-        placeholder={"..."}
-        onSend={onSendMessage}
-      />
-    );
-  }
-
   return (
     <div className={`conversation expanded`}>
       <ConversationHeader conversation={conversation} />
 
-      <MessageExchange
-        content={content}
-        onClickRetry={onClickRetry}
-        onSendMessage={onSendMessage}
-      />
+      {(() => {
+        const type = content.type;
+        switch (type) {
+          case "messageExchange":
+            return (
+              <MessageExchange
+                content={content}
+                onClickRetry={onClickRetry}
+                onSendMessage={onSendMessage}
+              />
+            );
+          case "instructionRefinement":
+            return (
+              <ChatInput
+                content={content.instruction}
+                placeholder={"..."}
+                onSend={onSendMessage}
+              />
+            );
+          default: {
+            const exhaustiveCheck: never = type;
+            throw new Error(`unsupported type: ${exhaustiveCheck}`);
+          }
+        }
+      })()}
 
       <div className="footer">
         <span className="action-panel">
