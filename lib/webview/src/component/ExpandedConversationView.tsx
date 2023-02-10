@@ -29,11 +29,7 @@ export const ExpandedConversationView: React.FC<{
             );
           case "instructionRefinement":
             return (
-              <ChatInput
-                content={content.instruction}
-                placeholder={"..."}
-                onSend={onSendMessage}
-              />
+              <ChatInput content={content.instruction} onSend={onSendMessage} />
             );
           default: {
             const exhaustiveCheck: never = type;
