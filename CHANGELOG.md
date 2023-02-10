@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.2 - 2023-02-10
+
+### Added
+
+- Streaming for code generation.
+
 ## 1.7.0 - 2023-02-10
 
 ### Added
