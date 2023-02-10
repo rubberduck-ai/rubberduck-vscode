@@ -2,10 +2,11 @@ import React, { useCallback, useRef } from "react";
 
 export const ChatInput: React.FC<{
   placeholder?: string;
+  disabled?: boolean;
   text: string;
-  onChange: (text: string) => void;
-  onEnter: (text: string) => void;
-}> = ({ placeholder, text, onChange, onEnter }) => {
+  onChange?: (text: string) => void;
+  onEnter?: (text: string) => void;
+}> = ({ placeholder, disabled, text, onChange, onEnter }) => {
   // callback to automatically focus the input box
   const callbackRef = useCallback((inputElement: HTMLTextAreaElement) => {
     if (inputElement) {
@@ -21,6 +22,7 @@ export const ChatInput: React.FC<{
   return (
     <div className="chat-input" ref={textareaWrapperRef}>
       <textarea
+        disabled={disabled}
         ref={callbackRef}
         placeholder={placeholder}
         value={text}
@@ -31,7 +33,7 @@ export const ChatInput: React.FC<{
           // `replicatedValue` is used in the CSS to expand the input
           textareaWrapperRef.current.dataset.replicatedValue =
             event.currentTarget.value;
-          onChange(event.currentTarget.value);
+          onChange?.(event.currentTarget.value);
         }}
         // capture onKeyDown to prevent the user from adding enter to the input
         onKeyDown={(event) => {
@@ -46,7 +48,7 @@ export const ChatInput: React.FC<{
             if (value !== "") {
               event.preventDefault();
               event.stopPropagation();
-              onEnter(value);
+              onEnter?.(value);
             }
           }
         }}

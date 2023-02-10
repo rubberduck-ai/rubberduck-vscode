@@ -32,6 +32,7 @@ export const ExpandedConversationView: React.FC<{
               <InstructionRefinementView
                 content={content}
                 onSendMessage={onSendMessage}
+                onClickRetry={onClickRetry}
               />
             );
           default: {

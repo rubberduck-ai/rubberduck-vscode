@@ -7,8 +7,8 @@ import { OpenAIClient } from "../openai/OpenAIClient";
 import { DiffData } from "./DiffData";
 import { resolveVariables } from "./input/resolveVariables";
 import {
-  RubberduckTemplate,
   MessageProcessor,
+  RubberduckTemplate,
 } from "./template/RubberduckTemplate";
 
 Handlebars.registerHelper({
@@ -463,10 +463,32 @@ export class Conversation {
           : {
               type: "instructionRefinement",
               instruction: "", // TODO last user message?
-              state: {
-                type: "userCanRefineInstruction", // TODO
-              },
+              state: this.refinementInstructionState(),
             },
     };
+  }
+
+  private refinementInstructionState(): webviewApi.InstructionRefinementContent["state"] {
+    const { type } = this.state;
+    switch (type) {
+      case "botAnswerStreaming":
+      case "waitingForBotAnswer":
+        return {
+          type: "waitingForBotAnswer",
+        };
+
+      case "error":
+        return this.state;
+
+      case "userCanReply":
+        return {
+          type: "userCanRefineInstruction",
+        };
+
+      default: {
+        const exhaustiveCheck: never = type;
+        throw new Error(`unsupported type: ${exhaustiveCheck}`);
+      }
+    }
   }
 }
