@@ -133,12 +133,16 @@ export class OpenAIClient {
         const streamEnd = new Promise<string>((resolve, reject) => {
           try {
             let responseUntilNow = "";
+            let resolved = false;
 
             response.data.on("data", (chunk: Buffer) => {
               const chunkText = chunk.toString();
               try {
                 if (chunkText.trim() === "data: [DONE]") {
-                  resolve(responseUntilNow);
+                  if (!resolved) {
+                    resolved = true;
+                    resolve(responseUntilNow);
+                  }
                   return;
                 }
 
@@ -151,6 +155,13 @@ export class OpenAIClient {
                 streamHandler(responseUntilNow);
               } catch (error) {
                 reject(error);
+              }
+            });
+
+            response.data.on("end", () => {
+              if (!resolved) {
+                resolved = true;
+                resolve(responseUntilNow);
               }
             });
           } catch (error) {
