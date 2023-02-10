@@ -1,5 +1,5 @@
 import { webviewApi } from "@rubberduck/common";
-import React from "react";
+import React, { useState } from "react";
 import { ChatInput } from "./ChatInput";
 
 export function InstructionRefinementView({
@@ -9,5 +9,12 @@ export function InstructionRefinementView({
   content: webviewApi.InstructionRefinementContent;
   onSendMessage: (message: string) => void;
 }) {
-  return <ChatInput content={content.instruction} onSend={onSendMessage} />;
+  const [inputText, setInputText] = useState(content.instruction);
+  return (
+    <ChatInput
+      text={inputText}
+      onChange={setInputText}
+      onEnter={onSendMessage}
+    />
+  );
 }

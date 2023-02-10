@@ -1,5 +1,5 @@
 import { webviewApi } from "@rubberduck/common";
-import React from "react";
+import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { ChatInput } from "./ChatInput";
 
@@ -12,6 +12,8 @@ export function MessageExchangeView({
   onSendMessage: (message: string) => void;
   onClickRetry: () => void;
 }) {
+  const [inputText, setInputText] = useState("");
+
   return (
     <div className="message-exchange">
       {content.messages.map((message, i) => (
@@ -50,7 +52,12 @@ export function MessageExchangeView({
                     ? "Reply…"
                     : "Ask…"
                 }
-                onSend={onSendMessage}
+                text={inputText}
+                onChange={setInputText}
+                onEnter={() => {
+                  onSendMessage(inputText);
+                  setInputText("");
+                }}
               />
             );
           case "error":
