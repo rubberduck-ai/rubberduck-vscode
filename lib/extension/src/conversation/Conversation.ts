@@ -269,15 +269,25 @@ export class Conversation {
         temporaryEditorDocument
       );
     } else {
+      const currentText = this.temporaryEditor.document.getText();
+
+      let commonPrefix = 0;
+      for (let i = 0; i < currentText.length; i++) {
+        if (currentText[i] !== temporaryEditorContent[i]) {
+          break;
+        }
+        commonPrefix++;
+      }
+
       this.temporaryEditor.edit((edit: vscode.TextEditorEdit) => {
         edit.replace(
           new vscode.Range(
-            temporaryEditorDocument.positionAt(0),
+            temporaryEditorDocument.positionAt(commonPrefix),
             temporaryEditorDocument.positionAt(
-              temporaryEditorDocument.getText().length - 1
+              temporaryEditorDocument.getText().length
             )
           ),
-          temporaryEditorContent
+          temporaryEditorContent.substring(commonPrefix)
         );
       });
     }
