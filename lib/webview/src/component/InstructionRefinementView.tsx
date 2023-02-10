@@ -11,10 +11,13 @@ export function InstructionRefinementView({
 }) {
   const [inputText, setInputText] = useState(content.instruction);
   return (
-    <ChatInput
-      text={inputText}
-      onChange={setInputText}
-      onEnter={onSendMessage}
-    />
+    <div className="instruction-refinement">
+      <ChatInput
+        text={inputText}
+        onChange={setInputText}
+        onEnter={() => onSendMessage(inputText)}
+      />
+      <button onClick={() => onSendMessage(inputText)}>Generate</button>
+    </div>
   );
 }

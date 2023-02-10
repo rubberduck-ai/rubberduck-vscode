@@ -37,6 +37,13 @@ body {
   min-height: 25px;
 }
 
+.conversation > .instruction-refinement {
+  margin: var(--rubberduck-container-padding);
+}
+.conversation > .instruction-refinement > .chat-input {
+  margin: 0;
+}
+
 .conversation > .footer {
   color: var(--vscode-disabledForeground);
 
