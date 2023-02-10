@@ -1,5 +1,11 @@
 # Changelog
 
+## UNRELEASED
+
+### Added
+
+- Shortcut `Ctrl + Cmd + G` (Mac) or `Ctrl + Alt + G` (Windows / Linux) to generate code.
+
 ## 1.7.2 - 2023-02-10
 
 ### Added

@@ -151,6 +151,16 @@
         "command": "rubberduck.editCode",
         "when": "!isMac",
         "key": "Ctrl+Alt+e"
+      },
+      {
+        "command": "rubberduck.generateCode",
+        "when": "isMac",
+        "key": "Ctrl+Cmd+g"
+      },
+      {
+        "command": "rubberduck.generateCode",
+        "when": "!isMac",
+        "key": "Ctrl+Alt+g"
       }
     ],
     "menus": {
