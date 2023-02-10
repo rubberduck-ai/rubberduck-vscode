@@ -154,6 +154,7 @@ export class OpenAIClient {
 
                 streamHandler(responseUntilNow);
               } catch (error) {
+                console.log(error);
                 reject(error);
               }
             });
@@ -165,6 +166,7 @@ export class OpenAIClient {
               }
             });
           } catch (error) {
+            console.log(error);
             reject(error);
           }
         });
@@ -192,6 +194,8 @@ export class OpenAIClient {
         };
       }
     } catch (error) {
+      console.log(error);
+
       if (error instanceof AxiosError) {
         // extract error message from OpenAI response:
         const message: string | undefined = error.response?.data.error.message;

@@ -104,7 +104,7 @@ export function parseRubberduckTemplate(
 
     return {
       type: "success",
-      template: template,
+      template,
     };
   } catch (error) {
     return {
