@@ -33,7 +33,7 @@ body {
   margin-right: 5px;
 }
 
-.conversation > .detail {
+.conversation > .message-exchange {
   min-height: 25px;
 }
 
