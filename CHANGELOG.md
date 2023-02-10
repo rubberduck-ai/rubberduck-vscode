@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.7.0 - 2023-02-10
+
+### Added
+
+- Streaming for basic chat messages.
+
+### Fixed
+
+- Generate unit test was not working. Fixed.
+
 ## 1.6.1 - 2023-02-09
 
 ### Added
