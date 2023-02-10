@@ -20,6 +20,7 @@ Generate code using instructions.
       "value": "edit"
     }
   },
+  "chatInterface": "instruction-refinement",
   "variables": [
     {
       "name": "selectedText",
