@@ -462,7 +462,7 @@ export class Conversation {
             }
           : {
               type: "instructionRefinement",
-              instruction: "hello this is an instruction", // TODO last user message?
+              instruction: "", // TODO last user message?
               state: {
                 type: "userCanRefineInstruction", // TODO
               },
