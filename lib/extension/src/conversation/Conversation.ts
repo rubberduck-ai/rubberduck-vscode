@@ -206,10 +206,11 @@ export class Conversation {
     };
 
     const completionHandlerType = completionHandler.type;
+    const trimmedCompletion = completionContent.trim();
 
     switch (completionHandlerType) {
       case "update-temporary-editor": {
-        this.temporaryEditorContent = completionContent.trim();
+        this.temporaryEditorContent = trimmedCompletion;
 
         await this.addBotMessage({
           content: completionHandler.botMessage,
@@ -223,7 +224,7 @@ export class Conversation {
         break;
       }
       case "active-editor-diff": {
-        this.diffContent = completionContent.trim();
+        this.diffContent = trimmedCompletion;
 
         await this.addBotMessage({
           content: "Edit generated",
@@ -231,12 +232,11 @@ export class Conversation {
         });
 
         await this.updateDiff();
-
         break;
       }
       case "message": {
         await this.addBotMessage({
-          content: completionContent.trim(),
+          content: trimmedCompletion,
         });
         break;
       }
