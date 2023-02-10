@@ -10,12 +10,18 @@ export const ExpandedConversationView: React.FC<{
   onClickRetry: () => void;
   onClickDelete: () => void;
 }> = ({ conversation, onSendMessage, onClickRetry, onClickDelete }) => {
+  const content = conversation.content;
+
+  if (content.type === "instructionRefinement") {
+    return <></>;
+  }
+
   return (
     <div className={`conversation expanded`}>
       <ConversationHeader conversation={conversation} />
 
       <div className="detail">
-        {conversation.messages.map((message, i) => (
+        {content.messages.map((message, i) => (
           <div className={`message ${message.author}`} key={i}>
             {message.author === "user" && message.content}
             {message.author === "bot" && (
@@ -24,12 +30,12 @@ export const ExpandedConversationView: React.FC<{
           </div>
         ))}
         {(() => {
-          const type = conversation.state.type;
+          const type = content.state.type;
           switch (type) {
             case "waitingForBotAnswer":
               return (
                 <div className="message bot">
-                  {conversation.state.botAction ?? ""}
+                  {content.state.botAction ?? ""}
                   <span className={"in-progress"} />
                 </div>
               );
@@ -37,7 +43,7 @@ export const ExpandedConversationView: React.FC<{
               return (
                 <div className="message bot">
                   <ReactMarkdown>
-                    {conversation.state.partialAnswer ?? ""}
+                    {content.state.partialAnswer ?? ""}
                   </ReactMarkdown>
                   <span className={"in-progress"} />
                 </div>
@@ -46,8 +52,8 @@ export const ExpandedConversationView: React.FC<{
               return (
                 <ChatInput
                   placeholder={
-                    conversation.state.responsePlaceholder ??
-                    conversation.messages.length > 0
+                    content.state.responsePlaceholder ??
+                    content.messages.length > 0
                       ? "Reply…"
                       : "Ask…"
                   }
@@ -58,7 +64,7 @@ export const ExpandedConversationView: React.FC<{
               return (
                 <div key={"error"} className={"message bot error"}>
                   <span className={"error-message"}>
-                    Error: {conversation.state.errorMessage}
+                    Error: {content.state.errorMessage}
                   </span>
                   <span className={"error-retry"} onClick={onClickRetry}>
                     <i className="codicon codicon-debug-restart inline" />

@@ -23,7 +23,7 @@ Handlebars.registerHelper({
 export class Conversation {
   readonly id: string;
   protected readonly openAIClient: OpenAIClient;
-  protected state: webviewApi.Conversation["state"];
+  protected state: webviewApi.MessageExchangeContent["state"];
   protected readonly messages: webviewApi.Message[];
   protected readonly updateChatPanel: () => Promise<void>;
 
@@ -449,8 +449,13 @@ export class Conversation {
         isTitleMessage: this.isTitleMessage(),
         codicon: this.getCodicon(),
       },
-      messages: this.isTitleMessage() ? this.messages.slice(1) : this.messages,
-      state: this.state,
+      content: {
+        type: "messageExchange",
+        messages: this.isTitleMessage()
+          ? this.messages.slice(1)
+          : this.messages,
+        state: this.state,
+      },
     };
   }
 }
