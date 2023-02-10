@@ -1,5 +1,7 @@
 # Find Bugs
 
+Template to find bugs in the selected code.
+
 ## Template
 
 ### Configuration
