@@ -43,6 +43,30 @@ export type MessageExchangeContent = zod.infer<
   typeof messageExchangeContentSchema
 >;
 
+const instructionRefinementContentSchema = zod.object({
+  type: zod.literal("instructionRefinement"),
+  instruction: zod.string(),
+  state: zod.discriminatedUnion("type", [
+    zod.object({
+      type: zod.literal("userCanRefineInstruction"),
+      label: zod.union([zod.string(), zod.undefined()]),
+      responseMessage: zod.union([zod.string(), zod.undefined()]),
+    }),
+    zod.object({
+      type: zod.literal("waitingForBotAnswer"),
+      botAction: zod.union([zod.string(), zod.undefined()]),
+    }),
+    zod.object({
+      type: zod.literal("error"),
+      errorMessage: zod.string(),
+    }),
+  ]),
+});
+
+export type InstructionRefinementContent = zod.infer<
+  typeof instructionRefinementContentSchema
+>;
+
 export const conversationSchema = zod.object({
   id: zod.string(),
   header: zod.object({
@@ -52,25 +76,7 @@ export const conversationSchema = zod.object({
   }),
   content: zod.discriminatedUnion("type", [
     messageExchangeContentSchema,
-    zod.object({
-      type: zod.literal("instructionRefinement"),
-      instruction: zod.string(),
-      state: zod.discriminatedUnion("type", [
-        zod.object({
-          type: zod.literal("userCanRefineInstruction"),
-          label: zod.union([zod.string(), zod.undefined()]),
-          responseMessage: zod.union([zod.string(), zod.undefined()]),
-        }),
-        zod.object({
-          type: zod.literal("waitingForBotAnswer"),
-          botAction: zod.union([zod.string(), zod.undefined()]),
-        }),
-        zod.object({
-          type: zod.literal("error"),
-          errorMessage: zod.string(),
-        }),
-      ]),
-    }),
+    instructionRefinementContentSchema,
   ]),
 });
 

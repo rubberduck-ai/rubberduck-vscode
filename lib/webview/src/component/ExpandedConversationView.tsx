@@ -1,7 +1,7 @@
 import { webviewApi } from "@rubberduck/common";
 import React from "react";
-import { ChatInput } from "./ChatInput";
 import { ConversationHeader } from "./ConversationHeader";
+import { InstructionRefinementView } from "./InstructionRefinementView";
 import { MessageExchange } from "./MessageExchange";
 
 export const ExpandedConversationView: React.FC<{
@@ -29,7 +29,10 @@ export const ExpandedConversationView: React.FC<{
             );
           case "instructionRefinement":
             return (
-              <ChatInput content={content.instruction} onSend={onSendMessage} />
+              <InstructionRefinementView
+                content={content}
+                onSendMessage={onSendMessage}
+              />
             );
           default: {
             const exhaustiveCheck: never = type;
