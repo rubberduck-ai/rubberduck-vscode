@@ -86,6 +86,7 @@ Configuration sections have the basic following properties:
   - `useFirstMessageAsTitle`: An optional boolean value. Defaults to `false`. If it is `true`, the first message of the conversation will be used as the title once there is a message.
   - `icon`: The icon that is shown in the Rubberduck side panel for conversations of this type. Only the [Codicon](https://microsoft.github.io/vscode-codicons/dist/codicon.html) `type` is supported at the moment. You can set the `value` property to the codicon that you want to show.
 - `isEnabled`: Whether the conversation type is enabled. If it is disabled, it will not be shown in the "Rubberduck: Start Custom Chat… 💬" command. Defaults to `true`.
+- `chatInterface`: Optional. The chat interface that is used for this conversation type. Defaults to `message-exchange`. Set to `instruction-refinement` if you want to show a single edit box that the user can change instead of a message exchange.
 
 ### Variables
 
