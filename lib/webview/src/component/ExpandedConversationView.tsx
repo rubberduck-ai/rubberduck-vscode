@@ -13,7 +13,13 @@ export const ExpandedConversationView: React.FC<{
   const content = conversation.content;
 
   if (content.type === "instructionRefinement") {
-    return <></>;
+    return (
+      <ChatInput
+        content={content.instruction}
+        placeholder={"..."}
+        onSend={onSendMessage}
+      />
+    );
   }
 
   return (

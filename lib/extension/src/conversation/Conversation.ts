@@ -442,6 +442,8 @@ export class Conversation {
   }
 
   async toWebviewConversation(): Promise<webviewApi.Conversation> {
+    const chatInterface = this.template.chatInterface ?? "message-exchange";
+
     return {
       id: this.id,
       header: {
@@ -449,13 +451,22 @@ export class Conversation {
         isTitleMessage: this.isTitleMessage(),
         codicon: this.getCodicon(),
       },
-      content: {
-        type: "messageExchange",
-        messages: this.isTitleMessage()
-          ? this.messages.slice(1)
-          : this.messages,
-        state: this.state,
-      },
+      content:
+        chatInterface === "message-exchange"
+          ? {
+              type: "messageExchange",
+              messages: this.isTitleMessage()
+                ? this.messages.slice(1)
+                : this.messages,
+              state: this.state,
+            }
+          : {
+              type: "instructionRefinement",
+              instruction: "hello this is an instruction", // TODO last user message?
+              state: {
+                type: "userCanRefineInstruction", // TODO
+              },
+            },
     };
   }
 }

@@ -20,6 +20,7 @@ Generate code using instructions.
       "value": "wand"
     }
   },
+  "chatInterface": "instruction-refinement",
   "variables": [],
   "chat": {
     "placeholder": "Generating code",

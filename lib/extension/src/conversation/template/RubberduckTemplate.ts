@@ -91,6 +91,9 @@ const baseTemplateSchema = zod.object({
       value: zod.string(),
     }),
   }),
+  chatInterface: zod
+    .enum(["message-exchange", "instruction-refinement"])
+    .optional(), // default: message-exchange
   isEnabled: zod.boolean().optional(), // default: true
   variables: zod.array(variableSchema).optional(),
 });
