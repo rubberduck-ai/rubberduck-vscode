@@ -141,6 +141,9 @@ export class Conversation {
         maxTokens: prompt.maxTokens,
         stop: prompt.stop,
         temperature: prompt.temperature,
+        streamHandler: (value) => {
+          this.handlePartialCompletion(value, messageProcessor);
+        },
       });
 
       if (completion.type === "error") {
@@ -157,18 +160,43 @@ export class Conversation {
     }
   }
 
+  private async handlePartialCompletion(
+    partialCompletion: string,
+    messageProcessor: MessageProcessor
+  ) {
+    const completionHandler = messageProcessor.completionHandler ?? {
+      type: "message",
+    };
+
+    const completionHandlerType = completionHandler.type;
+
+    switch (completionHandlerType) {
+      case "update-temporary-editor": {
+        break;
+      }
+      case "active-editor-diff": {
+        break;
+      }
+      case "message": {
+        await this.updatePartialBotMessage({
+          content: partialCompletion.trim(),
+        });
+        break;
+      }
+      default: {
+        const exhaustiveCheck: never = completionHandlerType;
+        throw new Error(`unsupported property: ${exhaustiveCheck}`);
+      }
+    }
+  }
+
   private async handleCompletion(
     completionContent: string,
     messageProcessor: MessageProcessor
   ) {
-    const completionHandler = messageProcessor.completionHandler;
-
-    if (completionHandler == undefined) {
-      await this.addBotMessage({
-        content: completionContent.trim(),
-      });
-      return;
-    }
+    const completionHandler = messageProcessor.completionHandler ?? {
+      type: "message",
+    };
 
     const completionHandlerType = completionHandler.type;
 
@@ -383,6 +411,11 @@ export class Conversation {
   }) {
     this.messages.push({ author: "bot", content });
     this.state = { type: "userCanReply", responsePlaceholder };
+    await this.updateChatPanel();
+  }
+
+  protected async updatePartialBotMessage({ content }: { content: string }) {
+    this.state = { type: "botAnswerStreaming", partialAnswer: content };
     await this.updateChatPanel();
   }
 

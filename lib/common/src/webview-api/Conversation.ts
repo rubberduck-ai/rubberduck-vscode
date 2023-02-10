@@ -34,6 +34,10 @@ export const conversationSchema = zod.object({
       botAction: zod.union([zod.string(), zod.undefined()]),
     }),
     zod.object({
+      type: zod.literal("botAnswerStreaming"),
+      partialAnswer: zod.string(),
+    }),
+    zod.object({
       type: zod.literal("error"),
       errorMessage: zod.string(),
     }),
