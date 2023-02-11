@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.8.3 - 2023-02-11
+
+### Changed
+
+- **Breaking**. Rubberduck Templates: Changed variable 'activeEditor' into several new variables and removed it.
+
+### Fixed
+
+- Diagnose errors, explain code, and find bugs were not working in 1.8.2. Fixed.
+
 ## 1.8.2 - 2023-02-11
 
 ### Changed
