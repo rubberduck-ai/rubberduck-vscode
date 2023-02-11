@@ -52,7 +52,7 @@ Template to find bugs in the selected code.
       "index": -1
     }
   ],
-  "initial-message": {
+  "initialMessage": {
     "placeholder": "Searching for bugs",
     "template": "analysis",
     "maxTokens": 1024
