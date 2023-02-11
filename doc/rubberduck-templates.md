@@ -134,78 +134,44 @@ They are defined in the `variables` property of the configuration section. The p
 
 You can add constraints to the `active-editor` variables. Right now only a minimal text length constraint is available (`type: text-length`). It is useful to make sure that the user has selected some text before starting the conversation. If the constraint is not met, an error popup is shown and the conversation will not be started.
 
-### Conversation Template Types
+### Prompt Definitions
 
-There are two conversation types. You can chose the conversation type in the `type` property of the configuration section.
+There are two properties where you can define the prompts for the conversation:
+
+- `initialMessage`: The initial message that is sent by the bot. It is optional. If it is not defined, the conversation starts with a user message.
+- `response`: The response that is sent by the bot after the user message.
 
 Example:
 
 <pre>
   …
-  "type": "selected-code-analysis-chat",
-  …
-  "analysis": {
+  "initialMessage": {
     "placeholder": "Drinking rum",
-    "prompt": {
-      "template": "analysis",
-      "maxTokens": 512,
-      "temperature": 0.8
-    }
+    "maxTokens": 512,
+    "temperature": 0.8
   },
-  "chat": {
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 1024,
-      "stop": ["Drunken Pirate:", "Developer:"],
-      "temperature": 0.7
-    }
+  "response": {
+    "maxTokens": 1024,
+    "stop": ["Drunken Pirate:", "Developer:"],
+    "temperature": 0.7
   }
 </pre>
 
-#### Basic Chat
+Prompts describe how a user message in a chat (or the initial analysis) is processed. The prompt definitions contain parameters for a call to the OpenAI API and additional properties. Rubberduck calls the [OpenAI Completion API](https://platform.openai.com/docs/api-reference/completions) with the `text-davinci-003` model.
 
-A conversation without an initial action. It starts with a user message.
-
-Properties:
-
-- `type: basic-chat`
-- `chat`: The message processor for the conversation.
-
-#### Selected Code Analysis Chat
-
-Analyze a code selection with an special analysis prompt. Then use a different prompt template for the conversation. The conversation starts with the analysis.
-
-Properties:
-
-- `type: selected-code-analysis-chat`
-- `analysis`: The message processor for the initial analysis.
-- `chat`: The message processor for the conversation.
-
-### Message Processors
-
-Message processors describe how a user message in a chat (or the initial analysis) is processed. They contain the following properties:
-
-- `prompt`: The prompt definition for the message processor.
 - `placeholder`: The placeholder text that is shown in the chat while the message is being processed.
+- `template`: A reference to the prompt template. The prompt is defined in a fenced code section with the language info `template-*`, where `*` is the value that you provide in the prompt property.
+- `maxTokens`: Upper bound on how many tokens will be returned.
+- `stop`: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence. Optional.
+- `temperature`: The randomness of the model. Higher values will make the model more random, lower values will make it more predictable. Optional, defaults to 0.
 - `completionHandler`: Defines how the completion result is handled. There are currently 2 handlers: "message" (default) and "update-temporary-editor".
   - `message`: The completion result is added as a new message to the chat. `"completionHandler": { "type": "message" }`
   - `update-temporary-editor`: The completion result is shown in a temporary editor. The handle has a `botMessage` property for the message that is shown in the chat, and an optional 'language' template property that can be used to the the VS Code language id of the temporary editor. `"completionHandler": { "type": "update-temporary-editor", "botMessage": "Test generated.", "language": "typescript" }`
   - `active-editor-diff`: The completion result is shown in a diff editor. It requires an active editor with a selection. The selection at the conversation start will be diffed against the completion result. `"completionHandler": { "type": "active-editor-diff" }`
 
-### Prompt Definitions
-
-The prompt definitions contain parameters for a call to the OpenAI API. Rubberduck calls the [OpenAI Completion API](https://platform.openai.com/docs/api-reference/completions) with the `text-davinci-003` model.
-
-You can set the following parameters:
-
-- `template`: A reference to the prompt template. The prompt is defined in a fenced code section with the language info `template-*`, where `*` is the value that you provide in the prompt property.
-- `maxTokens`: Upper bound on how many tokens will be returned.
-- `stop`: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence. Optional.
-- `temperature`: The randomness of the model. Higher values will make the model more random, lower values will make it more predictable. Optional, defaults to 0.
-
 ## Prompt Templates
 
-The prompt templates are defined in fenced code sections with the language info `template-*`, where `*` is the value that you provide in the `template` property of the prompt definition.
+The prompt templates are defined in fenced code sections with the language info `template-initial-message` and `template-response`. The name must match the prompt definition, i.e. for `initialMessage` you need to define a `template-initial-message` section, and for `response` you need to define a `template-response` section.
 
 They use the [Handlebars templating language](https://handlebarsjs.com/guide/). Variables that you have defined can be expanded using the `{{variableName}}` syntax.
 
