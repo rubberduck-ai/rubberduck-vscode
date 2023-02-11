@@ -6,10 +6,7 @@ import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { DiffData } from "./DiffData";
 import { resolveVariables } from "./input/resolveVariables";
-import {
-  MessageProcessor,
-  RubberduckTemplate,
-} from "./template/RubberduckTemplate";
+import { Prompt, RubberduckTemplate } from "./template/RubberduckTemplate";
 
 Handlebars.registerHelper({
   eq: (v1, v2) => v1 === v2,
@@ -68,11 +65,11 @@ export class Conversation {
     this.diffData = diffData;
 
     this.state =
-      template.type === "basic-chat"
+      template.initialMessage == null
         ? { type: "userCanReply" }
         : {
             type: "waitingForBotAnswer",
-            botAction: template.analysis.placeholder ?? "Answering",
+            botAction: template.initialMessage.placeholder ?? "Answering",
           };
   }
 
@@ -127,14 +124,10 @@ export class Conversation {
 
   private async executeChat() {
     try {
-      const messageProcessor =
-        this.template.type === "basic-chat"
-          ? this.template.chat
-          : this.messages[0] == null
-          ? this.template.analysis
-          : this.template.chat;
-
-      const prompt = messageProcessor.prompt;
+      const prompt =
+        this.messages[0] == null && this.template.initialMessage != null
+          ? this.template.initialMessage
+          : this.template.response;
 
       const completion = await this.openAIClient.generateCompletion({
         prompt: await this.evaluateTemplate(prompt.template),
@@ -142,7 +135,7 @@ export class Conversation {
         stop: prompt.stop,
         temperature: prompt.temperature,
         streamHandler: (value) => {
-          this.handlePartialCompletion(value, messageProcessor);
+          this.handlePartialCompletion(value, prompt);
         },
       });
 
@@ -151,7 +144,7 @@ export class Conversation {
         return;
       }
 
-      await this.handleCompletion(completion.content, messageProcessor);
+      await this.handleCompletion(completion.content, prompt);
     } catch (error: any) {
       console.log(error);
       await this.setErrorStatus({
@@ -162,9 +155,9 @@ export class Conversation {
 
   private async handlePartialCompletion(
     partialCompletion: string,
-    messageProcessor: MessageProcessor
+    prompt: Prompt
   ) {
-    const completionHandler = messageProcessor.completionHandler ?? {
+    const completionHandler = prompt.completionHandler ?? {
       type: "message",
     };
 
@@ -197,11 +190,8 @@ export class Conversation {
     }
   }
 
-  private async handleCompletion(
-    completionContent: string,
-    messageProcessor: MessageProcessor
-  ) {
-    const completionHandler = messageProcessor.completionHandler ?? {
+  private async handleCompletion(completionContent: string, prompt: Prompt) {
+    const completionHandler = prompt.completionHandler ?? {
       type: "message",
     };
 

@@ -70,19 +70,16 @@ export class ConversationType {
         diffEditorManager,
         diffData: await this.getDiffData(),
       }),
-      shouldImmediatelyAnswer:
-        this.template.type === "selected-code-analysis-chat",
+      shouldImmediatelyAnswer: this.template.initialMessage != null,
     };
   }
 
   hasDiffCompletionHandler(): boolean {
     const template = this.template;
     return (
-      (template.type === "basic-chat" &&
-        template.chat.completionHandler?.type === "active-editor-diff") ||
-      (template.type === "selected-code-analysis-chat" &&
-        (template.analysis.completionHandler?.type === "active-editor-diff" ||
-          template.chat.completionHandler?.type === "active-editor-diff"))
+      template.initialMessage?.completionHandler?.type ===
+        "active-editor-diff" ||
+      template.response.completionHandler?.type === "active-editor-diff"
     );
   }
 

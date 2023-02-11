@@ -10,7 +10,6 @@ Describe the selected code in a Shakespeare sonnet.
 {
   "id": "code-sonnet",
   "engineVersion": 0,
-  "type": "selected-code-analysis-chat",
   "label": "Write a code sonnet",
   "description": "Describe the selected code, Shakespeare style.",
   "header": {
@@ -35,28 +34,22 @@ Describe the selected code in a Shakespeare sonnet.
       "property": "selected-location-text"
     }
   ],
-  "analysis": {
+  "initialMessage": {
     "placeholder": "Composing poetry",
-    "prompt": {
-      "template": "analysis",
-      "maxTokens": 1024,
-      "temperature": 0.6
-    }
+    "maxTokens": 1024,
+    "temperature": 0.6
   },
-  "chat": {
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 512,
-      "stop": ["Shakespeare:", "Developer:"],
-      "temperature": 0.4
-    }
+  "response": {
+    "maxTokens": 512,
+    "stop": ["Shakespeare:", "Developer:"],
+    "temperature": 0.4
   }
 }
 ```
 
-### Analysis Prompt
+### Initial Message Prompt
 
-```template-analysis
+```template-initial-message
 ## Instructions
 You are Shakespeare.
 Write a sonnet about the code below.
@@ -73,9 +66,9 @@ Write a sonnet about the code.
 
 ```
 
-### Conversation Prompt
+### Response Prompt
 
-```template-chat
+```template-response
 ## Instructions
 You are Shakespeare.
 Continue the conversation.

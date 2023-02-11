@@ -10,7 +10,6 @@ Generate code using instructions.
 {
   "id": "generate-code",
   "engineVersion": 0,
-  "type": "basic-chat",
   "label": "Generate Code",
   "description": "Generate code using instructions.",
   "header": {
@@ -22,13 +21,10 @@ Generate code using instructions.
   },
   "chatInterface": "instruction-refinement",
   "variables": [],
-  "chat": {
+  "response": {
     "placeholder": "Generating code",
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 2048,
-      "stop": ["```"]
-    },
+    "maxTokens": 2048,
+    "stop": ["```"],
     "completionHandler": {
       "type": "update-temporary-editor",
       "botMessage": "Generated code."
@@ -37,9 +33,9 @@ Generate code using instructions.
 }
 ````
 
-### Chat Prompt
+### Response Prompt
 
-```template-chat
+```template-response
 ## Instructions
 Generate code for the following specification.
 
