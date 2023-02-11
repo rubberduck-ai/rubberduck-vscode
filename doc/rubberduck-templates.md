@@ -8,7 +8,7 @@ That's what you can get with Rubberduck Templates! 🌈
 
 Here are some ideas of what you can do with them:
 
-- Have conversations in a different language, e.g. [in French](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/chat-i18n/chat-fr.rdt.md)
+- Have conversations in a different language, e.g. [in French](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/chat/chat-fr.rdt.md)
 - Let [Shakespeare write a sonnet about your code](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/fun/code-sonnet.rdt.md)
 - Define dedicated tasks, e.g. [improving code readability](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/task/improve-readability.rdt.md)
 - Create project, language or framework-specific templates
