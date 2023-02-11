@@ -10,7 +10,6 @@ Generate unit test cases for the selected code.
 {
   "id": "generate-unit-test",
   "engineVersion": 0,
-  "type": "selected-code-analysis-chat",
   "label": "Generate Unit Test",
   "description": "Generate a unit test for the selected code.",
   "header": {
@@ -50,26 +49,20 @@ Generate unit test cases for the selected code.
       "index": -1
     }
   ],
-  "analysis": {
+  "initialMessage": {
     "placeholder": "Generating Test",
-    "prompt": {
-      "template": "analysis",
-      "maxTokens": 1536,
-      "stop": ["```"]
-    },
+    "maxTokens": 1536,
+    "stop": ["```"],
     "completionHandler": {
       "type": "update-temporary-editor",
       "botMessage": "Generated unit test.",
       "language": "{{language}}"
     }
   },
-  "chat": {
+  "response": {
     "placeholder": "Updating Test",
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 1536,
-      "stop": ["```"]
-    },
+    "maxTokens": 1536,
+    "stop": ["```"],
     "completionHandler": {
       "type": "update-temporary-editor",
       "botMessage": "Updated unit test.",
@@ -79,9 +72,9 @@ Generate unit test cases for the selected code.
 }
 ````
 
-### Analysis Prompt
+### Initial Message Prompt
 
-```template-analysis
+```template-initial-message
 ## Instructions
 Write a unit test for the code below.
 
@@ -99,9 +92,9 @@ The programming language is {{language}}.
 
 ```
 
-### Chat Prompt
+### Response Prompt
 
-```template-chat
+```template-response
 ## Instructions
 Rewrite the code below as follows: "{{lastMessage}}"
 

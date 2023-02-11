@@ -10,7 +10,6 @@ Document the selected code.
 {
   "id": "document-code",
   "engineVersion": 0,
-  "type": "selected-code-analysis-chat",
   "label": "Document Code",
   "description": "Document the selected code.",
   "header": {
@@ -36,25 +35,19 @@ Document the selected code.
       "constraints": [{ "type": "text-length", "min": 1 }]
     }
   ],
-  "analysis": {
+  "initialMessage": {
     "placeholder": "Documenting selection",
-    "prompt": {
-      "template": "analysis",
-      "maxTokens": 2048,
-      "stop": ["```"]
-    },
+    "maxTokens": 2048,
+    "stop": ["```"],
     "completionHandler": {
       "type": "active-editor-diff",
       "botMessage": "Generated documentation."
     }
   },
-  "chat": {
+  "response": {
     "placeholder": "Documenting selection",
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 2048,
-      "stop": ["```"]
-    },
+    "maxTokens": 2048,
+    "stop": ["```"],
     "completionHandler": {
       "type": "active-editor-diff",
       "botMessage": "Generated documentation."
@@ -63,9 +56,9 @@ Document the selected code.
 }
 ````
 
-### Analysis Prompt
+### Initial Message Prompt
 
-```template-analysis
+```template-initial-message
 ## Instructions
 Document the code on function/method/class level.
 Avoid line comments.
@@ -81,9 +74,9 @@ The programming language is {{language}}.
 
 ```
 
-### Chat Prompt
+### Response Prompt
 
-```template-chat
+```template-response
 ## Instructions
 Document the code on function/method/class level.
 Avoid line comments.

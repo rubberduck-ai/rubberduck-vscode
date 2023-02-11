@@ -10,7 +10,6 @@ The improve readability analysis suggests ways to make the selected code easier 
 {
   "id": "improve-readability",
   "engineVersion": 0,
-  "type": "selected-code-analysis-chat",
   "label": "Improve Readability",
   "description": "Improve the readability of the selected code.",
   "header": {
@@ -56,26 +55,20 @@ The improve readability analysis suggests ways to make the selected code easier 
       "index": -1
     }
   ],
-  "analysis": {
+  "initialMessage": {
     "placeholder": "Looking for readability improvements",
-    "prompt": {
-      "template": "analysis",
-      "maxTokens": 1024
-    }
+    "maxTokens": 1024
   },
-  "chat": {
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 1024,
-      "stop": ["Bot:", "Developer:"]
-    }
+  "response": {
+    "maxTokens": 1024,
+    "stop": ["Bot:", "Developer:"]
   }
 }
 ```
 
-### Analysis Prompt
+### Initial Message Prompt
 
-```template-analysis
+```template-initial-message
 ## Instructions
 How could the readability of the code below be improved?
 The programming language is {{language}}.
@@ -99,9 +92,9 @@ The code snippets must contain valid {{language}} code.
 
 ```
 
-### Chat Prompt
+### Analysis Prompt
 
-```template-chat
+```template-analysis
 ## Instructions
 Continue the conversation below.
 Pay special attention to the current developer request.

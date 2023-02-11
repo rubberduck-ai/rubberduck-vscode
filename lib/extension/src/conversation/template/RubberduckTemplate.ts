@@ -1,14 +1,5 @@
 import zod from "zod";
 
-const promptSchema = zod.object({
-  template: zod.string(),
-  maxTokens: zod.number(),
-  stop: zod.array(zod.string()).optional(),
-  temperature: zod.number().optional(),
-});
-
-export type Prompt = zod.infer<typeof promptSchema>;
-
 const completionHandlerSchema = zod.discriminatedUnion("type", [
   zod.object({
     type: zod.literal("message"),
@@ -23,13 +14,20 @@ const completionHandlerSchema = zod.discriminatedUnion("type", [
   }),
 ]);
 
-const messageProcessorSchema = zod.object({
+const promptSchema = zod.object({
   placeholder: zod.string().optional(),
   completionHandler: completionHandlerSchema.optional(), // default: message
-  prompt: promptSchema,
+  maxTokens: zod.number(),
+  stop: zod.array(zod.string()).optional(),
+  temperature: zod.number().optional(),
 });
 
-export type MessageProcessor = zod.infer<typeof messageProcessorSchema>;
+export type Prompt = zod.infer<typeof promptSchema> & {
+  /**
+   * Resolved template.
+   */
+  template: string;
+};
 
 const variableBaseSchema = zod.object({
   name: zod.string(),
@@ -78,7 +76,7 @@ const variableSchema = zod.discriminatedUnion("type", [
 
 export type Variable = zod.infer<typeof variableSchema>;
 
-const baseTemplateSchema = zod.object({
+export const rubberduckTemplateSchema = zod.object({
   id: zod.string(),
   engineVersion: zod.literal(0),
   label: zod.string(),
@@ -96,18 +94,11 @@ const baseTemplateSchema = zod.object({
     .optional(), // default: message-exchange
   isEnabled: zod.boolean().optional(), // default: true
   variables: zod.array(variableSchema).optional(),
+  initialMessage: promptSchema.optional(),
+  response: promptSchema,
 });
 
-export const rubberduckTemplateSchema = zod.discriminatedUnion("type", [
-  baseTemplateSchema.extend({
-    type: zod.literal("basic-chat"),
-    chat: messageProcessorSchema,
-  }),
-  baseTemplateSchema.extend({
-    type: zod.literal("selected-code-analysis-chat"),
-    analysis: messageProcessorSchema,
-    chat: messageProcessorSchema,
-  }),
-]);
-
-export type RubberduckTemplate = zod.infer<typeof rubberduckTemplateSchema>;
+export type RubberduckTemplate = zod.infer<typeof rubberduckTemplateSchema> & {
+  initialMessage?: Prompt;
+  response: Prompt;
+};

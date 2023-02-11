@@ -10,7 +10,6 @@ This templates lets you chat with Rubberduck in French.
 {
   "id": "chat-fr",
   "engineVersion": 0,
-  "type": "basic-chat",
   "label": "Commencer une discussion",
   "description": "Commencer une discussion avec Rubberduck.",
   "header": {
@@ -36,19 +35,16 @@ This templates lets you chat with Rubberduck in French.
       "index": -1
     }
   ],
-  "chat": {
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 1024,
-      "stop": ["Robot:", "Développeur:"]
-    }
+  "response": {
+    "maxTokens": 1024,
+    "stop": ["Robot:", "Développeur:"]
   }
 }
 ```
 
-### Chat Prompt
+### Response Prompt
 
-```template-chat
+```template-response
 ## Instructions
 Continue la conversation ci-dessous.
 Fais particulièrement attention aux requêtes en cours du développeur.
