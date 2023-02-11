@@ -8,7 +8,7 @@ That's what you can get with Rubberduck Templates! 🌈
 
 Here are some ideas of what you can do with them:
 
-- Have conversations in a different language, e.g. [in French](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/chat-i18n/chat-fr.rdt.md)
+- Have conversations in a different language, e.g. [in French](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/chat/chat-fr.rdt.md)
 - Let [Shakespeare write a sonnet about your code](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/fun/code-sonnet.rdt.md)
 - Define dedicated tasks, e.g. [improving code readability](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/task/improve-readability.rdt.md)
 - Create project, language or framework-specific templates
@@ -97,14 +97,12 @@ Variables are values that you can expand in the header title and in the prompt t
   "variables": [
     {
       "name": "selectedText",
-      "type": "active-editor",
-      "property": "selected-text",
+      "type": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "location",
-      "type": "active-editor",
-      "property": "selected-location-text"
+      "type": "selected-location-text"
     },
     {
       "name": "lastMessage",
@@ -121,18 +119,17 @@ Variables are values that you can expand in the header title and in the prompt t
   …
 </pre>
 
-They are defined in the `variables` property of the configuration section. The property contains an array of variable definitions. There are 4 kinds of variables:
+They are defined in the `variables` property of the configuration section. The property contains an array of variable definitions. There are the following kinds of variables:
 
-- **Active Editor** (`type: active-editor`): The active editor in the current workspace. The resolution `time` can be `conversation-start` or `message`. You can specify which property you want to access:
-  - `property: filename`: The name of the file.
-  - `property: language-id`: The VS Code language id of the file.
-  - `property: selected-text`: The currently selected text in the file.
-  - `property: selected-location-text`: The filename and the start/end lines of the selection. This is useful for including in the header title.
+- **Selected text** (`type: selected-text`): The currently selected text in the active editor. The resolution `time` is `conversation-start` or `message`.
 - **Selected text with diagnostics** (`type: selected-text-with-diagnostics`): The currently selected text in the active editor, with diagnostics. The resolution `time` is `conversation-start`. The `severities` property contains an array of the included severities (possible values: `error`, `warning`, `information`, `hint`).
 - **Constants** (`type: constant`): A constant value that is always the same. You can use it to extract common parts from your templates, e.g. the bot role, and tweak it quickly to explore different responses while you are developing the template. The `time` property needs to be set to `conversation-start`.
 - **Messages**: (`type: message`): Get properties of a message at an index. Only the message content (`property: content`) is supported at the moment. You can e.g. use it to access the first (index 0) or the last (index -1) message of the conversation. The `time` property needs to be set to `message`.
+- **Language** (`type: language`): The language of the active editor. The resolution `time` can be `conversation-start`.
+- **Filename** (`type: filename`): The name of the active editor. The resolution `time` can be `conversation-start`.
+- **Location of the selected text** (`type: selected-location-text`): The filename and the start/end lines of the selection. This is useful for including in the header title. The resolution `time` can be `conversation-start`.
 
-You can add constraints to the `active-editor` variables. Right now only a minimal text length constraint is available (`type: text-length`). It is useful to make sure that the user has selected some text before starting the conversation. If the constraint is not met, an error popup is shown and the conversation will not be started.
+You can add constraints to the variables. Right now only a minimal text length constraint is available (`type: text-length`). It is useful to make sure that the user has selected some text before starting the conversation. If the constraint is not met, an error popup is shown and the conversation will not be started.
 
 ### Prompt Definitions
 

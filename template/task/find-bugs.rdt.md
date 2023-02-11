@@ -23,22 +23,19 @@ Template to find bugs in the selected code.
     {
       "name": "selectedText",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-text",
+      "type": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "language",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "language-id",
+      "type": "language",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "location",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-location-text"
+      "type": "selected-location-text"
     },
     {
       "name": "firstMessage",
@@ -55,7 +52,7 @@ Template to find bugs in the selected code.
       "index": -1
     }
   ],
-  "initial-message": {
+  "initialMessage": {
     "placeholder": "Searching for bugs",
     "template": "analysis",
     "maxTokens": 1024

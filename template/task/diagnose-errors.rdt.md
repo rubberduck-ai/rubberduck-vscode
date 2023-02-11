@@ -30,8 +30,7 @@ Diagnoses any errors or warnings the selected code.
     {
       "name": "location",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-location-text"
+      "type": "selected-location-text"
     },
     {
       "name": "firstMessage",
@@ -48,7 +47,7 @@ Diagnoses any errors or warnings the selected code.
       "index": -1
     }
   ],
-  "initial-message": {
+  "initialMessage": {
     "placeholder": "Diagnosing errors",
     "template": "analysis",
     "maxTokens": 512

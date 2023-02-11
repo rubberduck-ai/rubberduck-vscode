@@ -23,15 +23,13 @@ Explain the selected code.
     {
       "name": "selectedText",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-text",
+      "type": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "location",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-location-text"
+      "type": "selected-location-text"
     },
     {
       "name": "firstMessage",
@@ -48,7 +46,7 @@ Explain the selected code.
       "index": -1
     }
   ],
-  "initial-message": {
+  "initialMessage": {
     "placeholder": "Generating explanation",
     "maxTokens": 512
   },
