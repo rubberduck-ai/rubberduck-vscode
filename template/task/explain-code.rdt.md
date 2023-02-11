@@ -46,7 +46,7 @@ Explain the selected code.
       "index": -1
     }
   ],
-  "initial-message": {
+  "initialMessage": {
     "placeholder": "Generating explanation",
     "maxTokens": 512
   },
