@@ -31,6 +31,7 @@ export function InstructionRefinementView({
               <>
                 <ChatInput
                   text={inputText}
+                  placeholder={"Enter instructions…"}
                   onChange={setInputText}
                   onShiftEnter={() => onSendMessage(inputText)}
                 />
