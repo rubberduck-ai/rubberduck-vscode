@@ -32,7 +32,7 @@ export function InstructionRefinementView({
                 <ChatInput
                   text={inputText}
                   onChange={setInputText}
-                  onEnter={() => onSendMessage(inputText)}
+                  onShiftEnter={() => onSendMessage(inputText)}
                 />
                 <button onClick={() => onSendMessage(inputText)}>
                   Generate

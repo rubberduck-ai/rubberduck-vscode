@@ -4,6 +4,7 @@
 
 ### Changed
 
+- In instruction fields, enter creates a newlines. Shift+Enter or Ctrl+Enter submits the instructions. In messages, enter submits the message.
 - **Breaking**. Rubberduck Templates: Removed `type` property and related fields. Introduced `initialMessage` and `response` properties that contain flattened prompt and additional information.
 
 ## 1.8.0 - 2023-02-10
