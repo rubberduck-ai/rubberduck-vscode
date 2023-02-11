@@ -23,15 +23,13 @@ Document the selected code.
     {
       "name": "selectedText",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-text",
+      "type": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "language",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "language-id",
+      "type": "language",
       "constraints": [{ "type": "text-length", "min": 1 }]
     }
   ],

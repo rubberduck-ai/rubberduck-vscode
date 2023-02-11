@@ -24,8 +24,7 @@ Generate code using instructions.
     {
       "name": "selectedText",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-text",
+      "type": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     }
   ],

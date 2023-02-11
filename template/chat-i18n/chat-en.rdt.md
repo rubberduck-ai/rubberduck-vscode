@@ -24,8 +24,7 @@ This templates lets you chat with Rubberduck in English.
     {
       "name": "selectedText",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-text"
+      "type": "selected-text"
     },
     {
       "name": "lastMessage",

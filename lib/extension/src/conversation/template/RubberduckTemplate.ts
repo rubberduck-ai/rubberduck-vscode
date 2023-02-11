@@ -56,14 +56,20 @@ const variableSchema = zod.discriminatedUnion("type", [
     property: zod.enum(["content"]),
   }),
   variableBaseSchema.extend({
-    type: zod.literal("active-editor"),
+    type: zod.literal("selected-text"),
     time: zod.enum(["conversation-start", "message"]),
-    property: zod.enum([
-      "language-id",
-      "selected-text",
-      "selected-location-text",
-      "filename",
-    ]),
+  }),
+  variableBaseSchema.extend({
+    type: zod.literal("selected-location-text"),
+    time: zod.enum(["conversation-start"]),
+  }),
+  variableBaseSchema.extend({
+    type: zod.literal("filename"),
+    time: zod.enum(["conversation-start"]),
+  }),
+  variableBaseSchema.extend({
+    type: zod.literal("language"),
+    time: zod.enum(["conversation-start"]),
   }),
   variableBaseSchema.extend({
     type: zod.literal("selected-text-with-diagnostics"),

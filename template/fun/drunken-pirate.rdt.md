@@ -23,15 +23,13 @@ This template is a conversation between a developer and a drunken pirate. The dr
     {
       "name": "selectedText",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-text",
+      "type": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "location",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-location-text"
+      "type": "selected-location-text"
     },
     {
       "name": "lastMessage",
