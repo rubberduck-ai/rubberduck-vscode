@@ -1,4 +1,4 @@
-![Rubberduck AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/asset/rubberduck-header.gif)
+![Rubberduck AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/asset/rubberduck-header-2.gif)
 
 > &nbsp;
 >
