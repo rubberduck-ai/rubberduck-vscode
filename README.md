@@ -1,6 +1,12 @@
 ![Rubberduck AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/asset/rubberduck-header.gif)
 
-# Rubberduck: GPT Chat for Visual Studio Code
+# Rubberduck: ChatGPT for Visual Studio Code
+
+> &nbsp;
+>
+> #### AI chat in the Visual Studio Code side bar. Rubberduck can [generate code](#generate-code), [edit code](#edit-code), [explain code](#explain-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](#custom-conversations).
+>
+> &nbsp;
 
 <!-- prettier-ignore-start -->
 [![Marketplace](https://vsmarketplacebadges.dev/version-short/Rubberduck.rubberduck-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
@@ -14,12 +20,6 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
 <!-- prettier-ignore-end -->
-
-> &nbsp;
->
-> #### AI chat in the Visual Studio Code side bar. Rubberduck can [generate code](#generate-code), [edit code](#edit-code), [explain code](#explain-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](#custom-conversations).
->
-> &nbsp;
 
 ## Quick Install
 
