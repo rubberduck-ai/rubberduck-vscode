@@ -10,7 +10,6 @@ Diagnoses any errors or warnings the selected code.
 {
   "id": "diagnose-errors",
   "engineVersion": 0,
-  "type": "selected-code-analysis-chat",
   "label": "Diagnose Errors",
   "description": "Diagnose errors and warnings in the selected code.",
   "header": {
@@ -31,8 +30,7 @@ Diagnoses any errors or warnings the selected code.
     {
       "name": "location",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-location-text"
+      "type": "selected-location-text"
     },
     {
       "name": "firstMessage",
@@ -49,26 +47,21 @@ Diagnoses any errors or warnings the selected code.
       "index": -1
     }
   ],
-  "analysis": {
+  "initialMessage": {
     "placeholder": "Diagnosing errors",
-    "prompt": {
-      "template": "analysis",
-      "maxTokens": 512
-    }
+    "template": "analysis",
+    "maxTokens": 512
   },
-  "chat": {
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 1024,
-      "stop": ["Bot:", "Developer:"]
-    }
+  "response": {
+    "maxTokens": 1024,
+    "stop": ["Bot:", "Developer:"]
   }
 }
 ```
 
-### Analysis Prompt
+### Initial Message Prompt
 
-```template-analysis
+```template-initial-message
 ## Instructions
 Read through the errors and warnings in the code below.
 
@@ -85,9 +78,9 @@ Include code snippets where appropriate.
 
 ```
 
-### Chat Prompt
+### Response Prompt
 
-```template-chat
+```template-response
 ## Instructions
 Continue the conversation below.
 Pay special attention to the current developer request.

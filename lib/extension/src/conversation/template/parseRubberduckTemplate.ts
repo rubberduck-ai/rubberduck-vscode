@@ -33,8 +33,8 @@ class NamedCodeSnippetMap {
     return content;
   }
 
-  resolveTemplate(prompt: Prompt) {
-    prompt.template = this.getHandlebarsTemplate(prompt.template);
+  resolveTemplate(prompt: Prompt, templateId: string) {
+    prompt.template = this.getHandlebarsTemplate(templateId);
   }
 
   private getHandlebarsTemplate(templateName: string): string {
@@ -84,27 +84,18 @@ export function parseRubberduckTemplate(
       secureJSON.parse(templateText)
     );
 
-    // resolve prompt templates:
-    const conversationType = template.type;
-    switch (conversationType) {
-      case "basic-chat": {
-        namedCodeSnippets.resolveTemplate(template.chat.prompt);
-        break;
-      }
-      case "selected-code-analysis-chat": {
-        namedCodeSnippets.resolveTemplate(template.analysis.prompt);
-        namedCodeSnippets.resolveTemplate(template.chat.prompt);
-        break;
-      }
-      default: {
-        const exhaustiveCheck: never = conversationType;
-        throw new Error(`unsupported type: ${exhaustiveCheck}`);
-      }
+    if (template.initialMessage != null) {
+      namedCodeSnippets.resolveTemplate(
+        template.initialMessage as Prompt,
+        "initial-message"
+      );
     }
+
+    namedCodeSnippets.resolveTemplate(template.response as Prompt, "response");
 
     return {
       type: "success",
-      template: template,
+      template: template as RubberduckTemplate,
     };
   } catch (error) {
     return {

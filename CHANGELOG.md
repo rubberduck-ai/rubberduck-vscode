@@ -1,5 +1,59 @@
 # Changelog
 
+## 1.8.4 - 2023-02-12
+
+### Fixed
+
+- OpenAI errors were not shown in the chat panel when streaming. Fixed (#32).
+
+## 1.8.3 - 2023-02-11
+
+### Changed
+
+- **Breaking**. Rubberduck Templates: Changed variable 'activeEditor' into several new variables and removed it.
+
+### Fixed
+
+- Diagnose errors, explain code, and find bugs were not working in 1.8.2. Fixed.
+
+## 1.8.2 - 2023-02-11
+
+### Changed
+
+- In instruction fields, enter creates a newlines. Shift+Enter or Ctrl+Enter submits the instructions. In messages, enter submits the message.
+- **Breaking**. Rubberduck Templates: Removed `type` property and related fields. Introduced `initialMessage` and `response` properties that contain flattened prompt and additional information.
+
+## 1.8.0 - 2023-02-10
+
+### Added
+
+- Shortcut `Ctrl + Cmd + G` (Mac) or `Ctrl + Alt + G` (Windows / Linux) to generate code.
+- Rubberduck Templates: "chatInterface" property for conversation templates.
+
+### Changed
+
+- Generate code, generate unit test and edit code now use an instruction refinement chat interface.
+
+### Fixed
+
+- Streaming sometimes led to errors. Fixed.
+
+## 1.7.2 - 2023-02-10
+
+### Added
+
+- Streaming for code generation.
+
+## 1.7.0 - 2023-02-10
+
+### Added
+
+- Streaming for basic chat messages.
+
+### Fixed
+
+- Generate unit test was not working. Fixed.
+
 ## 1.6.1 - 2023-02-09
 
 ### Added

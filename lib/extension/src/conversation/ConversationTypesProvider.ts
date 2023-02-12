@@ -37,12 +37,13 @@ export class ConversationTypesProvider {
 
   async loadConversationTypes() {
     const builtInConversationTypes = [
-      await this.loadBuiltinTemplate("chat-i18n", "chat-en.rdt.md"),
+      await this.loadBuiltinTemplate("chat", "chat-en.rdt.md"),
       await this.loadBuiltinTemplate("task", "diagnose-errors.rdt.md"),
       await this.loadBuiltinTemplate("task", "edit-code.rdt.md"),
       await this.loadBuiltinTemplate("task", "explain-code.rdt.md"),
       await this.loadBuiltinTemplate("task", "find-bugs.rdt.md"),
       await this.loadBuiltinTemplate("task", "generate-code.rdt.md"),
+      await this.loadBuiltinTemplate("task", "generate-unit-test.rdt.md"),
     ];
 
     this.conversationTypes.clear();

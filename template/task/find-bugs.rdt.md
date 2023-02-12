@@ -1,5 +1,7 @@
 # Find Bugs
 
+Template to find bugs in the selected code.
+
 ## Template
 
 ### Configuration
@@ -8,7 +10,6 @@
 {
   "id": "find-bugs",
   "engineVersion": 0,
-  "type": "selected-code-analysis-chat",
   "label": "Find bugs",
   "description": "Find any potential bugs in the selected code.",
   "header": {
@@ -22,22 +23,19 @@
     {
       "name": "selectedText",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-text",
+      "type": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "language",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "language-id",
+      "type": "language",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "location",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-location-text"
+      "type": "selected-location-text"
     },
     {
       "name": "firstMessage",
@@ -54,26 +52,21 @@
       "index": -1
     }
   ],
-  "analysis": {
+  "initialMessage": {
     "placeholder": "Searching for bugs",
-    "prompt": {
-      "template": "analysis",
-      "maxTokens": 1024
-    }
+    "template": "analysis",
+    "maxTokens": 1024
   },
-  "chat": {
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 1024,
-      "stop": ["Bot:", "Developer:"]
-    }
+  "response": {
+    "maxTokens": 1024,
+    "stop": ["Bot:", "Developer:"]
   }
 }
 ```
 
-### Analysis Prompt
+### Initial Message Prompt
 
-```template-analysis
+```template-initial-message
 ## Instructions
 What could be wrong with the code below?
 Only consider defects that would lead to incorrect behavior.
@@ -95,9 +88,9 @@ Include code snippets (using Markdown) and examples where appropriate.
 
 ```
 
-### Chat Prompt
+### Response Prompt
 
-```template-chat
+```template-response
 ## Instructions
 Continue the conversation below.
 Pay special attention to the current developer request.

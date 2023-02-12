@@ -24,7 +24,8 @@
         "code",
         "doc",
         "review",
-        "question"
+        "question",
+        "bug"
       ]
     },
     {
@@ -44,7 +45,26 @@
       "profile": "https://nicoespeon.com",
       "contributions": [
         "code",
-        "doc"
+        "doc",
+        "bug"
+      ]
+    },
+    {
+      "login": "RatoGBM",
+      "name": "RatoGBM",
+      "avatar_url": "https://avatars.githubusercontent.com/u/80184495?v=4",
+      "profile": "https://github.com/RatoGBM",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "lohnsonok",
+      "name": "Lionel Okpeicha",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60504466?v=4",
+      "profile": "https://www.lionelokpeicha.dev/",
+      "contributions": [
+        "bug"
       ]
     }
   ]

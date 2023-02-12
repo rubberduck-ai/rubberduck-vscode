@@ -10,7 +10,6 @@ This templates lets you chat with Rubberduck in German.
 {
   "id": "chat-de",
   "engineVersion": 0,
-  "type": "basic-chat",
   "label": "Starte eine Unterhaltung",
   "description": "Starte eine Unterhaltung mit Rubberduck.",
   "header": {
@@ -25,8 +24,7 @@ This templates lets you chat with Rubberduck in German.
     {
       "name": "selectedText",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-text"
+      "type": "selected-text"
     },
     {
       "name": "lastMessage",
@@ -36,20 +34,17 @@ This templates lets you chat with Rubberduck in German.
       "index": -1
     }
   ],
-  "chat": {
+  "response": {
     "placeholder": "Antworte",
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 1024,
-      "stop": ["Roboter:", "Entwickler:"]
-    }
+    "maxTokens": 1024,
+    "stop": ["Roboter:", "Entwickler:"]
   }
 }
 ```
 
-### Chat Prompt
+### Response Prompt
 
-```template-chat
+```template-response
 ## Anweisungen
 Setze die folgende Unterhaltung fort.
 Achte besonders auf die aktuelle Entwickler-Nachricht.

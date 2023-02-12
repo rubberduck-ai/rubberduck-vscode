@@ -10,7 +10,6 @@ This templates lets you chat with Rubberduck in English.
 {
   "id": "chat-en",
   "engineVersion": 0,
-  "type": "basic-chat",
   "label": "Start chat",
   "description": "Start a basic chat with Rubberduck.",
   "header": {
@@ -25,8 +24,7 @@ This templates lets you chat with Rubberduck in English.
     {
       "name": "selectedText",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-text"
+      "type": "selected-text"
     },
     {
       "name": "lastMessage",
@@ -36,19 +34,16 @@ This templates lets you chat with Rubberduck in English.
       "index": -1
     }
   ],
-  "chat": {
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 1024,
-      "stop": ["Bot:", "Developer:"]
-    }
+  "response": {
+    "maxTokens": 1024,
+    "stop": ["Bot:", "Developer:"]
   }
 }
 ```
 
-### Chat Prompt
+### Response Prompt
 
-```template-chat
+```template-response
 ## Instructions
 Continue the conversation below.
 Pay special attention to the current developer request.

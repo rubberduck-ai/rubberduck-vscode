@@ -1,18 +1,6 @@
-![Rubberduck AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/asset/rubberduck-header-2.png)
+![Rubberduck AI Chat](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/asset/rubberduck-header-2.gif)
 
-# Rubberduck: AI chat for Visual Studio Code
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](https://github.com/rubberduck-ai/rubberduck-vscode#contributors)
-[![Discord](https://discordapp.com/api/guilds/1061938502327091271/widget.png?style=shield)](https://discord.gg/8KN2HmyZmn)
-[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/rubberduckai.svg?style=social&label=%20%40rubberduckai)](https://twitter.com/rubberduckai)
-[![GitHub stars](https://img.shields.io/github/stars/rubberduck-ai/rubberduck-vscode.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/rubberduck-ai/rubberduck-vscode/stargazers/)
-
-> &nbsp;
->
-> #### Threaded AI chats in the Visual Studio Code side bar. Rubberduck can [generate code](#generate-code), [edit code](#edit-code), [explain code](#explain-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-templates.md).
->
-> &nbsp;
+> #### AI chat in the Visual Studio Code side bar. Rubberduck can [generate code](#generate-code), [edit code](#edit-code), [explain code](#explain-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-templates.md).
 
 # Setup
 
@@ -44,6 +32,7 @@ Instruct Rubberduck to generate code for you.
 1. You can start generating code using one of the following options:
    1. Run the `Rubberduck: Generate Code 💬` command from the command palette.
    1. Use the "Generate Code" toolbar button in the side panel.
+   1. Use the keyboard shortcut: `Ctrl + Cmd + G` (Mac) or `Ctrl + Alt + G` (Windows / Linux).
 2. Describe what you want to generate in the new conversation thread in the Rubberduck sidebar panel. Rubberduck will generate code for you based on your description. Further messages can be used to refine the generated code.
 
 ![Generate Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-code.gif)

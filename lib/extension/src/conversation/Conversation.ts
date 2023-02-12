@@ -6,10 +6,7 @@ import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { DiffData } from "./DiffData";
 import { resolveVariables } from "./input/resolveVariables";
-import {
-  RubberduckTemplate,
-  MessageProcessor,
-} from "./template/RubberduckTemplate";
+import { Prompt, RubberduckTemplate } from "./template/RubberduckTemplate";
 
 Handlebars.registerHelper({
   eq: (v1, v2) => v1 === v2,
@@ -23,7 +20,7 @@ Handlebars.registerHelper({
 export class Conversation {
   readonly id: string;
   protected readonly openAIClient: OpenAIClient;
-  protected state: webviewApi.Conversation["state"];
+  protected state: webviewApi.MessageExchangeContent["state"];
   protected readonly messages: webviewApi.Message[];
   protected readonly updateChatPanel: () => Promise<void>;
 
@@ -68,11 +65,11 @@ export class Conversation {
     this.diffData = diffData;
 
     this.state =
-      template.type === "basic-chat"
+      template.initialMessage == null
         ? { type: "userCanReply" }
         : {
             type: "waitingForBotAnswer",
-            botAction: template.analysis.placeholder ?? "Answering",
+            botAction: template.initialMessage.placeholder ?? "Answering",
           };
   }
 
@@ -127,20 +124,19 @@ export class Conversation {
 
   private async executeChat() {
     try {
-      const messageProcessor =
-        this.template.type === "basic-chat"
-          ? this.template.chat
-          : this.messages[0] == null
-          ? this.template.analysis
-          : this.template.chat;
-
-      const prompt = messageProcessor.prompt;
+      const prompt =
+        this.messages[0] == null && this.template.initialMessage != null
+          ? this.template.initialMessage
+          : this.template.response;
 
       const completion = await this.openAIClient.generateCompletion({
         prompt: await this.evaluateTemplate(prompt.template),
         maxTokens: prompt.maxTokens,
         stop: prompt.stop,
         temperature: prompt.temperature,
+        streamHandler: (value) => {
+          this.handlePartialCompletion(value, prompt);
+        },
       });
 
       if (completion.type === "error") {
@@ -148,7 +144,7 @@ export class Conversation {
         return;
       }
 
-      await this.handleCompletion(completion.content, messageProcessor);
+      await this.handleCompletion(completion.content, prompt);
     } catch (error: any) {
       console.log(error);
       await this.setErrorStatus({
@@ -157,24 +153,54 @@ export class Conversation {
     }
   }
 
-  private async handleCompletion(
-    completionContent: string,
-    messageProcessor: MessageProcessor
+  private async handlePartialCompletion(
+    partialCompletion: string,
+    prompt: Prompt
   ) {
-    const completionHandler = messageProcessor.completionHandler;
-
-    if (completionHandler == undefined) {
-      await this.addBotMessage({
-        content: completionContent.trim(),
-      });
-      return;
-    }
+    const completionHandler = prompt.completionHandler ?? {
+      type: "message",
+    };
 
     const completionHandlerType = completionHandler.type;
 
     switch (completionHandlerType) {
       case "update-temporary-editor": {
-        this.temporaryEditorContent = completionContent.trim();
+        this.temporaryEditorContent = partialCompletion.trim();
+
+        const language = completionHandler.language;
+
+        await this.updateTemporaryEditor(
+          language != null ? await this.evaluateTemplate(language) : undefined
+        );
+        break;
+      }
+      case "active-editor-diff": {
+        break;
+      }
+      case "message": {
+        await this.updatePartialBotMessage({
+          content: partialCompletion.trim(),
+        });
+        break;
+      }
+      default: {
+        const exhaustiveCheck: never = completionHandlerType;
+        throw new Error(`unsupported property: ${exhaustiveCheck}`);
+      }
+    }
+  }
+
+  private async handleCompletion(completionContent: string, prompt: Prompt) {
+    const completionHandler = prompt.completionHandler ?? {
+      type: "message",
+    };
+
+    const completionHandlerType = completionHandler.type;
+    const trimmedCompletion = completionContent.trim();
+
+    switch (completionHandlerType) {
+      case "update-temporary-editor": {
+        this.temporaryEditorContent = trimmedCompletion;
 
         await this.addBotMessage({
           content: completionHandler.botMessage,
@@ -188,7 +214,7 @@ export class Conversation {
         break;
       }
       case "active-editor-diff": {
-        this.diffContent = completionContent.trim();
+        this.diffContent = trimmedCompletion;
 
         await this.addBotMessage({
           content: "Edit generated",
@@ -196,12 +222,11 @@ export class Conversation {
         });
 
         await this.updateDiff();
-
         break;
       }
       case "message": {
         await this.addBotMessage({
-          content: completionContent.trim(),
+          content: trimmedCompletion,
         });
         break;
       }
@@ -234,15 +259,25 @@ export class Conversation {
         temporaryEditorDocument
       );
     } else {
+      const currentText = this.temporaryEditor.document.getText();
+
+      let commonPrefix = 0;
+      for (let i = 0; i < currentText.length; i++) {
+        if (currentText[i] !== temporaryEditorContent[i]) {
+          break;
+        }
+        commonPrefix++;
+      }
+
       this.temporaryEditor.edit((edit: vscode.TextEditorEdit) => {
         edit.replace(
           new vscode.Range(
-            temporaryEditorDocument.positionAt(0),
+            temporaryEditorDocument.positionAt(commonPrefix),
             temporaryEditorDocument.positionAt(
-              temporaryEditorDocument.getText().length - 1
+              temporaryEditorDocument.getText().length
             )
           ),
-          temporaryEditorContent
+          temporaryEditorContent.substring(commonPrefix)
         );
       });
     }
@@ -386,12 +421,19 @@ export class Conversation {
     await this.updateChatPanel();
   }
 
+  protected async updatePartialBotMessage({ content }: { content: string }) {
+    this.state = { type: "botAnswerStreaming", partialAnswer: content };
+    await this.updateChatPanel();
+  }
+
   protected async setErrorStatus({ errorMessage }: { errorMessage: string }) {
     this.state = { type: "error", errorMessage };
     await this.updateChatPanel();
   }
 
   async toWebviewConversation(): Promise<webviewApi.Conversation> {
+    const chatInterface = this.template.chatInterface ?? "message-exchange";
+
     return {
       id: this.id,
       header: {
@@ -399,8 +441,44 @@ export class Conversation {
         isTitleMessage: this.isTitleMessage(),
         codicon: this.getCodicon(),
       },
-      messages: this.isTitleMessage() ? this.messages.slice(1) : this.messages,
-      state: this.state,
+      content:
+        chatInterface === "message-exchange"
+          ? {
+              type: "messageExchange",
+              messages: this.isTitleMessage()
+                ? this.messages.slice(1)
+                : this.messages,
+              state: this.state,
+            }
+          : {
+              type: "instructionRefinement",
+              instruction: "", // TODO last user message?
+              state: this.refinementInstructionState(),
+            },
     };
+  }
+
+  private refinementInstructionState(): webviewApi.InstructionRefinementContent["state"] {
+    const { type } = this.state;
+    switch (type) {
+      case "botAnswerStreaming":
+      case "waitingForBotAnswer":
+        return {
+          type: "waitingForBotAnswer",
+        };
+
+      case "error":
+        return this.state;
+
+      case "userCanReply":
+        return {
+          type: "userCanRefineInstruction",
+        };
+
+      default: {
+        const exhaustiveCheck: never = type;
+        throw new Error(`unsupported type: ${exhaustiveCheck}`);
+      }
+    }
   }
 }

@@ -1,7 +1,7 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "1.6.1",
+  "version": "1.8.4",
   "displayName": "Rubberduck - ChatGPT for Visual Studio Code",
   "description": "Generate code, edit code, explain code, generate tests, find bugs, diagnose errors, and even create your own conversation templates.",
   "keywords": [
@@ -14,18 +14,18 @@
     "code explanation"
   ],
   "categories": [
+    "Machine Learning",
     "Programming Languages",
     "Linters",
     "Formatters",
     "Data Science",
-    "Machine Learning",
     "Education",
     "Testing"
   ],
   "icon": "media/extension-icon.png",
   "galleryBanner": {
-    "color": "#b4d7e4",
-    "theme": "light"
+    "color": "#000000",
+    "theme": "dark"
   },
   "license": "SEE LICENSE IN LICENSE.txt",
   "engines": {
@@ -151,6 +151,16 @@
         "command": "rubberduck.editCode",
         "when": "!isMac",
         "key": "Ctrl+Alt+e"
+      },
+      {
+        "command": "rubberduck.generateCode",
+        "when": "isMac",
+        "key": "Ctrl+Cmd+g"
+      },
+      {
+        "command": "rubberduck.generateCode",
+        "when": "!isMac",
+        "key": "Ctrl+Alt+g"
       }
     ],
     "menus": {

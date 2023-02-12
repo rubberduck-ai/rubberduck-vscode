@@ -1,5 +1,7 @@
 import axios, { AxiosError } from "axios";
-import zod, { Schema } from "zod";
+import { IncomingMessage } from "http";
+import secureJSON from "secure-json-parse";
+import zod from "zod";
 import { ApiKeyManager } from "./ApiKeyManager";
 
 export const OpenAICompletionSchema = zod.object({
@@ -22,6 +24,23 @@ export const OpenAICompletionSchema = zod.object({
     completion_tokens: zod.number(),
     total_tokens: zod.number(),
   }),
+});
+
+const streamSchema = zod.object({
+  id: zod.string(),
+  object: zod.literal("text_completion"),
+  created: zod.number(),
+  model: zod.string(),
+  choices: zod
+    .array(
+      zod.object({
+        text: zod.string(),
+        index: zod.number(),
+        logprobs: zod.nullable(zod.any()),
+        finish_reason: zod.nullable(zod.string()),
+      })
+    )
+    .min(1),
 });
 
 export class OpenAIClient {
@@ -47,78 +66,18 @@ export class OpenAIClient {
     return this.apiKeyManager.getOpenAIApiKey();
   }
 
-  private async postToApi<T>({
-    path,
-    content,
-    schema,
-  }: {
-    path: string;
-    content: unknown;
-    schema: Schema<T>;
-  }): Promise<
-    | {
-        type: "success";
-        data: T;
-      }
-    | {
-        type: "error";
-        errorMessage: string;
-      }
-  > {
-    try {
-      const apiKey = await this.getApiKey();
-
-      if (apiKey == undefined) {
-        return {
-          type: "error",
-          errorMessage:
-            "No OpenAI API key found. Please enter your OpenAI API key with the 'Rubberduck: Enter OpenAI API key' command.",
-        };
-      }
-
-      const response = await axios.post(
-        `https://api.openai.com${path}`,
-        content,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey}`,
-          },
-        }
-      );
-
-      return {
-        type: "success",
-        data: schema.parse(response.data),
-      };
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        // extract error message from OpenAI response:
-        const message: string | undefined = error.response?.data.error.message;
-
-        return {
-          type: "error",
-          errorMessage: message ?? "Unknown error",
-        };
-      }
-
-      return {
-        type: "error",
-        errorMessage: "Unknown error",
-      };
-    }
-  }
-
   async generateCompletion({
     prompt,
     maxTokens,
     stop,
     temperature = 0,
+    streamHandler,
   }: {
     prompt: string;
     maxTokens: number;
     stop?: string[] | undefined;
     temperature?: number | undefined;
+    streamHandler?: (stream: string) => void;
   }): Promise<
     | {
         type: "success";
@@ -135,38 +94,150 @@ export class OpenAIClient {
       this.log("--- End OpenAI prompt ---");
     }
 
-    const result = await this.postToApi({
-      path: `/v1/completions`,
-      content: {
-        model: "text-davinci-003",
-        prompt,
-        max_tokens: maxTokens,
-        stop,
-        temperature,
-        // top_p is excluded because temperature is set
-        best_of: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-      },
-      schema: OpenAICompletionSchema,
-    });
+    try {
+      const apiKey = await this.getApiKey();
 
-    if (result.type === "error") {
-      return result;
-    }
+      if (apiKey == undefined) {
+        return {
+          type: "error",
+          errorMessage:
+            "No OpenAI API key found. Please enter your OpenAI API key with the 'Rubberduck: Enter OpenAI API key' command.",
+        };
+      }
 
-    const choice = result.data.choices[0];
+      const isStreaming = streamHandler != null;
 
-    if (choice == undefined) {
+      const response = await axios.post(
+        `https://api.openai.com/v1/completions`,
+        {
+          model: "text-davinci-003",
+          prompt,
+          max_tokens: maxTokens,
+          stop,
+          temperature,
+          // top_p is excluded because temperature is set
+          best_of: 1,
+          frequency_penalty: 0,
+          presence_penalty: 0,
+          stream: isStreaming,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
+          responseType: isStreaming ? "stream" : undefined,
+        }
+      );
+
+      if (isStreaming) {
+        const streamEnd = new Promise<string>((resolve, reject) => {
+          try {
+            let responseUntilNow = "";
+            let resolved = false;
+
+            response.data.on("data", (chunk: Buffer) => {
+              const chunkText = chunk.toString();
+
+              try {
+                // sometimes chunks contain multiple data: lines
+                const lines = chunkText
+                  .split("\n")
+                  .map((line) => line.trim())
+                  .filter((line) => line.length > 0);
+
+                for (const line of lines) {
+                  if (line.trim() === "data: [DONE]") {
+                    if (!resolved) {
+                      resolved = true;
+                      resolve(responseUntilNow);
+                    }
+                    return;
+                  }
+
+                  const result = streamSchema.parse(
+                    secureJSON.parse(line.substring("data: ".length))
+                  );
+
+                  responseUntilNow += result.choices[0]?.text ?? "";
+
+                  streamHandler(responseUntilNow);
+                }
+              } catch (error) {
+                console.log({
+                  chunkText,
+                  error,
+                });
+                reject(error);
+              }
+            });
+
+            response.data.on("end", () => {
+              if (!resolved) {
+                resolved = true;
+                resolve(responseUntilNow);
+              }
+            });
+          } catch (error) {
+            console.log(error);
+            reject(error);
+          }
+        });
+
+        const completion = await streamEnd;
+
+        return {
+          type: "success",
+          content: completion,
+        };
+      } else {
+        const completion = OpenAICompletionSchema.parse(response.data)
+          .choices[0]?.text;
+
+        if (completion == undefined) {
+          return {
+            type: "error",
+            errorMessage: "No completion found",
+          };
+        }
+
+        return {
+          type: "success",
+          content: completion,
+        };
+      }
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof AxiosError) {
+        let data = error.response?.data;
+
+        // streaming: need to resolve data
+        if (data instanceof IncomingMessage) {
+          const content = data.read().toString();
+          data = secureJSON.parse(content);
+        }
+
+        // extract error message from OpenAI response:
+        const message: string | undefined = data?.error?.message;
+
+        if (message != null) {
+          return {
+            type: "error",
+            errorMessage: message,
+          };
+        }
+
+        return {
+          type: "error",
+          errorMessage: `Unknown error calling OpenAI API (${error.status})})`,
+        };
+      }
+
       return {
         type: "error",
-        errorMessage: "No completion found",
+        errorMessage: "Unknown error",
       };
     }
-
-    return {
-      type: "success",
-      content: choice.text,
-    };
   }
 }

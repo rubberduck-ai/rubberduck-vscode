@@ -10,7 +10,6 @@ Explain the selected code.
 {
   "id": "explain-code",
   "engineVersion": 0,
-  "type": "selected-code-analysis-chat",
   "label": "Explain Code",
   "description": "Explain the selected code.",
   "header": {
@@ -24,15 +23,13 @@ Explain the selected code.
     {
       "name": "selectedText",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-text",
+      "type": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "location",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-location-text"
+      "type": "selected-location-text"
     },
     {
       "name": "firstMessage",
@@ -49,26 +46,20 @@ Explain the selected code.
       "index": -1
     }
   ],
-  "analysis": {
+  "initialMessage": {
     "placeholder": "Generating explanation",
-    "prompt": {
-      "template": "analysis",
-      "maxTokens": 512
-    }
+    "maxTokens": 512
   },
-  "chat": {
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 1024,
-      "stop": ["Bot:", "Developer:"]
-    }
+  "response": {
+    "maxTokens": 1024,
+    "stop": ["Bot:", "Developer:"]
   }
 }
 ```
 
-### Analysis Prompt
+### Initial Message Prompt
 
-```template-analysis
+```template-initial-message
 ## Instructions
 Summarize the code below (emphasizing its key functionality).
 
@@ -84,9 +75,9 @@ Summarize the code at a high level (including goal and purpose) with an emphasis
 
 ```
 
-### Chat Prompt
+### Response Prompt
 
-```template-chat
+```template-response
 ## Instructions
 Continue the conversation below.
 Pay special attention to the current developer request.

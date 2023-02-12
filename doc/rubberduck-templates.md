@@ -8,7 +8,7 @@ That's what you can get with Rubberduck Templates! 🌈
 
 Here are some ideas of what you can do with them:
 
-- Have conversations in a different language, e.g. [in French](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/chat-i18n/chat-fr.rdt.md)
+- Have conversations in a different language, e.g. [in French](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/chat/chat-fr.rdt.md)
 - Let [Shakespeare write a sonnet about your code](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/fun/code-sonnet.rdt.md)
 - Define dedicated tasks, e.g. [improving code readability](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/task/improve-readability.rdt.md)
 - Create project, language or framework-specific templates
@@ -86,6 +86,7 @@ Configuration sections have the basic following properties:
   - `useFirstMessageAsTitle`: An optional boolean value. Defaults to `false`. If it is `true`, the first message of the conversation will be used as the title once there is a message.
   - `icon`: The icon that is shown in the Rubberduck side panel for conversations of this type. Only the [Codicon](https://microsoft.github.io/vscode-codicons/dist/codicon.html) `type` is supported at the moment. You can set the `value` property to the codicon that you want to show.
 - `isEnabled`: Whether the conversation type is enabled. If it is disabled, it will not be shown in the "Rubberduck: Start Custom Chat… 💬" command. Defaults to `true`.
+- `chatInterface`: Optional. The chat interface that is used for this conversation type. Defaults to `message-exchange`. Set to `instruction-refinement` if you want to show a single edit box that the user can change instead of a message exchange.
 
 ### Variables
 
@@ -96,14 +97,12 @@ Variables are values that you can expand in the header title and in the prompt t
   "variables": [
     {
       "name": "selectedText",
-      "type": "active-editor",
-      "property": "selected-text",
+      "type": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "location",
-      "type": "active-editor",
-      "property": "selected-location-text"
+      "type": "selected-location-text"
     },
     {
       "name": "lastMessage",
@@ -120,91 +119,56 @@ Variables are values that you can expand in the header title and in the prompt t
   …
 </pre>
 
-They are defined in the `variables` property of the configuration section. The property contains an array of variable definitions. There are 4 kinds of variables:
+They are defined in the `variables` property of the configuration section. The property contains an array of variable definitions. There are the following kinds of variables:
 
-- **Active Editor** (`type: active-editor`): The active editor in the current workspace. The resolution `time` can be `conversation-start` or `message`. You can specify which property you want to access:
-  - `property: filename`: The name of the file.
-  - `property: language-id`: The VS Code language id of the file.
-  - `property: selected-text`: The currently selected text in the file.
-  - `property: selected-location-text`: The filename and the start/end lines of the selection. This is useful for including in the header title.
+- **Selected text** (`type: selected-text`): The currently selected text in the active editor. The resolution `time` is `conversation-start` or `message`.
 - **Selected text with diagnostics** (`type: selected-text-with-diagnostics`): The currently selected text in the active editor, with diagnostics. The resolution `time` is `conversation-start`. The `severities` property contains an array of the included severities (possible values: `error`, `warning`, `information`, `hint`).
 - **Constants** (`type: constant`): A constant value that is always the same. You can use it to extract common parts from your templates, e.g. the bot role, and tweak it quickly to explore different responses while you are developing the template. The `time` property needs to be set to `conversation-start`.
 - **Messages**: (`type: message`): Get properties of a message at an index. Only the message content (`property: content`) is supported at the moment. You can e.g. use it to access the first (index 0) or the last (index -1) message of the conversation. The `time` property needs to be set to `message`.
+- **Language** (`type: language`): The language of the active editor. The resolution `time` can be `conversation-start`.
+- **Filename** (`type: filename`): The name of the active editor. The resolution `time` can be `conversation-start`.
+- **Location of the selected text** (`type: selected-location-text`): The filename and the start/end lines of the selection. This is useful for including in the header title. The resolution `time` can be `conversation-start`.
 
-You can add constraints to the `active-editor` variables. Right now only a minimal text length constraint is available (`type: text-length`). It is useful to make sure that the user has selected some text before starting the conversation. If the constraint is not met, an error popup is shown and the conversation will not be started.
+You can add constraints to the variables. Right now only a minimal text length constraint is available (`type: text-length`). It is useful to make sure that the user has selected some text before starting the conversation. If the constraint is not met, an error popup is shown and the conversation will not be started.
 
-### Conversation Template Types
+### Prompt Definitions
 
-There are two conversation types. You can chose the conversation type in the `type` property of the configuration section.
+There are two properties where you can define the prompts for the conversation:
+
+- `initialMessage`: The initial message that is sent by the bot. It is optional. If it is not defined, the conversation starts with a user message.
+- `response`: The response that is sent by the bot after the user message.
 
 Example:
 
 <pre>
   …
-  "type": "selected-code-analysis-chat",
-  …
-  "analysis": {
+  "initialMessage": {
     "placeholder": "Drinking rum",
-    "prompt": {
-      "template": "analysis",
-      "maxTokens": 512,
-      "temperature": 0.8
-    }
+    "maxTokens": 512,
+    "temperature": 0.8
   },
-  "chat": {
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 1024,
-      "stop": ["Drunken Pirate:", "Developer:"],
-      "temperature": 0.7
-    }
+  "response": {
+    "maxTokens": 1024,
+    "stop": ["Drunken Pirate:", "Developer:"],
+    "temperature": 0.7
   }
 </pre>
 
-#### Basic Chat
+Prompts describe how a user message in a chat (or the initial analysis) is processed. The prompt definitions contain parameters for a call to the OpenAI API and additional properties. Rubberduck calls the [OpenAI Completion API](https://platform.openai.com/docs/api-reference/completions) with the `text-davinci-003` model.
 
-A conversation without an initial action. It starts with a user message.
-
-Properties:
-
-- `type: basic-chat`
-- `chat`: The message processor for the conversation.
-
-#### Selected Code Analysis Chat
-
-Analyze a code selection with an special analysis prompt. Then use a different prompt template for the conversation. The conversation starts with the analysis.
-
-Properties:
-
-- `type: selected-code-analysis-chat`
-- `analysis`: The message processor for the initial analysis.
-- `chat`: The message processor for the conversation.
-
-### Message Processors
-
-Message processors describe how a user message in a chat (or the initial analysis) is processed. They contain the following properties:
-
-- `prompt`: The prompt definition for the message processor.
 - `placeholder`: The placeholder text that is shown in the chat while the message is being processed.
+- `template`: A reference to the prompt template. The prompt is defined in a fenced code section with the language info `template-*`, where `*` is the value that you provide in the prompt property.
+- `maxTokens`: Upper bound on how many tokens will be returned.
+- `stop`: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence. Optional.
+- `temperature`: The randomness of the model. Higher values will make the model more random, lower values will make it more predictable. Optional, defaults to 0.
 - `completionHandler`: Defines how the completion result is handled. There are currently 2 handlers: "message" (default) and "update-temporary-editor".
   - `message`: The completion result is added as a new message to the chat. `"completionHandler": { "type": "message" }`
   - `update-temporary-editor`: The completion result is shown in a temporary editor. The handle has a `botMessage` property for the message that is shown in the chat, and an optional 'language' template property that can be used to the the VS Code language id of the temporary editor. `"completionHandler": { "type": "update-temporary-editor", "botMessage": "Test generated.", "language": "typescript" }`
   - `active-editor-diff`: The completion result is shown in a diff editor. It requires an active editor with a selection. The selection at the conversation start will be diffed against the completion result. `"completionHandler": { "type": "active-editor-diff" }`
 
-### Prompt Definitions
-
-The prompt definitions contain parameters for a call to the OpenAI API. Rubberduck calls the [OpenAI Completion API](https://platform.openai.com/docs/api-reference/completions) with the `text-davinci-003` model.
-
-You can set the following parameters:
-
-- `template`: A reference to the prompt template. The prompt is defined in a fenced code section with the language info `template-*`, where `*` is the value that you provide in the prompt property.
-- `maxTokens`: Upper bound on how many tokens will be returned.
-- `stop`: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence. Optional.
-- `temperature`: The randomness of the model. Higher values will make the model more random, lower values will make it more predictable. Optional, defaults to 0.
-
 ## Prompt Templates
 
-The prompt templates are defined in fenced code sections with the language info `template-*`, where `*` is the value that you provide in the `template` property of the prompt definition.
+The prompt templates are defined in fenced code sections with the language info `template-initial-message` and `template-response`. The name must match the prompt definition, i.e. for `initialMessage` you need to define a `template-initial-message` section, and for `response` you need to define a `template-response` section.
 
 They use the [Handlebars templating language](https://handlebarsjs.com/guide/). Variables that you have defined can be expanded using the `{{variableName}}` syntax.
 

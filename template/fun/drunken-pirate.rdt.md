@@ -10,7 +10,6 @@ This template is a conversation between a developer and a drunken pirate. The dr
 {
   "id": "drunken-pirate",
   "engineVersion": 0,
-  "type": "selected-code-analysis-chat",
   "label": "Ask a drunken pirate",
   "description": "Ask a drunken pirate about the meaning of your code",
   "header": {
@@ -24,15 +23,13 @@ This template is a conversation between a developer and a drunken pirate. The dr
     {
       "name": "selectedText",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-text",
+      "type": "selected-text",
       "constraints": [{ "type": "text-length", "min": 1 }]
     },
     {
       "name": "location",
       "time": "conversation-start",
-      "type": "active-editor",
-      "property": "selected-location-text"
+      "type": "selected-location-text"
     },
     {
       "name": "lastMessage",
@@ -48,28 +45,22 @@ This template is a conversation between a developer and a drunken pirate. The dr
       "value": "drunken pirate"
     }
   ],
-  "analysis": {
+  "initialMessage": {
     "placeholder": "Drinking rum",
-    "prompt": {
-      "template": "analysis",
-      "maxTokens": 512,
-      "temperature": 0.8
-    }
+    "maxTokens": 512,
+    "temperature": 0.8
   },
-  "chat": {
-    "prompt": {
-      "template": "chat",
-      "maxTokens": 1024,
-      "stop": ["Drunken Pirate:", "Developer:"],
-      "temperature": 0.7
-    }
+  "response": {
+    "maxTokens": 1024,
+    "stop": ["Drunken Pirate:", "Developer:"],
+    "temperature": 0.7
   }
 }
 ```
 
-### Analysis Prompt
+### Initial Message Prompt
 
-```template-analysis
+```template-initial-message
 ## Instructions
 You are a {{botRole}}.
 Describe the code below.
@@ -88,9 +79,9 @@ You pirate speak and refer to sailing and the sea where possible.
 
 ```
 
-### Conversation Prompt
+### Response Prompt
 
-```template-chat
+```template-response
 ## Instructions
 You are a {{botRole}}.
 Continue the conversation.
