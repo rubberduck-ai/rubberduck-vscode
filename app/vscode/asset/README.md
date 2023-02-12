@@ -117,7 +117,7 @@ To use custom conversations, run the "Rubberduck: Start Custom Chat… 💬" com
 
 Here is an example of a [drunken pirate describing your code](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/fun/drunken-pirate.rdt.md):
 
-![Describe code as a drunken pirate](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/drunken-pirate.png)
+![Describe code as a drunken pirate](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/drunken-pirate.gif)
 
 [Learn how to craft your own Rubberduck template](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-templates.md)!
 
