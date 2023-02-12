@@ -74,7 +74,7 @@ Find potential defects in your code.
 
 Let Rubberduck identify error causes and suggest fixes to fix compiler and linter errors faster.
 
-![Diagnose Errors](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-diagnose-errors.png)
+![Diagnose Errors](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-diagnose-errors.gif)
 
 ### Custom Conversations
 
