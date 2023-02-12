@@ -5,6 +5,7 @@ import { generateNonce } from "./generateNonce";
 export class WebviewContainer {
   private readonly webview: vscode.Webview;
   private readonly panelId: string;
+  private readonly panelCssId: string;
   private readonly extensionUri: vscode.Uri;
   private readonly isStateReloadingEnabled: boolean;
 
@@ -12,16 +13,19 @@ export class WebviewContainer {
 
   constructor({
     panelId,
+    panelCssId = panelId,
     webview,
     extensionUri,
     isStateReloadingEnabled,
   }: {
     panelId: "chat" | "diff";
+    panelCssId?: string;
     webview: vscode.Webview;
     extensionUri: vscode.Uri;
     isStateReloadingEnabled: boolean;
   }) {
     this.panelId = panelId;
+    this.panelCssId = panelCssId;
     this.webview = webview;
     this.extensionUri = extensionUri;
     this.isStateReloadingEnabled = isStateReloadingEnabled;
@@ -51,8 +55,9 @@ export class WebviewContainer {
   private createHtml() {
     const baseCssUri = this.getUri("asset", "base.css");
     const codiconsCssUri = this.getUri("asset", "codicons.css");
-    const webviewCssUri = this.getUri("asset", `${this.panelId}.css`);
+    const panelCssUri = this.getUri("asset", `${this.panelCssId}.css`);
     const scriptUri = this.getUri("dist", "webview.js");
+    const prismScriptUri = this.getUri("asset", "prism.js");
 
     // Use a nonce to only allow a specific script to be run.
     const nonce = generateNonce();
@@ -68,17 +73,18 @@ export class WebviewContainer {
           content="default-src 'none'; font-src ${cspSource}; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' 'nonce-${prismNonce}';" />
     <link href="${baseCssUri}" rel="stylesheet" />
     <link href="${codiconsCssUri}" rel="stylesheet" />
-    <link href="${webviewCssUri}" rel="stylesheet" />
+    <link href="${panelCssUri}" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
     <div id="root" />
+
+    <!-- Without the closing /script tag, the second script doesn't load -->
+    <script nonce="${prismNonce}" src="${prismScriptUri}"></script>
     <script nonce="${nonce}"
             src="${scriptUri}"
             data-panel-id="${this.panelId}"
             data-state-reloading-enabled="${this.isStateReloadingEnabled}" />
-    <script nonce="${prismNonce}"
-            src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" />
   </body>
 </html>`;
   }

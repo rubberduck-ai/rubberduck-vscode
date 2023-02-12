@@ -24,8 +24,15 @@ export class DiffEditor {
       editorColumn
     );
 
+    const useVisualStudioCodeColors: boolean = vscode.workspace
+      .getConfiguration("rubberduck.syntaxHighlighting")
+      .get("useVisualStudioCodeColors", false);
+
     this.container = new WebviewContainer({
       panelId: "diff",
+      panelCssId: useVisualStudioCodeColors
+        ? "diff-vscode-colors"
+        : "diff-hardcoded-colors",
       isStateReloadingEnabled: true,
       webview: panel.webview,
       extensionUri,

@@ -28,6 +28,8 @@ You can install Rubberduck from the
 - [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Rubberduck.rubberduck-vscode)
 - [Open VSX Registry](https://open-vsx.org/extension/Rubberduck/rubberduck-vscode)
 
+Rubberduck requires an OpenAI API key. You can get an OpenAI API key from [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) (you'll need to sign up for an account).
+
 ## Features
 
 [AI Chat](#ai-chat) | [Generate Code](#generate-code) | [Edit Code](#edit-code) | [Explain Code](#explain-code) | [Generate Tests](#generate-tests) | [Find Bugs](#find-bugs) | [Diagnose Errors](#diagnose-errors) | [Custom Conversations](#custom-conversations)

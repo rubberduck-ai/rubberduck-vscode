@@ -1,4 +1,3 @@
-import { highlight, languages } from "prismjs";
 import React from "react";
 import DiffViewer, { DiffMethod } from "react-diff-viewer-continued";
 
@@ -17,6 +16,8 @@ export const DiffView: React.FC<DiffViewProps> = ({
   languageId,
 }) => {
   const { grammar, language } = toPrismHighlightOptions(languageId);
+  const { highlight } = getPrism();
+
   return (
     <ReactDiffViewer
       oldValue={oldCode}
@@ -121,53 +122,134 @@ export const DiffView: React.FC<DiffViewProps> = ({
   );
 };
 
+/**
+ * Source: https://code.visualstudio.com/docs/languages/identifiers#_known-language-identifiers
+ */
+const VSCODE_SUPPORTED_LANGUAGES = [
+  "abap",
+  "bat",
+  "bibtex",
+  "clojure",
+  "coffeescript",
+  "c",
+  "cpp",
+  "csharp",
+  "cuda-cpp",
+  "css",
+  "diff",
+  "dockerfile",
+  "fsharp",
+  "git-commit and git-rebase",
+  "go",
+  "groovy",
+  "handlebars",
+  "haml",
+  "html",
+  "ini",
+  "java",
+  "javascript",
+  "javascriptreact",
+  "json",
+  "jsonc",
+  "latex",
+  "less",
+  "lua",
+  "makefile",
+  "markdown",
+  "objective-c",
+  "objective-cpp",
+  "perl and perl6",
+  "php",
+  "plaintext",
+  "powershell",
+  "jade, pug",
+  "python",
+  "r",
+  "razor",
+  "ruby",
+  "rust",
+  "scss (syntax using curly brackets), sass (indented syntax)",
+  "shellscript",
+  "slim",
+  "sql",
+  "stylus",
+  "swift",
+  "typescript",
+  "typescriptreact",
+  "tex",
+  "vb",
+  "vue",
+  "vue-html",
+  "xml",
+  "xsl",
+  "yaml",
+] as const;
+
+type VSCodeLanguage = (typeof VSCODE_SUPPORTED_LANGUAGES)[number];
+
+// `(string & {})` forces TS to resolve the type
+// It allows any string, but still auto-completes known values from the union
+// eslint-disable-next-line @typescript-eslint/ban-types
+type VSCodeLanguageOrAnyString = VSCodeLanguage | (string & {});
+
 type PrismHighlightOptions = {
   grammar: Prism.Grammar;
   language: string;
 };
 
-const DEFAULT_PRISM_OPTIONS: PrismHighlightOptions = {
-  grammar: languages.text,
-  language: "text",
-};
-
 function toPrismHighlightOptions(
-  languageId: string | undefined
+  languageId: VSCodeLanguageOrAnyString | undefined
 ): PrismHighlightOptions {
+  // Check out the asset/prism.js file to see what languages we support
+  const { languages } = getPrism();
+
+  const DEFAULT_PRISM_OPTIONS: PrismHighlightOptions = {
+    grammar: languages.text,
+    language: "text",
+  };
+
   if (!languageId) {
     return DEFAULT_PRISM_OPTIONS;
   }
 
-  /**
-   * VS Code known language IDs:
-   * https://code.visualstudio.com/docs/languages/identifiers#_known-language-identifiers
-   */
-
-  /**
-   * Prism supports the following languages by default:
-   * - plain, plaintext, text, txt
-   * - html, markup
-   * - svg
-   * - xml
-   * - ssml, atom, rss
-   * - css
-   * - javascript, js
-   *
-   * If we want more, we need to load the relevant scripts:
-   * https://cdnjs.com/libraries/prism/1.29.0
-   */
-
   switch (languageId) {
     case "javascript":
-    case "javascriptreact":
-    case "typescript":
-    case "typescriptreact":
     case "vue":
-    case "svelte":
     case "coffeescript":
       return {
         grammar: languages.javascript,
         language: "javascript",
+      };
+
+    case "typescript":
+      return {
+        grammar: languages.typescript,
+        language: "typescript",
+      };
+
+    case "javascriptreact":
+      return {
+        grammar: languages.jsx,
+        language: "jsx",
+      };
+
+    case "typescriptreact":
+      return {
+        grammar: languages.tsx,
+        language: "tsx",
+      };
+
+    case "json":
+    case "jsonc":
+      return {
+        grammar: languages.json,
+        language: "json",
+      };
+
+    case "markdown":
+      return {
+        grammar: languages.markdown,
+        language: "markdown",
       };
 
     case "html":
@@ -184,10 +266,51 @@ function toPrismHighlightOptions(
       };
 
     case "css":
-    case "scss":
       return {
         grammar: languages.css,
         language: "css",
+      };
+
+    case "python":
+      return {
+        grammar: languages.python,
+        language: "python",
+      };
+
+    case "php":
+      return {
+        grammar: languages.php,
+        language: "php",
+      };
+
+    case "go":
+      return {
+        grammar: languages.go,
+        language: "go",
+      };
+
+    case "ruby":
+      return {
+        grammar: languages.ruby,
+        language: "ruby",
+      };
+
+    case "rust":
+      return {
+        grammar: languages.rust,
+        language: "rust",
+      };
+
+    case "shellscript":
+      return {
+        grammar: languages.bash,
+        language: "bash",
+      };
+
+    case "sql":
+      return {
+        grammar: languages.sql,
+        language: "sql",
       };
 
     case "plaintext":
@@ -200,4 +323,12 @@ function toPrismHighlightOptions(
       );
       return DEFAULT_PRISM_OPTIONS;
   }
+}
+
+function getPrism() {
+  if (!globalThis) {
+    throw new Error("Prism should be loaded for DiffView to work");
+  }
+
+  return globalThis.Prism;
 }
