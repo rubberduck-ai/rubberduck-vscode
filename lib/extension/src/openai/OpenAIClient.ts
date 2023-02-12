@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import { IncomingMessage } from "http";
 import secureJSON from "secure-json-parse";
 import zod from "zod";
 import { ApiKeyManager } from "./ApiKeyManager";
@@ -209,12 +210,27 @@ export class OpenAIClient {
       console.log(error);
 
       if (error instanceof AxiosError) {
+        let data = error.response?.data;
+
+        // streaming: need to resolve data
+        if (data instanceof IncomingMessage) {
+          const content = data.read().toString();
+          data = secureJSON.parse(content);
+        }
+
         // extract error message from OpenAI response:
-        const message: string | undefined = error.response?.data.error.message;
+        const message: string | undefined = data?.error?.message;
+
+        if (message != null) {
+          return {
+            type: "error",
+            errorMessage: message,
+          };
+        }
 
         return {
           type: "error",
-          errorMessage: message ?? "Unknown error",
+          errorMessage: `Unknown error calling OpenAI API (${error.status})})`,
         };
       }
 
