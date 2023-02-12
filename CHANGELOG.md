@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.9.0 - 2023-02-12
+
+### Added
+
+- Syntax highlighting in the diff viewer supports more languages.
+- Configuration option to switch between hardcoded and Visual Studio Code theme colors for syntax highlighting.
+
 ## 1.8.4 - 2023-02-12
 
 ### Fixed

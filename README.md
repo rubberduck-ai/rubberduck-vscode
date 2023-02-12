@@ -42,6 +42,8 @@ Chat with Rubberduck about your code and software development topics. Rubberduck
 
 # Generate Code
 
+Instruct Rubberduck to generate code for you.
+
 ![Generate Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-generate-code.gif)
 
 ## Edit Code
@@ -73,6 +75,10 @@ Find potential defects in your code.
 Let Rubberduck identify error causes and suggest fixes to fix compiler and linter errors faster.
 
 ![Diagnose Errors](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-diagnose-errors.png)
+
+## Configuration Options
+
+- **rubberduck.syntaxHighlighting.useVisualStudioCodeColors**: Use the Visual Studio Code Theme colors for syntax highlighting in the diff viewer. Might not work with all themes. Default is `false`.
 
 ### Custom Conversations
 
