@@ -9,4 +9,4 @@
 4. Provide additional instructions to Rubberduck in the chat thread.
 5. When you are happy with the changes, apply them using the "Apply" button in the diff view.
 
-![Edit Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-edit-code.png)
+![Edit Code](https://raw.githubusercontent.com/rubberduck-ai/rubberduck-vscode/main/app/vscode/asset/media/screenshot-edit-code.gif)
