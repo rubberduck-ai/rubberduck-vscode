@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.8.4 - 2023-02-12
+
+### Fixed
+
+- OpenAI errors were not shown in the chat panel when streaming. Fixed (#32).
+
 ## 1.8.3 - 2023-02-11
 
 ### Changed
