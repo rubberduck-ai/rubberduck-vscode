@@ -1,20 +1,31 @@
+import Handlebars from "handlebars";
+import secureJSON from "secure-json-parse";
 import * as vscode from "vscode";
+import { OpenAIClient } from "../../openai/OpenAIClient";
 import { readFileContent } from "../../vscode/readFileContent";
 import { RetrievalAugmentation } from "../template/RubberduckTemplate";
-import secureJSON from "secure-json-parse";
-import { embeddingFileSchema } from "./EmbeddingFile";
 import { cosineSimilarity } from "./cosineSimilarity";
-import { OpenAIClient } from "../../openai/OpenAIClient";
+import { embeddingFileSchema } from "./EmbeddingFile";
 
 export async function executeRetrievalAugmentation({
   retrievalAugmentation,
+  initVariables,
   variables,
   openAIClient,
 }: {
   retrievalAugmentation: RetrievalAugmentation;
+  initVariables: Record<string, unknown>;
   variables: Record<string, unknown>;
   openAIClient: OpenAIClient;
-}): Promise<string | undefined> {
+}): Promise<
+  | Array<{
+      file: string;
+      startPosition: number;
+      endPosition: number;
+      content: string;
+    }>
+  | undefined
+> {
   const startTime = Date.now();
 
   const file = retrievalAugmentation.file;
@@ -29,10 +40,16 @@ export async function executeRetrievalAugmentation({
   const parsedContent = secureJSON.parse(fileContent);
   const { chunks } = embeddingFileSchema.parse(parsedContent);
 
-  // TODO call to get query similarity
+  // expand query with variables:
+  const query = Handlebars.compile(retrievalAugmentation.query, {
+    noEscape: true,
+  })({
+    ...initVariables,
+    ...variables,
+  });
 
   const result = await openAIClient.generateEmbedding({
-    input: retrievalAugmentation.query,
+    input: query,
   });
 
   if (result.type === "error") {
@@ -54,11 +71,14 @@ export async function executeRetrievalAugmentation({
 
   similarityChunks.sort((a, b) => b.similarity - a.similarity);
 
-  const topN = similarityChunks.slice(0, retrievalAugmentation.maxResults);
-
-  console.log(topN);
-
   console.log(`Time taken: ${Date.now() - startTime}ms`);
 
-  return undefined;
+  return similarityChunks
+    .slice(0, retrievalAugmentation.maxResults)
+    .map((chunk) => ({
+      file: chunk.file,
+      startPosition: chunk.startPosition,
+      endPosition: chunk.endPosition,
+      content: chunk.content,
+    }));
 }
