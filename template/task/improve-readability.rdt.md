@@ -89,9 +89,9 @@ The code snippets must contain valid {{language}} code.
 
 ```
 
-### Analysis Prompt
+### Response Prompt
 
-```template-analysis
+```template-response
 ## Instructions
 Continue the conversation below.
 Pay special attention to the current developer request.

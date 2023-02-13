@@ -49,7 +49,6 @@ Diagnoses any errors or warnings the selected code.
   ],
   "initialMessage": {
     "placeholder": "Diagnosing errors",
-    "template": "analysis",
     "maxTokens": 512
   },
   "response": {

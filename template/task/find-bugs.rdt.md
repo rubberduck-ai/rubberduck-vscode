@@ -54,7 +54,6 @@ Template to find bugs in the selected code.
   ],
   "initialMessage": {
     "placeholder": "Searching for bugs",
-    "template": "analysis",
     "maxTokens": 1024
   },
   "response": {
