@@ -2,12 +2,12 @@ import * as vscode from "vscode";
 
 const OPEN_AI_API_KEY_SECRET_KEY = "rubberduck.openAI.apiKey";
 
-type UpdateListener = () => void | Promise<void>;
-type Unsubscribe = () => void;
+type UpdateEvent = "clear key" | "set key";
 
 export class ApiKeyManager {
   private readonly secretStorage: vscode.SecretStorage;
-  private updateListeners = new Map<number, UpdateListener>();
+  private messageEmitter = new vscode.EventEmitter<UpdateEvent>();
+  private messageHandler: vscode.Disposable | undefined;
 
   constructor({ secretStorage }: { secretStorage: vscode.SecretStorage }) {
     this.secretStorage = secretStorage;
@@ -15,7 +15,7 @@ export class ApiKeyManager {
 
   async clearOpenAIApiKey(): Promise<void> {
     await this.secretStorage.delete(OPEN_AI_API_KEY_SECRET_KEY);
-    this.updateListeners.forEach((fn) => fn());
+    this.messageEmitter.fire("clear key");
   }
 
   async getOpenAIApiKey(): Promise<string | undefined> {
@@ -27,11 +27,16 @@ export class ApiKeyManager {
     return key !== undefined;
   }
 
-  onUpdate(fn: UpdateListener): Unsubscribe {
-    const key = this.updateListeners.size;
-    this.updateListeners.set(key, fn);
-    return () => this.updateListeners.delete(key);
-  }
+  onUpdate: vscode.Event<UpdateEvent> = (listener, thisArg, disposables) => {
+    // We only want to execute the last listener to apply the latest change.
+    this.messageHandler?.dispose();
+    this.messageHandler = this.messageEmitter.event(
+      listener,
+      thisArg,
+      disposables
+    );
+    return this.messageHandler;
+  };
 
   private async storeApiKey(apiKey: string): Promise<void> {
     return this.secretStorage.store(OPEN_AI_API_KEY_SECRET_KEY, apiKey);
@@ -52,7 +57,7 @@ export class ApiKeyManager {
 
     await this.storeApiKey(apiKey);
 
-    this.updateListeners.forEach((fn) => fn());
+    this.messageEmitter.fire("set key");
     vscode.window.showInformationMessage("OpenAI API key stored.");
   }
 }

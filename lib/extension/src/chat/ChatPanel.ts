@@ -27,6 +27,7 @@ export class ChatPanel implements vscode.WebviewViewProvider {
   }: {
     readonly extensionUri: vscode.Uri;
     apiKeyManager: ApiKeyManager;
+    /** Needed since retrieving it is an async operation */
     hasOpenAIApiKey: boolean;
   }) {
     this.extensionUri = extensionUri;
