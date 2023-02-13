@@ -14,8 +14,11 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   const outputChannel = vscode.window.createOutputChannel("Rubberduck");
 
+  const hasOpenAIApiKey = await apiKeyManager.hasOpenAIApiKey();
   const chatPanel = new ChatPanel({
     extensionUri: context.extensionUri,
+    apiKeyManager,
+    hasOpenAIApiKey,
   });
 
   const chatModel = new ChatModel();

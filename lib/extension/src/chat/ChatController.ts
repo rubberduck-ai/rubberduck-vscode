@@ -70,6 +70,10 @@ export class ChatController {
     const type = message.type;
 
     switch (type) {
+      case "enterOpenAIApiKey": {
+        await vscode.commands.executeCommand("rubberduck.enterOpenAIApiKey");
+        break;
+      }
       case "clickCollapsedConversation": {
         this.chatModel.selectedConversationId = message.data.id;
         await this.updateChatPanel();

@@ -10,7 +10,8 @@ body {
   vertical-align: sub;
 }
 
-.start-chat {
+.start-chat,
+.enter-api-key {
   padding: var(--rubberduck-container-padding);
   padding-top: 0;
   padding-bottom: 0;
@@ -23,6 +24,15 @@ body {
 
 .start-chat > button:hover {
   background-color: var(--vscode-button-secondaryHoverBackground);
+}
+
+.enter-api-key > button {
+  background-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+}
+
+.enter-api-key > button:hover {
+  background-color: var(--vscode-button-hoverBackground);
 }
 
 .conversation {
