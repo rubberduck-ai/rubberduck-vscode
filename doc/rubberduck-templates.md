@@ -208,11 +208,11 @@ You pirate speak and refer to sailing and the sea where possible.
 ```
 </pre>
 
-## Get started with templates
+## Get started with Rubberduck Templates
 
-The easiest way to get started with templates is to copy some of the [example templates](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/template) and to start modifying them.
+The easiest way to get started with templates is to copy [some example templates](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/template) and start modifying them.
 
-To use your custom conversations, run the "Rubberduck: Start Custom Chat… 💬" command.
+Run the "Rubberduck: Start Custom Chat… 💬" command to use your custom conversations.
 
 After you have changed a Rubberduck template, use the "Rubberduck: Reload Templates" command to see your updates.
 
