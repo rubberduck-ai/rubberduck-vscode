@@ -6,6 +6,7 @@ import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { DiffData } from "./DiffData";
 import { resolveVariables } from "./input/resolveVariables";
+import { executeRetrievalAugmentation } from "./retrieval-augmentation/executeRetrievalAugmentation";
 import { Prompt, RubberduckTemplate } from "./template/RubberduckTemplate";
 
 Handlebars.registerHelper({
@@ -103,11 +104,20 @@ export class Conversation {
     return this.template.header.icon.value;
   }
 
-  private async evaluateTemplate(template: string): Promise<string> {
-    const variables = await resolveVariables(this.template.variables, {
+  private async resolveVariablesAtMessageTime() {
+    return resolveVariables(this.template.variables, {
       time: "message",
       messages: this.messages,
     });
+  }
+
+  private async evaluateTemplate(
+    template: string,
+    variables?: Record<string, unknown>
+  ): Promise<string> {
+    if (variables == null) {
+      variables = await this.resolveVariablesAtMessageTime();
+    }
 
     // special variable: temporaryEditorContent
     if (this.temporaryEditorContent != undefined) {
@@ -129,8 +139,20 @@ export class Conversation {
           ? this.template.initialMessage
           : this.template.response;
 
+      const variables = await this.resolveVariablesAtMessageTime();
+
+      // if the prompt has a retrieval augmentation, execute it:
+      const retrievalAugmentation = prompt.retrievalAugmentation;
+      if (retrievalAugmentation != null) {
+        variables[retrievalAugmentation.variableName] =
+          await executeRetrievalAugmentation({
+            retrievalAugmentation,
+            variables,
+          });
+      }
+
       const completion = await this.openAIClient.generateCompletion({
-        prompt: await this.evaluateTemplate(prompt.template),
+        prompt: await this.evaluateTemplate(prompt.template, variables),
         maxTokens: prompt.maxTokens,
         stop: prompt.stop,
         temperature: prompt.temperature,
