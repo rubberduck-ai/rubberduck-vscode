@@ -124,12 +124,16 @@ They are defined in the `variables` property of the configuration section. The p
 - **Selected text** (`type: selected-text`): The currently selected text in the active editor. The resolution `time` is `conversation-start` or `message`.
 - **Selected text with diagnostics** (`type: selected-text-with-diagnostics`): The currently selected text in the active editor, with diagnostics. The resolution `time` is `conversation-start`. The `severities` property contains an array of the included severities (possible values: `error`, `warning`, `information`, `hint`).
 - **Constants** (`type: constant`): A constant value that is always the same. You can use it to extract common parts from your templates, e.g. the bot role, and tweak it quickly to explore different responses while you are developing the template. The `time` property needs to be set to `conversation-start`.
-- **Messages**: (`type: message`): Get properties of a message at an index. Only the message content (`property: content`) is supported at the moment. You can e.g. use it to access the first (index 0) or the last (index -1) message of the conversation. The `time` property needs to be set to `message`.
+- **Message**: (`type: message`): Get properties of a message at an index. Only the message content (`property: content`) is supported at the moment. You can e.g. use it to access the first (index 0) or the last (index -1) message of the conversation. The `time` property needs to be set to `message`.
 - **Language** (`type: language`): The language of the active editor. The resolution `time` can be `conversation-start`.
 - **Filename** (`type: filename`): The name of the active editor. The resolution `time` can be `conversation-start`.
 - **Location of the selected text** (`type: selected-location-text`): The filename and the start/end lines of the selection. This is useful for including in the header title. The resolution `time` can be `conversation-start`.
 
 You can add constraints to the variables. Right now only a minimal text length constraint is available (`type: text-length`). It is useful to make sure that the user has selected some text before starting the conversation. If the constraint is not met, an error popup is shown and the conversation will not be started.
+
+In addition to user-defined variables, there are some predefined variables that are always available:
+
+- **Messages**: The messages of the conversation. It is an array of messages. Each message has an `author` property (either `user` or `bot`) and a `content` property.
 
 ### Prompt Definitions
 
