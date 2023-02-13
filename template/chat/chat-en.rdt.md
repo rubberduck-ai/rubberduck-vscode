@@ -1,6 +1,6 @@
 # AI Chat in English
 
-This templates lets you chat with Rubberduck in English.
+This template lets you chat with Rubberduck in English.
 
 ## Template
 

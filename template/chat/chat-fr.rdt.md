@@ -1,6 +1,6 @@
 # AI Chat in French
 
-This templates lets you chat with Rubberduck in French.
+This template lets you chat with Rubberduck in French.
 
 ## Template
 
