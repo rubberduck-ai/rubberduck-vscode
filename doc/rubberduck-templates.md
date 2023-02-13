@@ -1,25 +1,25 @@
 # Rubberduck Templates
 
-Rubberduck comes with handy built-in commands, such as Explain Code, Edit Code, Generate Tests,etc.
+Rubberduck comes with handy built-in commands, such as Explain Code, Edit Code, Generate Tests, etc.
 
-But what if you have a specific need that isn't quite covered? What if you want to craft an AI Chat that knows specifically about your project, or your conventions? How cool would it be to have the answers in your own language?
+But what if you have a specific need that isn't entirely covered? What if you want to craft an AI Chat that knows specifically about your project or your conventions? How cool would it be to have the answers in your language?
 
 That's what you can get with Rubberduck Templates! 🌈
 
 Here are some ideas of what you can do with them:
 
-- Have conversations in a different language, e.g. [in French](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/chat/chat-fr.rdt.md)
+- Have conversations in a different language, e.g., [in French](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/chat/chat-fr.rdt.md)
 - Let [Shakespeare write a sonnet about your code](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/fun/code-sonnet.rdt.md)
-- Define dedicated tasks, e.g. [improving code readability](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/task/improve-readability.rdt.md)
-- Create project, language or framework-specific templates
+- Define dedicated tasks, e.g., [improving code readability](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/template/task/improve-readability.rdt.md)
+- Create project, language, or framework-specific templates
 
-The best part of it: you can share them around with your colleagues, your friends, or your enemies.
+The best part is that you can share them with your colleagues, friends, or enemies.
 
-## How to define your own templates?
+## How to define your own Rubberduck templates?
 
-By adding Rubberduck Template File (`.rdt.md`) files to the `.rubberduck/template` folder in your workspace. See the [templates in the Rubberduck repository for examples](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/template).
+Add Rubberduck Template File (`.rdt.md`) files to the `.rubberduck/template` folder in your workspace. See the [templates in the Rubberduck repository for examples](https://github.com/rubberduck-ai/rubberduck-vscode/tree/main/template).
 
-To use your custom conversations, run the "Rubberduck: Start Custom Chat… 💬" command.
+Run the "Rubberduck: Start Custom Chat… 💬" command to use your custom conversations.
 
 After you have changed a template, use the "Rubberduck: Reload Templates" command to see your updates.
 
@@ -42,7 +42,7 @@ Want to craft your own? Let's dig into how Rubberduck Templates are structured.
 
 ## Rubberduck Template Structure
 
-Rubberduck Templates are [GitHub-flavored Markdown](https://github.github.com/gfm/) files with special fenced code sections. You can use regular markdown to document your template, and use the fenced code sections to define the template itself.
+Rubberduck Templates are [GitHub-flavored Markdown](https://github.github.com/gfm/) files with special fenced code sections. You can use regular markdown to document your template and the fenced code sections to define it.
 
 There are two types of fenced code sections:
 
@@ -75,7 +75,7 @@ The configuration section is a JSON object that defines the template. It is a fe
 
 ### Basic Properties
 
-Configuration sections have the basic following properties:
+Configuration sections have the following basic properties:
 
 - `id`: Id of the conversation type. It needs to be unique.
 - `engineVersion`: Must be 0 for now. Warning: we might make breaking changes to the template format while we are on version 0.
