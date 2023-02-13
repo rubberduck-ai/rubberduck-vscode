@@ -14,12 +14,27 @@ const completionHandlerSchema = zod.discriminatedUnion("type", [
   }),
 ]);
 
+const retrievalAugmentationSchema = zod.object({
+  variableName: zod.string(),
+  type: zod.literal("similarity-search"),
+  source: zod.literal("embedding-file"),
+  file: zod.string(),
+  query: zod.string(),
+  threshold: zod.number().min(0).max(1),
+  maxResults: zod.number().int().min(1),
+});
+
+export type RetrievalAugmentation = zod.infer<
+  typeof retrievalAugmentationSchema
+>;
+
 const promptSchema = zod.object({
   placeholder: zod.string().optional(),
-  completionHandler: completionHandlerSchema.optional(), // default: message
+  retrievalAugmentation: retrievalAugmentationSchema.optional(),
   maxTokens: zod.number(),
   stop: zod.array(zod.string()).optional(),
   temperature: zod.number().optional(),
+  completionHandler: completionHandlerSchema.optional(),
 });
 
 export type Prompt = zod.infer<typeof promptSchema> & {

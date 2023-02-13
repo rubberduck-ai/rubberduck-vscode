@@ -4,7 +4,7 @@ import secureJSON from "secure-json-parse";
 import zod from "zod";
 import { ApiKeyManager } from "./ApiKeyManager";
 
-export const OpenAICompletionSchema = zod.object({
+const completionSchema = zod.object({
   id: zod.string(),
   object: zod.literal("text_completion"),
   created: zod.number(),
@@ -41,6 +41,24 @@ const streamSchema = zod.object({
       })
     )
     .min(1),
+});
+
+const embeddingSchema = zod.object({
+  object: zod.literal("list"),
+  data: zod
+    .array(
+      zod.object({
+        object: zod.literal("embedding"),
+        embedding: zod.array(zod.number()),
+        index: zod.number(),
+      })
+    )
+    .length(1),
+  model: zod.string(),
+  usage: zod.object({
+    prompt_tokens: zod.number(),
+    total_tokens: zod.number(),
+  }),
 });
 
 export class OpenAIClient {
@@ -191,8 +209,8 @@ export class OpenAIClient {
           content: completion,
         };
       } else {
-        const completion = OpenAICompletionSchema.parse(response.data)
-          .choices[0]?.text;
+        const completion = completionSchema.parse(response.data).choices[0]
+          ?.text;
 
         if (completion == undefined) {
           return {
@@ -237,6 +255,45 @@ export class OpenAIClient {
       return {
         type: "error",
         errorMessage: "Unknown error",
+      };
+    }
+  }
+
+  async generateEmbedding({ input }: { input: string }) {
+    try {
+      const apiKey = await this.getApiKey();
+
+      if (apiKey == undefined) {
+        return {
+          type: "error",
+          errorMessage:
+            "No OpenAI API key found. Please enter your OpenAI API key with the 'Rubberduck: Enter OpenAI API key' command.",
+        };
+      }
+      const response = await axios.post(
+        `https://api.openai.com/v1/embeddings`,
+        {
+          model: "text-embedding-ada-002",
+          input,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
+        }
+      );
+
+      return {
+        type: "success",
+        embedding: embeddingSchema.parse(response.data).data[0]!.embedding,
+      };
+    } catch (error: any) {
+      console.log(error);
+
+      return {
+        type: "error",
+        errorMessage: error?.message,
       };
     }
   }
