@@ -129,7 +129,12 @@ They are defined in the `variables` property of the configuration section. The p
 - **Filename** (`type: filename`): The name of the active editor. The resolution `time` can be `conversation-start`.
 - **Location of the selected text** (`type: selected-location-text`): The filename and the start/end lines of the selection. This is useful for including in the header title. The resolution `time` can be `conversation-start`.
 
-You can add constraints to the variables. Right now only a minimal text length constraint is available (`type: text-length`). It is useful to make sure that the user has selected some text before starting the conversation. If the constraint is not met, an error popup is shown and the conversation will not be started.
+The `time` property defines when the variable is resolved. It can be one of the following values (it depends on the variable type which values are supported):
+
+- `conversation-start`: The variable is resolved when the conversation is started. It is not resolved again when the user sends a message.
+- `message`: The variable is resolved when the user sends a message.
+
+You can also add **constraints** to the variables. Right now only a minimal text length constraint is available (`type: text-length`). It is useful to make sure that the user has selected some text before starting the conversation. If the constraint is not met, an error popup is shown and the conversation will not be started.
 
 In addition to user-defined variables, there are some predefined variables that are always available:
 
