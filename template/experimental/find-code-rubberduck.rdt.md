@@ -31,7 +31,7 @@
     "retrievalAugmentation": {
       "type": "similarity-search",
       "variableName": "searchResults",
-      "searchText": "pirate",
+      "query": "{{lastMessage}}",
       "source": "embedding-file",
       "file": "rubberduck-repository.json",
       "threshold": 0.7,
@@ -47,25 +47,21 @@
 
 ```template-response
 ## Instructions
-Continue the conversation below.
-Pay special attention to the current developer request.
+Look at the search result and summarize where the code that matches the query is located.
 
 ## Query
-Developer: {{lastMessage}}
+{{lastMessage}}
 
 ## Search Results
 {{#each searchResults}}
-{{this}}
+#### {{file}}
+\`\`\`
+{{content}}
+\`\`\`
 {{/each}}
 
 ## Task
-Write a response that continues the conversation.
-Stay focused on current developer request.
-Consider the possibility that there might not be a solution.
-Ask for clarification if the message does not make sense or more input is needed.
-Use the style of a documentation article.
-Omit any links.
-Include code snippets (using Markdown) and examples where appropriate.
+Summarize where the code that matches the query is located using the search results.
 
 ## Response
 Bot:
