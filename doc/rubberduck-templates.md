@@ -47,7 +47,7 @@ Rubberduck Templates are [GitHub-flavored Markdown](https://github.github.com/gf
 There are two types of fenced code sections:
 
 - the `json conversation-template` configuration section
-- the `template-*` prompt template sections
+- the `template-initial-message` and `template-response` prompt template sections
 
 ## Configuration Section
 
@@ -157,7 +157,6 @@ Example:
 Prompts describe how a user message in a chat (or the initial analysis) is processed. The prompt definitions contain parameters for a call to the OpenAI API and additional properties. Rubberduck calls the [OpenAI Completion API](https://platform.openai.com/docs/api-reference/completions) with the `text-davinci-003` model.
 
 - `placeholder`: The placeholder text that is shown in the chat while the message is being processed.
-- `template`: A reference to the prompt template. The prompt is defined in a fenced code section with the language info `template-*`, where `*` is the value that you provide in the prompt property.
 - `maxTokens`: Upper bound on how many tokens will be returned.
 - `stop`: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence. Optional.
 - `temperature`: The randomness of the model. Higher values will make the model more random, lower values will make it more predictable. Optional, defaults to 0.
