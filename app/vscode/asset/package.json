@@ -146,7 +146,7 @@
       {
         "command": "rubberduck.startChat",
         "when": "isMac",
-        "key": "Cmd+Cmd+c"
+        "key": "Ctrl+Cmd+c"
       },
       {
         "command": "rubberduck.startChat",
