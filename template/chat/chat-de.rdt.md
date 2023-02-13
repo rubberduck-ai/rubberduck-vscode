@@ -1,6 +1,6 @@
 # AI Chat in German
 
-This templates lets you chat with Rubberduck in German.
+This template lets you chat with Rubberduck in German.
 
 ## Template
 
