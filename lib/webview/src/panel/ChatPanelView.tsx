@@ -28,6 +28,23 @@ export const ChatPanelView: React.FC<{
     );
   }
 
+  if (!panelState.hasOpenAIApiKey) {
+    return (
+      <div className="enter-api-key">
+        <button onClick={() => sendMessage({ type: "enterOpenAIApiKey" })}>
+          Enter your OpenAI API key
+        </button>
+        <p>
+          Rubberduck uses the OpenAI API and requires an API key to work. You
+          can get an API key from{" "}
+          <a href="https://platform.openai.com/account/api-keys">
+            platform.openai.com/account/api-keys
+          </a>
+        </p>
+      </div>
+    );
+  }
+
   if (panelState.conversations.length === 0) {
     return (
       <StartChatButton onClick={() => sendMessage({ type: "startChat" })} />

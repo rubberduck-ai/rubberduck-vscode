@@ -1,5 +1,6 @@
 import { webviewApi } from "@rubberduck/common";
 import * as vscode from "vscode";
+import { ApiKeyManager } from "../openai/ApiKeyManager";
 import { WebviewContainer } from "../webview/WebviewContainer";
 import { ChatModel } from "./ChatModel";
 
@@ -15,11 +16,42 @@ export class ChatPanel implements vscode.WebviewViewProvider {
   private readonly extensionUri: vscode.Uri;
 
   private webviewPanel: WebviewContainer | undefined;
+  private apiKeyManager: ApiKeyManager;
 
   private state: webviewApi.PanelState;
 
-  constructor({ extensionUri }: { readonly extensionUri: vscode.Uri }) {
+  constructor({
+    extensionUri,
+    apiKeyManager,
+    hasOpenAIApiKey,
+  }: {
+    readonly extensionUri: vscode.Uri;
+    apiKeyManager: ApiKeyManager;
+    hasOpenAIApiKey: boolean;
+  }) {
     this.extensionUri = extensionUri;
+    this.apiKeyManager = apiKeyManager;
+
+    this.state = {
+      type: "chat",
+      selectedConversationId: undefined,
+      conversations: [],
+      hasOpenAIApiKey,
+    };
+
+    this.apiKeyManager.onUpdate(async () => {
+      if (this.state?.type !== "chat") {
+        return;
+      }
+
+      const hasOpenAIApiKey = await this.apiKeyManager.hasOpenAIApiKey();
+      if (this.state.hasOpenAIApiKey === hasOpenAIApiKey) {
+        return;
+      }
+
+      this.state.hasOpenAIApiKey = hasOpenAIApiKey;
+      this.renderPanel();
+    });
   }
 
   private async renderPanel() {
@@ -65,10 +97,12 @@ export class ChatPanel implements vscode.WebviewViewProvider {
       conversations.push(await conversation.toWebviewConversation());
     }
 
+    const hasOpenAIApiKey = await this.apiKeyManager.hasOpenAIApiKey();
     this.state = {
       type: "chat",
       selectedConversationId: model.selectedConversationId,
       conversations,
+      hasOpenAIApiKey,
     };
     return this.renderPanel();
   }
