@@ -26,8 +26,6 @@ export async function executeRetrievalAugmentation({
     }>
   | undefined
 > {
-  const startTime = Date.now();
-
   const file = retrievalAugmentation.file;
 
   const fileUri = vscode.Uri.joinPath(
@@ -70,8 +68,6 @@ export async function executeRetrievalAugmentation({
     .filter(({ similarity }) => similarity >= retrievalAugmentation.threshold);
 
   similarityChunks.sort((a, b) => b.similarity - a.similarity);
-
-  console.log(`Time taken: ${Date.now() - startTime}ms`);
 
   return similarityChunks
     .slice(0, retrievalAugmentation.maxResults)
