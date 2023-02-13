@@ -19,7 +19,7 @@ const retrievalAugmentationSchema = zod.object({
   type: zod.literal("similarity-search"),
   source: zod.literal("embedding-file"),
   file: zod.string(),
-  searchText: zod.string(),
+  query: zod.string(),
   threshold: zod.number().min(0).max(1),
   maxResults: zod.number().int().min(1),
 });

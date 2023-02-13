@@ -148,6 +148,7 @@ export class Conversation {
           await executeRetrievalAugmentation({
             retrievalAugmentation,
             variables,
+            openAIClient: this.openAIClient,
           });
       }
 
