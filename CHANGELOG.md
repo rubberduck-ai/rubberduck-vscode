@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.9.2 - 2023-02-13
+
+### Fixed
+
+- Keyboard shortcut for chat had a OS conflict on Windows. The shortcut for chat is now `Ctrl + Cmd + G` (Mac) or `Ctrl + Alt + G` (Windows / Linux). Fixes #37.
+
 ## 1.9.0 - 2023-02-12
 
 ### Added

@@ -146,12 +146,12 @@
       {
         "command": "rubberduck.startChat",
         "when": "isMac",
-        "key": "Cmd+y"
+        "key": "Cmd+Cmd+c"
       },
       {
         "command": "rubberduck.startChat",
         "when": "!isMac",
-        "key": "Ctrl+y"
+        "key": "Ctrl+Alt+c"
       },
       {
         "command": "rubberduck.editCode",
