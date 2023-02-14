@@ -1,4 +1,5 @@
 import zod from "zod";
+import { errorSchema } from "./ErrorSchema";
 
 export const outgoingMessageSchema = zod.discriminatedUnion("type", [
   zod.object({
@@ -25,6 +26,10 @@ export const outgoingMessageSchema = zod.discriminatedUnion("type", [
       id: zod.string(),
       message: zod.string(),
     }),
+  }),
+  zod.object({
+    type: zod.literal("showError"),
+    error: errorSchema,
   }),
   zod.object({
     type: zod.literal("retry"),

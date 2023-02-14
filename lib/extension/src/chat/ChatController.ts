@@ -101,6 +101,9 @@ export class ChatController {
       case "applyDiff": {
         break;
       }
+      case "showError": {
+        break;
+      }
       default: {
         const exhaustiveCheck: never = type;
         throw new Error(`unsupported type: ${exhaustiveCheck}`);
