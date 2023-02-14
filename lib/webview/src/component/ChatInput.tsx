@@ -38,11 +38,14 @@ export const ChatInput: React.FC<{
         }}
         // capture onKeyDown to prevent the user from adding enter to the input
         onKeyDown={(event) => {
+          const shouldSubmit =
+            !event.shiftKey && (event.ctrlKey || event.metaKey);
+
           // enter sends enter, shift+enter creates a new line
           if (
             onEnter != null &&
             event.key === "Enter" &&
-            !(event.shiftKey || event.ctrlKey) &&
+            !shouldSubmit &&
             event.target instanceof HTMLTextAreaElement
           ) {
             const value = event.target.value.trim();
@@ -58,7 +61,7 @@ export const ChatInput: React.FC<{
           if (
             onShiftEnter != null &&
             event.key === "Enter" &&
-            (event.shiftKey || event.ctrlKey) &&
+            shouldSubmit &&
             event.target instanceof HTMLTextAreaElement
           ) {
             const value = event.target.value.trim();
