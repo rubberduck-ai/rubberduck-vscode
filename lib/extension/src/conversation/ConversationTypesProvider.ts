@@ -2,9 +2,11 @@ import * as vscode from "vscode";
 import { ConversationType } from "./ConversationType";
 import { loadConversationFromFile } from "./template/loadRubberduckTemplateFromFile";
 import { loadRubberduckTemplatesFromWorkspace } from "./template/loadRubberduckTemplatesFromWorkspace";
+import { parseRubberduckTemplate } from "./template/parseRubberduckTemplate";
 
 export class ConversationTypesProvider {
   private readonly extensionUri: vscode.Uri;
+  private readonly extensionTemplates: string[] = [];
   private readonly conversationTypes = new Map<string, ConversationType>();
 
   constructor({ extensionUri }: { extensionUri: vscode.Uri }) {
@@ -17,6 +19,34 @@ export class ConversationTypesProvider {
 
   getConversationTypes() {
     return [...this.conversationTypes.values()];
+  }
+
+  registerExtensionTemplate({ template }: { template: string }) {
+    this.extensionTemplates.push(template);
+  }
+
+  async loadConversationTypes() {
+    this.conversationTypes.clear();
+
+    await this.loadBuiltInTemplates();
+    this.loadExtensionTemplates();
+    await this.loadWorkspaceTemplates();
+  }
+
+  private async loadBuiltInTemplates() {
+    const builtInConversationTypes = [
+      await this.loadBuiltinTemplate("chat", "chat-en.rdt.md"),
+      await this.loadBuiltinTemplate("task", "diagnose-errors.rdt.md"),
+      await this.loadBuiltinTemplate("task", "edit-code.rdt.md"),
+      await this.loadBuiltinTemplate("task", "explain-code.rdt.md"),
+      await this.loadBuiltinTemplate("task", "find-bugs.rdt.md"),
+      await this.loadBuiltinTemplate("task", "generate-code.rdt.md"),
+      await this.loadBuiltinTemplate("task", "generate-unit-test.rdt.md"),
+    ];
+
+    for (const conversationType of builtInConversationTypes) {
+      this.conversationTypes.set(conversationType.id, conversationType);
+    }
   }
 
   private async loadBuiltinTemplate(...path: string[]) {
@@ -35,23 +65,31 @@ export class ConversationTypesProvider {
     });
   }
 
-  async loadConversationTypes() {
-    const builtInConversationTypes = [
-      await this.loadBuiltinTemplate("chat", "chat-en.rdt.md"),
-      await this.loadBuiltinTemplate("task", "diagnose-errors.rdt.md"),
-      await this.loadBuiltinTemplate("task", "edit-code.rdt.md"),
-      await this.loadBuiltinTemplate("task", "explain-code.rdt.md"),
-      await this.loadBuiltinTemplate("task", "find-bugs.rdt.md"),
-      await this.loadBuiltinTemplate("task", "generate-code.rdt.md"),
-      await this.loadBuiltinTemplate("task", "generate-unit-test.rdt.md"),
-    ];
+  private loadExtensionTemplates() {
+    for (const templateText of this.extensionTemplates) {
+      try {
+        const result = parseRubberduckTemplate(templateText);
 
-    this.conversationTypes.clear();
+        if (result.type === "error") {
+          vscode.window.showErrorMessage("Could not load extension template");
+          continue;
+        }
 
-    for (const conversationType of builtInConversationTypes) {
-      this.conversationTypes.set(conversationType.id, conversationType);
+        const template = result.template;
+        this.conversationTypes.set(
+          template.id,
+          new ConversationType({
+            template,
+            source: "extension",
+          })
+        );
+      } catch (error) {
+        vscode.window.showErrorMessage("Could not load extension template");
+      }
     }
+  }
 
+  private async loadWorkspaceTemplates() {
     const workspaceTemplateLoadingResults =
       await loadRubberduckTemplatesFromWorkspace();
     for (const loadingResult of workspaceTemplateLoadingResults) {

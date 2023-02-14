@@ -25,7 +25,7 @@ export class ConversationType {
   readonly id: string;
   readonly label: string;
   readonly description: string;
-  readonly source: "built-in" | "local-workspace";
+  readonly source: "built-in" | "local-workspace" | "extension";
   readonly variables: RubberduckTemplate["variables"];
 
   private template: RubberduckTemplate;

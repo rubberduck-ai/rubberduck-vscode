@@ -26,6 +26,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
   const conversationTypesProvider = new ConversationTypesProvider({
     extensionUri: context.extensionUri,
   });
+
   await conversationTypesProvider.loadConversationTypes();
 
   const chatController = new ChatController({
@@ -66,6 +67,12 @@ export const activate = async (context: vscode.ExtensionContext) => {
         vscode.window.showInformationMessage("OpenAI API key cleared.");
       }
     ),
+
+    vscode.commands.registerCommand(
+      "rubberduck.startConversation",
+      (templateId) => chatController.createConversation(templateId)
+    ),
+
     vscode.commands.registerCommand("rubberduck.diagnoseErrors", () => {
       chatController.createConversation("diagnose-errors");
     }),
@@ -129,6 +136,13 @@ export const activate = async (context: vscode.ExtensionContext) => {
       outputChannel.show(true);
     })
   );
+
+  return Object.freeze({
+    async registerTemplate({ template }: { template: string }) {
+      conversationTypesProvider.registerExtensionTemplate({ template });
+      await conversationTypesProvider.loadConversationTypes();
+    },
+  });
 };
 
 export const deactivate = async () => {
