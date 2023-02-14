@@ -33,7 +33,8 @@ export function InstructionRefinementView({
                   text={inputText}
                   placeholder={"Enter instructions…"}
                   onChange={setInputText}
-                  onShiftEnter={() => onSendMessage(inputText)}
+                  onSubmit={() => onSendMessage(inputText)}
+                  shouldCreateNewLineOnEnter
                 />
                 <button onClick={() => onSendMessage(inputText)}>
                   Generate

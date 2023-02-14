@@ -54,7 +54,7 @@ export function MessageExchangeView({
                 }
                 text={inputText}
                 onChange={setInputText}
-                onEnter={() => {
+                onSubmit={() => {
                   onSendMessage(inputText);
                   setInputText("");
                 }}

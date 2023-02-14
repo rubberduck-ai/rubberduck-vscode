@@ -5,9 +5,16 @@ export const ChatInput: React.FC<{
   disabled?: boolean;
   text: string;
   onChange?: (text: string) => void;
-  onEnter?: (text: string) => void;
-  onShiftEnter?: (text: string) => void;
-}> = ({ placeholder, disabled, text, onChange, onEnter, onShiftEnter }) => {
+  onSubmit?: (text: string) => void;
+  shouldCreateNewLineOnEnter?: boolean;
+}> = ({
+  placeholder,
+  disabled,
+  text,
+  onChange,
+  onSubmit,
+  shouldCreateNewLineOnEnter,
+}) => {
   // callback to automatically focus the input box
   const callbackRef = useCallback((inputElement: HTMLTextAreaElement) => {
     if (inputElement) {
@@ -38,39 +45,23 @@ export const ChatInput: React.FC<{
         }}
         // capture onKeyDown to prevent the user from adding enter to the input
         onKeyDown={(event) => {
-          const shouldSubmit =
-            !event.shiftKey && (event.ctrlKey || event.metaKey);
-
-          // enter sends enter, shift+enter creates a new line
           if (
-            onEnter != null &&
-            event.key === "Enter" &&
-            !shouldSubmit &&
-            event.target instanceof HTMLTextAreaElement
+            !(event.target instanceof HTMLTextAreaElement) ||
+            event.shiftKey ||
+            onSubmit == null ||
+            event.key !== "Enter" ||
+            // If we can create new lines, only submit if Ctrl/Cmd+Enter
+            (shouldCreateNewLineOnEnter && !event.ctrlKey && !event.metaKey)
           ) {
-            const value = event.target.value.trim();
-
-            if (value !== "") {
-              event.preventDefault();
-              event.stopPropagation();
-              onEnter?.(value);
-            }
+            return;
           }
 
-          // shift-enter sends enter, enter creates a new line
-          if (
-            onShiftEnter != null &&
-            event.key === "Enter" &&
-            shouldSubmit &&
-            event.target instanceof HTMLTextAreaElement
-          ) {
-            const value = event.target.value.trim();
+          const value = event.target.value.trim();
 
-            if (value !== "") {
-              event.preventDefault();
-              event.stopPropagation();
-              onShiftEnter?.(value);
-            }
+          if (value !== "") {
+            event.preventDefault();
+            event.stopPropagation();
+            onSubmit(value);
           }
         }}
       />
