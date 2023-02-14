@@ -187,9 +187,11 @@ export class Conversation {
 
     const completionHandlerType = completionHandler.type;
 
+    const trimmedCompletion = partialCompletion.trim();
+
     switch (completionHandlerType) {
       case "update-temporary-editor": {
-        this.temporaryEditorContent = partialCompletion.trim();
+        this.temporaryEditorContent = trimmedCompletion;
 
         const language = completionHandler.language;
 
@@ -199,11 +201,14 @@ export class Conversation {
         break;
       }
       case "active-editor-diff": {
+        this.diffContent = trimmedCompletion;
+
+        await this.updateDiff();
         break;
       }
       case "message": {
         await this.updatePartialBotMessage({
-          content: partialCompletion.trim(),
+          content: trimmedCompletion,
         });
         break;
       }
