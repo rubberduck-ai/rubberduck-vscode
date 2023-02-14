@@ -73,13 +73,13 @@
       },
       {
         "command": "rubberduck.generateCode",
-        "title": "Generate Code 💬",
+        "title": "Generate Code 🪄",
         "category": "Rubberduck",
         "icon": "$(wand)"
       },
       {
         "command": "rubberduck.generateUnitTest",
-        "title": "Generate Unit Test 💬",
+        "title": "Generate Unit Test 🪄",
         "category": "Rubberduck",
         "icon": "$(beaker)"
       },
