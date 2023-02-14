@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.10.1 - 2023-02-14
+
+### Added
+
+- Basic extension mechanism. Other extensions can add new conversation types and use the "rubberduck.startConversation" command.
+
 ## 1.10.0 - 2023-02-14
 
 ### Added
