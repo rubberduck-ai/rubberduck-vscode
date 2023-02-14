@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.10.0 - 2023-02-14
+
+### Added
+
+- Diff streaming.
+- Sidebar shows button to enter your OpenAI API key when it is missing.
+
 ## 1.9.2 - 2023-02-13
 
 ### Fixed
