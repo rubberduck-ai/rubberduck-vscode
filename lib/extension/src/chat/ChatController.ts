@@ -102,6 +102,7 @@ export class ChatController {
         break;
       }
       case "showError": {
+        await this.showError(message.error);
         break;
       }
       default: {
@@ -155,5 +156,10 @@ export class ChatController {
       console.log(error);
       await vscode.window.showErrorMessage(error?.message ?? error);
     }
+  }
+
+  private async showError(error: webviewApi.Error) {
+    console.error(error.message);
+    await this.showChatPanel();
   }
 }
