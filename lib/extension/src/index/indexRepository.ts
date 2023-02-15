@@ -41,7 +41,7 @@ export async function indexRepository() {
     const content = await fs.readFile(`${repositoryPath}/${file}`, "utf8");
 
     const chunks = createSplitLinearLines({
-      maxChunkCharacters: 150,
+      maxChunkCharacters: 500, // ~4 char per token
     })(content);
 
     for (const chunk of chunks) {
