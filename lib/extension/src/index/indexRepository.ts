@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import { simpleGit } from "simple-git";
 import * as vscode from "vscode";
+import { ChunkWithContent } from "../conversation/retrieval-augmentation/EmbeddingFile";
 import { OpenAIClient } from "../openai/OpenAIClient";
 import { Chunk } from "./chunk/Chunk";
 import { createSplitLinearLines } from "./chunk/splitLinearLines";
@@ -29,20 +30,16 @@ export async function indexRepository({
   });
 
   const files = (await git.raw(["ls-files"])).split("\n");
-  const chunksWithEmbedding: Array<
-    Chunk & {
-      file: string;
-      embedding: Array<number>;
-    }
-  > = [];
+  const chunksWithEmbedding: Array<ChunkWithContent> = [];
 
   let tokenCount = 0;
 
-  for (const file of files.slice(0, 5)) {
+  for (const file of files.slice(0, 20)) {
     if (!isSupportedFile(file)) {
       continue;
     }
 
+    // TODO use node for path assembly
     const content = await fs.readFile(`${repositoryPath}/${file}`, "utf8");
 
     const chunks = createSplitLinearLines({
@@ -66,7 +63,9 @@ export async function indexRepository({
 
         chunksWithEmbedding.push({
           file,
-          ...chunk,
+          start_position: chunk.startPosition,
+          end_position: chunk.endPosition,
+          content: chunk.content,
           embedding: embeddingResult.embedding,
         });
 
@@ -81,7 +80,24 @@ export async function indexRepository({
     }
   }
 
-  // await fs.writeFile(outputFile, JSON.stringify(chunksWithEmbedding));
+  // TODO use node for path assembly
+  const filename = `${repositoryPath}/.rubberduck/embedding/repository.json`;
+
+  await fs.mkdir(`${repositoryPath}/.rubberduck/embedding`, {
+    recursive: true,
+  });
+
+  await fs.writeFile(
+    filename,
+    JSON.stringify({
+      version: 0,
+      embedding: {
+        source: "openai",
+        model: "text-embedding-ada-002",
+      },
+      chunks: chunksWithEmbedding,
+    })
+  );
 
   console.log();
   console.log(`Tokens used: ${tokenCount}`);
