@@ -58,6 +58,7 @@ importers:
       handlebars: ^4.7.7
       marked: 4.2.12
       secure-json-parse: 2.7.0
+      simple-git: 3.16.1
       zod: 3.20.2
     dependencies:
       '@rubberduck/common': link:../common
@@ -65,6 +66,7 @@ importers:
       handlebars: 4.7.7
       marked: 4.2.12
       secure-json-parse: 2.7.0
+      simple-git: 3.16.1
       zod: 3.20.2
     devDependencies:
       '@types/handlebars': 4.1.0
@@ -432,6 +434,18 @@ packages:
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
+
+  /@kwsites/file-exists/1.1.1:
+    resolution: {integrity: sha512-m9/5YGR18lIwxSFDwfE3oA7bWuq9kdau6ugN4H2rJeyhFQZcG9AgSHkQtSD15a8WvTgfz9aikZMrKPHvbpqFiw==}
+    dependencies:
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@kwsites/promise-deferred/1.1.1:
+    resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
+    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -3641,6 +3655,16 @@ packages:
       simple-concat: 1.0.1
     dev: true
     optional: true
+
+  /simple-git/3.16.1:
+    resolution: {integrity: sha512-xzRxMKiy1zEYeHGXgAzvuXffDS0xgsq07Oi4LWEEcVH29vLpcZ2tyQRWyK0NLLlCVaKysZeem5tC1qHEOxsKwA==}
+    dependencies:
+      '@kwsites/file-exists': 1.1.1
+      '@kwsites/promise-deferred': 1.1.1
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}

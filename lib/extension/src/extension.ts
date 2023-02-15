@@ -4,6 +4,7 @@ import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
 import { ConversationTypesProvider } from "./conversation/ConversationTypesProvider";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
+import { indexRepository } from "./index/indexRepository";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
 import { OpenAIClient } from "./openai/OpenAIClient";
 
@@ -142,9 +143,10 @@ export const activate = async (context: vscode.ExtensionContext) => {
       outputChannel.show(true);
     }),
 
-    vscode.commands.registerCommand("rubberduck.indexRepository", () => {
-      console.log("index repository");
-    })
+    vscode.commands.registerCommand(
+      "rubberduck.indexRepository",
+      indexRepository
+    )
   );
 
   return Object.freeze({
