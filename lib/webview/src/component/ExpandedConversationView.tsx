@@ -7,9 +7,16 @@ import { MessageExchangeView } from "./MessageExchangeView";
 export const ExpandedConversationView: React.FC<{
   conversation: webviewApi.Conversation;
   onSendMessage: (message: string) => void;
+  onClickDismiss: () => void;
   onClickRetry: () => void;
   onClickDelete: () => void;
-}> = ({ conversation, onSendMessage, onClickRetry, onClickDelete }) => {
+}> = ({
+  conversation,
+  onSendMessage,
+  onClickDismiss,
+  onClickRetry,
+  onClickDelete,
+}) => {
   const content = conversation.content;
 
   return (
@@ -23,8 +30,9 @@ export const ExpandedConversationView: React.FC<{
             return (
               <MessageExchangeView
                 content={content}
-                onClickRetry={onClickRetry}
                 onSendMessage={onSendMessage}
+                onClickDismiss={onClickDismiss}
+                onClickRetry={onClickRetry}
               />
             );
           case "instructionRefinement":
@@ -32,6 +40,7 @@ export const ExpandedConversationView: React.FC<{
               <InstructionRefinementView
                 content={content}
                 onSendMessage={onSendMessage}
+                onClickDismiss={onClickDismiss}
                 onClickRetry={onClickRetry}
               />
             );

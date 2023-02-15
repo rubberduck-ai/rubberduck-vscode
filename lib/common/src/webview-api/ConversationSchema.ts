@@ -1,4 +1,5 @@
 import zod from "zod";
+import { errorSchema } from "./ErrorSchema";
 
 export const selectionSchema = zod.object({
   filename: zod.string(),
@@ -19,6 +20,7 @@ export type Message = zod.infer<typeof messageSchema>;
 const messageExchangeContentSchema = zod.object({
   type: zod.literal("messageExchange"),
   messages: zod.array(messageSchema),
+  error: errorSchema.optional(),
   state: zod.discriminatedUnion("type", [
     zod.object({
       type: zod.literal("userCanReply"),
@@ -32,10 +34,6 @@ const messageExchangeContentSchema = zod.object({
       type: zod.literal("botAnswerStreaming"),
       partialAnswer: zod.string(),
     }),
-    zod.object({
-      type: zod.literal("error"),
-      errorMessage: zod.string(),
-    }),
   ]),
 });
 
@@ -46,6 +44,7 @@ export type MessageExchangeContent = zod.infer<
 const instructionRefinementContentSchema = zod.object({
   type: zod.literal("instructionRefinement"),
   instruction: zod.string(),
+  error: errorSchema.optional(),
   state: zod.discriminatedUnion("type", [
     zod.object({
       type: zod.literal("userCanRefineInstruction"),
@@ -55,10 +54,6 @@ const instructionRefinementContentSchema = zod.object({
     zod.object({
       type: zod.literal("waitingForBotAnswer"),
       botAction: zod.union([zod.string(), zod.undefined()]),
-    }),
-    zod.object({
-      type: zod.literal("error"),
-      errorMessage: zod.string(),
     }),
   ]),
 });

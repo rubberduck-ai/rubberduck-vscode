@@ -1,5 +1,6 @@
 import zod from "zod";
 import { conversationSchema } from "./ConversationSchema";
+import { errorSchema } from "./ErrorSchema";
 
 export const panelStateSchema = zod
   .discriminatedUnion("type", [
@@ -8,6 +9,7 @@ export const panelStateSchema = zod
       conversations: zod.array(conversationSchema),
       selectedConversationId: zod.union([zod.string(), zod.undefined()]),
       hasOpenAIApiKey: zod.boolean(),
+      error: errorSchema.optional(),
     }),
     zod.object({
       type: zod.literal("diff"),

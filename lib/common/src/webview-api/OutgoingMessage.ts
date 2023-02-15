@@ -1,4 +1,5 @@
 import zod from "zod";
+import { errorSchema } from "./ErrorSchema";
 
 export const outgoingMessageSchema = zod.discriminatedUnion("type", [
   zod.object({
@@ -24,6 +25,16 @@ export const outgoingMessageSchema = zod.discriminatedUnion("type", [
     data: zod.object({
       id: zod.string(),
       message: zod.string(),
+    }),
+  }),
+  zod.object({
+    type: zod.literal("reportError"),
+    error: errorSchema,
+  }),
+  zod.object({
+    type: zod.literal("dismissError"),
+    data: zod.object({
+      id: zod.string(),
     }),
   }),
   zod.object({

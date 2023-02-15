@@ -98,7 +98,15 @@ export class ChatController {
         await this.chatModel.getConversationById(message.data.id)?.retry();
         break;
       }
-      case "applyDiff": {
+      case "dismissError":
+        await this.chatModel
+          .getConversationById(message.data.id)
+          ?.dismissError();
+        break;
+      case "applyDiff":
+      case "reportError": {
+        // Architecture debt: there are 2 views, but 1 outgoing message type
+        // These are handled in the Conversation
         break;
       }
       default: {
