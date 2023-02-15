@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.11.0 - 2023-02-15
+
+### Added
+
+- New templates: document code, improve readability, and two fun templates (drunken pirate and code sonnet). They are available via the "Rubberduck: Start Custom Chat..." command.
+- Rubberduck templates: `tag` support.
+
+### Changed
+
+- Adjusted chat panel colors for improved theme support.
+
 ## 1.10.1 - 2023-02-14
 
 ### Added
