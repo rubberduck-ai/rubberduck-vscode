@@ -41,24 +41,27 @@ export function InstructionRefinementView({
                 </button>
               </>
             );
-          case "error":
-            return (
-              <div key={"error"} className={"message bot error"}>
-                <span className={"error-message"}>
-                  Error: {content.state.errorMessage}
-                </span>
-                <span className={"error-retry"} onClick={onClickRetry}>
-                  <i className="codicon codicon-debug-restart inline" />
-                  <span style={{ marginLeft: "5px" }}>Retry</span>
-                </span>
-              </div>
-            );
           default: {
             const exhaustiveCheck: never = type;
             throw new Error(`unsupported type: ${exhaustiveCheck}`);
           }
         }
       })()}
+
+      {content.error && (
+        <div key={"error"} className={"message bot error"}>
+          <span className={"error-message"}>
+            Error:{" "}
+            {typeof content.error === "string"
+              ? content.error
+              : content.error.title}
+          </span>
+          <span className={"error-retry"} onClick={onClickRetry}>
+            <i className="codicon codicon-debug-restart inline" />
+            <span style={{ marginLeft: "5px" }}>Retry</span>
+          </span>
+        </div>
+      )}
     </div>
   );
 }
