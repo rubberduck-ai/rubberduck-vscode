@@ -92,6 +92,9 @@ export const DiffView: React.FC<DiffViewProps> = ({
           "> pre": {
             opacity: 1,
           },
+          "&:first-child": {
+            borderLeft: "none",
+          },
         },
         marker: {
           paddingLeft: "5px",
