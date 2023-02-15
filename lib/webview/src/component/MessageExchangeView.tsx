@@ -2,6 +2,7 @@ import { webviewApi } from "@rubberduck/common";
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { ChatInput } from "./ChatInput";
+import { ErrorMessage } from "./ErrorMessage";
 
 export function MessageExchangeView({
   content,
@@ -68,18 +69,7 @@ export function MessageExchangeView({
       })()}
 
       {content.error && (
-        <div key={"error"} className={"message bot error"}>
-          <span className={"error-message"}>
-            Error:{" "}
-            {typeof content.error === "string"
-              ? content.error
-              : content.error.title}
-          </span>
-          <span className={"error-retry"} onClick={onClickRetry}>
-            <i className="codicon codicon-debug-restart inline" />
-            <span style={{ marginLeft: "5px" }}>Retry</span>
-          </span>
-        </div>
+        <ErrorMessage error={content.error} onClickRetry={onClickRetry} />
       )}
     </div>
   );
