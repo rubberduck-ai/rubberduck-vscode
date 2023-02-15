@@ -4,6 +4,7 @@
 
 body {
   padding-top: 0;
+  background-color: var(--vscode-sideBar-background);
 }
 
 .codicon.inline {
@@ -73,19 +74,17 @@ body {
 .conversation.collapsed {
   padding: var(--rubberduck-container-padding);
   color: var(--vscode-disabledForeground);
-  background-color: var(--vscode-sideBar-background);
   cursor: pointer;
 }
 
 .conversation.collapsed:hover {
-  background-color: var(--vscode-editor-background);
+  color: var(--vscode-list-hoverForeground);
+  background-color: var(--vscode-list-hoverBackground);
 }
 
 .conversation.expanded {
-  border-top: 1px solid var(--vscode-input-border);
-  border-bottom: 1px solid var(--vscode-input-border);
-
-  background-color: var(--vscode-editor-background);
+  color: var(--vscode-list-inactiveSelectionForeground);
+  background-color: var(--vscode-list-inactiveSelectionBackground);
 }
 
 .conversation.expanded > .header {
