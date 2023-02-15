@@ -137,8 +137,13 @@ export const activate = async (context: vscode.ExtensionContext) => {
       await conversationTypesProvider.loadConversationTypes();
       vscode.window.showInformationMessage("Rubberduck templates reloaded.");
     }),
+
     vscode.commands.registerCommand("rubberduck.showLogs", () => {
       outputChannel.show(true);
+    }),
+
+    vscode.commands.registerCommand("rubberduck.indexRepository", () => {
+      console.log("index repository");
     })
   );
 

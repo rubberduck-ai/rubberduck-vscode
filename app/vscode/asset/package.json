@@ -129,6 +129,11 @@
         "title": "Show Logs",
         "category": "Rubberduck",
         "icon": "$(output)"
+      },
+      {
+        "command": "rubberduck.indexRepository",
+        "title": "Index Repository",
+        "category": "Rubberduck"
       }
     ],
     "configuration": {
