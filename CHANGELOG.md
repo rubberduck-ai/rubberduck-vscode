@@ -6,17 +6,22 @@
 
 - New templates: document code, improve readability, and two fun templates (drunken pirate and code sonnet). They are available via the "Rubberduck: Start Custom Chat..." command.
 - Rubberduck templates: `tag` support.
+- Edit code toolbar button in the chat panel.
 
 ### Changed
 
 - Adjusted chat panel colors for improved theme support.
-- Improved text area submit: Shift+Enter always creates a new line, Ctrl+Enter or Cmd+Enter always submits. Enter in the instruction refinement creates a newline and enter in a message submits.
 
 ## 1.10.1 - 2023-02-14
 
 ### Added
 
-- Basic extension mechanism. Other extensions can add new conversation types and use the "rubberduck.startConversation" command.
+- Basic extension mechanism. Other extensions can add new conversation types and use the
+  "rubberduck.startConversation" command.
+
+### Changed
+
+- Improved text area submit: Shift+Enter always creates a new line, Ctrl+Enter or Cmd+Enter always submits. Enter in the instruction refinement creates a newline and enter in a message submits.
 
 ## 1.10.0 - 2023-02-14
 

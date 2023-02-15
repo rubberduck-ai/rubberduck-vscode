@@ -61,9 +61,9 @@
       },
       {
         "command": "rubberduck.editCode",
-        "title": "Edit Code 💬",
+        "title": "Edit Code 🖊️",
         "category": "Rubberduck",
-        "icon": "$(comment-discussion)"
+        "icon": "$(edit)"
       },
       {
         "command": "rubberduck.explainCode",
@@ -182,14 +182,19 @@
           "group": "navigation@1"
         },
         {
-          "command": "rubberduck.generateCode",
+          "command": "rubberduck.editCode",
           "when": "view == rubberduck.chat",
           "group": "navigation@2"
         },
         {
-          "command": "rubberduck.startCustomChat",
+          "command": "rubberduck.generateCode",
           "when": "view == rubberduck.chat",
           "group": "navigation@3"
+        },
+        {
+          "command": "rubberduck.startCustomChat",
+          "when": "view == rubberduck.chat",
+          "group": "navigation@6"
         },
         {
           "command": "rubberduck.getStarted",

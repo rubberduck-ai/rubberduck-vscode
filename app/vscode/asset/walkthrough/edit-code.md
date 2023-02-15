@@ -3,6 +3,7 @@
 1. Select the code that you want to change in the editor.
 2. Invoke the "Edit Code" command using one of the following options:
    1. Run the `Rubberduck: Edit Code 💬` command from the command palette.
+   1. Use the "Edit Code" toolbar button in the side panel.
    1. Select the `Edit Code 💬` entry in the editor context menu (right-click).
    1. Use the keyboard shortcut: `Ctrl + Cmd + E` (Mac) or `Ctrl + Alt + E` (Windows / Linux).
 3. Rubberduck will generate a diff view.
