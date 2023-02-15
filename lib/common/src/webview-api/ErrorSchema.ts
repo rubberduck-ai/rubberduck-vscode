@@ -18,6 +18,8 @@ export const errorSchema = zod.union([
  *
  * You can use Markdown syntax.
  *
+ * @see https://wix-ux.com/when-life-gives-you-lemons-write-better-error-messages-46c5223e1a2f
+ *
  * @example Simple scenario
  * "Unable to connect to OpenAI"
  *
