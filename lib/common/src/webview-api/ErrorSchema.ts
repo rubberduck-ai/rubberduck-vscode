@@ -5,14 +5,9 @@ export const errorSchema = zod.union([
   zod.object({
     title: zod.string(),
     message: zod.string(),
-    retry: zod
-      .function()
-      .returns(zod.union([zod.void(), zod.promise(zod.void())]))
-      .optional(),
-    dismiss: zod
-      .function()
-      .returns(zod.union([zod.void(), zod.promise(zod.void())]))
-      .optional(),
+    level: zod.union([zod.literal("error"), zod.literal("warning")]).optional(),
+    disableRetry: zod.boolean().optional(),
+    disableDismiss: zod.boolean().optional(),
   }),
 ]);
 
