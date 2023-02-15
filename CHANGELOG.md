@@ -10,6 +10,7 @@
 ### Changed
 
 - Adjusted chat panel colors for improved theme support.
+- Improved text area submit: Shift+Enter always creates a new line, Ctrl+Enter or Cmd+Enter always submits. Enter in the instruction refinement creates a newline and enter in a message submits.
 
 ## 1.10.1 - 2023-02-14
 
