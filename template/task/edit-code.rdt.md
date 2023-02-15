@@ -11,6 +11,7 @@ Generate code using instructions.
   "id": "edit-code",
   "engineVersion": 0,
   "label": "Edit Code",
+  "tags": ["edit"],
   "description": "Instruct Rubberduck to edit the code. Creates a diff that you can review.",
   "header": {
     "title": "Edit Code {{location}}",

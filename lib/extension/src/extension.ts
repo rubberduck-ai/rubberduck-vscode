@@ -100,7 +100,12 @@ export const activate = async (context: vscode.ExtensionContext) => {
         .map((conversationType) => ({
           id: conversationType.id,
           label: conversationType.label,
-          description: conversationType.source,
+          description: (() => {
+            const tags = conversationType.tags;
+            return tags == null
+              ? conversationType.source
+              : `${conversationType.source}, ${tags.join(", ")}`;
+          })(),
           detail: conversationType.description,
         }));
 

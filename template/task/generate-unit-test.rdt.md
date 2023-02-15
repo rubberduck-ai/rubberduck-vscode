@@ -11,6 +11,7 @@ Generate unit test cases for the selected code.
   "id": "generate-unit-test",
   "engineVersion": 0,
   "label": "Generate Unit Test",
+  "tags": ["generate", "test"],
   "description": "Generate a unit test for the selected code.",
   "header": {
     "title": "Generate Unit Test ({{location}})",

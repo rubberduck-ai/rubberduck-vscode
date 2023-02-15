@@ -11,6 +11,7 @@ Describe the selected code in a Shakespeare sonnet.
   "id": "code-sonnet",
   "engineVersion": 0,
   "label": "Write a code sonnet",
+  "tags": ["fun"],
   "description": "Describe the selected code, Shakespeare style.",
   "header": {
     "title": "Code Sonnet ({{location}})",

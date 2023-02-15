@@ -11,6 +11,7 @@ Generate code using instructions.
   "id": "generate-code",
   "engineVersion": 0,
   "label": "Generate Code",
+  "tags": ["generate"],
   "description": "Generate code using instructions.",
   "header": {
     "title": "Generate Code",

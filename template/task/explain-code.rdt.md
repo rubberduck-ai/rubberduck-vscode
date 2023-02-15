@@ -12,6 +12,7 @@ Explain the selected code.
   "engineVersion": 0,
   "label": "Explain Code",
   "description": "Explain the selected code.",
+  "tags": ["debug", "understand"],
   "header": {
     "title": "Explain Code ({{location}})",
     "icon": {

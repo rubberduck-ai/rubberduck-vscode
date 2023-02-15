@@ -46,6 +46,10 @@ export class ConversationType {
     this.variables = template.variables;
   }
 
+  get tags(): RubberduckTemplate["tags"] {
+    return this.template.tags;
+  }
+
   async createConversation({
     conversationId,
     openAIClient,

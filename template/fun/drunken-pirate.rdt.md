@@ -11,6 +11,7 @@ This template is a conversation between a developer and a drunken pirate. The dr
   "id": "drunken-pirate",
   "engineVersion": 0,
   "label": "Ask a drunken pirate",
+  "tags": ["fun"],
   "description": "Ask a drunken pirate about the meaning of your code",
   "header": {
     "title": "Drunken Pirate ({{location}})",

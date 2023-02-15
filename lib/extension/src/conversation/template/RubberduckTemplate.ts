@@ -102,6 +102,7 @@ export const rubberduckTemplateSchema = zod.object({
   engineVersion: zod.literal(0),
   label: zod.string(),
   description: zod.string(),
+  tags: zod.array(zod.string()).optional(),
   header: zod.object({
     title: zod.string(),
     useFirstMessageAsTitle: zod.boolean().optional(), // default: false

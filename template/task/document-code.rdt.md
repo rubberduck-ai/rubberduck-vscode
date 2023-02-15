@@ -11,6 +11,7 @@ Document the selected code.
   "id": "document-code",
   "engineVersion": 0,
   "label": "Document Code",
+  "tags": ["generate", "document"],
   "description": "Document the selected code.",
   "header": {
     "title": "Document Code {{location}}",

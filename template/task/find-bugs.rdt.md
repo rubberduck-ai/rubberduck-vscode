@@ -11,7 +11,8 @@ Template to find bugs in the selected code.
   "id": "find-bugs",
   "engineVersion": 0,
   "label": "Find bugs",
-  "description": "Find any potential bugs in the selected code.",
+  "tags": ["debug", "code quality"],
+  "description": "Find potential bugs in the selected code.",
   "header": {
     "title": "Find bugs ({{location}})",
     "icon": {

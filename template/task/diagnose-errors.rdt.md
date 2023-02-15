@@ -11,6 +11,7 @@ Diagnoses any errors or warnings the selected code.
   "id": "diagnose-errors",
   "engineVersion": 0,
   "label": "Diagnose Errors",
+  "tags": ["debug"],
   "description": "Diagnose errors and warnings in the selected code.",
   "header": {
     "title": "Diagnose Errors ({{location}})",

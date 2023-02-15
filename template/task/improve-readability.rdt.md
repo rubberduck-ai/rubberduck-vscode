@@ -12,6 +12,7 @@ The improve readability analysis suggests ways to make the selected code easier 
   "engineVersion": 0,
   "label": "Improve Readability",
   "description": "Improve the readability of the selected code.",
+  "tags": ["code quality"],
   "header": {
     "title": "Improve readability ({{location}})",
     "icon": {
