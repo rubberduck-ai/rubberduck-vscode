@@ -4,9 +4,11 @@ import ReactMarkdown from "react-markdown";
 
 export function ErrorMessage({
   error,
+  onClickDismiss,
   onClickRetry,
 }: {
   error: webviewApi.Error;
+  onClickDismiss: () => void;
   onClickRetry: () => void;
 }) {
   return typeof error === "string" ? (
@@ -27,8 +29,8 @@ export function ErrorMessage({
       </span>
       <div className="error-buttons">
         {!error.disableDismiss && (
-          <button className="error-dismiss" onClick={onClickRetry}>
-            <span style={{ marginLeft: "5px" }}>Dismiss</span>
+          <button className="error-dismiss" onClick={onClickDismiss}>
+            Dismiss
           </button>
         )}
         {!error.disableRetry && (

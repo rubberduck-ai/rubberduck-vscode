@@ -32,6 +32,12 @@ export const outgoingMessageSchema = zod.discriminatedUnion("type", [
     error: errorSchema,
   }),
   zod.object({
+    type: zod.literal("dismissError"),
+    data: zod.object({
+      id: zod.string(),
+    }),
+  }),
+  zod.object({
     type: zod.literal("retry"),
     data: zod.object({
       id: zod.string(),

@@ -284,9 +284,14 @@ button.error-retry {
 .level-warning button.error-retry {
   background: var(--vscode-inputValidation-warningBorder);
 }
-button.error-retry:hover,
-button.error-dismiss:hover {
+button.error-dismiss {
+  background: var(--vscode-button-secondaryBackground);
+}
+button.error-retry:hover {
   opacity: 70%;
+}
+button.error-dismiss:hover {
+  background: var(--vscode-button-secondaryHoverBackground);
 }
 
 span.error-retry:hover {

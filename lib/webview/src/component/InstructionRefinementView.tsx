@@ -6,10 +6,12 @@ import { ErrorMessage } from "./ErrorMessage";
 export function InstructionRefinementView({
   content,
   onSendMessage,
+  onClickDismiss,
   onClickRetry,
 }: {
   content: webviewApi.InstructionRefinementContent;
   onSendMessage: (message: string) => void;
+  onClickDismiss: () => void;
   onClickRetry: () => void;
 }) {
   const [inputText, setInputText] = useState(content.instruction);
@@ -50,7 +52,11 @@ export function InstructionRefinementView({
       })()}
 
       {content.error && (
-        <ErrorMessage error={content.error} onClickRetry={onClickRetry} />
+        <ErrorMessage
+          error={content.error}
+          onClickDismiss={onClickDismiss}
+          onClickRetry={onClickRetry}
+        />
       )}
     </div>
   );

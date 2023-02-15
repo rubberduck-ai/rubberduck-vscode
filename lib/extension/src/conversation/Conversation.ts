@@ -418,7 +418,7 @@ export class Conversation {
 
   async retry() {
     this.state = { type: "waitingForBotAnswer" };
-    await this.updateChatPanel();
+    await this.dismissError();
 
     await this.executeChat();
   }
@@ -462,6 +462,11 @@ export class Conversation {
 
   async setError(error: webviewApi.Error) {
     this.error = error;
+    await this.updateChatPanel();
+  }
+
+  async dismissError() {
+    this.error = undefined;
     await this.updateChatPanel();
   }
 

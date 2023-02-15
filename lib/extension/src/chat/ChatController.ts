@@ -98,6 +98,11 @@ export class ChatController {
         await this.chatModel.getConversationById(message.data.id)?.retry();
         break;
       }
+      case "dismissError":
+        await this.chatModel
+          .getConversationById(message.data.id)
+          ?.dismissError();
+        break;
       case "applyDiff": {
         break;
       }
