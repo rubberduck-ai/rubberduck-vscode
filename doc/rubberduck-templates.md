@@ -60,6 +60,7 @@ The configuration section is a JSON object that defines the template. It is a fe
   "engineVersion": 0,
   "label": "Ask a drunken pirate",
   "description": "Ask a drunken pirate about the meaning of your code",
+  "tags": ["fun"],
   "header": {
     "title": "Drunken Pirate ({{location}})",
     "icon": {
@@ -81,6 +82,7 @@ Configuration sections have the following basic properties:
 - `engineVersion`: Must be 0 for now. Warning: we might make breaking changes to the template format while we are on version 0.
 - `label`: Short description of the conversation type. It will be displayed when you run the "Rubberduck: Start Custom Chat… 💬" command.
 - `description`: Longer description of the conversation type. It will be displayed when you run the "Rubberduck: Start Custom Chat… 💬" command.
+- `tags`: An optional list of tags that can be used to filter the conversation types in the "Rubberduck: Start Custom Chat… 💬" command. Defaults to `[]`.
 - `header`: The header that is shown in the Rubberduck side panel for conversations of this type. It has 3 properties:
   - `title`: The title of the conversation. It will be shown in the Rubberduck side panel. You can use [template variables](#variables) here with `{{variableName}}`.
   - `useFirstMessageAsTitle`: An optional boolean value. Defaults to `false`. If it is `true`, the first message of the conversation will be used as the title once there is a message.
