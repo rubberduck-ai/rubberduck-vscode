@@ -13,6 +13,11 @@ export class ChatModel {
     return this.conversations.find((conversation) => conversation.id === id);
   }
 
+  getSelectedConversation(): Conversation | undefined {
+    if (!this.selectedConversationId) return;
+    return this.getConversationById(this.selectedConversationId);
+  }
+
   deleteConversation(id: string) {
     this.conversations = this.conversations.filter(
       (conversation) => conversation.id !== id

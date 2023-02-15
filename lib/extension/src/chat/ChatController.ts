@@ -159,7 +159,10 @@ export class ChatController {
   }
 
   private async showError(error: webviewApi.Error) {
-    console.error(error.message);
+    const conversation = this.chatModel.getSelectedConversation();
+    if (!conversation) return;
+
     await this.showChatPanel();
+    conversation.setError(error);
   }
 }
