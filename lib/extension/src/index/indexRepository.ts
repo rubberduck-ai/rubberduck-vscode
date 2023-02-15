@@ -1,10 +1,15 @@
 import fs from "node:fs/promises";
 import { simpleGit } from "simple-git";
 import * as vscode from "vscode";
+import { OpenAIClient } from "../openai/OpenAIClient";
 import { Chunk } from "./chunk/Chunk";
 import { createSplitLinearLines } from "./chunk/splitLinearLines";
 
-export async function indexRepository() {
+export async function indexRepository({
+  openAiClient,
+}: {
+  openAiClient: OpenAIClient;
+}) {
   const repositoryPath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 
   if (repositoryPath == undefined) {
@@ -33,7 +38,7 @@ export async function indexRepository() {
 
   let tokenCount = 0;
 
-  for (const file of files) {
+  for (const file of files.slice(0, 5)) {
     if (!isSupportedFile(file)) {
       continue;
     }
@@ -50,13 +55,14 @@ export async function indexRepository() {
       );
 
       try {
-        const embeddingResult = {
-          embedding: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          usage: { totalTokens: 0 },
-        };
-        // await openAiClient.generateEmbedding({
-        //   input: chunk.content,
-        // });
+        const embeddingResult = await openAiClient.generateEmbedding({
+          input: chunk.content,
+        });
+
+        if (embeddingResult.type === "error") {
+          console.error(embeddingResult.errorMessage);
+          continue;
+        }
 
         chunksWithEmbedding.push({
           file,
@@ -64,7 +70,7 @@ export async function indexRepository() {
           embedding: embeddingResult.embedding,
         });
 
-        tokenCount += embeddingResult.usage.totalTokens;
+        tokenCount += embeddingResult.totalTokenCount;
       } catch (error) {
         console.error(error);
 
@@ -75,7 +81,7 @@ export async function indexRepository() {
     }
   }
 
-  //   await fs.writeFile(outputFile, JSON.stringify(chunksWithEmbedding));
+  // await fs.writeFile(outputFile, JSON.stringify(chunksWithEmbedding));
 
   console.log();
   console.log(`Tokens used: ${tokenCount}`);

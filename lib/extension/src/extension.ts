@@ -30,18 +30,20 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   await conversationTypesProvider.loadConversationTypes();
 
+  const openAiClient = new OpenAIClient({
+    apiKeyManager,
+    log(message) {
+      outputChannel.appendLine(message);
+    },
+    async isPromptLoggingEnabled() {
+      return true;
+    },
+  });
+
   const chatController = new ChatController({
     chatPanel,
     chatModel,
-    openAIClient: new OpenAIClient({
-      apiKeyManager,
-      log(message) {
-        outputChannel.appendLine(message);
-      },
-      async isPromptLoggingEnabled() {
-        return true;
-      },
-    }),
+    openAIClient: openAiClient,
     diffEditorManager: new DiffEditorManager({
       extensionUri: context.extensionUri,
     }),
@@ -143,10 +145,9 @@ export const activate = async (context: vscode.ExtensionContext) => {
       outputChannel.show(true);
     }),
 
-    vscode.commands.registerCommand(
-      "rubberduck.indexRepository",
-      indexRepository
-    )
+    vscode.commands.registerCommand("rubberduck.indexRepository", () => {
+      indexRepository({ openAiClient });
+    })
   );
 
   return Object.freeze({
