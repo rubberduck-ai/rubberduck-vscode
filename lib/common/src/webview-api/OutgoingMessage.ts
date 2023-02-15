@@ -28,7 +28,7 @@ export const outgoingMessageSchema = zod.discriminatedUnion("type", [
     }),
   }),
   zod.object({
-    type: zod.literal("showError"),
+    type: zod.literal("reportError"),
     error: errorSchema,
   }),
   zod.object({

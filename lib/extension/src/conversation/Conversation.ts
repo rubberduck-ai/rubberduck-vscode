@@ -373,7 +373,7 @@ export class Conversation {
     this.diffEditor.onDidReceiveMessage(async (rawMessage) => {
       const message = webviewApi.outgoingMessageSchema.parse(rawMessage);
 
-      if (message.type === "showError") {
+      if (message.type === "reportError") {
         this.setError(message.error);
         return;
       }

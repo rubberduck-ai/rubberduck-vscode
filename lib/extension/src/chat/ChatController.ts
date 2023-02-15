@@ -106,8 +106,8 @@ export class ChatController {
       case "applyDiff": {
         break;
       }
-      case "showError": {
-        await this.showError(message.error);
+      case "reportError": {
+        await this.reportError(message.error);
         break;
       }
       default: {
@@ -163,7 +163,7 @@ export class ChatController {
     }
   }
 
-  private async showError(error: webviewApi.Error) {
+  private async reportError(error: webviewApi.Error) {
     const conversation = this.chatModel.getSelectedConversation();
     if (!conversation) return;
 
