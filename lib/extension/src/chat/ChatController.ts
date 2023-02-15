@@ -103,11 +103,10 @@ export class ChatController {
           .getConversationById(message.data.id)
           ?.dismissError();
         break;
-      case "applyDiff": {
-        break;
-      }
+      case "applyDiff":
       case "reportError": {
-        await this.reportError(message.error);
+        // Architecture debt: there are 2 views, but 1 outgoing message type
+        // These are handled in the Conversation
         break;
       }
       default: {
@@ -161,13 +160,5 @@ export class ChatController {
       console.log(error);
       await vscode.window.showErrorMessage(error?.message ?? error);
     }
-  }
-
-  private async reportError(error: webviewApi.Error) {
-    const conversation = this.chatModel.getSelectedConversation();
-    if (!conversation) return;
-
-    await this.showChatPanel();
-    conversation.setError(error);
   }
 }

@@ -460,7 +460,7 @@ export class Conversation {
     await this.updateChatPanel();
   }
 
-  async setError(error: webviewApi.Error) {
+  private async setError(error: webviewApi.Error) {
     this.error = error;
     await this.updateChatPanel();
   }
