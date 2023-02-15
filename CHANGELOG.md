@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.11.1 - 2023-02-15
+
+### Changed
+
+- Updated walkthrough.
+
 ## 1.11.0 - 2023-02-15
 
 ### Added
