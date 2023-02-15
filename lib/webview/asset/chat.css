@@ -8,6 +8,7 @@ body {
 
 .codicon.inline {
   vertical-align: sub;
+  margin-right: 5px;
 }
 
 .start-chat,

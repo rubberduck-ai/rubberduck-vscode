@@ -16,7 +16,7 @@ export function ErrorMessage({
       <span className="error-message">Error: {error}</span>
       <span className="error-retry" onClick={onClickRetry}>
         <i className="codicon codicon-debug-restart inline" />
-        <span style={{ marginLeft: "5px" }}>Retry</span>
+        <span>Retry</span>
       </span>
     </div>
   ) : (
@@ -36,7 +36,7 @@ export function ErrorMessage({
         {!error.disableRetry && (
           <button className="error-retry" onClick={onClickRetry}>
             <i className="codicon codicon-debug-restart inline" />
-            <span style={{ marginLeft: "5px" }}>Retry</span>
+            <span>Retry</span>
           </button>
         )}
       </div>
