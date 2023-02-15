@@ -9,16 +9,16 @@ export class DiffEditorManager {
   }
 
   createDiffEditor({
-    filename,
+    title,
     editorColumn,
     conversationId,
   }: {
-    filename: string;
+    title: string;
     editorColumn: vscode.ViewColumn;
     conversationId: string;
   }) {
     return new DiffEditor({
-      filename,
+      title,
       editorColumn,
       extensionUri: this.extensionUri,
       conversationId,

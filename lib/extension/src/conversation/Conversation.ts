@@ -365,7 +365,7 @@ export class Conversation {
 
     if (this.diffEditor == undefined) {
       this.diffEditor = this.diffEditorManager.createDiffEditor({
-        filename: diffData.filename,
+        title: `${this.template.label} (${diffData.filename})`,
         editorColumn: diffData.editor.viewColumn ?? vscode.ViewColumn.One,
         conversationId: this.id,
       });

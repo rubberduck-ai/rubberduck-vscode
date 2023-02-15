@@ -8,19 +8,19 @@ export class DiffEditor {
   private messageHandler: vscode.Disposable | undefined;
 
   constructor({
-    filename,
+    title,
     editorColumn,
     extensionUri,
     conversationId,
   }: {
-    filename: string;
+    title: string;
     editorColumn: vscode.ViewColumn;
     extensionUri: vscode.Uri;
     conversationId: string;
   }) {
     const panel = vscode.window.createWebviewPanel(
       `rubberduck.diff.${conversationId}`,
-      `Edit (${filename})`,
+      title,
       editorColumn
     );
 
