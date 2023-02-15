@@ -34,6 +34,7 @@ Document the selected code.
       "constraints": [{ "type": "text-length", "min": 1 }]
     }
   ],
+  "chatInterface": "instruction-refinement",
   "initialMessage": {
     "placeholder": "Documenting selection",
     "maxTokens": 2048,

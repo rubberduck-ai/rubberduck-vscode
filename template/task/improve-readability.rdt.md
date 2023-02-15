@@ -53,6 +53,7 @@ The improve readability analysis suggests ways to make the selected code easier 
       "index": -1
     }
   ],
+  "chatInterface": "instruction-refinement",
   "initialMessage": {
     "placeholder": "Looking for readability improvements",
     "maxTokens": 1024
