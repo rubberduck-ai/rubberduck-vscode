@@ -34,7 +34,7 @@ export async function indexRepository({
 
   let tokenCount = 0;
 
-  for (const file of files.slice(0, 20)) {
+  for (const file of files) {
     if (!isSupportedFile(file)) {
       continue;
     }
