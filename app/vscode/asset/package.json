@@ -309,35 +309,11 @@
             }
           },
           {
-            "id": "explain-code",
-            "title": "Explain Code",
-            "description": "Ask Rubberduck to explain the selected code.",
+            "id": "other-actions",
+            "title": "Other Actions",
+            "description": "Generate unit tests, explain code, find bugs, and more.",
             "media": {
-              "markdown": "walkthrough/explain-code.md"
-            }
-          },
-          {
-            "id": "generate-unit-test",
-            "title": "Generate Unit Tests",
-            "description": "Generate unit tests with Rubberduck.",
-            "media": {
-              "markdown": "walkthrough/generate-unit-test.md"
-            }
-          },
-          {
-            "id": "find-bugs",
-            "title": "Find Bugs",
-            "description": "Identify potential defects in your code.",
-            "media": {
-              "markdown": "walkthrough/find-bugs.md"
-            }
-          },
-          {
-            "id": "diagnose-errors",
-            "title": "Diagnose Errors",
-            "description": "Let Rubberduck identify error causes and suggest fixes to fix compiler and linter errors faster.",
-            "media": {
-              "markdown": "walkthrough/diagnose-errors.md"
+              "markdown": "walkthrough/other-actions.md"
             }
           },
           {
@@ -354,6 +330,14 @@
             "description": "How to get the most out of Rubberduck.",
             "media": {
               "markdown": "walkthrough/tips-and-tricks.md"
+            }
+          },
+          {
+            "id": "project",
+            "title": "Project",
+            "description": "Learn more about the Rubberduck open source project.",
+            "media": {
+              "markdown": "walkthrough/project.md"
             }
           }
         ]
