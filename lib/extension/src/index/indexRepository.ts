@@ -33,78 +33,110 @@ export async function indexRepository({
   const chunksWithEmbedding: Array<ChunkWithContent> = [];
 
   let tokenCount = 0;
+  let cancelled = false;
 
-  for (const file of files) {
-    if (!isSupportedFile(file)) {
-      continue;
-    }
-
-    // TODO potential bug on windows
-    const content = await fs.readFile(`${repositoryPath}/${file}`, "utf8");
-
-    const chunks = createSplitLinearLines({
-      maxChunkCharacters: 500, // ~4 char per token
-    })(content);
-
-    for (const chunk of chunks) {
-      outputChannel.appendLine(
-        `Generating embedding for chunk '${file}' ${chunk.startPosition}:${chunk.endPosition}`
-      );
-
-      try {
-        const embeddingResult = await openAiClient.generateEmbedding({
-          input: chunk.content,
+  await vscode.window.withProgress(
+    {
+      location: vscode.ProgressLocation.Notification,
+      title: "Indexing repository",
+      cancellable: true,
+    },
+    async (progress, cancellationToken) => {
+      for (const file of files) {
+        progress.report({
+          message: `Indexing ${file}`,
+          increment: 100 / files.length,
         });
 
-        if (embeddingResult.type === "error") {
-          outputChannel.appendLine(
-            `Failed to generate embedding for chunk '${file}' ${chunk.startPosition}:${chunk.endPosition} - ${embeddingResult.errorMessage}}`
-          );
+        if (cancellationToken.isCancellationRequested) {
+          cancelled = true;
+          break;
+        }
 
-          console.error(embeddingResult.errorMessage);
+        if (!isSupportedFile(file)) {
           continue;
         }
 
-        chunksWithEmbedding.push({
-          file,
-          start_position: chunk.startPosition,
-          end_position: chunk.endPosition,
-          content: chunk.content,
-          embedding: embeddingResult.embedding,
-        });
+        // TODO potential bug on windows
+        const content = await fs.readFile(`${repositoryPath}/${file}`, "utf8");
 
-        tokenCount += embeddingResult.totalTokenCount;
-      } catch (error) {
-        console.error(error);
+        const chunks = createSplitLinearLines({
+          maxChunkCharacters: 500, // ~4 char per token
+        })(content);
 
-        outputChannel.appendLine(
-          `Failed to generate embedding for chunk '${file}' ${chunk.startPosition}:${chunk.endPosition}`
-        );
+        for (const chunk of chunks) {
+          if (cancellationToken.isCancellationRequested) {
+            cancelled = true;
+            break;
+          }
+
+          outputChannel.appendLine(
+            `Generating embedding for chunk '${file}' ${chunk.startPosition}:${chunk.endPosition}`
+          );
+
+          try {
+            const embeddingResult = await openAiClient.generateEmbedding({
+              input: chunk.content,
+            });
+
+            if (embeddingResult.type === "error") {
+              outputChannel.appendLine(
+                `Failed to generate embedding for chunk '${file}' ${chunk.startPosition}:${chunk.endPosition} - ${embeddingResult.errorMessage}}`
+              );
+
+              console.error(embeddingResult.errorMessage);
+              continue;
+            }
+
+            chunksWithEmbedding.push({
+              file,
+              start_position: chunk.startPosition,
+              end_position: chunk.endPosition,
+              content: chunk.content,
+              embedding: embeddingResult.embedding,
+            });
+
+            tokenCount += embeddingResult.totalTokenCount;
+          } catch (error) {
+            console.error(error);
+
+            outputChannel.appendLine(
+              `Failed to generate embedding for chunk '${file}' ${chunk.startPosition}:${chunk.endPosition}`
+            );
+          }
+        }
       }
     }
-  }
-
-  // TODO potential bug on windows
-  const filename = `${repositoryPath}/.rubberduck/embedding/repository.json`;
-
-  // TODO potential bug on windows
-  await fs.mkdir(`${repositoryPath}/.rubberduck/embedding`, {
-    recursive: true,
-  });
-
-  await fs.writeFile(
-    filename,
-    JSON.stringify({
-      version: 0,
-      embedding: {
-        source: "openai",
-        model: "text-embedding-ada-002",
-      },
-      chunks: chunksWithEmbedding,
-    })
   );
 
+  if (!cancelled) {
+    // TODO potential bug on windows
+    const filename = `${repositoryPath}/.rubberduck/embedding/repository.json`;
+
+    // TODO potential bug on windows
+    await fs.mkdir(`${repositoryPath}/.rubberduck/embedding`, {
+      recursive: true,
+    });
+
+    await fs.writeFile(
+      filename,
+      JSON.stringify({
+        version: 0,
+        embedding: {
+          source: "openai",
+          model: "text-embedding-ada-002",
+        },
+        chunks: chunksWithEmbedding,
+      })
+    );
+  }
+
   outputChannel.appendLine("");
+
+  if (cancelled) {
+    outputChannel.appendLine("Indexing cancelled");
+  }
+
   outputChannel.appendLine(`Tokens used: ${tokenCount}`);
   outputChannel.appendLine(`Cost: ${(tokenCount / 1000) * 0.0004} USD`);
 }
