@@ -13,7 +13,9 @@ export const activate = async (context: vscode.ExtensionContext) => {
     secretStorage: context.secrets,
   });
 
-  const outputChannel = vscode.window.createOutputChannel("Rubberduck");
+  const mainOutputChannel = vscode.window.createOutputChannel("Rubberduck");
+  const indexOutputChannel =
+    vscode.window.createOutputChannel("Rubberduck Index");
 
   const hasOpenAIApiKey = await apiKeyManager.hasOpenAIApiKey();
   const chatPanel = new ChatPanel({
@@ -33,7 +35,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
   const openAiClient = new OpenAIClient({
     apiKeyManager,
     log(message) {
-      outputChannel.appendLine(message);
+      mainOutputChannel.appendLine(message);
     },
     async isPromptLoggingEnabled() {
       return true;
@@ -142,11 +144,11 @@ export const activate = async (context: vscode.ExtensionContext) => {
     }),
 
     vscode.commands.registerCommand("rubberduck.showLogs", () => {
-      outputChannel.show(true);
+      mainOutputChannel.show(true);
     }),
 
     vscode.commands.registerCommand("rubberduck.indexRepository", () => {
-      indexRepository({ openAiClient });
+      indexRepository({ openAiClient, outputChannel: indexOutputChannel });
     })
   );
 

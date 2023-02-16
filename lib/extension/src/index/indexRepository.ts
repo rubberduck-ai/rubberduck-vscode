@@ -3,13 +3,14 @@ import { simpleGit } from "simple-git";
 import * as vscode from "vscode";
 import { ChunkWithContent } from "../conversation/retrieval-augmentation/EmbeddingFile";
 import { OpenAIClient } from "../openai/OpenAIClient";
-import { Chunk } from "./chunk/Chunk";
 import { createSplitLinearLines } from "./chunk/splitLinearLines";
 
 export async function indexRepository({
   openAiClient,
+  outputChannel,
 }: {
   openAiClient: OpenAIClient;
+  outputChannel: vscode.OutputChannel;
 }) {
   const repositoryPath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 
@@ -18,9 +19,7 @@ export async function indexRepository({
     return;
   }
 
-  console.log("index repository", {
-    workspaceRootPath: repositoryPath,
-  });
+  outputChannel.appendLine(`Indexing repository ${repositoryPath}`);
 
   const git = simpleGit({
     baseDir: repositoryPath,
@@ -47,7 +46,7 @@ export async function indexRepository({
     })(content);
 
     for (const chunk of chunks) {
-      console.log(
+      outputChannel.appendLine(
         `Generating embedding for chunk '${file}' ${chunk.startPosition}:${chunk.endPosition}`
       );
 
@@ -57,6 +56,10 @@ export async function indexRepository({
         });
 
         if (embeddingResult.type === "error") {
+          outputChannel.appendLine(
+            `Failed to generate embedding for chunk '${file}' ${chunk.startPosition}:${chunk.endPosition} - ${embeddingResult.errorMessage}}`
+          );
+
           console.error(embeddingResult.errorMessage);
           continue;
         }
@@ -73,7 +76,7 @@ export async function indexRepository({
       } catch (error) {
         console.error(error);
 
-        console.log(
+        outputChannel.appendLine(
           `Failed to generate embedding for chunk '${file}' ${chunk.startPosition}:${chunk.endPosition}`
         );
       }
@@ -99,9 +102,9 @@ export async function indexRepository({
     })
   );
 
-  console.log();
-  console.log(`Tokens used: ${tokenCount}`);
-  console.log(`Cost: ${(tokenCount / 1000) * 0.0004} USD`);
+  outputChannel.appendLine("");
+  outputChannel.appendLine(`Tokens used: ${tokenCount}`);
+  outputChannel.appendLine(`Cost: ${(tokenCount / 1000) * 0.0004} USD`);
 }
 
 function isSupportedFile(file: string) {
