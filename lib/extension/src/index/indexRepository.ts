@@ -39,7 +39,7 @@ export async function indexRepository({
       continue;
     }
 
-    // TODO use node for path assembly
+    // TODO potential bug on windows
     const content = await fs.readFile(`${repositoryPath}/${file}`, "utf8");
 
     const chunks = createSplitLinearLines({
@@ -84,9 +84,10 @@ export async function indexRepository({
     }
   }
 
-  // TODO use node for path assembly
+  // TODO potential bug on windows
   const filename = `${repositoryPath}/.rubberduck/embedding/repository.json`;
 
+  // TODO potential bug on windows
   await fs.mkdir(`${repositoryPath}/.rubberduck/embedding`, {
     recursive: true,
   });
