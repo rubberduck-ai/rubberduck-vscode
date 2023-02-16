@@ -19,6 +19,7 @@ export async function indexRepository({
     return;
   }
 
+  outputChannel.show(true);
   outputChannel.appendLine(`Indexing repository ${repositoryPath}`);
 
   const git = simpleGit({
