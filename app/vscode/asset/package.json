@@ -133,7 +133,8 @@
       {
         "command": "rubberduck.indexRepository",
         "title": "Index Repository",
-        "category": "Rubberduck"
+        "category": "Rubberduck",
+        "enablement": "config.rubberduck.indexRepository.enable"
       }
     ],
     "configuration": {
@@ -143,6 +144,12 @@
           "type": "boolean",
           "default": false,
           "markdownDescription": "Use the Visual Studio Code Theme colors for syntax highlighting in the diff viewer. Might not work with all themes. Only applies to newly opened diffs.",
+          "scope": "application"
+        },
+        "rubberduck.indexRepository.enable": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Enable the command to index your repository and give more context to the AI model. Experimental.",
           "scope": "application"
         }
       }
