@@ -34,9 +34,6 @@ export const activate = async (context: vscode.ExtensionContext) => {
   const openAIClient = new OpenAIClient({
     apiKeyManager,
     logger: vscodeLogger,
-    async isPromptLoggingEnabled() {
-      return true;
-    },
   });
 
   const chatController = new ChatController({

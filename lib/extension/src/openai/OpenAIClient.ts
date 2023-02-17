@@ -64,20 +64,16 @@ const embeddingSchema = zod.object({
 
 export class OpenAIClient {
   private readonly apiKeyManager: ApiKeyManager;
-  private readonly isPromptLoggingEnabled: () => Promise<boolean>;
   private readonly logger: Logger;
 
   constructor({
     apiKeyManager,
-    isPromptLoggingEnabled,
     logger,
   }: {
     apiKeyManager: ApiKeyManager;
-    isPromptLoggingEnabled: () => Promise<boolean>;
     logger: Logger;
   }) {
     this.apiKeyManager = apiKeyManager;
-    this.isPromptLoggingEnabled = isPromptLoggingEnabled;
     this.logger = logger;
   }
 
@@ -107,13 +103,11 @@ export class OpenAIClient {
         errorMessage: string;
       }
   > {
-    if (await this.isPromptLoggingEnabled()) {
-      this.logger.log([
-        "--- Start OpenAI prompt ---",
-        prompt,
-        "--- End OpenAI prompt ---",
-      ]);
-    }
+    this.logger.log([
+      "--- Start OpenAI prompt ---",
+      prompt,
+      "--- End OpenAI prompt ---",
+    ]);
 
     try {
       const apiKey = await this.getApiKey();
