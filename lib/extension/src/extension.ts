@@ -4,6 +4,7 @@ import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
 import { ConversationTypesProvider } from "./conversation/ConversationTypesProvider";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
+import { LoggerUsingVSCodeOutput } from "./logger";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
 import { OpenAIClient } from "./openai/OpenAIClient";
 
@@ -13,6 +14,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
   });
 
   const outputChannel = vscode.window.createOutputChannel("Rubberduck");
+  const vscodeLogger = new LoggerUsingVSCodeOutput(outputChannel);
 
   const hasOpenAIApiKey = await apiKeyManager.hasOpenAIApiKey();
   const chatPanel = new ChatPanel({
@@ -29,18 +31,20 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   await conversationTypesProvider.loadConversationTypes();
 
+  const openAIClient = new OpenAIClient({
+    apiKeyManager,
+    log(message) {
+      vscodeLogger.log(message);
+    },
+    async isPromptLoggingEnabled() {
+      return true;
+    },
+  });
+
   const chatController = new ChatController({
     chatPanel,
     chatModel,
-    openAIClient: new OpenAIClient({
-      apiKeyManager,
-      log(message) {
-        outputChannel.appendLine(message);
-      },
-      async isPromptLoggingEnabled() {
-        return true;
-      },
-    }),
+    openAIClient,
     diffEditorManager: new DiffEditorManager({
       extensionUri: context.extensionUri,
     }),
