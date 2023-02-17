@@ -4,6 +4,14 @@ import * as vscode from "vscode";
 const logLevels = ["debug", "info", "warning", "error"] as const;
 type LogLevel = (typeof logLevels)[number];
 
+export function getVSCodeLogLevel(): LogLevel {
+  const setting: string = vscode.workspace
+    .getConfiguration("rubberduck.logger")
+    .get("level", "");
+
+  return logLevels.find((l) => setting == l) ?? "info";
+}
+
 export interface Logger {
   setLevel(level: LogLevel): void;
   debug(message: string | string[]): void;
@@ -17,10 +25,10 @@ export class LoggerUsingVSCodeOutput implements Logger {
   private readonly outputChannel: vscode.OutputChannel;
 
   constructor({
-    level = "info",
+    level,
     outputChannel,
   }: {
-    level?: LogLevel;
+    level: LogLevel;
     outputChannel: vscode.OutputChannel;
   }) {
     this.level = level;

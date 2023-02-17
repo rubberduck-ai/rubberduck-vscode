@@ -139,6 +139,24 @@
           "default": false,
           "markdownDescription": "Use the Visual Studio Code Theme colors for syntax highlighting in the diff viewer. Might not work with all themes. Only applies to newly opened diffs.",
           "scope": "application"
+        },
+        "rubberduck.logger.level": {
+          "type": "string",
+          "default": "info",
+          "enum": [
+            "debug",
+            "info",
+            "warning",
+            "error"
+          ],
+          "enumDescriptions": [
+            "Show all logs",
+            "Show all logs except the debug ones",
+            "Only show warnings and errors",
+            "Only show errors"
+          ],
+          "markdownDescription": "Specify the verbosity of logs that will appear in 'Rubberduck: Show Logs'.",
+          "scope": "application"
         }
       }
     },

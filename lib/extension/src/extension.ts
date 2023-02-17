@@ -4,7 +4,7 @@ import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
 import { ConversationTypesProvider } from "./conversation/ConversationTypesProvider";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
-import { LoggerUsingVSCodeOutput } from "./logger";
+import { getVSCodeLogLevel, LoggerUsingVSCodeOutput } from "./logger";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
 import { OpenAIClient } from "./openai/OpenAIClient";
 
@@ -16,7 +16,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
   const outputChannel = vscode.window.createOutputChannel("Rubberduck");
   const vscodeLogger = new LoggerUsingVSCodeOutput({
     outputChannel,
-    level: "info",
+    level: getVSCodeLogLevel(),
   });
 
   const hasOpenAIApiKey = await apiKeyManager.hasOpenAIApiKey();
