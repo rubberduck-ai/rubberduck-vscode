@@ -77,9 +77,8 @@ export class LoggerUsingVSCodeOutput implements Logger {
   }
 
   private canLog(level: LogLevel): boolean {
-    return (
-      logLevels.findIndex((l) => l == this.level) >=
-      logLevels.findIndex((l) => l == level)
-    );
+    const requestedLevel = logLevels.findIndex((l) => l == level);
+    const minLevel = logLevels.findIndex((l) => l == this.level);
+    return requestedLevel >= minLevel;
   }
 }
