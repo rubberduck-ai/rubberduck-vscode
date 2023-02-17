@@ -6,7 +6,10 @@ type LogLevel = (typeof logLevels)[number];
 
 export interface Logger {
   setLevel(level: LogLevel): void;
-  log(message: string | string[], level?: LogLevel): void;
+  debug(message: string | string[]): void;
+  log(message: string | string[]): void;
+  warn(message: string | string[]): void;
+  error(message: string | string[]): void;
 }
 
 export class LoggerUsingVSCodeOutput implements Logger {
@@ -18,29 +21,49 @@ export class LoggerUsingVSCodeOutput implements Logger {
     this.#level = level;
   }
 
-  log(message: string | string[], level: LogLevel = "info"): void {
-    if (!this.canLog(level)) return;
-
-    const lines = ([] as string[]).concat(message);
-    lines.forEach((line) => {
-      this.outputChannel.appendLine(`${this.prefix} ${line}`);
+  debug(message: string | string[]): void {
+    return this.write({
+      lines: ([] as string[]).concat(message),
+      prefix: "[DEBUG]",
+      level: "debug",
     });
   }
 
-  private get prefix(): string {
-    switch (this.#level) {
-      case "debug":
-        return "[DEBUG]";
+  log(message: string | string[]): void {
+    return this.write({
+      lines: ([] as string[]).concat(message),
+      prefix: "[INFO]",
+      level: "info",
+    });
+  }
 
-      case "info":
-        return "[INFO]";
+  warn(message: string | string[]): void {
+    return this.write({
+      lines: ([] as string[]).concat(message),
+      prefix: "[WARNING]",
+      level: "warning",
+    });
+  }
 
-      case "warning":
-        return "[WARNING]";
+  error(message: string | string[]): void {
+    return this.write({
+      lines: ([] as string[]).concat(message),
+      prefix: "[ERROR]",
+      level: "error",
+    });
+  }
 
-      case "error":
-        return "[ERROR]";
-    }
+  private write(options: {
+    lines: string[];
+    prefix: string;
+    level: LogLevel;
+  }): void {
+    const { lines, prefix, level } = options;
+    if (!this.canLog(level)) return;
+
+    lines.forEach((line) => {
+      this.outputChannel.appendLine(`${prefix} ${line}`);
+    });
   }
 
   private canLog(level: LogLevel): boolean {
