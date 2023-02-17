@@ -18,6 +18,11 @@ export const activate = async (context: vscode.ExtensionContext) => {
     outputChannel,
     level: getVSCodeLogLevel(),
   });
+  vscode.workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration("rubberduck.logger.level")) {
+      vscodeLogger.setLevel(getVSCodeLogLevel());
+    }
+  });
 
   const hasOpenAIApiKey = await apiKeyManager.hasOpenAIApiKey();
   const chatPanel = new ChatPanel({
