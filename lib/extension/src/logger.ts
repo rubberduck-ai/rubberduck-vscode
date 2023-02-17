@@ -13,12 +13,22 @@ export interface Logger {
 }
 
 export class LoggerUsingVSCodeOutput implements Logger {
-  #level: LogLevel = "info";
+  private level: LogLevel;
+  private readonly outputChannel: vscode.OutputChannel;
 
-  constructor(private readonly outputChannel: vscode.OutputChannel) {}
+  constructor({
+    level = "info",
+    outputChannel,
+  }: {
+    level?: LogLevel;
+    outputChannel: vscode.OutputChannel;
+  }) {
+    this.level = level;
+    this.outputChannel = outputChannel;
+  }
 
   setLevel(level: LogLevel) {
-    this.#level = level;
+    this.level = level;
   }
 
   debug(message: string | string[]): void {
@@ -68,7 +78,7 @@ export class LoggerUsingVSCodeOutput implements Logger {
 
   private canLog(level: LogLevel): boolean {
     return (
-      logLevels.findIndex((l) => l == this.#level) >=
+      logLevels.findIndex((l) => l == this.level) >=
       logLevels.findIndex((l) => l == level)
     );
   }

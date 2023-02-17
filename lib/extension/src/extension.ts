@@ -14,7 +14,10 @@ export const activate = async (context: vscode.ExtensionContext) => {
   });
 
   const outputChannel = vscode.window.createOutputChannel("Rubberduck");
-  const vscodeLogger = new LoggerUsingVSCodeOutput(outputChannel);
+  const vscodeLogger = new LoggerUsingVSCodeOutput({
+    outputChannel,
+    level: "info",
+  });
 
   const hasOpenAIApiKey = await apiKeyManager.hasOpenAIApiKey();
   const chatPanel = new ChatPanel({
