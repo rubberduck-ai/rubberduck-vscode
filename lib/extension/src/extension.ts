@@ -33,9 +33,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   const openAIClient = new OpenAIClient({
     apiKeyManager,
-    log(message) {
-      vscodeLogger.log(message);
-    },
+    logger: vscodeLogger,
     async isPromptLoggingEnabled() {
       return true;
     },

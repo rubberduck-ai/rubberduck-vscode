@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 import { IncomingMessage } from "http";
 import secureJSON from "secure-json-parse";
 import zod from "zod";
+import { Logger } from "../logger";
 import { ApiKeyManager } from "./ApiKeyManager";
 
 const completionSchema = zod.object({
@@ -64,20 +65,20 @@ const embeddingSchema = zod.object({
 export class OpenAIClient {
   private readonly apiKeyManager: ApiKeyManager;
   private readonly isPromptLoggingEnabled: () => Promise<boolean>;
-  private readonly log: (message: string) => void;
+  private readonly logger: Logger;
 
   constructor({
     apiKeyManager,
     isPromptLoggingEnabled,
-    log,
+    logger,
   }: {
     apiKeyManager: ApiKeyManager;
     isPromptLoggingEnabled: () => Promise<boolean>;
-    log: (message: string) => void;
+    logger: Logger;
   }) {
     this.apiKeyManager = apiKeyManager;
     this.isPromptLoggingEnabled = isPromptLoggingEnabled;
-    this.log = log;
+    this.logger = logger;
   }
 
   private getApiKey() {
@@ -107,9 +108,9 @@ export class OpenAIClient {
       }
   > {
     if (await this.isPromptLoggingEnabled()) {
-      this.log("--- Start OpenAI prompt ---");
-      this.log(prompt);
-      this.log("--- End OpenAI prompt ---");
+      this.logger.log("--- Start OpenAI prompt ---");
+      this.logger.log(prompt);
+      this.logger.log("--- End OpenAI prompt ---");
     }
 
     try {
