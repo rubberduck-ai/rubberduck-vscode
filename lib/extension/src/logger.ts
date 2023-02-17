@@ -6,7 +6,7 @@ type LogLevel = (typeof logLevels)[number];
 
 export interface Logger {
   setLevel(level: LogLevel): void;
-  log(message: string, level?: LogLevel): void;
+  log(message: string | string[], level?: LogLevel): void;
 }
 
 export class LoggerUsingVSCodeOutput implements Logger {
@@ -18,10 +18,13 @@ export class LoggerUsingVSCodeOutput implements Logger {
     this.#level = level;
   }
 
-  log(message: string, level: LogLevel = "info"): void {
+  log(message: string | string[], level: LogLevel = "info"): void {
     if (!this.canLog(level)) return;
 
-    this.outputChannel.appendLine(`${this.prefix} ${message}`);
+    const lines = ([] as string[]).concat(message);
+    lines.forEach((line) => {
+      this.outputChannel.appendLine(`${this.prefix} ${line}`);
+    });
   }
 
   private get prefix(): string {

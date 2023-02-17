@@ -108,9 +108,11 @@ export class OpenAIClient {
       }
   > {
     if (await this.isPromptLoggingEnabled()) {
-      this.logger.log("--- Start OpenAI prompt ---");
-      this.logger.log(prompt);
-      this.logger.log("--- End OpenAI prompt ---");
+      this.logger.log([
+        "--- Start OpenAI prompt ---",
+        prompt,
+        "--- End OpenAI prompt ---",
+      ]);
     }
 
     try {
