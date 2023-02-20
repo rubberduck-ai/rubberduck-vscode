@@ -195,11 +195,7 @@ export class OpenAIClient {
                   streamHandler(responseUntilNow);
                 }
               } catch (error) {
-                this.logger.error("Failed to process chunk");
-                console.log({
-                  chunkText,
-                  error,
-                });
+                this.logger.error(["Failed to process chunk", chunkText]);
                 reject(error);
               }
             });
@@ -218,7 +214,6 @@ export class OpenAIClient {
             });
           } catch (error) {
             this.logger.error("Streaming error");
-            console.log(error);
             reject(error);
           }
         });
@@ -252,7 +247,6 @@ export class OpenAIClient {
       }
     } catch (error) {
       this.logger.error("Something went wrong with OpenAI");
-      console.log(error);
 
       if (error instanceof AxiosError) {
         let data = error.response?.data;
