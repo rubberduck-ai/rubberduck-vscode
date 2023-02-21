@@ -291,7 +291,7 @@ export class OpenAIClient {
 
       if (apiKey == undefined) {
         return {
-          type: "error",
+          type: "error" as const,
           errorMessage:
             "No OpenAI API key found. Please enter your OpenAI API key with the 'Rubberduck: Enter OpenAI API key' command.",
         };
@@ -310,15 +310,18 @@ export class OpenAIClient {
         }
       );
 
+      const result = embeddingSchema.parse(response.data);
+
       return {
-        type: "success",
-        embedding: embeddingSchema.parse(response.data).data[0]!.embedding,
+        type: "success" as const,
+        embedding: result.data[0]!.embedding,
+        totalTokenCount: result.usage.total_tokens,
       };
     } catch (error: any) {
       console.log(error);
 
       return {
-        type: "error",
+        type: "error" as const,
         errorMessage: error?.message,
       };
     }

@@ -4,6 +4,7 @@ import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
 import { ConversationTypesProvider } from "./conversation/ConversationTypesProvider";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
+import { indexRepository } from "./index/indexRepository";
 import { getVSCodeLogLevel, LoggerUsingVSCodeOutput } from "./logger";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
 import { OpenAIClient } from "./openai/OpenAIClient";
@@ -13,9 +14,12 @@ export const activate = async (context: vscode.ExtensionContext) => {
     secretStorage: context.secrets,
   });
 
-  const outputChannel = vscode.window.createOutputChannel("Rubberduck");
+  const mainOutputChannel = vscode.window.createOutputChannel("Rubberduck");
+  const indexOutputChannel =
+    vscode.window.createOutputChannel("Rubberduck Index");
+
   const vscodeLogger = new LoggerUsingVSCodeOutput({
-    outputChannel,
+    outputChannel: mainOutputChannel,
     level: getVSCodeLogLevel(),
   });
   vscode.workspace.onDidChangeConfiguration((event) => {
@@ -144,8 +148,16 @@ export const activate = async (context: vscode.ExtensionContext) => {
       await conversationTypesProvider.loadConversationTypes();
       vscode.window.showInformationMessage("Rubberduck templates reloaded.");
     }),
+
     vscode.commands.registerCommand("rubberduck.showLogs", () => {
-      outputChannel.show(true);
+      mainOutputChannel.show(true);
+    }),
+
+    vscode.commands.registerCommand("rubberduck.indexRepository", () => {
+      indexRepository({
+        openAIClient,
+        outputChannel: indexOutputChannel,
+      });
     })
   );
 
