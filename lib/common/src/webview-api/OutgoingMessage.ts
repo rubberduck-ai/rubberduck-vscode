@@ -21,6 +21,12 @@ export const outgoingMessageSchema = zod.discriminatedUnion("type", [
     }),
   }),
   zod.object({
+    type: zod.literal("exportConversation"),
+    data: zod.object({
+      id: zod.string(),
+    }),
+  }),
+  zod.object({
     type: zod.literal("sendMessage"),
     data: zod.object({
       id: zod.string(),

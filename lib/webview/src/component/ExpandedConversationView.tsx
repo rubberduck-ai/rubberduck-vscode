@@ -10,12 +10,14 @@ export const ExpandedConversationView: React.FC<{
   onClickDismiss: () => void;
   onClickRetry: () => void;
   onClickDelete: () => void;
+  onClickExport: () => void;
 }> = ({
   conversation,
   onSendMessage,
   onClickDismiss,
   onClickRetry,
   onClickDelete,
+  onClickExport,
 }) => {
   const content = conversation.content;
 
@@ -53,6 +55,10 @@ export const ExpandedConversationView: React.FC<{
 
       <div className="footer">
         <span className="action-panel">
+          <i
+            className="codicon codicon-markdown inline action-export"
+            onClick={onClickExport}
+          />
           <i
             className="codicon codicon-trash inline action-delete"
             onClick={onClickDelete}

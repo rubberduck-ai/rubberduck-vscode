@@ -94,6 +94,12 @@ export class ChatController {
         await this.updateChatPanel();
         break;
       }
+      case "exportConversation": {
+        await this.chatModel
+          .getConversationById(message.data.id)
+          ?.exportMarkdown();
+        break;
+      }
       case "retry": {
         await this.chatModel.getConversationById(message.data.id)?.retry();
         break;

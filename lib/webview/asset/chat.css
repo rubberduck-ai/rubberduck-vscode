@@ -299,11 +299,13 @@ span.error-retry:hover {
   cursor: pointer;
 }
 
-.action-delete {
+.action-delete,
+.action-export {
   cursor: pointer;
 }
 
-.action-delete:hover {
+.action-delete:hover,
+.action-export:hover {
   color: var(--vscode-charts-red);
 }
 
