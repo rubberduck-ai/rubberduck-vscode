@@ -105,6 +105,23 @@ export class Conversation {
     return this.template.header.icon.value;
   }
 
+  async exportMarkdown(): Promise<void> {
+    const document = await vscode.workspace.openTextDocument({
+      language: "markdown",
+      content: this.getMarkdownExport(),
+    });
+    await vscode.window.showTextDocument(document);
+  }
+
+  private getMarkdownExport(): string {
+    return this.messages
+      .flatMap(({ author, content }) => [
+        author === "bot" ? "# Answer" : "# Question",
+        content,
+      ])
+      .join("\n\n");
+  }
+
   private async resolveVariablesAtMessageTime() {
     return resolveVariables(this.template.variables, {
       time: "message",

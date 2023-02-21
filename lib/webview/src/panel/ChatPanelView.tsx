@@ -82,6 +82,12 @@ export const ChatPanelView: React.FC<{
                 data: { id: conversation.id },
               })
             }
+            onClickExport={() => {
+              sendMessage({
+                type: "exportConversation",
+                data: { id: conversation.id },
+              });
+            }}
           />
         ) : (
           <CollapsedConversationView
