@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.12.0 - 2023-02-21
+
+### Added
+
+- Chat export into Markdown files (issue #48).
+- Detailed logging with options to change log levels in configuration.
+- Experimental: Codebase indexing command.
+
 ## 1.11.1 - 2023-02-15
 
 ### Changed
