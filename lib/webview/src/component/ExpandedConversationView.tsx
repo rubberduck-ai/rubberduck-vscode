@@ -56,11 +56,13 @@ export const ExpandedConversationView: React.FC<{
       <div className="footer">
         <span className="action-panel">
           <i
-            className="codicon codicon-markdown inline action-export"
+            className="codicon codicon-save inline action-export"
+            title="Export conversation"
             onClick={onClickExport}
           />
           <i
             className="codicon codicon-trash inline action-delete"
+            title="Delete conversation"
             onClick={onClickDelete}
           />
         </span>

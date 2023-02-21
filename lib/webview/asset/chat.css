@@ -302,10 +302,17 @@ span.error-retry:hover {
 .action-delete,
 .action-export {
   cursor: pointer;
+  border-radius: 5px;
+  padding: 3px;
 }
 
 .action-delete:hover,
 .action-export:hover {
+  color: var(--vscode-icon-foreground);
+  background-color: var(--vscode-sideBar-background);
+}
+
+.action-delete:hover {
   color: var(--vscode-charts-red);
 }
 
