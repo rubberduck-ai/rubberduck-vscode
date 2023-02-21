@@ -9,6 +9,7 @@ body {
 
 .codicon.inline {
   vertical-align: sub;
+  margin-right: 5px;
 }
 
 .start-chat,
@@ -228,26 +229,87 @@ body {
 }
 
 .message.error {
+  margin: 0;
+  padding: var(--rubberduck-container-padding);
+  border: 1px solid;
+  border-color: var(--vscode-errorForeground);
   color: var(--vscode-errorForeground);
+}
+
+.message.error.level-warning {
+  border-color: var(--vscode-editorWarning-foreground);
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.error-body {
   display: flex;
   justify-content: space-between;
 }
 
-.message.error > .error-retry {
-  cursor: pointer;
+.error-body > .error-retry {
   display: flex;
+  text-align: left;
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 10px;
 }
 
-.message.error > .error-retry:hover {
+.error-title {
+  display: block;
+  padding-bottom: var(--rubberduck-container-padding);
+  font-size: 110%;
+  text-decoration: underline;
+}
+
+.error-buttons {
+  display: flex;
+  gap: var(--rubberduck-container-padding);
+}
+
+.error-retry,
+.error-dismiss {
+  display: block;
+  cursor: pointer;
+  text-align: center;
+  margin-top: var(--rubberduck-container-padding);
+}
+
+button.error-retry,
+button.error-dismiss {
+  margin-bottom: 0;
+}
+button.error-retry {
+  background: var(--vscode-inputValidation-errorBorder);
+}
+.level-warning button.error-retry {
+  background: var(--vscode-inputValidation-warningBorder);
+}
+button.error-dismiss {
+  background: var(--vscode-button-secondaryBackground);
+}
+button.error-retry:hover {
+  opacity: 70%;
+}
+button.error-dismiss:hover {
+  background: var(--vscode-button-secondaryHoverBackground);
+}
+
+span.error-retry:hover {
   filter: brightness(125%);
   cursor: pointer;
 }
 
-.action-delete {
+.action-delete,
+.action-export {
   cursor: pointer;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.action-delete:hover,
+.action-export:hover {
+  color: var(--vscode-icon-foreground);
+  background-color: var(--vscode-sideBar-background);
 }
 
 .action-delete:hover {

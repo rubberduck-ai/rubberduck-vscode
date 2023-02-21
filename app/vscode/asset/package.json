@@ -151,6 +151,24 @@
           "default": false,
           "markdownDescription": "Enable the command to index your repository and give more context to the AI model. Experimental.",
           "scope": "application"
+        },
+        "rubberduck.logger.level": {
+          "type": "string",
+          "default": "info",
+          "enum": [
+            "debug",
+            "info",
+            "warning",
+            "error"
+          ],
+          "enumDescriptions": [
+            "Show all logs",
+            "Show all logs except the debug ones",
+            "Only show warnings and errors",
+            "Only show errors"
+          ],
+          "markdownDescription": "Specify the verbosity of logs that will appear in 'Rubberduck: Show Logs'.",
+          "scope": "application"
         }
       }
     },

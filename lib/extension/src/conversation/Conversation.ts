@@ -22,6 +22,7 @@ export class Conversation {
   readonly id: string;
   protected readonly openAIClient: OpenAIClient;
   protected state: webviewApi.MessageExchangeContent["state"];
+  protected error: webviewApi.Error | undefined;
   protected readonly messages: webviewApi.Message[];
   protected readonly updateChatPanel: () => Promise<void>;
 
@@ -104,6 +105,23 @@ export class Conversation {
     return this.template.header.icon.value;
   }
 
+  async exportMarkdown(): Promise<void> {
+    const document = await vscode.workspace.openTextDocument({
+      language: "markdown",
+      content: this.getMarkdownExport(),
+    });
+    await vscode.window.showTextDocument(document);
+  }
+
+  private getMarkdownExport(): string {
+    return this.messages
+      .flatMap(({ author, content }) => [
+        author === "bot" ? "# Answer" : "# Question",
+        content,
+      ])
+      .join("\n\n");
+  }
+
   private async resolveVariablesAtMessageTime() {
     return resolveVariables(this.template.variables, {
       time: "message",
@@ -164,16 +182,14 @@ export class Conversation {
       });
 
       if (completion.type === "error") {
-        await this.setErrorStatus({ errorMessage: completion.errorMessage });
+        await this.setError(completion.errorMessage);
         return;
       }
 
       await this.handleCompletion(completion.content, prompt);
     } catch (error: any) {
       console.log(error);
-      await this.setErrorStatus({
-        errorMessage: error?.message ?? "Unknown error",
-      });
+      await this.setError(error?.message ?? "Unknown error");
     }
   }
 
@@ -373,6 +389,12 @@ export class Conversation {
 
     this.diffEditor.onDidReceiveMessage(async (rawMessage) => {
       const message = webviewApi.outgoingMessageSchema.parse(rawMessage);
+
+      if (message.type === "reportError") {
+        this.setError(message.error);
+        return;
+      }
+
       if (message.type !== "applyDiff") {
         return;
       }
@@ -413,7 +435,7 @@ export class Conversation {
 
   async retry() {
     this.state = { type: "waitingForBotAnswer" };
-    await this.updateChatPanel();
+    await this.dismissError();
 
     await this.executeChat();
   }
@@ -455,8 +477,13 @@ export class Conversation {
     await this.updateChatPanel();
   }
 
-  protected async setErrorStatus({ errorMessage }: { errorMessage: string }) {
-    this.state = { type: "error", errorMessage };
+  private async setError(error: webviewApi.Error) {
+    this.error = error;
+    await this.updateChatPanel();
+  }
+
+  async dismissError() {
+    this.error = undefined;
     await this.updateChatPanel();
   }
 
@@ -478,11 +505,13 @@ export class Conversation {
                 ? this.messages.slice(1)
                 : this.messages,
               state: this.state,
+              error: this.error,
             }
           : {
               type: "instructionRefinement",
               instruction: "", // TODO last user message?
               state: this.refinementInstructionState(),
+              error: this.error,
             },
     };
   }
@@ -495,9 +524,6 @@ export class Conversation {
         return {
           type: "waitingForBotAnswer",
         };
-
-      case "error":
-        return this.state;
 
       case "userCanReply":
         return {

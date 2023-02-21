@@ -5,6 +5,7 @@ import { ChatPanel } from "./chat/ChatPanel";
 import { ConversationTypesProvider } from "./conversation/ConversationTypesProvider";
 import { DiffEditorManager } from "./diff/DiffEditorManager";
 import { indexRepository } from "./index/indexRepository";
+import { getVSCodeLogLevel, LoggerUsingVSCodeOutput } from "./logger";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
 import { OpenAIClient } from "./openai/OpenAIClient";
 
@@ -16,6 +17,16 @@ export const activate = async (context: vscode.ExtensionContext) => {
   const mainOutputChannel = vscode.window.createOutputChannel("Rubberduck");
   const indexOutputChannel =
     vscode.window.createOutputChannel("Rubberduck Index");
+
+  const vscodeLogger = new LoggerUsingVSCodeOutput({
+    outputChannel: mainOutputChannel,
+    level: getVSCodeLogLevel(),
+  });
+  vscode.workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration("rubberduck.logger.level")) {
+      vscodeLogger.setLevel(getVSCodeLogLevel());
+    }
+  });
 
   const hasOpenAIApiKey = await apiKeyManager.hasOpenAIApiKey();
   const chatPanel = new ChatPanel({
@@ -32,20 +43,15 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   await conversationTypesProvider.loadConversationTypes();
 
-  const openAiClient = new OpenAIClient({
+  const openAIClient = new OpenAIClient({
     apiKeyManager,
-    log(message) {
-      mainOutputChannel.appendLine(message);
-    },
-    async isPromptLoggingEnabled() {
-      return true;
-    },
+    logger: vscodeLogger,
   });
 
   const chatController = new ChatController({
     chatPanel,
     chatModel,
-    openAIClient: openAiClient,
+    openAIClient,
     diffEditorManager: new DiffEditorManager({
       extensionUri: context.extensionUri,
     }),
@@ -148,7 +154,10 @@ export const activate = async (context: vscode.ExtensionContext) => {
     }),
 
     vscode.commands.registerCommand("rubberduck.indexRepository", () => {
-      indexRepository({ openAiClient, outputChannel: indexOutputChannel });
+      indexRepository({
+        openAIClient,
+        outputChannel: indexOutputChannel,
+      });
     })
   );
 

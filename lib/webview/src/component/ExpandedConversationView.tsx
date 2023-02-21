@@ -7,9 +7,18 @@ import { MessageExchangeView } from "./MessageExchangeView";
 export const ExpandedConversationView: React.FC<{
   conversation: webviewApi.Conversation;
   onSendMessage: (message: string) => void;
+  onClickDismiss: () => void;
   onClickRetry: () => void;
   onClickDelete: () => void;
-}> = ({ conversation, onSendMessage, onClickRetry, onClickDelete }) => {
+  onClickExport: () => void;
+}> = ({
+  conversation,
+  onSendMessage,
+  onClickDismiss,
+  onClickRetry,
+  onClickDelete,
+  onClickExport,
+}) => {
   const content = conversation.content;
 
   return (
@@ -23,8 +32,9 @@ export const ExpandedConversationView: React.FC<{
             return (
               <MessageExchangeView
                 content={content}
-                onClickRetry={onClickRetry}
                 onSendMessage={onSendMessage}
+                onClickDismiss={onClickDismiss}
+                onClickRetry={onClickRetry}
               />
             );
           case "instructionRefinement":
@@ -32,6 +42,7 @@ export const ExpandedConversationView: React.FC<{
               <InstructionRefinementView
                 content={content}
                 onSendMessage={onSendMessage}
+                onClickDismiss={onClickDismiss}
                 onClickRetry={onClickRetry}
               />
             );
@@ -45,7 +56,13 @@ export const ExpandedConversationView: React.FC<{
       <div className="footer">
         <span className="action-panel">
           <i
+            className="codicon codicon-save inline action-export"
+            title="Export conversation"
+            onClick={onClickExport}
+          />
+          <i
             className="codicon codicon-trash inline action-delete"
+            title="Delete conversation"
             onClick={onClickDelete}
           />
         </span>

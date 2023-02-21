@@ -70,12 +70,24 @@ export const ChatPanelView: React.FC<{
                 data: { id: conversation.id },
               })
             }
+            onClickDismiss={() =>
+              sendMessage({
+                type: "dismissError",
+                data: { id: conversation.id },
+              })
+            }
             onClickDelete={() =>
               sendMessage({
                 type: "deleteConversation",
                 data: { id: conversation.id },
               })
             }
+            onClickExport={() => {
+              sendMessage({
+                type: "exportConversation",
+                data: { id: conversation.id },
+              });
+            }}
           />
         ) : (
           <CollapsedConversationView

@@ -1,14 +1,17 @@
 import { webviewApi } from "@rubberduck/common";
 import React, { useState } from "react";
 import { ChatInput } from "./ChatInput";
+import { ErrorMessage } from "./ErrorMessage";
 
 export function InstructionRefinementView({
   content,
   onSendMessage,
+  onClickDismiss,
   onClickRetry,
 }: {
   content: webviewApi.InstructionRefinementContent;
   onSendMessage: (message: string) => void;
+  onClickDismiss: () => void;
   onClickRetry: () => void;
 }) {
   const [inputText, setInputText] = useState(content.instruction);
@@ -41,24 +44,20 @@ export function InstructionRefinementView({
                 </button>
               </>
             );
-          case "error":
-            return (
-              <div key={"error"} className={"message bot error"}>
-                <span className={"error-message"}>
-                  Error: {content.state.errorMessage}
-                </span>
-                <span className={"error-retry"} onClick={onClickRetry}>
-                  <i className="codicon codicon-debug-restart inline" />
-                  <span style={{ marginLeft: "5px" }}>Retry</span>
-                </span>
-              </div>
-            );
           default: {
             const exhaustiveCheck: never = type;
             throw new Error(`unsupported type: ${exhaustiveCheck}`);
           }
         }
       })()}
+
+      {content.error && (
+        <ErrorMessage
+          error={content.error}
+          onClickDismiss={onClickDismiss}
+          onClickRetry={onClickRetry}
+        />
+      )}
     </div>
   );
 }

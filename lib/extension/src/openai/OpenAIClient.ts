@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 import { IncomingMessage } from "http";
 import secureJSON from "secure-json-parse";
 import zod from "zod";
+import { Logger } from "../logger";
 import { ApiKeyManager } from "./ApiKeyManager";
 
 const completionSchema = zod.object({
@@ -63,21 +64,17 @@ const embeddingSchema = zod.object({
 
 export class OpenAIClient {
   private readonly apiKeyManager: ApiKeyManager;
-  private readonly isPromptLoggingEnabled: () => Promise<boolean>;
-  private readonly log: (message: string) => void;
+  private readonly logger: Logger;
 
   constructor({
     apiKeyManager,
-    isPromptLoggingEnabled,
-    log,
+    logger,
   }: {
     apiKeyManager: ApiKeyManager;
-    isPromptLoggingEnabled: () => Promise<boolean>;
-    log: (message: string) => void;
+    logger: Logger;
   }) {
     this.apiKeyManager = apiKeyManager;
-    this.isPromptLoggingEnabled = isPromptLoggingEnabled;
-    this.log = log;
+    this.logger = logger;
   }
 
   private getApiKey() {
@@ -106,16 +103,18 @@ export class OpenAIClient {
         errorMessage: string;
       }
   > {
-    if (await this.isPromptLoggingEnabled()) {
-      this.log("--- Start OpenAI prompt ---");
-      this.log(prompt);
-      this.log("--- End OpenAI prompt ---");
-    }
+    this.logger.log([
+      "--- Start OpenAI prompt ---",
+      prompt,
+      "--- End OpenAI prompt ---",
+    ]);
 
     try {
+      this.logger.debug("Fetch OpenAI API key");
       const apiKey = await this.getApiKey();
 
       if (apiKey == undefined) {
+        this.logger.error("No OpenAI API key found");
         return {
           type: "error",
           errorMessage:
@@ -124,6 +123,11 @@ export class OpenAIClient {
       }
 
       const isStreaming = streamHandler != null;
+
+      this.logger.debug([
+        "OpenAI API key retrieved",
+        `Execute POST request to OpenAI (max_tokens=${maxTokens}, temperature=${temperature}, isStreaming=${isStreaming})`,
+      ]);
 
       const response = await axios.post(
         `https://api.openai.com/v1/completions`,
@@ -156,6 +160,9 @@ export class OpenAIClient {
 
             response.data.on("data", (chunk: Buffer) => {
               const chunkText = chunk.toString();
+              this.logger.debug([
+                `Streaming data, process chunk (chunk size=${chunkText.length})`,
+              ]);
 
               try {
                 // sometimes chunks contain multiple data: lines
@@ -166,13 +173,19 @@ export class OpenAIClient {
 
                 for (const line of lines) {
                   if (line.trim() === "data: [DONE]") {
+                    this.logger.debug("Processed last line of chunk");
                     if (!resolved) {
                       resolved = true;
                       resolve(responseUntilNow);
+                    } else {
+                      this.logger.debug(
+                        "Stream was already resolved. Do nothing."
+                      );
                     }
                     return;
                   }
 
+                  this.logger.debug("Process next line of chunk");
                   const result = streamSchema.parse(
                     secureJSON.parse(line.substring("data: ".length))
                   );
@@ -182,50 +195,58 @@ export class OpenAIClient {
                   streamHandler(responseUntilNow);
                 }
               } catch (error) {
-                console.log({
-                  chunkText,
-                  error,
-                });
+                this.logger.error(["Failed to process chunk", chunkText]);
                 reject(error);
               }
             });
 
             response.data.on("end", () => {
-              if (!resolved) {
-                resolved = true;
-                resolve(responseUntilNow);
+              if (resolved) {
+                this.logger.debug(
+                  "Stream ended but was already resolved. Do nothing."
+                );
+                return;
               }
+
+              this.logger.debug("Stream ended");
+              resolved = true;
+              resolve(responseUntilNow);
             });
           } catch (error) {
-            console.log(error);
+            this.logger.error("Streaming error");
             reject(error);
           }
         });
 
+        this.logger.debug("Streaming the response");
         const completion = await streamEnd;
 
+        this.logger.debug("Stream completed successfully");
         return {
           type: "success",
           content: completion,
         };
       } else {
+        this.logger.debug(["Not streaming response)", "Parse the response"]);
         const completion = completionSchema.parse(response.data).choices[0]
           ?.text;
 
         if (completion == undefined) {
+          this.logger.error("No completion found in the response");
           return {
             type: "error",
             errorMessage: "No completion found",
           };
         }
 
+        this.logger.debug("Response processed successfully");
         return {
           type: "success",
           content: completion,
         };
       }
     } catch (error) {
-      console.log(error);
+      this.logger.error("Something went wrong with OpenAI");
 
       if (error instanceof AxiosError) {
         let data = error.response?.data;
@@ -240,18 +261,23 @@ export class OpenAIClient {
         const message: string | undefined = data?.error?.message;
 
         if (message != null) {
+          this.logger.error(`Error received: ${message}`);
           return {
             type: "error",
             errorMessage: message,
           };
         }
 
+        this.logger.error(
+          `Unknown error calling OpenAI API (status=${error.status})`
+        );
         return {
           type: "error",
-          errorMessage: `Unknown error calling OpenAI API (${error.status})})`,
+          errorMessage: `Unknown error calling OpenAI API (status=${error.status})`,
         };
       }
 
+      this.logger.error("Unknown error");
       return {
         type: "error",
         errorMessage: "Unknown error",

@@ -6,10 +6,10 @@ import { OpenAIClient } from "../openai/OpenAIClient";
 import { createSplitLinearLines } from "./chunk/splitLinearLines";
 
 export async function indexRepository({
-  openAiClient,
+  openAIClient,
   outputChannel,
 }: {
-  openAiClient: OpenAIClient;
+  openAIClient: OpenAIClient;
   outputChannel: vscode.OutputChannel;
 }) {
   const repositoryPath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
@@ -75,7 +75,7 @@ export async function indexRepository({
           );
 
           try {
-            const embeddingResult = await openAiClient.generateEmbedding({
+            const embeddingResult = await openAIClient.generateEmbedding({
               input: chunk.content,
             });
 
