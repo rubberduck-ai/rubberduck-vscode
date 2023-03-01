@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.12.1 - 2023-03-01
+
+### Changed
+
+- Remove italics (issue #55).
+
 ## 1.12.0 - 2023-02-21
 
 ### Added
