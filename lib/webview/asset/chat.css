@@ -164,7 +164,6 @@ body {
   padding: var(--input-padding-vertical) var(--input-padding-horizontal);
 
   font: inherit;
-  font-style: italic;
 
   /* Place on top of each other */
   grid-area: 1 / 1 / 2 / 2;
@@ -202,10 +201,6 @@ body {
 
   color: var(--vscode-editor-foreground);
   white-space: pre-wrap;
-}
-
-.message.user {
-  font-style: italic;
 }
 
 .message.user {
