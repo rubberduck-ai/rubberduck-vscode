@@ -141,6 +141,9 @@ const VSCODE_SUPPORTED_LANGUAGES = [
   "cuda-cpp",
   "css",
   "diff",
+  // From https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django
+  "django-html",
+  "django-txt",
   "dockerfile",
   "fsharp",
   "git-commit and git-rebase",
@@ -181,6 +184,8 @@ const VSCODE_SUPPORTED_LANGUAGES = [
   "typescript",
   "typescriptreact",
   "tex",
+  // From https://marketplace.visualstudio.com/items?itemName=mblode.twig-language-2
+  "twig",
   "vb",
   "vue",
   "vue-html",
@@ -258,6 +263,7 @@ function toPrismHighlightOptions(
 
     case "html":
     case "vue-html":
+    case "django-html":
       return {
         grammar: languages.html,
         language: "html",
@@ -317,7 +323,16 @@ function toPrismHighlightOptions(
         language: "sql",
       };
 
+    case "twig":
+      return {
+        grammar: languages.twig,
+        language: "twig",
+      };
+
+    // If you want to use new grammar, make sure to update the prism.js file
+
     case "plaintext":
+    case "django-txt":
     case "diff":
       return DEFAULT_PRISM_OPTIONS;
 
