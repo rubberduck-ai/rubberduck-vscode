@@ -227,7 +227,7 @@ export class OpenAIClient {
           content: completion,
         };
       } else {
-        this.logger.debug(["Not streaming response)", "Parse the response"]);
+        this.logger.debug(["Not streaming response", "Parse the response"]);
         const completion = completionSchema.parse(response.data).choices[0]
           ?.text;
 
