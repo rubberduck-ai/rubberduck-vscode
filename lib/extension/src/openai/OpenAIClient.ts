@@ -1,9 +1,16 @@
 import axios, { AxiosError } from "axios";
 import { IncomingMessage } from "http";
 import secureJSON from "secure-json-parse";
+import * as vscode from "vscode";
 import zod from "zod";
 import { Logger } from "../logger";
 import { ApiKeyManager } from "./ApiKeyManager";
+
+export function getVSCodeOpenAIBaseUrl(): string {
+  return vscode.workspace
+    .getConfiguration("rubberduck.openAI")
+    .get("baseUrl", "https://api.openai.com/v1/");
+}
 
 const completionSchema = zod.object({
   id: zod.string(),
@@ -65,20 +72,30 @@ const embeddingSchema = zod.object({
 export class OpenAIClient {
   private readonly apiKeyManager: ApiKeyManager;
   private readonly logger: Logger;
+  private openAIBaseUrl: string;
 
   constructor({
     apiKeyManager,
     logger,
+    openAIBaseUrl,
   }: {
     apiKeyManager: ApiKeyManager;
     logger: Logger;
+    openAIBaseUrl: string;
   }) {
     this.apiKeyManager = apiKeyManager;
     this.logger = logger;
+    // Ensure it doesn't have a trailing slash
+    this.openAIBaseUrl = openAIBaseUrl.replace(/\/$/, "");
   }
 
   private getApiKey() {
     return this.apiKeyManager.getOpenAIApiKey();
+  }
+
+  setOpenAIBaseUrl(openAIBaseUrl: string) {
+    // Ensure it doesn't have a trailing slash
+    this.openAIBaseUrl = openAIBaseUrl.replace(/\/$/, "");
   }
 
   async generateCompletion({
@@ -126,11 +143,11 @@ export class OpenAIClient {
 
       this.logger.debug([
         "OpenAI API key retrieved",
-        `Execute POST request to OpenAI (max_tokens=${maxTokens}, temperature=${temperature}, isStreaming=${isStreaming})`,
+        `Execute POST request to OpenAI (url=${this.openAIBaseUrl}, max_tokens=${maxTokens}, temperature=${temperature}, isStreaming=${isStreaming})`,
       ]);
 
       const response = await axios.post(
-        `https://api.openai.com/v1/completions`,
+        `${this.openAIBaseUrl}/completions`,
         {
           model: "text-davinci-003",
           prompt,
@@ -297,7 +314,7 @@ export class OpenAIClient {
         };
       }
       const response = await axios.post(
-        `https://api.openai.com/v1/embeddings`,
+        `${this.openAIBaseUrl}/embeddings`,
         {
           model: "text-embedding-ada-002",
           input,

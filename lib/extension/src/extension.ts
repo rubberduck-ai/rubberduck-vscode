@@ -7,7 +7,7 @@ import { DiffEditorManager } from "./diff/DiffEditorManager";
 import { indexRepository } from "./index/indexRepository";
 import { getVSCodeLogLevel, LoggerUsingVSCodeOutput } from "./logger";
 import { ApiKeyManager } from "./openai/ApiKeyManager";
-import { OpenAIClient } from "./openai/OpenAIClient";
+import { getVSCodeOpenAIBaseUrl, OpenAIClient } from "./openai/OpenAIClient";
 
 export const activate = async (context: vscode.ExtensionContext) => {
   const apiKeyManager = new ApiKeyManager({
@@ -46,6 +46,13 @@ export const activate = async (context: vscode.ExtensionContext) => {
   const openAIClient = new OpenAIClient({
     apiKeyManager,
     logger: vscodeLogger,
+    openAIBaseUrl: getVSCodeOpenAIBaseUrl(),
+  });
+
+  vscode.workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration("rubberduck.openAI.baseUrl")) {
+      openAIClient.setOpenAIBaseUrl(getVSCodeOpenAIBaseUrl());
+    }
   });
 
   const chatController = new ChatController({
