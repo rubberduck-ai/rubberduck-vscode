@@ -152,6 +152,48 @@
           "markdownDescription": "Enable the command to index your repository and give more context to the AI model. Experimental.",
           "scope": "application"
         },
+        "rubberduck.action.editCode.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "rubberduck.action.startChat.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "rubberduck.action.explainCode.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "rubberduck.action.findBugs.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "rubberduck.action.generateUnitTest.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "rubberduck.action.diagnoseErrors.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "rubberduck.action.startCustomChat.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
         "rubberduck.logger.level": {
           "type": "string",
           "default": "info",
@@ -254,37 +296,37 @@
         {
           "command": "rubberduck.startChat",
           "group": "rubberduck",
-          "when": "editorHasSelection"
+          "when": "config.rubberduck.action.startChat.showInEditorContextMenu && editorHasSelection"
         },
         {
           "command": "rubberduck.editCode",
           "group": "rubberduck",
-          "when": "editorHasSelection"
+          "when": "config.rubberduck.action.editCode.showInEditorContextMenu && editorHasSelection"
         },
         {
           "command": "rubberduck.explainCode",
           "group": "rubberduck",
-          "when": "editorHasSelection"
+          "when": "config.rubberduck.action.explainCode.showInEditorContextMenu && editorHasSelection"
         },
         {
           "command": "rubberduck.findBugs",
           "group": "rubberduck",
-          "when": "editorHasSelection"
+          "when": "config.rubberduck.action.findBugs.showInEditorContextMenu && editorHasSelection"
         },
         {
           "command": "rubberduck.generateUnitTest",
           "group": "rubberduck",
-          "when": "editorHasSelection"
+          "when": "config.rubberduck.action.generateUnitTest.showInEditorContextMenu && editorHasSelection"
         },
         {
           "command": "rubberduck.diagnoseErrors",
           "group": "rubberduck",
-          "when": "editorHasSelection"
+          "when": "config.rubberduck.action.diagnoseErrors.showInEditorContextMenu && editorHasSelection"
         },
         {
           "command": "rubberduck.startCustomChat",
           "group": "rubberduck",
-          "when": "editorHasSelection"
+          "when": "config.rubberduck.action.startCustomChat.showInEditorContextMenu && editorHasSelection"
         }
       ]
     },
