@@ -169,6 +169,12 @@
           ],
           "markdownDescription": "Specify the verbosity of logs that will appear in 'Rubberduck: Show Logs'.",
           "scope": "application"
+        },
+        "rubberduck.openAI.baseUrl": {
+          "type": "string",
+          "default": "https://api.openai.com/v1/",
+          "markdownDescription": "Specify the URL to the OpenAI API. If you are using a proxy, you can set it here.",
+          "scope": "application"
         }
       }
     },
