@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.13.0 - 2023-03-10
+
+### Added
+
+- Context menu entries can be hidden using settings (issue #18).
+- Added syntax highlighting for twig (issue #60) and django-html (issue #62).
+- Proxy URLs can be configured with the `Open AI: BaseUrl` setting (issue #39).
+
 ## 1.12.1 - 2023-03-01
 
 ### Changed
