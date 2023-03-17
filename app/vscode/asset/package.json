@@ -1,7 +1,7 @@
 {
   "publisher": "rubberduck",
   "name": "rubberduck-vscode",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "displayName": "Rubberduck - ChatGPT for Visual Studio Code",
   "description": "Generate code, edit code, explain code, generate tests, find bugs, diagnose errors, and even create your own conversation templates.",
   "keywords": [
@@ -216,6 +216,20 @@
           "type": "string",
           "default": "https://api.openai.com/v1/",
           "markdownDescription": "Specify the URL to the OpenAI API. If you are using a proxy, you can set it here.",
+          "scope": "application"
+        },
+        "rubberduck.model": {
+          "type": "string",
+          "default": "gpt-3.5-turbo",
+          "enum": [
+            "gpt-3.5-turbo",
+            "gpt-4"
+          ],
+          "enumDescriptions": [
+            "Faster, less expensive model. Less accurate.",
+            "Expensive, slow model. More accurate. Requires beta access (OpenAI)."
+          ],
+          "markdownDescription": "Select the OpenAI model that you want to use.",
           "scope": "application"
         }
       }

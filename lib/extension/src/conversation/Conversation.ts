@@ -1,6 +1,7 @@
 import { webviewApi } from "@rubberduck/common";
 import Handlebars from "handlebars";
 import * as vscode from "vscode";
+import zod from "zod";
 import { DiffEditor } from "../diff/DiffEditor";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
 import { OpenAIClient } from "../openai/OpenAIClient";
@@ -171,8 +172,19 @@ export class Conversation {
           });
       }
 
-      const completion = await this.openAIClient.generateCompletion({
-        prompt: await this.evaluateTemplate(prompt.template, variables),
+      // retrieve vscode setting rubberduck.model
+      const model = zod
+        .enum(["gpt-4", "gpt-3.5-turbo"])
+        .parse(vscode.workspace.getConfiguration("rubberduck").get("model"));
+
+      const completion = await this.openAIClient.generateChatCompletion({
+        messages: [
+          {
+            role: "user",
+            content: await this.evaluateTemplate(prompt.template, variables),
+          },
+        ],
+        model,
         maxTokens: prompt.maxTokens,
         stop: prompt.stop,
         temperature: prompt.temperature,

@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.14.0 - 2023-03-17
+
+### Added
+
+- GPT-3.5-Turbo and GPT-4 support. GPT-3.5-Turbo is the default. You can change to GPT-4 in the settings (you need to be in the OpenAI GPT-4 beta for it to work).
+
+### Removed
+
+- text-davinci-003 support.
+
 ## 1.13.0 - 2023-03-10
 
 ### Added

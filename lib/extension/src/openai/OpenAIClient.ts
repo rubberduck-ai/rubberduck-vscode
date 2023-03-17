@@ -12,17 +12,19 @@ export function getVSCodeOpenAIBaseUrl(): string {
     .get("baseUrl", "https://api.openai.com/v1/");
 }
 
-const completionStreamSchema = zod.object({
+const chatCompletionStreamSchema = zod.object({
   id: zod.string(),
-  object: zod.literal("text_completion"),
+  object: zod.literal("chat.completion.chunk"),
   created: zod.number(),
   model: zod.string(),
   choices: zod
     .array(
       zod.object({
-        text: zod.string(),
+        delta: zod.object({
+          role: zod.literal("assistant").optional(),
+          content: zod.string().optional(),
+        }),
         index: zod.number(),
-        logprobs: zod.nullable(zod.any()),
         finish_reason: zod.nullable(zod.string()),
       })
     )
@@ -76,14 +78,19 @@ export class OpenAIClient {
     this.openAIBaseUrl = openAIBaseUrl.replace(/\/$/, "");
   }
 
-  async generateCompletion({
-    prompt,
+  async generateChatCompletion({
+    messages,
     maxTokens,
     stop,
+    model,
     temperature = 0,
     streamHandler,
   }: {
-    prompt: string;
+    messages: Array<{
+      role: "assistant" | "user" | "system";
+      content: string;
+    }>;
+    model: "gpt-4" | "gpt-3.5-turbo";
     maxTokens: number;
     stop?: string[] | undefined;
     temperature?: number | undefined;
@@ -100,7 +107,7 @@ export class OpenAIClient {
   > {
     this.logger.log([
       "--- Start OpenAI prompt ---",
-      prompt,
+      JSON.stringify(messages),
       "--- End OpenAI prompt ---",
     ]);
 
@@ -123,15 +130,13 @@ export class OpenAIClient {
       ]);
 
       const response = await axios.post(
-        `${this.openAIBaseUrl}/completions`,
+        `${this.openAIBaseUrl}/chat/completions`,
         {
-          model: "text-davinci-003",
-          prompt,
+          model,
+          messages,
           max_tokens: maxTokens,
           stop,
           temperature,
-          // top_p is excluded because temperature is set
-          best_of: 1,
           frequency_penalty: 0,
           presence_penalty: 0,
           stream: true,
@@ -178,11 +183,11 @@ export class OpenAIClient {
                 }
 
                 this.logger.debug("Process next line of chunk");
-                const result = completionStreamSchema.parse(
+                const result = chatCompletionStreamSchema.parse(
                   secureJSON.parse(line.substring("data: ".length))
                 );
 
-                responseUntilNow += result.choices[0]?.text ?? "";
+                responseUntilNow += result.choices[0]?.delta.content ?? "";
 
                 streamHandler(responseUntilNow);
               }
