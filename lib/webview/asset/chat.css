@@ -224,7 +224,7 @@ body {
 }
 
 .message.error {
-  margin: 0;
+  margin: var(--rubberduck-container-padding);
   padding: var(--rubberduck-container-padding);
   border: 1px solid;
   border-color: var(--vscode-errorForeground);
