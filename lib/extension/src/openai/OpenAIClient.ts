@@ -12,29 +12,7 @@ export function getVSCodeOpenAIBaseUrl(): string {
     .get("baseUrl", "https://api.openai.com/v1/");
 }
 
-const completionSchema = zod.object({
-  id: zod.string(),
-  object: zod.literal("text_completion"),
-  created: zod.number(),
-  model: zod.string(),
-  choices: zod
-    .array(
-      zod.object({
-        text: zod.string(),
-        index: zod.number(),
-        logprobs: zod.nullable(zod.any()),
-        finish_reason: zod.string(),
-      })
-    )
-    .length(1),
-  usage: zod.object({
-    prompt_tokens: zod.number(),
-    completion_tokens: zod.number(),
-    total_tokens: zod.number(),
-  }),
-});
-
-const streamSchema = zod.object({
+const completionStreamSchema = zod.object({
   id: zod.string(),
   object: zod.literal("text_completion"),
   created: zod.number(),
@@ -109,7 +87,7 @@ export class OpenAIClient {
     maxTokens: number;
     stop?: string[] | undefined;
     temperature?: number | undefined;
-    streamHandler?: (stream: string) => void;
+    streamHandler: (stream: string) => void;
   }): Promise<
     | {
         type: "success";
@@ -139,11 +117,9 @@ export class OpenAIClient {
         };
       }
 
-      const isStreaming = streamHandler != null;
-
       this.logger.debug([
         "OpenAI API key retrieved",
-        `Execute POST request to OpenAI (url=${this.openAIBaseUrl}, max_tokens=${maxTokens}, temperature=${temperature}, isStreaming=${isStreaming})`,
+        `Execute POST request to OpenAI (url=${this.openAIBaseUrl}, max_tokens=${maxTokens}, temperature=${temperature})`,
       ]);
 
       const response = await axios.post(
@@ -158,110 +134,90 @@ export class OpenAIClient {
           best_of: 1,
           frequency_penalty: 0,
           presence_penalty: 0,
-          stream: isStreaming,
+          stream: true,
         },
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${apiKey}`,
           },
-          responseType: isStreaming ? "stream" : undefined,
+          responseType: "stream",
         }
       );
 
-      if (isStreaming) {
-        const streamEnd = new Promise<string>((resolve, reject) => {
-          try {
-            let responseUntilNow = "";
-            let resolved = false;
+      const streamEnd = new Promise<string>((resolve, reject) => {
+        try {
+          let responseUntilNow = "";
+          let resolved = false;
 
-            response.data.on("data", (chunk: Buffer) => {
-              const chunkText = chunk.toString();
-              this.logger.debug([
-                `Streaming data, process chunk (chunk size=${chunkText.length})`,
-              ]);
+          response.data.on("data", (chunk: Buffer) => {
+            const chunkText = chunk.toString();
+            this.logger.debug([
+              `Streaming data, process chunk (chunk size=${chunkText.length})`,
+            ]);
 
-              try {
-                // sometimes chunks contain multiple data: lines
-                const lines = chunkText
-                  .split("\n")
-                  .map((line) => line.trim())
-                  .filter((line) => line.length > 0);
+            try {
+              // sometimes chunks contain multiple data: lines
+              const lines = chunkText
+                .split("\n")
+                .map((line) => line.trim())
+                .filter((line) => line.length > 0);
 
-                for (const line of lines) {
-                  if (line.trim() === "data: [DONE]") {
-                    this.logger.debug("Processed last line of chunk");
-                    if (!resolved) {
-                      resolved = true;
-                      resolve(responseUntilNow);
-                    } else {
-                      this.logger.debug(
-                        "Stream was already resolved. Do nothing."
-                      );
-                    }
-                    return;
+              for (const line of lines) {
+                if (line.trim() === "data: [DONE]") {
+                  this.logger.debug("Processed last line of chunk");
+                  if (!resolved) {
+                    resolved = true;
+                    resolve(responseUntilNow);
+                  } else {
+                    this.logger.debug(
+                      "Stream was already resolved. Do nothing."
+                    );
                   }
-
-                  this.logger.debug("Process next line of chunk");
-                  const result = streamSchema.parse(
-                    secureJSON.parse(line.substring("data: ".length))
-                  );
-
-                  responseUntilNow += result.choices[0]?.text ?? "";
-
-                  streamHandler(responseUntilNow);
+                  return;
                 }
-              } catch (error) {
-                this.logger.error(["Failed to process chunk", chunkText]);
-                reject(error);
-              }
-            });
 
-            response.data.on("end", () => {
-              if (resolved) {
-                this.logger.debug(
-                  "Stream ended but was already resolved. Do nothing."
+                this.logger.debug("Process next line of chunk");
+                const result = completionStreamSchema.parse(
+                  secureJSON.parse(line.substring("data: ".length))
                 );
-                return;
+
+                responseUntilNow += result.choices[0]?.text ?? "";
+
+                streamHandler(responseUntilNow);
               }
+            } catch (error) {
+              this.logger.error(["Failed to process chunk", chunkText]);
+              reject(error);
+            }
+          });
 
-              this.logger.debug("Stream ended");
-              resolved = true;
-              resolve(responseUntilNow);
-            });
-          } catch (error) {
-            this.logger.error("Streaming error");
-            reject(error);
-          }
-        });
+          response.data.on("end", () => {
+            if (resolved) {
+              this.logger.debug(
+                "Stream ended but was already resolved. Do nothing."
+              );
+              return;
+            }
 
-        this.logger.debug("Streaming the response");
-        const completion = await streamEnd;
-
-        this.logger.debug("Stream completed successfully");
-        return {
-          type: "success",
-          content: completion,
-        };
-      } else {
-        this.logger.debug(["Not streaming response", "Parse the response"]);
-        const completion = completionSchema.parse(response.data).choices[0]
-          ?.text;
-
-        if (completion == undefined) {
-          this.logger.error("No completion found in the response");
-          return {
-            type: "error",
-            errorMessage: "No completion found",
-          };
+            this.logger.debug("Stream ended");
+            resolved = true;
+            resolve(responseUntilNow);
+          });
+        } catch (error) {
+          this.logger.error("Streaming error");
+          reject(error);
         }
+      });
 
-        this.logger.debug("Response processed successfully");
-        return {
-          type: "success",
-          content: completion,
-        };
-      }
+      this.logger.debug("Streaming the response");
+      const completion = await streamEnd;
+
+      this.logger.debug("Stream completed successfully");
+      return {
+        type: "success",
+        content: completion,
+      };
     } catch (error) {
       this.logger.error("Something went wrong with OpenAI");
 
