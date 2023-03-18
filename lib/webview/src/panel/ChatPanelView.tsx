@@ -70,7 +70,7 @@ export const ChatPanelView: React.FC<{
                 data: { id: conversation.id },
               })
             }
-            onClickDismiss={() =>
+            onClickDismissError={() =>
               sendMessage({
                 type: "dismissError",
                 data: { id: conversation.id },

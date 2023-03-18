@@ -7,14 +7,14 @@ import { MessageExchangeView } from "./MessageExchangeView";
 export const ExpandedConversationView: React.FC<{
   conversation: webviewApi.Conversation;
   onSendMessage: (message: string) => void;
-  onClickDismiss: () => void;
+  onClickDismissError: () => void;
   onClickRetry: () => void;
   onClickDelete: () => void;
   onClickExport: () => void;
 }> = ({
   conversation,
   onSendMessage,
-  onClickDismiss,
+  onClickDismissError,
   onClickRetry,
   onClickDelete,
   onClickExport,
@@ -33,7 +33,7 @@ export const ExpandedConversationView: React.FC<{
               <MessageExchangeView
                 content={content}
                 onSendMessage={onSendMessage}
-                onClickDismiss={onClickDismiss}
+                onClickDismissError={onClickDismissError}
                 onClickRetry={onClickRetry}
               />
             );
@@ -42,7 +42,7 @@ export const ExpandedConversationView: React.FC<{
               <InstructionRefinementView
                 content={content}
                 onSendMessage={onSendMessage}
-                onClickDismiss={onClickDismiss}
+                onClickDismissError={onClickDismissError}
                 onClickRetry={onClickRetry}
               />
             );

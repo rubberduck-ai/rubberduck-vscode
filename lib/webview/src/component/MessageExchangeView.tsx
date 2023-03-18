@@ -6,13 +6,13 @@ import { ErrorMessage } from "./ErrorMessage";
 
 export function MessageExchangeView({
   content,
-  onClickDismiss,
+  onClickDismissError,
   onClickRetry,
   onSendMessage,
 }: {
   content: webviewApi.MessageExchangeContent;
   onSendMessage: (message: string) => void;
-  onClickDismiss: () => void;
+  onClickDismissError: () => void;
   onClickRetry: () => void;
 }) {
   const [inputText, setInputText] = useState("");
@@ -73,7 +73,7 @@ export function MessageExchangeView({
       {content.error && (
         <ErrorMessage
           error={content.error}
-          onClickDismiss={onClickDismiss}
+          onClickDismiss={onClickDismissError}
           onClickRetry={onClickRetry}
         />
       )}
