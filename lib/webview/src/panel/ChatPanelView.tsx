@@ -53,7 +53,7 @@ export const ChatPanelView: React.FC<{
 
   return (
     <div>
-      {panelState.conversations.map((conversation) =>
+      {panelState.conversations.reverse().map((conversation) =>
         panelState.selectedConversationId === conversation.id ? (
           <ExpandedConversationView
             key={conversation.id}
