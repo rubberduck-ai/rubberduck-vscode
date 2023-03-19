@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.15.0 - 2023-03-19
+
+### Added
+
+- Powershell, Java and YAML syntax highlighting in the diff viewer.
+
+### Changed
+
+- New conversations are added to the top of the chat panel.
+
 ## 1.14.0 - 2023-03-17
 
 ### Added
