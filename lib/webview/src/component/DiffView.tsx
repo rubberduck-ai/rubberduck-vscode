@@ -261,6 +261,12 @@ function toPrismHighlightOptions(
         language: "markdown",
       };
 
+    case "java":
+      return {
+        grammar: languages.java,
+        language: "java",
+      };
+
     case "html":
     case "vue-html":
     case "django-html":
@@ -285,6 +291,12 @@ function toPrismHighlightOptions(
       return {
         grammar: languages.python,
         language: "python",
+      };
+
+    case "powershell":
+      return {
+        grammar: languages.powershell,
+        language: "powershell",
       };
 
     case "php":
@@ -327,6 +339,12 @@ function toPrismHighlightOptions(
       return {
         grammar: languages.twig,
         language: "twig",
+      };
+
+    case "yaml":
+      return {
+        grammar: languages.yaml,
+        language: "yaml",
       };
 
     // If you want to use new grammar, make sure to update the prism.js file
