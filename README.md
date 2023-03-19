@@ -16,7 +16,7 @@
 
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/rubberduckai.svg?style=social&label=%20%40rubberduckai)](https://twitter.com/rubberduckai)
 [![Discord](https://discordapp.com/api/guilds/1061938502327091271/widget.png?style=shield)](https://discord.gg/8KN2HmyZmn)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
 <!-- prettier-ignore-end -->
@@ -112,6 +112,9 @@ Here is an example of a [drunken pirate describing your code](https://github.com
       <td align="center" valign="top" width="25%"><a href="https://dev.page/tennox"><img src="https://avatars.githubusercontent.com/u/2084639?v=4?s=100" width="100px;" alt="Manuel"/><br /><sub><b>Manuel</b></sub></a><br /><a href="#ideas-tennox" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="25%"><a href="https://github.com/alessandro-newzoo"><img src="https://avatars.githubusercontent.com/u/47320294?v=4?s=100" width="100px;" alt="alessandro-newzoo"/><br /><sub><b>alessandro-newzoo</b></sub></a><br /><a href="#ideas-alessandro-newzoo" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="25%"><a href="https://github.com/Void-n-Null"><img src="https://avatars.githubusercontent.com/u/70048414?v=4?s=100" width="100px;" alt="Void&Null"/><br /><sub><b>Void&Null</b></sub></a><br /><a href="#ideas-Void-n-Null" title="Ideas, Planning, & Feedback">🤔</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="25%"><a href="https://github.com/WittyDingo"><img src="https://avatars.githubusercontent.com/u/63050074?v=4?s=100" width="100px;" alt="WittyDingo"/><br /><sub><b>WittyDingo</b></sub></a><br /><a href="#ideas-WittyDingo" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
   </tbody>
 </table>
