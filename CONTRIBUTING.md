@@ -59,6 +59,12 @@ Finally, [use all-contributors bot command][all-contributors-bot-command] to add
 
 Whether it's code, design, typo or documentation, every contribution is welcomed! So again, thank you very, very much 🦆
 
+## More documentation
+
+- You can find a brief introduction to the architecture of this extension [here][architecture-doc].
+
+- You can find more info about adding AI Chat templates [here][template-doc].
+
 ## Other Commands
 
 - **Lint**: `pnpm nx lint --skip-nx-cache`
@@ -76,3 +82,5 @@ Whether it's code, design, typo or documentation, every contribution is welcomed
 [openai-docs]: https://platform.openai.com/docs/introduction
 [vscode-debug-extension]: https://code.visualstudio.com/api/get-started/your-first-extension#debugging-the-extension
 [all-contributors-bot-command]: https://allcontributors.org/docs/en/bot/usage#all-contributors-add
+[architecture-doc]: https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/architecture.md
+[template-doc]: https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-templates.md
