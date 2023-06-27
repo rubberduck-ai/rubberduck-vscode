@@ -12,13 +12,13 @@ export const getSelectedTextWithDiagnostics = async ({
     return undefined;
   }
 
-  const document = activeEditor.document;
-  const selection = activeEditor.selection;
+  // P42 said this could be destructured
+  const { document, selection } = activeEditor;
 
-  // expand range to beginning and end of line, because ranges tend to be inaccurate
+  // Ensure range is acurrately mapping the selected lines, start to end
   const range = new vscode.Range(
     new vscode.Position(selection.start.line, 0),
-    new vscode.Position(selection.end.line + 1, 0)
+    new vscode.Position(selection.end.line, selection.end.character)
   );
 
   const includedDiagnosticSeverities = diagnosticSeverities.map(
@@ -85,7 +85,7 @@ function annotateSelectionWithDiagnostics({
   diagnostics: Array<DiagnosticInRange>;
 }) {
   return selectionText
-    .split("\n")
+    .split(/[\r\n]+/)
     .map((line, index) => {
       const actualLineNumber = selectionStartLine + index;
       const lineDiagnostics = diagnostics.filter(
