@@ -12,7 +12,6 @@ export const getSelectedTextWithDiagnostics = async ({
     return undefined;
   }
 
-  // P42 said this could be destructured
   const { document, selection } = activeEditor;
 
   // Ensure range is acurrately mapping the selected lines, start to end
@@ -96,13 +95,12 @@ function annotateSelectionWithDiagnostics({
         ? line
         : `${line}
 ${lineDiagnostics
-  .map(
-    (diagnostic) =>
-      `${getLabel(diagnostic.severity)} ${diagnostic.source}${
-        diagnostic.code
-      }: ${diagnostic.message}`
-  )
-  .join("\n")}`;
+          .map(
+            (diagnostic) =>
+              `${getLabel(diagnostic.severity)} ${diagnostic.source}${diagnostic.code
+              }: ${diagnostic.message}`
+          )
+          .join("\n")}`;
     })
     .join("\n");
 }
