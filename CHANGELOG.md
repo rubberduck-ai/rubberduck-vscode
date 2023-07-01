@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.16.0 - 2023-07-01
+
+### Added
+
+- C++, C#, Docker, Dart, Haskell syntax highlighting in the diff viewer.
+
+### Fixed
+
+- Wrong line numbers displayed in side panel.
+
 ## 1.15.0 - 2023-03-19
 
 ### Added
