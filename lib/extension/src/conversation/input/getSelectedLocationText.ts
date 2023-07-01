@@ -9,7 +9,7 @@ export const getSelectedLocationText = async () => {
   }
 
   const selectedRange = activeEditor.selection;
-  return `${await getFilename()} ${selectedRange.start.line}:${
-    selectedRange.end.line
+  return `${await getFilename()} ${selectedRange.start.line + 1}:${
+    selectedRange.end.line + 1
   }`;
 };
