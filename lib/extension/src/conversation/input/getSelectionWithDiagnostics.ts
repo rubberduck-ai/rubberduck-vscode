@@ -14,10 +14,10 @@ export const getSelectedTextWithDiagnostics = async ({
 
   const { document, selection } = activeEditor;
 
-  // Ensure range is acurrately mapping the selected lines, start to end
+  // expand range to beginning and end of line, because ranges tend to be inaccurate:
   const range = new vscode.Range(
     new vscode.Position(selection.start.line, 0),
-    new vscode.Position(selection.end.line, selection.end.character)
+    new vscode.Position(selection.end.line + 1, 0)
   );
 
   const includedDiagnosticSeverities = diagnosticSeverities.map(
@@ -93,14 +93,14 @@ function annotateSelectionWithDiagnostics({
 
       return lineDiagnostics.length === 0
         ? line
-        : `${line}
-${lineDiagnostics
-          .map(
-            (diagnostic) =>
-              `${getLabel(diagnostic.severity)} ${diagnostic.source}${diagnostic.code
-              }: ${diagnostic.message}`
-          )
-          .join("\n")}`;
+        : `${line}\n${lineDiagnostics
+            .map(
+              (diagnostic) =>
+                `${getLabel(diagnostic.severity)} ${diagnostic.source}${
+                  diagnostic.code
+                }: ${diagnostic.message}`
+            )
+            .join("\n")}`;
     })
     .join("\n");
 }
