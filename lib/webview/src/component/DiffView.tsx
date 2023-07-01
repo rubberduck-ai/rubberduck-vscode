@@ -347,6 +347,37 @@ function toPrismHighlightOptions(
         language: "yaml",
       };
 
+    case "dockerfile": {
+      return {
+        grammar: languages.docker,
+        language: "docker",
+      };
+    }
+
+    case "csharp":
+      return {
+        grammar: languages.csharp,
+        language: "csharp",
+      };
+
+    case "cpp":
+      return {
+        grammar: languages.cpp,
+        language: "cpp",
+      };
+
+    case "dart":
+      return {
+        grammar: languages.dart,
+        language: "dart",
+      };
+
+    case "haskell":
+      return {
+        grammar: languages.haskell,
+        language: "haskell",
+      };
+
     // If you want to use new grammar, make sure to update the prism.js file
 
     case "plaintext":
