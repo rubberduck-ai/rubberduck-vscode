@@ -165,6 +165,17 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "unquietwiki",
+      "name": "Michael Adams",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1007551?v=4",
+      "profile": "https://unquietwiki.com",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
-  ]
+  ],
+  "commitType": "docs"
 }
