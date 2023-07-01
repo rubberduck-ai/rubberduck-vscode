@@ -16,7 +16,7 @@
 
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/rubberduckai.svg?style=social&label=%20%40rubberduckai)](https://twitter.com/rubberduckai)
 [![Discord](https://discordapp.com/api/guilds/1061938502327091271/widget.png?style=shield)](https://discord.gg/8KN2HmyZmn)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
 <!-- prettier-ignore-end -->
@@ -118,6 +118,9 @@ Here is an example of a [drunken pirate describing your code](https://github.com
       <td align="center" valign="top" width="25%"><a href="https://github.com/eva-lam"><img src="https://avatars.githubusercontent.com/u/29745387?v=4?s=100" width="100px;" alt="Eva"/><br /><sub><b>Eva</b></sub></a><br /><a href="#ideas-eva-lam" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="25%"><a href="https://github.com/AlexeyLavrentev"><img src="https://avatars.githubusercontent.com/u/105936590?v=4?s=100" width="100px;" alt="AlexeyLavrentev"/><br /><sub><b>AlexeyLavrentev</b></sub></a><br /><a href="#ideas-AlexeyLavrentev" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="25%"><a href="https://github.com/linshu123"><img src="https://avatars.githubusercontent.com/u/2569559?v=4?s=100" width="100px;" alt="linshu123"/><br /><sub><b>linshu123</b></sub></a><br /><a href="https://github.com/rubberduck-ai/rubberduck-vscode/commits?author=linshu123" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="25%"><a href="https://unquietwiki.com"><img src="https://avatars.githubusercontent.com/u/1007551?v=4?s=100" width="100px;" alt="Michael Adams"/><br /><sub><b>Michael Adams</b></sub></a><br /><a href="https://github.com/rubberduck-ai/rubberduck-vscode/commits?author=unquietwiki" title="Code">💻</a> <a href="https://github.com/rubberduck-ai/rubberduck-vscode/issues?q=author%3Aunquietwiki" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
