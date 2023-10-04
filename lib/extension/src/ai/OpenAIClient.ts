@@ -68,7 +68,7 @@ export class OpenAIClient {
       role: "assistant" | "user" | "system";
       content: string;
     }>;
-    model: "gpt-4" | "gpt-3.5-turbo";
+    model: "gpt-4" | "gpt-4-32k" | "gpt-3.5-turbo" | "gpt-3.5-turbo-16k";
     maxTokens: number;
     stop?: string[] | undefined;
     temperature?: number | undefined;
@@ -114,10 +114,11 @@ export class OpenAIClient {
         content: responseUntilNow,
       };
     } catch (error) {
-      this.logger.error("Error streaming text from OpenAI");
+      this.logger.error(`Error streaming text from OpenAI: ${error}`);
+
       return {
         type: "error",
-        errorMessage: "Error streaming text from OpenAI",
+        errorMessage: `Error streaming text from OpenAI: ${error}`,
       };
     }
   }
