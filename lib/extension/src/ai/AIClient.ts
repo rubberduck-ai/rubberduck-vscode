@@ -31,7 +31,8 @@ export class AIClient {
   }) {
     this.apiKeyManager = apiKeyManager;
     this.logger = logger;
-    // Ensure it doesn't have a trailing slash
+
+    // Ensure that the base URL doesn't have a trailing slash:
     this.openAIBaseUrl = openAIBaseUrl.replace(/\/$/, "");
   }
 
