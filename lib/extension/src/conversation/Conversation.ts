@@ -4,7 +4,7 @@ import * as vscode from "vscode";
 import zod from "zod";
 import { DiffEditor } from "../diff/DiffEditor";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
-import { OpenAIClient } from "../openai/OpenAIClient";
+import { OpenAIClient } from "../ai/OpenAIClient";
 import { DiffData } from "./DiffData";
 import { resolveVariables } from "./input/resolveVariables";
 import { executeRetrievalAugmentation } from "./retrieval-augmentation/executeRetrievalAugmentation";

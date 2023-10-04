@@ -4,7 +4,7 @@ import { Conversation } from "../conversation/Conversation";
 import { ConversationType } from "../conversation/ConversationType";
 import { resolveVariables } from "../conversation/input/resolveVariables";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
-import { OpenAIClient } from "../openai/OpenAIClient";
+import { OpenAIClient } from "../ai/OpenAIClient";
 import { ChatModel } from "./ChatModel";
 import { ChatPanel } from "./ChatPanel";
 

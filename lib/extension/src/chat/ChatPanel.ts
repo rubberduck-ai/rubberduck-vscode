@@ -1,6 +1,6 @@
 import { webviewApi } from "@rubberduck/common";
 import * as vscode from "vscode";
-import { ApiKeyManager } from "../openai/ApiKeyManager";
+import { ApiKeyManager } from "../ai/ApiKeyManager";
 import { WebviewContainer } from "../webview/WebviewContainer";
 import { ChatModel } from "./ChatModel";
 

@@ -6,8 +6,8 @@ import { ConversationTypesProvider } from "./conversation/ConversationTypesProvi
 import { DiffEditorManager } from "./diff/DiffEditorManager";
 import { indexRepository } from "./index/indexRepository";
 import { getVSCodeLogLevel, LoggerUsingVSCodeOutput } from "./logger";
-import { ApiKeyManager } from "./openai/ApiKeyManager";
-import { getVSCodeOpenAIBaseUrl, OpenAIClient } from "./openai/OpenAIClient";
+import { ApiKeyManager } from "./ai/ApiKeyManager";
+import { getVSCodeOpenAIBaseUrl, OpenAIClient } from "./ai/OpenAIClient";
 
 export const activate = async (context: vscode.ExtensionContext) => {
   const apiKeyManager = new ApiKeyManager({

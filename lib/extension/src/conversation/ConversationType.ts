@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
-import { OpenAIClient } from "../openai/OpenAIClient";
+import { OpenAIClient } from "../ai/OpenAIClient";
 import { Conversation } from "./Conversation";
 import { DiffData } from "./DiffData";
 import { RubberduckTemplate } from "./template/RubberduckTemplate";

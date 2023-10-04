@@ -1,7 +1,7 @@
 import Handlebars from "handlebars";
 import secureJSON from "secure-json-parse";
 import * as vscode from "vscode";
-import { OpenAIClient } from "../../openai/OpenAIClient";
+import { OpenAIClient } from "../../ai/OpenAIClient";
 import { readFileContent } from "../../vscode/readFileContent";
 import { RetrievalAugmentation } from "../template/RubberduckTemplate";
 import { cosineSimilarity } from "./cosineSimilarity";

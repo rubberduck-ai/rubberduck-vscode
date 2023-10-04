@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import { simpleGit } from "simple-git";
 import * as vscode from "vscode";
 import { ChunkWithContent } from "../conversation/retrieval-augmentation/EmbeddingFile";
-import { OpenAIClient } from "../openai/OpenAIClient";
+import { OpenAIClient } from "../ai/OpenAIClient";
 import { createSplitLinearLines } from "./chunk/splitLinearLines";
 
 export async function indexRepository({
