@@ -29,6 +29,7 @@
   },
   "license": "SEE LICENSE IN LICENSE.txt",
   "engines": {
+    "node": ">=18",
     "vscode": "^1.72.0"
   },
   "homepage": "https://github.com/rubberduck-ai/rubberduck-vscode",
@@ -225,11 +226,15 @@
             "gpt-3.5-turbo",
             "gpt-3.5-turbo-16k",
             "gpt-4",
-            "gpt-4-32k"
+            "gpt-4-32k",
+            "llama.cpp"
           ],
           "enumDescriptions": [
-            "Faster, less expensive model. Less accurate.",
-            "Expensive, slow model. More accurate. Requires beta access (OpenAI)."
+            "OpenAI GPT-3.5-turbo: 4k context window. Faster, less expensive model. Less accurate.",
+            "OpenAI GPT-3.5-turbo: 16k context window. Faster, less expensive model. Less accurate.",
+            "OpenAI GPT-4: 8k context window. Expensive, slow model. More accurate.",
+            "OpenAI GPT-4: 32k context window.Expensive, slow model. More accurate. Requires beta access.",
+            "(Experimental) Llama.cpp: Calls Llama.cpp running locally on http://127.0.0.1:8080. Use for local models with Llama 2 prompt format."
           ],
           "markdownDescription": "Select the OpenAI model that you want to use.",
           "scope": "application"
