@@ -1,7 +1,6 @@
 import { webviewApi } from "@rubberduck/common";
 import Handlebars from "handlebars";
 import * as vscode from "vscode";
-import zod from "zod";
 import { AIClient } from "../ai/AIClient";
 import { DiffEditor } from "../diff/DiffEditor";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
@@ -172,33 +171,21 @@ export class Conversation {
           });
       }
 
-      // retrieve vscode setting rubberduck.model
-      const model = zod
-        .enum(["gpt-4", "gpt-4-32k", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"])
-        .parse(vscode.workspace.getConfiguration("rubberduck").get("model"));
-
-      const completion = await this.ai.generateChatCompletion({
-        messages: [
-          {
-            role: "user",
-            content: await this.evaluateTemplate(prompt.template, variables),
-          },
-        ],
-        model,
+      const stream = await this.ai.streamText({
+        prompt: await this.evaluateTemplate(prompt.template, variables),
         maxTokens: prompt.maxTokens,
         stop: prompt.stop,
         temperature: prompt.temperature,
-        streamHandler: (value) => {
-          this.handlePartialCompletion(value, prompt);
-        },
       });
 
-      if (completion.type === "error") {
-        await this.setError(completion.errorMessage);
-        return;
+      let responseUntilNow = "";
+      for await (const chunk of stream) {
+        responseUntilNow += chunk;
+        this.handlePartialCompletion(responseUntilNow, prompt);
       }
 
-      await this.handleCompletion(completion.content, prompt);
+      // handle full completion (to allow for cleanup):
+      await this.handleCompletion(responseUntilNow, prompt);
     } catch (error: any) {
       console.log(error);
       await this.setError(error?.message ?? "Unknown error");

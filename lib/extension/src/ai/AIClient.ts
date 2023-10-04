@@ -3,16 +3,24 @@ import {
   OpenAIChatModel,
   OpenAITextEmbeddingModel,
   embed,
+  mapInstructionPromptToOpenAIChatFormat,
   streamText,
 } from "modelfusion";
 import * as vscode from "vscode";
+import { z } from "zod";
 import { Logger } from "../logger";
 import { ApiKeyManager } from "./ApiKeyManager";
 
-export function getVSCodeOpenAIBaseUrl(): string {
+export function getOpenAIBaseUrl(): string {
   return vscode.workspace
     .getConfiguration("rubberduck.openAI")
     .get("baseUrl", "https://api.openai.com/v1/");
+}
+
+export function getOpenAIChatModel() {
+  return z
+    .enum(["gpt-4", "gpt-4-32k", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"])
+    .parse(vscode.workspace.getConfiguration("rubberduck").get("model"));
 }
 
 export class AIClient {
@@ -57,71 +65,35 @@ export class AIClient {
     this.openAIBaseUrl = openAIBaseUrl.replace(/\/$/, "");
   }
 
-  async generateChatCompletion({
-    messages,
+  async streamText({
+    prompt,
     maxTokens,
     stop,
-    model,
     temperature = 0,
-    streamHandler,
   }: {
-    messages: Array<{
-      role: "assistant" | "user" | "system";
-      content: string;
-    }>;
-    model: "gpt-4" | "gpt-4-32k" | "gpt-3.5-turbo" | "gpt-3.5-turbo-16k";
+    prompt: string;
     maxTokens: number;
     stop?: string[] | undefined;
     temperature?: number | undefined;
-    streamHandler: (stream: string) => void;
-  }): Promise<
-    | {
-        type: "success";
-        content: string;
-      }
-    | {
-        type: "error";
-        errorMessage: string;
-      }
-  > {
+  }) {
     this.logger.log([
       "--- Start OpenAI prompt ---",
-      JSON.stringify(messages),
+      prompt,
       "--- End OpenAI prompt ---",
     ]);
 
-    try {
-      const textStream = await streamText(
-        new OpenAIChatModel({
-          api: await this.getOpenAIApiConfiguration(),
-          model,
-          maxCompletionTokens: maxTokens,
-          temperature,
-          frequencyPenalty: 0,
-          presencePenalty: 0,
-          stopSequences: stop,
-        }),
-        messages
-      );
-
-      let responseUntilNow = "";
-      for await (const chunk of textStream) {
-        responseUntilNow += chunk;
-        streamHandler(responseUntilNow);
-      }
-
-      return {
-        type: "success",
-        content: responseUntilNow,
-      };
-    } catch (error) {
-      this.logger.error(`Error streaming text from OpenAI: ${error}`);
-
-      return {
-        type: "error",
-        errorMessage: `Error streaming text from OpenAI: ${error}`,
-      };
-    }
+    return streamText(
+      new OpenAIChatModel({
+        api: await this.getOpenAIApiConfiguration(),
+        model: getOpenAIChatModel(),
+        maxCompletionTokens: maxTokens,
+        temperature,
+        frequencyPenalty: 0,
+        presencePenalty: 0,
+        stopSequences: stop,
+      }).withPromptFormat(mapInstructionPromptToOpenAIChatFormat()),
+      { instruction: prompt }
+    );
   }
 
   async generateEmbedding({ input }: { input: string }) {
