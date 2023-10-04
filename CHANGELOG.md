@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.18.0 - 2023-10-04
+
+### Added
+
+- Local model support with Llama.cpp. See setup in guide for details.
+
 ## 1.17.0 - 2023-10-04
 
 ### Added
