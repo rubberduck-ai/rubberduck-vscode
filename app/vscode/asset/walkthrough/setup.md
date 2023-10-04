@@ -1,8 +1,12 @@
-# Set Up Rubberduck
+# Set Up Rubberduck with OpenAI
 
 Rubberduck uses the OpenAI API and requires an API key to work. You can get an API key from [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) (you'll need to sign up for an account).
 
 Once you have an API key, enter it with the `Rubberduck: Enter OpenAI API key` command.
+
+# Alternative: use local AI models with Llama.cpp (experimental)
+
+You can use Rubberduck with local models, e.g. [CodeLlama-7B-Instruct](https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGUF) running in [Llama.cpp](https://github.com/ggerganov/llama.cpp) (see [ModelFusion Llama.cpp setup](https://modelfusion.dev/integration/model-provider/llamacpp#setup)). To enable llama.cpp in Rubberduck, set the `Rubberduck: Model` setting to `llama.cpp`.
 
 # Rubberduck Settings
 

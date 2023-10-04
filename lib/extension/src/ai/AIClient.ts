@@ -1,8 +1,10 @@
 import {
+  LlamaCppTextGenerationModel,
   OpenAIApiConfiguration,
   OpenAIChatModel,
   OpenAITextEmbeddingModel,
   embed,
+  mapInstructionPromptToLlama2Format,
   mapInstructionPromptToOpenAIChatFormat,
   streamText,
 } from "modelfusion";
@@ -21,9 +23,15 @@ function getOpenAIBaseUrl(): string {
   );
 }
 
-function getOpenAIChatModel() {
+function getModel() {
   return z
-    .enum(["gpt-4", "gpt-4-32k", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"])
+    .enum([
+      "gpt-4",
+      "gpt-4-32k",
+      "gpt-3.5-turbo",
+      "gpt-3.5-turbo-16k",
+      "llama.cpp",
+    ])
     .parse(vscode.workspace.getConfiguration("rubberduck").get("model"));
 }
 
@@ -69,21 +77,30 @@ export class AIClient {
     stop?: string[] | undefined;
     temperature?: number | undefined;
   }) {
-    this.logger.log([
-      "--- Start OpenAI prompt ---",
-      prompt,
-      "--- End OpenAI prompt ---",
-    ]);
+    this.logger.log(["--- Start prompt ---", prompt, "--- End prompt ---"]);
+
+    const modelConfiguration = getModel();
+
+    if (modelConfiguration === "llama.cpp") {
+      return streamText(
+        new LlamaCppTextGenerationModel({
+          maxCompletionTokens: maxTokens,
+          stopSequences: stop,
+          temperature,
+        }).withPromptFormat(mapInstructionPromptToLlama2Format()),
+        { instruction: prompt }
+      );
+    }
 
     return streamText(
       new OpenAIChatModel({
         api: await this.getOpenAIApiConfiguration(),
-        model: getOpenAIChatModel(),
+        model: modelConfiguration,
         maxCompletionTokens: maxTokens,
+        stopSequences: stop,
         temperature,
         frequencyPenalty: 0,
         presencePenalty: 0,
-        stopSequences: stop,
       }).withPromptFormat(mapInstructionPromptToOpenAIChatFormat()),
       { instruction: prompt }
     );
