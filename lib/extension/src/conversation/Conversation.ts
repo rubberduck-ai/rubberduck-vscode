@@ -2,9 +2,9 @@ import { webviewApi } from "@rubberduck/common";
 import Handlebars from "handlebars";
 import * as vscode from "vscode";
 import zod from "zod";
+import { AIClient } from "../ai/AIClient";
 import { DiffEditor } from "../diff/DiffEditor";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
-import { OpenAIClient } from "../ai/OpenAIClient";
 import { DiffData } from "./DiffData";
 import { resolveVariables } from "./input/resolveVariables";
 import { executeRetrievalAugmentation } from "./retrieval-augmentation/executeRetrievalAugmentation";
@@ -21,7 +21,7 @@ Handlebars.registerHelper({
 
 export class Conversation {
   readonly id: string;
-  protected readonly openAIClient: OpenAIClient;
+  protected readonly ai: AIClient;
   protected state: webviewApi.MessageExchangeContent["state"];
   protected error: webviewApi.Error | undefined;
   protected readonly messages: webviewApi.Message[];
@@ -43,7 +43,7 @@ export class Conversation {
   constructor({
     id,
     initVariables,
-    openAIClient,
+    ai,
     updateChatPanel,
     template,
     diffEditorManager,
@@ -51,14 +51,14 @@ export class Conversation {
   }: {
     id: string;
     initVariables: Record<string, unknown>;
-    openAIClient: OpenAIClient;
+    ai: AIClient;
     updateChatPanel: () => Promise<void>;
     template: RubberduckTemplate;
     diffEditorManager: DiffEditorManager;
     diffData: DiffData | undefined;
   }) {
     this.id = id;
-    this.openAIClient = openAIClient;
+    this.ai = ai;
     this.updateChatPanel = updateChatPanel;
     this.messages = [];
     this.initVariables = initVariables;
@@ -168,7 +168,7 @@ export class Conversation {
             retrievalAugmentation,
             variables,
             initVariables: this.initVariables,
-            openAIClient: this.openAIClient,
+            ai: this.ai,
           });
       }
 
@@ -177,7 +177,7 @@ export class Conversation {
         .enum(["gpt-4", "gpt-4-32k", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"])
         .parse(vscode.workspace.getConfiguration("rubberduck").get("model"));
 
-      const completion = await this.openAIClient.generateChatCompletion({
+      const completion = await this.ai.generateChatCompletion({
         messages: [
           {
             role: "user",

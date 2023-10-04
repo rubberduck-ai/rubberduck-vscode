@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
+import { AIClient } from "../ai/AIClient";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
-import { OpenAIClient } from "../ai/OpenAIClient";
 import { Conversation } from "./Conversation";
 import { DiffData } from "./DiffData";
 import { RubberduckTemplate } from "./template/RubberduckTemplate";
@@ -52,13 +52,13 @@ export class ConversationType {
 
   async createConversation({
     conversationId,
-    openAIClient,
+    ai,
     updateChatPanel,
     initVariables,
     diffEditorManager,
   }: {
     conversationId: string;
-    openAIClient: OpenAIClient;
+    ai: AIClient;
     updateChatPanel: () => Promise<void>;
     initVariables: Record<string, unknown>;
     diffEditorManager: DiffEditorManager;
@@ -68,7 +68,7 @@ export class ConversationType {
       conversation: new Conversation({
         id: conversationId,
         initVariables,
-        openAIClient,
+        ai: ai,
         updateChatPanel,
         template: this.template,
         diffEditorManager,

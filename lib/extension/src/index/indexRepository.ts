@@ -1,15 +1,15 @@
 import fs from "node:fs/promises";
 import { simpleGit } from "simple-git";
 import * as vscode from "vscode";
+import { AIClient } from "../ai/AIClient";
 import { ChunkWithContent } from "../conversation/retrieval-augmentation/EmbeddingFile";
-import { OpenAIClient } from "../ai/OpenAIClient";
 import { createSplitLinearLines } from "./chunk/splitLinearLines";
 
 export async function indexRepository({
-  openAIClient,
+  ai,
   outputChannel,
 }: {
-  openAIClient: OpenAIClient;
+  ai: AIClient;
   outputChannel: vscode.OutputChannel;
 }) {
   const repositoryPath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
@@ -75,7 +75,7 @@ export async function indexRepository({
           );
 
           try {
-            const embeddingResult = await openAIClient.generateEmbedding({
+            const embeddingResult = await ai.generateEmbedding({
               input: chunk.content,
             });
 

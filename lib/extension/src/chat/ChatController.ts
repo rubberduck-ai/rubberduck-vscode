@@ -1,17 +1,17 @@
 import { util, webviewApi } from "@rubberduck/common";
 import * as vscode from "vscode";
+import { AIClient } from "../ai/AIClient";
 import { Conversation } from "../conversation/Conversation";
 import { ConversationType } from "../conversation/ConversationType";
 import { resolveVariables } from "../conversation/input/resolveVariables";
 import { DiffEditorManager } from "../diff/DiffEditorManager";
-import { OpenAIClient } from "../ai/OpenAIClient";
 import { ChatModel } from "./ChatModel";
 import { ChatPanel } from "./ChatPanel";
 
 export class ChatController {
   private readonly chatPanel: ChatPanel;
   private readonly chatModel: ChatModel;
-  private readonly openAIClient: OpenAIClient;
+  private readonly ai: AIClient;
   private readonly getConversationType: (
     id: string
   ) => ConversationType | undefined;
@@ -22,21 +22,21 @@ export class ChatController {
   constructor({
     chatPanel,
     chatModel,
-    openAIClient,
+    ai,
     getConversationType,
     diffEditorManager,
     basicChatTemplateId,
   }: {
     chatPanel: ChatPanel;
     chatModel: ChatModel;
-    openAIClient: OpenAIClient;
+    ai: AIClient;
     getConversationType: (id: string) => ConversationType | undefined;
     diffEditorManager: DiffEditorManager;
     basicChatTemplateId: string;
   }) {
     this.chatPanel = chatPanel;
     this.chatModel = chatModel;
-    this.openAIClient = openAIClient;
+    this.ai = ai;
     this.getConversationType = getConversationType;
     this.diffEditorManager = diffEditorManager;
     this.basicChatTemplateId = basicChatTemplateId;
@@ -139,7 +139,7 @@ export class ChatController {
 
       const result = await conversationType.createConversation({
         conversationId: this.generateConversationId(),
-        openAIClient: this.openAIClient,
+        ai: this.ai,
         updateChatPanel: this.updateChatPanel.bind(this),
         diffEditorManager: this.diffEditorManager,
         initVariables: variableValues,

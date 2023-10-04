@@ -15,7 +15,7 @@ export function getVSCodeOpenAIBaseUrl(): string {
     .get("baseUrl", "https://api.openai.com/v1/");
 }
 
-export class OpenAIClient {
+export class AIClient {
   private readonly apiKeyManager: ApiKeyManager;
   private readonly logger: Logger;
   private openAIBaseUrl: string;

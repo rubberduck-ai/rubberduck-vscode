@@ -1,7 +1,7 @@
 import Handlebars from "handlebars";
 import secureJSON from "secure-json-parse";
 import * as vscode from "vscode";
-import { OpenAIClient } from "../../ai/OpenAIClient";
+import { AIClient } from "../../ai/AIClient";
 import { readFileContent } from "../../vscode/readFileContent";
 import { RetrievalAugmentation } from "../template/RubberduckTemplate";
 import { cosineSimilarity } from "./cosineSimilarity";
@@ -11,12 +11,12 @@ export async function executeRetrievalAugmentation({
   retrievalAugmentation,
   initVariables,
   variables,
-  openAIClient,
+  ai,
 }: {
   retrievalAugmentation: RetrievalAugmentation;
   initVariables: Record<string, unknown>;
   variables: Record<string, unknown>;
-  openAIClient: OpenAIClient;
+  ai: AIClient;
 }): Promise<
   | Array<{
       file: string;
@@ -46,7 +46,7 @@ export async function executeRetrievalAugmentation({
     ...variables,
   });
 
-  const result = await openAIClient.generateEmbedding({
+  const result = await ai.generateEmbedding({
     input: query,
   });
 

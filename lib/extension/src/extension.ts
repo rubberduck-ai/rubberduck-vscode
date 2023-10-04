@@ -1,4 +1,6 @@
 import * as vscode from "vscode";
+import { AIClient, getVSCodeOpenAIBaseUrl } from "./ai/AIClient";
+import { ApiKeyManager } from "./ai/ApiKeyManager";
 import { ChatController } from "./chat/ChatController";
 import { ChatModel } from "./chat/ChatModel";
 import { ChatPanel } from "./chat/ChatPanel";
@@ -6,8 +8,6 @@ import { ConversationTypesProvider } from "./conversation/ConversationTypesProvi
 import { DiffEditorManager } from "./diff/DiffEditorManager";
 import { indexRepository } from "./index/indexRepository";
 import { getVSCodeLogLevel, LoggerUsingVSCodeOutput } from "./logger";
-import { ApiKeyManager } from "./ai/ApiKeyManager";
-import { getVSCodeOpenAIBaseUrl, OpenAIClient } from "./ai/OpenAIClient";
 
 export const activate = async (context: vscode.ExtensionContext) => {
   const apiKeyManager = new ApiKeyManager({
@@ -43,7 +43,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   await conversationTypesProvider.loadConversationTypes();
 
-  const openAIClient = new OpenAIClient({
+  const ai = new AIClient({
     apiKeyManager,
     logger: vscodeLogger,
     openAIBaseUrl: getVSCodeOpenAIBaseUrl(),
@@ -51,14 +51,14 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
   vscode.workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration("rubberduck.openAI.baseUrl")) {
-      openAIClient.setOpenAIBaseUrl(getVSCodeOpenAIBaseUrl());
+      ai.setOpenAIBaseUrl(getVSCodeOpenAIBaseUrl());
     }
   });
 
   const chatController = new ChatController({
     chatPanel,
     chatModel,
-    openAIClient,
+    ai,
     diffEditorManager: new DiffEditorManager({
       extensionUri: context.extensionUri,
     }),
@@ -162,7 +162,7 @@ export const activate = async (context: vscode.ExtensionContext) => {
 
     vscode.commands.registerCommand("rubberduck.indexRepository", () => {
       indexRepository({
-        openAIClient,
+        ai: ai,
         outputChannel: indexOutputChannel,
       });
     })
