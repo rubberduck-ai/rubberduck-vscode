@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.17.0 - 2023-10-04
+
+### Added
+
+- gpt-4-32k and gpt-3.5-turbo-16k support.
+
+### Changed
+
+- Use [ModelFusion](https://github.com/lgrammel/modelfusion) AI library.
+
 ## 1.16.0 - 2023-07-01
 
 ### Added
