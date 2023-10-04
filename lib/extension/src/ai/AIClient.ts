@@ -36,7 +36,7 @@ export class AIClient {
     this.openAIBaseUrl = openAIBaseUrl.replace(/\/$/, "");
   }
 
-  private async getApiConfiguration() {
+  private async getOpenAIApiConfiguration() {
     const apiKey = await this.apiKeyManager.getOpenAIApiKey();
 
     if (apiKey == undefined) {
@@ -93,7 +93,7 @@ export class AIClient {
     try {
       const textStream = await streamText(
         new OpenAIChatModel({
-          api: await this.getApiConfiguration(),
+          api: await this.getOpenAIApiConfiguration(),
           model,
           maxCompletionTokens: maxTokens,
           temperature,
@@ -128,7 +128,7 @@ export class AIClient {
     try {
       const { output, response } = await embed(
         new OpenAITextEmbeddingModel({
-          api: await this.getApiConfiguration(),
+          api: await this.getOpenAIApiConfiguration(),
           model: "text-embedding-ada-002",
         }),
         input
