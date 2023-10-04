@@ -2,16 +2,18 @@
 
 > #### AI chat in the Visual Studio Code side bar. Rubberduck can [generate code](#generate-code), [edit code](#edit-code), [explain code](#explain-code), [generate tests](#generate-tests), [find bugs](#find-bugs), [diagnose errors](#diagnose-errors), and more. You can even add [your own conversation templates](https://github.com/rubberduck-ai/rubberduck-vscode/blob/main/doc/rubberduck-templates.md).
 
-# Setup with OpenAI
+# Setup
+
+## OpenAI
 
 1. Get an OpenAI API key from [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) (you'll need to sign up for an account)
 2. Enter the API key with the `Rubberduck: Enter OpenAI API key` command
 
-# Alternative: use local AI models with Llama.cpp (experimental)
+## Llama.cpp (experimental)
 
 You can use Rubberduck with local models, e.g. [CodeLlama-7B-Instruct](https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGUF) running in [Llama.cpp](https://github.com/ggerganov/llama.cpp) (see [ModelFusion Llama.cpp setup](https://modelfusion.dev/integration/model-provider/llamacpp#setup)). To enable llama.cpp in Rubberduck, set the `Rubberduck: Model` setting to `llama.cpp`.
 
-# Configuration Options
+## Configuration Options
 
 - **rubberduck.syntaxHighlighting.useVisualStudioCodeColors**: Use the Visual Studio Code Theme colors for syntax highlighting in the diff viewer. Might not work with all themes. Default is `false`.
 
