@@ -11,13 +11,17 @@ import { z } from "zod";
 import { Logger } from "../logger";
 import { ApiKeyManager } from "./ApiKeyManager";
 
-export function getOpenAIBaseUrl(): string {
-  return vscode.workspace
-    .getConfiguration("rubberduck.openAI")
-    .get("baseUrl", "https://api.openai.com/v1/");
+function getOpenAIBaseUrl(): string {
+  return (
+    vscode.workspace
+      .getConfiguration("rubberduck.openAI")
+      .get("baseUrl", "https://api.openai.com/v1/")
+      // Ensure that the base URL doesn't have a trailing slash:
+      .replace(/\/$/, "")
+  );
 }
 
-export function getOpenAIChatModel() {
+function getOpenAIChatModel() {
   return z
     .enum(["gpt-4", "gpt-4-32k", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"])
     .parse(vscode.workspace.getConfiguration("rubberduck").get("model"));
@@ -26,22 +30,16 @@ export function getOpenAIChatModel() {
 export class AIClient {
   private readonly apiKeyManager: ApiKeyManager;
   private readonly logger: Logger;
-  private openAIBaseUrl: string;
 
   constructor({
     apiKeyManager,
     logger,
-    openAIBaseUrl,
   }: {
     apiKeyManager: ApiKeyManager;
     logger: Logger;
-    openAIBaseUrl: string;
   }) {
     this.apiKeyManager = apiKeyManager;
     this.logger = logger;
-
-    // Ensure that the base URL doesn't have a trailing slash:
-    this.openAIBaseUrl = openAIBaseUrl.replace(/\/$/, "");
   }
 
   private async getOpenAIApiConfiguration() {
@@ -55,14 +53,9 @@ export class AIClient {
     }
 
     return new OpenAIApiConfiguration({
-      baseUrl: this.openAIBaseUrl,
+      baseUrl: getOpenAIBaseUrl(),
       apiKey,
     });
-  }
-
-  setOpenAIBaseUrl(openAIBaseUrl: string) {
-    // Ensure it doesn't have a trailing slash
-    this.openAIBaseUrl = openAIBaseUrl.replace(/\/$/, "");
   }
 
   async streamText({

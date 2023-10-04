@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { AIClient, getOpenAIBaseUrl } from "./ai/AIClient";
+import { AIClient } from "./ai/AIClient";
 import { ApiKeyManager } from "./ai/ApiKeyManager";
 import { ChatController } from "./chat/ChatController";
 import { ChatModel } from "./chat/ChatModel";
@@ -46,13 +46,6 @@ export const activate = async (context: vscode.ExtensionContext) => {
   const ai = new AIClient({
     apiKeyManager,
     logger: vscodeLogger,
-    openAIBaseUrl: getOpenAIBaseUrl(),
-  });
-
-  vscode.workspace.onDidChangeConfiguration((event) => {
-    if (event.affectsConfiguration("rubberduck.openAI.baseUrl")) {
-      ai.setOpenAIBaseUrl(getOpenAIBaseUrl());
-    }
   });
 
   const chatController = new ChatController({
