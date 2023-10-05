@@ -1,8 +1,11 @@
 import {
+  InstructionPrompt,
   LlamaCppTextGenerationModel,
   OpenAIApiConfiguration,
   OpenAIChatModel,
   OpenAITextEmbeddingModel,
+  OpenAITextEmbeddingResponse,
+  TextStreamingModel,
   embed,
   mapInstructionPromptToLlama2Format,
   mapInstructionPromptToOpenAIChatFormat,
@@ -66,6 +69,34 @@ export class AIClient {
     });
   }
 
+  async getTextStreamingModel({
+    maxTokens,
+    stop,
+    temperature = 0,
+  }: {
+    maxTokens: number;
+    stop?: string[] | undefined;
+    temperature?: number | undefined;
+  }): Promise<TextStreamingModel<InstructionPrompt>> {
+    const modelConfiguration = getModel();
+
+    return modelConfiguration === "llama.cpp"
+      ? new LlamaCppTextGenerationModel({
+          maxCompletionTokens: maxTokens,
+          stopSequences: stop,
+          temperature,
+        }).withPromptFormat(mapInstructionPromptToLlama2Format())
+      : new OpenAIChatModel({
+          api: await this.getOpenAIApiConfiguration(),
+          model: modelConfiguration,
+          maxCompletionTokens: maxTokens,
+          stopSequences: stop,
+          temperature,
+          frequencyPenalty: 0,
+          presencePenalty: 0,
+        }).withPromptFormat(mapInstructionPromptToOpenAIChatFormat());
+  }
+
   async streamText({
     prompt,
     maxTokens,
@@ -79,36 +110,15 @@ export class AIClient {
   }) {
     this.logger.log(["--- Start prompt ---", prompt, "--- End prompt ---"]);
 
-    const modelConfiguration = getModel();
-
-    if (modelConfiguration === "llama.cpp") {
-      return streamText(
-        new LlamaCppTextGenerationModel({
-          maxCompletionTokens: maxTokens,
-          stopSequences: stop,
-          temperature,
-        }).withPromptFormat(mapInstructionPromptToLlama2Format()),
-        { instruction: prompt }
-      );
-    }
-
     return streamText(
-      new OpenAIChatModel({
-        api: await this.getOpenAIApiConfiguration(),
-        model: modelConfiguration,
-        maxCompletionTokens: maxTokens,
-        stopSequences: stop,
-        temperature,
-        frequencyPenalty: 0,
-        presencePenalty: 0,
-      }).withPromptFormat(mapInstructionPromptToOpenAIChatFormat()),
+      await this.getTextStreamingModel({ maxTokens, stop, temperature }),
       { instruction: prompt }
     );
   }
 
   async generateEmbedding({ input }: { input: string }) {
     try {
-      const { output, response } = await embed(
+      const { value, response } = await embed(
         new OpenAITextEmbeddingModel({
           api: await this.getOpenAIApiConfiguration(),
           model: "text-embedding-ada-002",
@@ -118,8 +128,9 @@ export class AIClient {
 
       return {
         type: "success" as const,
-        embedding: output,
-        totalTokenCount: response[0]!.usage.total_tokens,
+        embedding: value,
+        totalTokenCount: (response as OpenAITextEmbeddingResponse).usage
+          .total_tokens,
       };
     } catch (error: any) {
       console.log(error);
