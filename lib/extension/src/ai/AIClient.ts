@@ -1,14 +1,12 @@
 import {
-  InstructionPrompt,
-  LlamaCppTextGenerationModel,
+  Llama2PromptFormat,
   OpenAIApiConfiguration,
-  OpenAIChatModel,
-  OpenAITextEmbeddingModel,
   OpenAITextEmbeddingResponse,
+  TextInstructionPrompt,
   TextStreamingModel,
   embed,
-  mapInstructionPromptToLlama2Format,
-  mapInstructionPromptToOpenAIChatFormat,
+  llamacpp,
+  openai,
   streamText,
 } from "modelfusion";
 import * as vscode from "vscode";
@@ -77,24 +75,29 @@ export class AIClient {
     maxTokens: number;
     stop?: string[] | undefined;
     temperature?: number | undefined;
-  }): Promise<TextStreamingModel<InstructionPrompt>> {
+  }): Promise<TextStreamingModel<TextInstructionPrompt>> {
     const modelConfiguration = getModel();
 
     return modelConfiguration === "llama.cpp"
-      ? new LlamaCppTextGenerationModel({
-          maxCompletionTokens: maxTokens,
-          stopSequences: stop,
-          temperature,
-        }).withPromptFormat(mapInstructionPromptToLlama2Format())
-      : new OpenAIChatModel({
-          api: await this.getOpenAIApiConfiguration(),
-          model: modelConfiguration,
-          maxCompletionTokens: maxTokens,
-          stopSequences: stop,
-          temperature,
-          frequencyPenalty: 0,
-          presencePenalty: 0,
-        }).withPromptFormat(mapInstructionPromptToOpenAIChatFormat());
+      ? llamacpp
+          .TextGenerator({
+            maxCompletionTokens: maxTokens,
+            stopSequences: stop,
+            temperature,
+          })
+          // TODO the prompt format needs to be configurable for non-Llama2 models
+          .withTextPromptFormat(Llama2PromptFormat.instruction())
+      : openai
+          .ChatTextGenerator({
+            api: await this.getOpenAIApiConfiguration(),
+            model: modelConfiguration,
+            maxCompletionTokens: maxTokens,
+            stopSequences: stop,
+            temperature,
+            frequencyPenalty: 0,
+            presencePenalty: 0,
+          })
+          .withInstructionPrompt();
   }
 
   async streamText({
@@ -119,12 +122,13 @@ export class AIClient {
   async generateEmbedding({ input }: { input: string }) {
     try {
       const { value, response } = await embed(
-        new OpenAITextEmbeddingModel({
+        openai.TextEmbedder({
           api: await this.getOpenAIApiConfiguration(),
           model: "text-embedding-ada-002",
         }),
-        input
-      ).asFullResponse();
+        input,
+        { returnType: "full" }
+      );
 
       return {
         type: "success" as const,
