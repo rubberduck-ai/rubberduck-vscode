@@ -5,6 +5,7 @@ import { Variable } from "../template/RubberduckTemplate";
 import { Message } from "../Message";
 import { getSelectedLocationText } from "./getSelectedLocationText";
 import { getSelectedTextWithDiagnostics } from "./getSelectionWithDiagnostics";
+import { getOpenFiles } from "./getOpenFiles";
 
 export async function resolveVariable(
   variable: Variable,
@@ -12,6 +13,8 @@ export async function resolveVariable(
 ): Promise<unknown> {
   const variableType = variable.type;
   switch (variableType) {
+    case "context":
+      return getOpenFiles();
     case "constant":
       return variable.value;
     case "message":

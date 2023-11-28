@@ -42,6 +42,7 @@ export class ConversationTypesProvider {
       await this.loadBuiltinTemplate("task", "document-code.rdt.md"),
       await this.loadBuiltinTemplate("task", "edit-code.rdt.md"),
       await this.loadBuiltinTemplate("task", "explain-code.rdt.md"),
+      await this.loadBuiltinTemplate("task", "explain-code-w-context.rdt.md"),
       await this.loadBuiltinTemplate("task", "find-bugs.rdt.md"),
       await this.loadBuiltinTemplate("task", "generate-code.rdt.md"),
       await this.loadBuiltinTemplate("task", "generate-unit-test.rdt.md"),
@@ -58,6 +59,7 @@ export class ConversationTypesProvider {
     const result = await loadConversationFromFile(fileUri);
 
     if (result.type === "error") {
+      debugger;
       throw new Error(
         `Failed to load chat template '${fileUri.toString()}': ${result.error}`
       );
