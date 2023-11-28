@@ -71,6 +71,10 @@ const variableSchema = zod.discriminatedUnion("type", [
     property: zod.enum(["content"]),
   }),
   variableBaseSchema.extend({
+    type: zod.literal("context"),
+    time: zod.enum(["conversation-start"]),
+  }),
+  variableBaseSchema.extend({
     type: zod.literal("selected-text"),
     time: zod.enum(["conversation-start", "message"]),
   }),
