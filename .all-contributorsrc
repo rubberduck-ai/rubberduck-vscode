@@ -175,6 +175,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "restlessronin",
+      "name": "restlessronin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88921269?v=4",
+      "profile": "https://github.com/restlessronin",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "commitType": "docs"
