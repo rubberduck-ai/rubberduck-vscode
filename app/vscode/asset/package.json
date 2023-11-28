@@ -221,7 +221,7 @@
         },
         "rubberduck.model": {
           "type": "string",
-          "default": "gpt-3.5-turbo-16k",
+          "default": "gpt-3.5-turbo-1106",
           "enum": [
             "gpt-3.5-turbo",
             "gpt-3.5-turbo-16k",
@@ -234,10 +234,10 @@
           "enumDescriptions": [
             "OpenAI GPT-3.5-turbo: 4k context window. Faster, less expensive model. Less accurate.",
             "OpenAI GPT-3.5-turbo: 16k context window. Faster, less expensive model. Less accurate.",
-            "OpenAI GPT-3.5-turbo: 16k context window. Latest model. Improved instruction following, JSON mode, reproducible outputs, parallel function calling ...",
+            "OpenAI GPT-3.5-turbo: 16k context window. Latest 3.5 model. Faster, less expensive. Less accurate.",
             "OpenAI GPT-4: 8k context window. Expensive, slow model. More accurate.",
-            "OpenAI GPT-4: 32k context window.Expensive, slow model. More accurate. Requires beta access.",
-            "OpenAI GPT-4: 128k context window. Latest model. Token cost reduced. Improved instruction following, JSON mode, reproducible outputs, parallel function calling ...",
+            "OpenAI GPT-4: 32k context window. Expensive, slow model. More accurate.",
+            "OpenAI GPT-4: 128k context window. Latest model. Expensive (but cheaper than 32k), slow model. More accurate.",
             "(Experimental) Llama.cpp: Calls Llama.cpp running locally on http://127.0.0.1:8080. Use for local models with Llama 2 prompt format."
           ],
           "markdownDescription": "Select the OpenAI model that you want to use.",
