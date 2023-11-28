@@ -59,7 +59,6 @@ export class ConversationTypesProvider {
     const result = await loadConversationFromFile(fileUri);
 
     if (result.type === "error") {
-      debugger;
       throw new Error(
         `Failed to load chat template '${fileUri.toString()}': ${result.error}`
       );
