@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.19.0 - 2023-11-29
+
+### Added
+
+- New OpenAI models: `gpt-3.5-turbo-1106` (new default), `gpt-4-1106-preview` (128k context window). Thanks [@restlessronin](https://github.com/restlessronin) for the contribution!
+- New template: "Explain Code with Context" (explain the selected code in context of all the open files). Thanks [@restlessronin](https://github.com/restlessronin) for the contribution!
+
 ## 1.18.0 - 2023-10-04
 
 ### Added
