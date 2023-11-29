@@ -38,13 +38,6 @@ Explain the selected code.
       "type": "selected-location-text"
     },
     {
-      "name": "firstMessage",
-      "time": "message",
-      "type": "message",
-      "property": "content",
-      "index": 0
-    },
-    {
       "name": "lastMessage",
       "time": "message",
       "type": "message",
@@ -52,41 +45,11 @@ Explain the selected code.
       "index": -1
     }
   ],
-  "initialMessage": {
-    "placeholder": "Generating explanation",
-    "maxTokens": 2048
-  },
   "response": {
     "maxTokens": 2048,
     "stop": ["Bot:", "Developer:"]
   }
 }
-```
-
-### Initial Message Prompt
-
-```template-initial-message
-## Instructions
-Summarize the code below (emphasizing its key functionality) using the contents of the open files as context.
-
-## Selected Code
-\`\`\`{{language}}
-{{selectedText}}
-\`\`\`
-
-## Open Files
-{{#each openFiles}}
-### File: {{name}}
-\`\`\`{{language}}
-{{content}}
-\`\`\`
-{{/each}}
-
-## Task
-Summarize the code at a high level (including goal and purpose) with an emphasis on its key functionality. Use the contents of the open files as context.
-
-## Response
-
 ```
 
 ### Response Prompt
@@ -107,7 +70,13 @@ Developer: {{lastMessage}}
 {{/if}}
 
 ## Code Summary
-{{firstMessage}}
+## Open Files
+{{#each openFiles}}
+### File: {{name}}
+\`\`\`{{language}}
+{{content}}
+\`\`\`
+{{/each}}
 
 ## Conversation
 {{#each messages}}
