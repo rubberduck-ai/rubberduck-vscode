@@ -109,6 +109,11 @@ export class ChatController {
           .getConversationById(message.data.id)
           ?.dismissError();
         break;
+      case "insertPromptIntoEditor":
+        await this.chatModel
+          .getConversationById(message.data.id)
+          ?.insertPromptIntoEditor();
+        break;
       case "applyDiff":
       case "reportError": {
         // Architecture debt: there are 2 views, but 1 outgoing message type

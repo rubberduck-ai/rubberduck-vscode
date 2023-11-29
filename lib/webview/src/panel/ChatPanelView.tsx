@@ -88,6 +88,12 @@ export const ChatPanelView: React.FC<{
                 data: { id: conversation.id },
               });
             }}
+            onClickInsertPrompt={() =>
+              sendMessage({
+                type: "insertPromptIntoEditor",
+                data: { id: conversation.id },
+              })
+            }
           />
         ) : (
           <CollapsedConversationView
