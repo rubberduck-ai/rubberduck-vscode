@@ -9,6 +9,7 @@ export const panelStateSchema = zod
       conversations: zod.array(conversationSchema),
       selectedConversationId: zod.union([zod.string(), zod.undefined()]),
       hasOpenAIApiKey: zod.boolean(),
+      surfacePromptForOpenAIPlus: zod.boolean(),
       error: errorSchema.optional(),
     }),
     zod.object({

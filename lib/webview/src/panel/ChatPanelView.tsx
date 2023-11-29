@@ -88,12 +88,12 @@ export const ChatPanelView: React.FC<{
                 data: { id: conversation.id },
               });
             }}
-            onClickInsertPrompt={() =>
+            onClickInsertPrompt={panelState.surfacePromptForOpenAIPlus ? () => {
               sendMessage({
                 type: "insertPromptIntoEditor",
                 data: { id: conversation.id },
               })
-            }
+            } : undefined}
           />
         ) : (
           <CollapsedConversationView

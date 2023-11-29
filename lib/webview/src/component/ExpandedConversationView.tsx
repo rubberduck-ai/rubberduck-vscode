@@ -11,7 +11,7 @@ export const ExpandedConversationView: React.FC<{
   onClickRetry: () => void;
   onClickDelete: () => void;
   onClickExport: () => void;
-  onClickInsertPrompt: () => void;
+  onClickInsertPrompt?: () => void;
 }> = ({
   conversation,
   onSendMessage,
@@ -25,7 +25,11 @@ export const ExpandedConversationView: React.FC<{
 
     return (
       <div className={`conversation expanded`}>
-        <ConversationHeader conversation={conversation} onIconClick={onClickInsertPrompt} />
+        {
+          onClickInsertPrompt ?
+            (<ConversationHeader conversation={conversation} onIconClick={onClickInsertPrompt} />)
+            : (<ConversationHeader conversation={conversation} />)
+        }
 
         {(() => {
           const type = content.type;
