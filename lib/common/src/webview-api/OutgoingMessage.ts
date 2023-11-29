@@ -52,6 +52,12 @@ export const outgoingMessageSchema = zod.discriminatedUnion("type", [
   zod.object({
     type: zod.literal("applyDiff"),
   }),
+  zod.object({
+    type: zod.literal("insertPromptIntoEditor"),
+    data: zod.object({
+      id: zod.string(),
+    }),
+  }),
 ]);
 
 /**

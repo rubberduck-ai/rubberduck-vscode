@@ -105,6 +105,20 @@ export class Conversation {
     return this.template.header.icon.value;
   }
 
+  async insertPromptIntoEditor(): Promise<void> {
+    const prompt =
+      this.messages[0] == null && this.template.initialMessage != null
+        ? this.template.initialMessage
+        : this.template.response;
+    const variables = await this.resolveVariablesAtMessageTime();
+    const text = await this.evaluateTemplate(prompt.template, variables);
+    const document = await vscode.workspace.openTextDocument({
+      language: "markdown",
+      content: text,
+    });
+    await vscode.window.showTextDocument(document);
+  }
+
   async exportMarkdown(): Promise<void> {
     const document = await vscode.workspace.openTextDocument({
       language: "markdown",

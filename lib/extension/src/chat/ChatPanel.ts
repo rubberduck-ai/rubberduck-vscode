@@ -4,6 +4,12 @@ import { ApiKeyManager } from "../ai/ApiKeyManager";
 import { WebviewContainer } from "../webview/WebviewContainer";
 import { ChatModel } from "./ChatModel";
 
+function getConfigSurfacePromptForOpenAIPlus(): boolean {
+  return vscode.workspace
+    .getConfiguration("rubberduck.openAI")
+    .get<boolean>("surfacePromptForPlus", false);
+}
+
 export class ChatPanel implements vscode.WebviewViewProvider {
   public static readonly id = "rubberduck.chat";
 
@@ -33,11 +39,13 @@ export class ChatPanel implements vscode.WebviewViewProvider {
     this.extensionUri = extensionUri;
     this.apiKeyManager = apiKeyManager;
 
+    const surfacePromptForOpenAIPlus = getConfigSurfacePromptForOpenAIPlus();
     this.state = {
       type: "chat",
       selectedConversationId: undefined,
       conversations: [],
       hasOpenAIApiKey,
+      surfacePromptForOpenAIPlus,
     };
 
     this.apiKeyManager.onUpdate(async () => {
@@ -98,12 +106,14 @@ export class ChatPanel implements vscode.WebviewViewProvider {
       conversations.push(await conversation.toWebviewConversation());
     }
 
+    const surfacePromptForOpenAIPlus = getConfigSurfacePromptForOpenAIPlus();
     const hasOpenAIApiKey = await this.apiKeyManager.hasOpenAIApiKey();
     this.state = {
       type: "chat",
       selectedConversationId: model.selectedConversationId,
       conversations,
       hasOpenAIApiKey,
+      surfacePromptForOpenAIPlus,
     };
     return this.renderPanel();
   }
