@@ -72,23 +72,23 @@ importers:
         specifier: '*'
         version: link:../common
       handlebars:
-        specifier: ^4.7.7
-        version: 4.7.7
+        specifier: 4.7.8
+        version: 4.7.8
       marked:
         specifier: 4.2.12
         version: 4.2.12
       modelfusion:
-        specifier: 0.87.2
-        version: 0.87.2
+        specifier: 0.88.0
+        version: 0.88.0
       secure-json-parse:
         specifier: 2.7.0
         version: 2.7.0
       simple-git:
-        specifier: 3.16.1
-        version: 3.16.1
+        specifier: 3.21.0
+        version: 3.21.0
       zod:
-        specifier: 3.21.4
-        version: 3.21.4
+        specifier: 3.22.4
+        version: 3.22.4
     devDependencies:
       '@types/handlebars':
         specifier: 4.1.0
@@ -556,7 +556,7 @@ packages:
     resolution: {integrity: sha512-gq9YweFKNNB1uFK71eRqsd4niVkXrxHugqWFQkeLRJvGjnxsLr16bYtcsG4tOFwmYi0Bax+wCkbf1reUfdl4kA==}
     deprecated: This is a stub types definition. handlebars provides its own type definitions, so you do not need this installed.
     dependencies:
-      handlebars: 4.7.7
+      handlebars: 4.7.8
     dev: true
 
   /@types/hast@2.3.4:
@@ -2127,8 +2127,8 @@ packages:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
 
-  /handlebars@4.7.7:
-    resolution: {integrity: sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==}
+  /handlebars@4.7.8:
+    resolution: {integrity: sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==}
     engines: {node: '>=0.4.7'}
     hasBin: true
     dependencies:
@@ -2972,8 +2972,8 @@ packages:
       ufo: 1.0.1
     dev: true
 
-  /modelfusion@0.87.2:
-    resolution: {integrity: sha512-N5t/njYEWVjMN+oOqjNcDxAy5AuTec3uz/wvhayn365+pob7yt50j7SbmY5Y6BW77zz330/CBU+4DGArauzruQ==}
+  /modelfusion@0.88.0:
+    resolution: {integrity: sha512-pqTcRp7h6RpOuxJl8eF3/bQDww5YLFctVprxMCL2RdrXmSe8Eu4uSqYKwrQc2LEt2/OOSpDvbk7Xby1VK19Uvw==}
     engines: {node: '>=18'}
     dependencies:
       eventsource-parser: 1.1.1
@@ -3790,8 +3790,8 @@ packages:
     dev: true
     optional: true
 
-  /simple-git@3.16.1:
-    resolution: {integrity: sha512-xzRxMKiy1zEYeHGXgAzvuXffDS0xgsq07Oi4LWEEcVH29vLpcZ2tyQRWyK0NLLlCVaKysZeem5tC1qHEOxsKwA==}
+  /simple-git@3.21.0:
+    resolution: {integrity: sha512-oTzw9248AF5bDTMk9MrxsRzEzivMlY+DWH0yWS4VYpMhNLhDWnN06pCtaUyPnqv/FpsdeNmRqmZugMABHRPdDA==}
     dependencies:
       '@kwsites/file-exists': 1.1.1
       '@kwsites/promise-deferred': 1.1.1
@@ -4564,10 +4564,6 @@ packages:
 
   /zod@3.20.2:
     resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
-    dev: false
-
-  /zod@3.21.4:
-    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
     dev: false
 
   /zod@3.22.4:
