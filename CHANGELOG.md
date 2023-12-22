@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.20.0 - 2023-12-20
+
+### Added
+
+- "Eye" button to surface prompt. Thanks [@restlessronin](https://github.com/restlessronin) for the contribution!
+
+### Fixed
+
+- OpenAI streaming fixes.
+
 ## 1.19.0 - 2023-11-29
 
 ### Added
