@@ -78,8 +78,8 @@ importers:
         specifier: 4.2.12
         version: 4.2.12
       modelfusion:
-        specifier: 0.88.0
-        version: 0.88.0
+        specifier: 0.101.0
+        version: 0.101.0
       secure-json-parse:
         specifier: 2.7.0
         version: 2.7.0
@@ -2972,8 +2972,8 @@ packages:
       ufo: 1.0.1
     dev: true
 
-  /modelfusion@0.88.0:
-    resolution: {integrity: sha512-pqTcRp7h6RpOuxJl8eF3/bQDww5YLFctVprxMCL2RdrXmSe8Eu4uSqYKwrQc2LEt2/OOSpDvbk7Xby1VK19Uvw==}
+  /modelfusion@0.101.0:
+    resolution: {integrity: sha512-0jyct+Mc7E4clnxW6+XazOGtzfssEfe0rSSc3Tc627xfI+ngnw0VOjG6MQJRDnVUGInFK0og/bFH71BqDpkQhA==}
     engines: {node: '>=18'}
     dependencies:
       eventsource-parser: 1.1.1
@@ -2982,7 +2982,7 @@ packages:
       secure-json-parse: 2.7.0
       ws: 8.14.2
       zod: 3.22.4
-      zod-to-json-schema: 3.22.0(zod@3.22.4)
+      zod-to-json-schema: 3.22.3(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -4554,8 +4554,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  /zod-to-json-schema@3.22.0(zod@3.22.4):
-    resolution: {integrity: sha512-XQr8EwxPMzJGhoR+d/nRFWdi15VaZ+R5Uhssm+Xx5yS30xCpuutfKRm4rerE0SK9j2dWB5Z3FvDD0w8WMVGzkA==}
+  /zod-to-json-schema@3.22.3(zod@3.22.4):
+    resolution: {integrity: sha512-9isG8SqRe07p+Aio2ruBZmLm2Q6Sq4EqmXOiNpDxp+7f0LV6Q/LX65fs5Nn+FV/CzfF3NLBoksXbS2jNYIfpKw==}
     peerDependencies:
       zod: ^3.22.4
     dependencies:

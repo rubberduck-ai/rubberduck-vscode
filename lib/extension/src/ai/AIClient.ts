@@ -1,5 +1,5 @@
 import {
-  Llama2PromptFormat,
+  Llama2Prompt,
   OpenAIApiConfiguration,
   OpenAITextEmbeddingResponse,
   TextInstructionPrompt,
@@ -83,17 +83,17 @@ export class AIClient {
     return modelConfiguration === "llama.cpp"
       ? llamacpp
           .TextGenerator({
-            maxCompletionTokens: maxTokens,
+            maxGenerationTokens: maxTokens,
             stopSequences: stop,
             temperature,
           })
           // TODO the prompt format needs to be configurable for non-Llama2 models
-          .withTextPromptFormat(Llama2PromptFormat.instruction())
+          .withTextPromptTemplate(Llama2Prompt.instruction())
       : openai
           .ChatTextGenerator({
             api: await this.getOpenAIApiConfiguration(),
             model: modelConfiguration,
-            maxCompletionTokens: maxTokens,
+            maxGenerationTokens: maxTokens,
             stopSequences: stop,
             temperature,
             frequencyPenalty: 0,
@@ -123,18 +123,18 @@ export class AIClient {
 
   async generateEmbedding({ input }: { input: string }) {
     try {
-      const { value, response } = await embed(
+      const { embedding, response } = await embed(
         openai.TextEmbedder({
           api: await this.getOpenAIApiConfiguration(),
           model: "text-embedding-ada-002",
         }),
         input,
-        { returnType: "full" }
+        { fullResponse: true }
       );
 
       return {
         type: "success" as const,
-        embedding: value,
+        embedding,
         totalTokenCount: (response as OpenAITextEmbeddingResponse).usage
           .total_tokens,
       };
