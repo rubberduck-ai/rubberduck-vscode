@@ -8,6 +8,7 @@
     "build-extension": "pnpm nx run vscode:build",
     "test": "pnpm nx run extension:test",
     "test-watch": "pnpm nx run extension:test-watch",
+    "package": "pnpm nx run vscode:package",
     "deploy:vscode": "pnpm nx run vscode:publish-vscode",
     "deploy:ovsx": "pnpm nx run vscode:publish-ovsx"
   },
