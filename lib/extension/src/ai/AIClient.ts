@@ -1,8 +1,7 @@
 import {
-  Llama2Prompt,
-  OpenAIApiConfiguration,
-  OpenAITextEmbeddingResponse,
   InstructionPrompt,
+  Llama2Prompt,
+  OpenAITextEmbeddingResponse,
   TextStreamingModel,
   embed,
   llamacpp,
@@ -63,7 +62,7 @@ export class AIClient {
       );
     }
 
-    return new OpenAIApiConfiguration({
+    return openai.Api({
       baseUrl: getOpenAIBaseUrl(),
       apiKey,
     });
