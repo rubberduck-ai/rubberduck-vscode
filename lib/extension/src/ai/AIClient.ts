@@ -2,7 +2,7 @@ import {
   Llama2Prompt,
   OpenAIApiConfiguration,
   OpenAITextEmbeddingResponse,
-  TextInstructionPrompt,
+  InstructionPrompt,
   TextStreamingModel,
   embed,
   llamacpp,
@@ -77,7 +77,7 @@ export class AIClient {
     maxTokens: number;
     stop?: string[] | undefined;
     temperature?: number | undefined;
-  }): Promise<TextStreamingModel<TextInstructionPrompt>> {
+  }): Promise<TextStreamingModel<InstructionPrompt>> {
     const modelConfiguration = getModel();
 
     return modelConfiguration === "llama.cpp"
