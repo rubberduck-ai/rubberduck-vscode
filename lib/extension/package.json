@@ -15,7 +15,7 @@
     "@rubberduck/common": "*",
     "handlebars": "4.7.8",
     "marked": "4.2.12",
-    "modelfusion": "0.111.0",
+    "modelfusion": "0.119.0",
     "secure-json-parse": "2.7.0",
     "simple-git": "3.21.0",
     "zod": "3.22.4"
