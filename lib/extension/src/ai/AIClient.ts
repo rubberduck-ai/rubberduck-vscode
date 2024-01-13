@@ -114,22 +114,22 @@ export class AIClient {
   }) {
     this.logger.log(["--- Start prompt ---", prompt, "--- End prompt ---"]);
 
-    return streamText(
-      await this.getTextStreamingModel({ maxTokens, stop, temperature }),
-      { instruction: prompt }
-    );
+    return streamText({
+      model: await this.getTextStreamingModel({ maxTokens, stop, temperature }),
+      prompt: { instruction: prompt },
+    });
   }
 
   async generateEmbedding({ input }: { input: string }) {
     try {
-      const { embedding, rawResponse } = await embed(
-        openai.TextEmbedder({
+      const { embedding, rawResponse } = await embed({
+        model: openai.TextEmbedder({
           api: await this.getOpenAIApiConfiguration(),
           model: "text-embedding-ada-002",
         }),
-        input,
-        { fullResponse: true }
-      );
+        value: input,
+        fullResponse: true,
+      });
 
       return {
         type: "success" as const,
