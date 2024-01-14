@@ -142,3 +142,9 @@ Understanding these concepts will help you get the most out of Rubberduck.
   less well-known topics or when the conversation gets too detailed.
 - **Use different chat threads for different topics**.
   Shorter threads with specific topics will help Rubberduck respond more accurately.
+
+# Built With
+
+- [ModelFusion](https://modelfusion/dev) - AI library
+- [Prism.js](https://prismjs.com/) - Syntax highlighting
+- [React](https://reactjs.org/) - UI rendering

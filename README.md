@@ -84,6 +84,12 @@ Here is an example of a [drunken pirate describing your code](https://github.com
 
 - **rubberduck.syntaxHighlighting.useVisualStudioCodeColors**: Use the Visual Studio Code Theme colors for syntax highlighting in the diff viewer. Might not work with all themes. Default is `false`.
 
+## Built With
+
+- [ModelFusion](https://modelfusion/dev) - AI library
+- [Prism.js](https://prismjs.com/) - Syntax highlighting
+- [React](https://reactjs.org/) - UI rendering
+
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
