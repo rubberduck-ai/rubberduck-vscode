@@ -78,8 +78,8 @@ importers:
         specifier: 4.2.12
         version: 4.2.12
       modelfusion:
-        specifier: 0.122.0
-        version: 0.122.0
+        specifier: 0.134.0
+        version: 0.134.0
       secure-json-parse:
         specifier: 2.7.0
         version: 2.7.0
@@ -2972,14 +2972,15 @@ packages:
       ufo: 1.0.1
     dev: true
 
-  /modelfusion@0.122.0:
-    resolution: {integrity: sha512-FMltMozwTStdjGW3r24pMLj3+Rxjsh9eceMh8b38Ava4HdHR4dbF2xOJOVeC/bmqJYaZHbIu2BWpu45rF+mOxA==}
+  /modelfusion@0.134.0:
+    resolution: {integrity: sha512-ykE6zVm9qT5WlYxUH1esCb7+48qfY9B3ccXY0+myY5jls4CjRPFTy8lG1NGyR3GGHq/fWoW9zEfkKfgcz34rqQ==}
     engines: {node: '>=18'}
     dependencies:
       eventsource-parser: 1.1.1
       js-tiktoken: 1.0.7
       nanoid: 3.3.6
       secure-json-parse: 2.7.0
+      type-fest: 4.9.0
       ws: 8.14.2
       zod: 3.22.4
       zod-to-json-schema: 3.22.3(zod@3.22.4)
@@ -4133,6 +4134,11 @@ packages:
     resolution: {integrity: sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==}
     engines: {node: '>=10'}
     dev: true
+
+  /type-fest@4.9.0:
+    resolution: {integrity: sha512-KS/6lh/ynPGiHD/LnAobrEFq3Ad4pBzOlJ1wAnJx9N4EYoqFhMfLIBjUT2UEx4wg5ZE+cC1ob6DCSpppVo+rtg==}
+    engines: {node: '>=16'}
+    dev: false
 
   /typed-array-length@1.0.4:
     resolution: {integrity: sha512-KjZypGq+I/H7HI5HlOoGHkWUUGq+Q0TPhQurLbyrVrvnKTBgzLhIJ7j6J/XTQOi0d1RjyZ0wdas8bKs2p0x3Ng==}
