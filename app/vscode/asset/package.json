@@ -227,23 +227,29 @@
         },
         "rubberduck.model": {
           "type": "string",
-          "default": "gpt-3.5-turbo-1106",
+          "default": "gpt-3.5-turbo-0125",
           "enum": [
             "gpt-3.5-turbo",
             "gpt-3.5-turbo-16k",
             "gpt-3.5-turbo-1106",
+            "gpt-3.5-turbo-0125",
             "gpt-4",
             "gpt-4-32k",
             "gpt-4-1106-preview",
+            "gpt-4-0125-preview",
+            "gpt-4-turbo-preview",
             "llama.cpp"
           ],
           "enumDescriptions": [
             "OpenAI GPT-3.5-turbo: 4k context window. Faster, less expensive model. Less accurate.",
             "OpenAI GPT-3.5-turbo: 16k context window. Faster, less expensive model. Less accurate.",
-            "OpenAI GPT-3.5-turbo: 16k context window. Latest 3.5 model. Faster, less expensive. Less accurate.",
+            "OpenAI GPT-3.5-turbo: 16k context window. Faster, less expensive. Less accurate.",
+            "OpenAI GPT-3.5-turbo: 16k context window. Faster, less expensive. Less accurate. The latest GPT-3.5 Turbo model with higher accuracy at responding in requested formats and a fix for a bug which caused a text encoding issue for non-English language function calls. Returns a maximum of 4,096 output tokens.",
             "OpenAI GPT-4: 8k context window. Expensive, slow model. More accurate.",
             "OpenAI GPT-4: 32k context window. Expensive, slow model. More accurate.",
-            "OpenAI GPT-4: 128k context window. Latest model. Expensive (but cheaper than 32k), slow model. More accurate.",
+            "OpenAI GPT-4 Turbo: 128k context window. Expensive (but cheaper than 32k), slow model. More accurate.",
+            "OpenAI GPT-4 Turbo: 128k context window. Expensive (but cheaper than 32k), slow model. More accurate. The latest GPT-4 model intended to reduce cases of \"laziness\" where the model doesn't complete a task.",
+            "OpenAI GPT-4 Turbo: Currently points to gpt-4-0125-preview.",
             "(Experimental) Llama.cpp: Calls Llama.cpp running locally on http://127.0.0.1:8080. Use for local models with Llama 2 prompt format."
           ],
           "markdownDescription": "Select the OpenAI model that you want to use.",
