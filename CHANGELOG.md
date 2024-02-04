@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.21.0 - 2024-02-04
+
+### Added
+
+- New OpenAI models: `gpt-3.5-turbo-0125` (new default), `gpt-4-0125-preview`, `gpt-4-turbo-preview`. Thanks [@igor-kupczynski](https://github.com/igor-kupczynskin) for the contribution!
+
 ## 1.20.0 - 2023-12-20
 
 ### Added

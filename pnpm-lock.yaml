@@ -78,8 +78,8 @@ importers:
         specifier: 4.2.12
         version: 4.2.12
       modelfusion:
-        specifier: 0.134.0
-        version: 0.134.0
+        specifier: 0.135.1
+        version: 0.135.1
       secure-json-parse:
         specifier: 2.7.0
         version: 2.7.0
@@ -2972,8 +2972,8 @@ packages:
       ufo: 1.0.1
     dev: true
 
-  /modelfusion@0.134.0:
-    resolution: {integrity: sha512-ykE6zVm9qT5WlYxUH1esCb7+48qfY9B3ccXY0+myY5jls4CjRPFTy8lG1NGyR3GGHq/fWoW9zEfkKfgcz34rqQ==}
+  /modelfusion@0.135.1:
+    resolution: {integrity: sha512-Ds8xARmwPiXX2Hltu/ZVZait4v8RcXnpmkRPWAdWAng6SO/Gh0hqymnK3miQqLAsnysReWSNNcWTdO/94YMcHQ==}
     engines: {node: '>=18'}
     dependencies:
       eventsource-parser: 1.1.1
