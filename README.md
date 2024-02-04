@@ -12,7 +12,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/rubberduckai.svg?style=social&label=%20%40rubberduckai)](https://twitter.com/rubberduckai)
 [![Discord](https://discordapp.com/api/guilds/1061938502327091271/widget.png?style=shield)](https://discord.gg/8KN2HmyZmn)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-18-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-19-orange.svg?style=flat-square)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
 <!-- prettier-ignore-end -->
@@ -124,6 +124,7 @@ Here is an example of a [drunken pirate describing your code](https://github.com
     <tr>
       <td align="center" valign="top" width="25%"><a href="https://unquietwiki.com"><img src="https://avatars.githubusercontent.com/u/1007551?v=4?s=100" width="100px;" alt="Michael Adams"/><br /><sub><b>Michael Adams</b></sub></a><br /><a href="https://github.com/rubberduck-ai/rubberduck-vscode/commits?author=unquietwiki" title="Code">💻</a> <a href="https://github.com/rubberduck-ai/rubberduck-vscode/issues?q=author%3Aunquietwiki" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="25%"><a href="https://github.com/restlessronin"><img src="https://avatars.githubusercontent.com/u/88921269?v=4?s=100" width="100px;" alt="restlessronin"/><br /><sub><b>restlessronin</b></sub></a><br /><a href="https://github.com/rubberduck-ai/rubberduck-vscode/commits?author=restlessronin" title="Code">💻</a></td>
+      <td align="center" valign="top" width="25%"><a href="http://kupczynski.info/"><img src="https://avatars.githubusercontent.com/u/166651?v=4?s=100" width="100px;" alt="Igor Kupczyński"/><br /><sub><b>Igor Kupczyński</b></sub></a><br /><a href="https://github.com/rubberduck-ai/rubberduck-vscode/commits?author=igor-kupczynski" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
