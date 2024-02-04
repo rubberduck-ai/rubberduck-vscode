@@ -184,6 +184,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "igor-kupczynski",
+      "name": "Igor Kupczyński",
+      "avatar_url": "https://avatars.githubusercontent.com/u/166651?v=4",
+      "profile": "http://kupczynski.info/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "commitType": "docs"
