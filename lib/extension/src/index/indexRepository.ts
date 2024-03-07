@@ -153,7 +153,8 @@ function isSupportedFile(file: string) {
       file.endsWith(".css") ||
       file.endsWith(".json") ||
       file.endsWith(".toml") ||
-      file.endsWith(".config")) &&
+      file.endsWith(".config")) ||
+      file.endsWith(".py")) &&
     !(
       file.endsWith(".min.js") ||
       file.endsWith(".min.css") ||
