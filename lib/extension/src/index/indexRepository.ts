@@ -143,7 +143,7 @@ export async function indexRepository({
 
 function isSupportedFile(file: string) {
     const supportedExtensions = [
-        ".js", ".ts", ".tsx", ".sh", ".yaml", ".yml", ".md", ".css", ".json", ".toml", ".config", "py"
+        ".js", ".ts", ".tsx", ".sh", ".yaml", ".yml", ".md", ".css", ".json", ".toml", ".config", ".py"
     ];
 
     const excludedExtensions = [".min.js", ".min.css", "pnpm-lock.yaml"];
