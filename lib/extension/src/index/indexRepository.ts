@@ -142,22 +142,18 @@ export async function indexRepository({
 }
 
 function isSupportedFile(file: string) {
-  return (
-    (file.endsWith(".js") ||
-      file.endsWith(".ts") ||
-      file.endsWith(".tsx") ||
-      file.endsWith(".sh") ||
-      file.endsWith(".yaml") ||
-      file.endsWith(".yml") ||
-      file.endsWith(".md") ||
-      file.endsWith(".css") ||
-      file.endsWith(".json") ||
-      file.endsWith(".toml") ||
-      file.endsWith(".config")) &&
-    !(
-      file.endsWith(".min.js") ||
-      file.endsWith(".min.css") ||
-      file.endsWith("pnpm-lock.yaml")
-    )
-  );
+    const supportedExtensions = [
+        ".js", ".ts", ".tsx", ".sh", ".yaml", ".yml", ".md", ".css", ".json", ".toml", ".config", ".py"
+    ];
+
+    const excludedExtensions = [".min.js", ".min.css", "pnpm-lock.yaml"];
+
+    // Check if the file has a supported extension
+    const hasSupportedExtension = supportedExtensions.some(ext => file.endsWith(ext));
+
+    // Check if the file has an excluded extension
+    const hasExcludedExtension = excludedExtensions.some(ext => file.endsWith(ext));
+
+    // Return true if the file has a supported extension and not an excluded extension
+    return hasSupportedExtension && !hasExcludedExtension;
 }
